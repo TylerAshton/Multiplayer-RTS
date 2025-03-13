@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3855538051420495141}
   - component: {fileID: 4967272248600565887}
   m_Layer: 0
-  m_Name: LocalPlayer
+  m_Name: LocalPlayer 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7fb9703cb4516544483a93b59d94222d, type: 2}
+  - {fileID: 2100000, guid: 47daeb07421d5fa40b649550e5048a08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4121556667
+  GlobalObjectIdHash: 3312993901
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
