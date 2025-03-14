@@ -6,6 +6,7 @@ public class RTSPlayerControls : MonoBehaviour
 {
     [SerializeField] private CameraMovement cameraMovement;
     private Vector2 screenPosition;
+    public Vector2 ScreenPosition => screenPosition;
     
 
     /// <summary>
@@ -14,7 +15,7 @@ public class RTSPlayerControls : MonoBehaviour
     /// <param name="context"></param>
     public void OnPoint(InputAction.CallbackContext context)
     {
-        Vector2 screenPosition = context.ReadValue<Vector2>();
+        screenPosition = context.ReadValue<Vector2>();
     }
 
     /// <summary>
@@ -36,12 +37,12 @@ public class RTSPlayerControls : MonoBehaviour
     }
     private void OnClickStarted()
     {
-        Debug.Log("Started");
+        cameraMovement.StartPanning(screenPosition);
     }
 
     private void OnClickEnded()
     {
-        Debug.Log("Ended");
+        cameraMovement.StopPanning();
     }
 
 }

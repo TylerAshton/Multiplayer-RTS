@@ -757,7 +757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c4c33f7ecfa5d4d86a023378abcf19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMovement: {fileID: 0}
+  cameraMovement: {fileID: 2029633323}
 --- !u!1 &1539808114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,6 +1207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce0e1786b28c7c4ba7141df786f678e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rtsPlayerControls: {fileID: 1365260059}
+  isPanning: 0
+  panMultiplier: 0.001
 --- !u!1 &2048910648
 GameObject:
   m_ObjectHideFlags: 0
