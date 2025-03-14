@@ -22,25 +22,25 @@ public class RTSPlayerControls : MonoBehaviour
     /// Called whenever the player presses their mouse
     /// </summary>
     /// <param name="context"></param>
-    public void Click(InputAction.CallbackContext context)
+    public void OnMiddleClick(InputAction.CallbackContext context)
     {
         float clickValue = context.ReadValue<float>();
 
         if (clickValue > 0) // Button pressed
         {
-            OnClickStarted();
+            OnMiddleClickStarted();
         }
         else // Button released
         {
-            OnClickEnded();
+            OnMiddleClickEnded();
         }
     }
-    private void OnClickStarted()
+    private void OnMiddleClickStarted()
     {
         cameraMovement.StartPanning(screenPosition);
     }
 
-    private void OnClickEnded()
+    private void OnMiddleClickEnded()
     {
         cameraMovement.StopPanning();
     }

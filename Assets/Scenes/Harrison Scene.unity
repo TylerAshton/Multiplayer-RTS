@@ -705,10 +705,18 @@ MonoBehaviour:
     m_ActionId: 32b35790-4ed0-4e9a-aa41-69ac6d629449
     m_ActionName: 'UI/Point[/Mouse/position]'
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
+    m_ActionName: 'UI/Click[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 44b200b1-1557-4083-816c-b22cbdf77ddf
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1365260059}
         m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
-        m_MethodName: Click
+        m_MethodName: OnMiddleClick
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -718,14 +726,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
-    m_ActionName: 'UI/Click[/Mouse/leftButton]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 44b200b1-1557-4083-816c-b22cbdf77ddf
-    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: dad70c86-b58c-4b17-88ad-f5e53adf419e
     m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
   - m_PersistentCalls:
