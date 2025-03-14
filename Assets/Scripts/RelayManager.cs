@@ -32,13 +32,19 @@ public class RelayManager : MonoBehaviour
         string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
         codeText.text = "Code: " + joinCode;
 
-        var relayServerData = new RelayServerData(allocation, "dtls");
+        var relayServerData = allocation.ToRelayServerData("dtls");
 
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData();
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+        NetworkManager.Singleton.StartHost();
     }
 
     async void JoinRelay(string joinCode)
     {
-        await RelayService.Instance.JoinAllocationAsync(joinCode);
+        var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+        var relayServerData = joinAllocation.ToRelayServerData("dtls");
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+        NetworkManager.Singleton.StartClient();
     }
 }
