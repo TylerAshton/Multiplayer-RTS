@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class RTSPlayerControls : MonoBehaviour
 {
     [SerializeField] private CameraMovement cameraMovement;
-    private Vector2 screenPosition;
+    [SerializeField] private Vector2 screenPosition;
     public Vector2 ScreenPosition => screenPosition;
     
 

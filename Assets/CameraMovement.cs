@@ -6,15 +6,25 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private bool isPanning = false;
     [SerializeField] private float panMultiplier = 0.1f;
     [SerializeField] private float maxPanningSpeed = 1;
+    [SerializeField] private float panningEdgeThreshold = 100;
     private Vector2 panStartPos;
     private Vector2 screenPosition => rtsPlayerControls.ScreenPosition;
+
+    float screenWidth = Screen.width;
+    float screenHeight = Screen.height;
+
+
 
     // Update is called once per frame
     void Update()
     {
         if (isPanning)
         {
-            PanCamera();
+            ApplyPan(GetManualPanVector());
+        }
+        else
+        {
+            ApplyPan(isMouseNearScreenEdge());
         }
     }
 
@@ -29,7 +39,7 @@ public class CameraMovement : MonoBehaviour
         isPanning = false;
     }
 
-    private void PanCamera()
+    private Vector3 GetManualPanVector()
     {
         Vector2 direction = screenPosition - panStartPos;
 
@@ -39,7 +49,42 @@ public class CameraMovement : MonoBehaviour
         panningVector = panningVector * panMultiplier;
         panningVector = Vector3.ClampMagnitude(panningVector, maxPanningSpeed);
 
-        transform.position += panningVector;
+        return panningVector;
+    }
+
+    private void ApplyPan(Vector3 _panningVector)
+    {
+        transform.position += _panningVector;
+    }
+
+    private Vector3 isMouseNearScreenEdge()
+    {
+        // Check if mouse is near edges
+        bool isNearLeft = screenPosition.x <= panningEdgeThreshold;
+        bool isNearRight = screenPosition.x >= screenWidth - panningEdgeThreshold;
+        bool isNearTop = screenPosition.y >= screenHeight - panningEdgeThreshold;
+        bool isNearBottom = screenPosition.y <= panningEdgeThreshold;
+
+        Vector3 edgeVector = new Vector3 { x = 0, y = 0, z = 0 };
+
+        if (isNearLeft)
+        {
+            edgeVector.x = -maxPanningSpeed;
+        }
+        if (isNearRight)
+        {
+            edgeVector.x = maxPanningSpeed;
+        }
+        if (isNearTop)
+        {
+            edgeVector.z = maxPanningSpeed;
+        }
+        if (isNearBottom)
+        {
+            edgeVector.z = -maxPanningSpeed;
+        }
+
+        return edgeVector;
     }
 
 }
