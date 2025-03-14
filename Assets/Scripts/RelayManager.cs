@@ -8,6 +8,7 @@ using Unity.Services.Relay;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
+using Unity.VisualScripting;
 
 public class RelayManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class RelayManager : MonoBehaviour
     [SerializeField] Button joinButton;
     [SerializeField] TMP_InputField joinInput;
     [SerializeField] TextMeshProUGUI codeText;
+    [SerializeField] Canvas canvas;
 
     async void Start()
     {
@@ -37,6 +39,8 @@ public class RelayManager : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
         NetworkManager.Singleton.StartHost();
+
+        //canvas.gameObject.SetActive(false);
     }
 
     async void JoinRelay(string joinCode)
@@ -46,5 +50,7 @@ public class RelayManager : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
         NetworkManager.Singleton.StartClient();
+
+        canvas.gameObject.SetActive(false);
     }
 }

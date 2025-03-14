@@ -491,6 +491,7 @@ MonoBehaviour:
   joinButton: {fileID: 795975638}
   joinInput: {fileID: 134796047}
   codeText: {fileID: 2012157563}
+  canvas: {fileID: 1623499154}
 --- !u!4 &142975211
 Transform:
   m_ObjectHideFlags: 0
@@ -569,7 +570,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 173266234}
-    PlayerPrefab: {fileID: 0}
+    PlayerPrefab: {fileID: 4318466539626525345, guid: 37d3ff698a536a744bc0ce4f1fe32ad8, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 3390c8a8066d3d04fa90b836a7e94359, type: 2}
