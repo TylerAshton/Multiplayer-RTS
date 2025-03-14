@@ -9,6 +9,12 @@ public class RTSPlayerControls : MonoBehaviour
     public Vector2 ScreenPosition => screenPosition;
     
 
+    public void OnScroll(InputAction.CallbackContext context)
+    {
+        int axis = (int)context.ReadValue<Vector2>().y;
+        cameraMovement.ApplyZoom(axis);
+    }
+
     /// <summary>
     /// This is called all the time to aquire screen position and update the screenPosition variable
     /// </summary>

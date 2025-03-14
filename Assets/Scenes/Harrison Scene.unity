@@ -729,7 +729,19 @@ MonoBehaviour:
     m_ActionId: dad70c86-b58c-4b17-88ad-f5e53adf419e
     m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1365260059}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: OnScroll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 0489e84a-4833-4c40-bfae-cea84b696689
     m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
   - m_PersistentCalls:
@@ -758,6 +770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraMovement: {fileID: 2029633323}
+  screenPosition: {x: 0, y: 0}
 --- !u!1 &1539808114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,6 +1223,11 @@ MonoBehaviour:
   rtsPlayerControls: {fileID: 1365260059}
   isPanning: 0
   panMultiplier: 0.001
+  maxPanningSpeed: 0.25
+  panningEdgeThreshold: 100
+  minFOV: 15
+  maxFOV: 60
+  zoomSpeed: 1
 --- !u!1 &2048910648
 GameObject:
   m_ObjectHideFlags: 0
