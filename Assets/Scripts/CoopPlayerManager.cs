@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class CoopPlayerManager : NetworkBehaviour
 {
-    public static GameManger Instance;
+    public static CoopPlayerManager Instance;
     
     Vector2 movementVector;
     GameObject player;
@@ -23,13 +23,11 @@ public class CoopPlayerManager : NetworkBehaviour
             Destroy(gameObject);
             return;
         }
-        player = this.GameObject;
     }
 
     void Update()
     {
         if (!IsOwner) { return; }
-        Move();
     }
 
     public void CheckMove(InputAction.CallbackContext context)
