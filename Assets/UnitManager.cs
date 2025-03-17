@@ -19,18 +19,22 @@ public class UnitManager : MonoBehaviour
         
     }
 
-    public void AddUnit(Unit unit)
+    /// <summary>
+    /// Adds unit to units list. Will not allow duplicate units to be added
+    /// </summary>
+    /// <param name="_unit"></param>
+    public void AddUnit(Unit _unit)
     {
-        if (allUnits.Contains(unit))
+        if (allUnits.Contains(_unit))
         {
             Debug.LogError("AddUnit was called when the unit already exists in the list");
             return;
         }
-        allUnits.Add(unit);
+        allUnits.Add(_unit);
     }
 
-    public void RemoveUnit(Unit unit)
+    public void RemoveUnit(Unit _unit)
     {
-        allUnits.Remove(unit);
+        allUnits.Remove(_unit);
     }
 }
