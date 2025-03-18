@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -83,6 +84,21 @@ public class UnitManager : MonoBehaviour
         foreach(Unit _unit in cacheSelectedUnits)
         {
             DeselectUnit(_unit);
+        }
+    }
+
+    /// <summary>
+    /// Sets all selected units to move to a target position
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public void MoveOrder(Vector3 _worldPosition)
+    {
+        foreach (Unit _unit in selectedUnits)
+        {
+            if (_unit is NPC _NPC)
+            {
+                _NPC.SetDestination(_worldPosition);
+            }
         }
     }
 }

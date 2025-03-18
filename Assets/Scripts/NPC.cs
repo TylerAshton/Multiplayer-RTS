@@ -7,6 +7,12 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPC : Unit
 {
+    private NavMeshAgent agent;
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
@@ -17,5 +23,10 @@ public class NPC : Unit
     protected override void Update()
     {
         base.Update();
+    }
+
+    public void SetDestination(Vector3 _worldPosition)
+    {
+        agent.SetDestination(_worldPosition);
     }
 }
