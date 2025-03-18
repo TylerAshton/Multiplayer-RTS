@@ -57,8 +57,12 @@ public class SelectionBox : MonoBehaviour
     public Rect GetScreenRect()
     {
         Vector2 size = selectionRect.sizeDelta;
-        Vector2 pos = selectionRect.anchoredPosition;
+        Vector2 anchorPos = selectionRect.anchoredPosition;
 
-        return new Rect(pos, size);
+        // Account for pivot to flip selection area correctly
+        size.x = selectionRect.pivot.x == 0 ? size.x : -size.x;
+        size.y = selectionRect.pivot.y == 0 ? size.y : -size.y;
+
+        return new Rect(anchorPos, size);
     }
 }
