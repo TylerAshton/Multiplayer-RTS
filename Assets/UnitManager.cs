@@ -39,6 +39,10 @@ public class UnitManager : MonoBehaviour
         allUnits.Remove(_unit);
     }
 
+    /// <summary>
+    /// Selects all units inside the (screenSpace) rect
+    /// </summary>
+    /// <param name="_rect"></param>
     public void AreaSelection(Rect _rect)
     {
         ClearAllSelectedUnits();
@@ -54,12 +58,20 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adds the unit to the selectedUNits list and shows its selection indicator
+    /// </summary>
+    /// <param name="_unit"></param>
     private void SelectUnit(Unit _unit)
     {
         selectedUnits.Add(_unit);
         _unit.ShowSelectionIndicator();
     }
 
+    /// <summary>
+    /// Removes the unit from the selectedUnits list and hides its selection indicator
+    /// </summary>
+    /// <param name="_unit"></param>
     private void DeselectUnit(Unit _unit)
     {
         if (!selectedUnits.Contains(_unit))
@@ -72,6 +84,9 @@ public class UnitManager : MonoBehaviour
         _unit.HideSelectionIndicator();
     }
 
+    /// <summary>
+    /// Runs the DeselectUnit function on all units that are selected
+    /// </summary>
     private void ClearAllSelectedUnits()
     {
         List<Unit> cacheSelectedUnits = new List<Unit>();

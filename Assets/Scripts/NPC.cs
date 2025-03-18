@@ -25,6 +25,10 @@ public class NPC : Unit
         base.Update();
     }
 
+    /// <summary>
+    /// Sets the nav agent's destination to the give position
+    /// </summary>
+    /// <param name="_worldPosition"></param>
     public void SetDestination(Vector3 _worldPosition)
     {
         agent.SetDestination(_worldPosition);
