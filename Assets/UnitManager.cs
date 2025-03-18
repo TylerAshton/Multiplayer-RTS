@@ -37,4 +37,18 @@ public class UnitManager : MonoBehaviour
     {
         allUnits.Remove(_unit);
     }
+
+    public void AreaSelection(Rect _rect)
+    {
+        selectedUnits.Clear();
+        foreach (Unit _unit in allUnits)
+        {
+            Vector3 unitScreenPos = Camera.main.WorldToScreenPoint(_unit.transform.position);
+            Debug.Log($"{_rect} - {unitScreenPos}");
+            if (_rect.Contains(unitScreenPos, true))
+            {
+                selectedUnits.Add(_unit);
+            }
+        }
+    }
 }

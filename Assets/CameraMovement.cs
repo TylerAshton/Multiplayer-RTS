@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float zoomSensitivity = 1;
     Camera camera;
     private Vector2 panStartPos;
-    private Vector2 screenPosition => rtsPlayerControls.ScreenPosition;
+    private Vector2 screenPosition => rtsPlayerControls.MouseScreenPos;
 
     float screenWidth = Screen.width;
     float screenHeight = Screen.height;
