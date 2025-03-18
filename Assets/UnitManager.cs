@@ -40,15 +40,49 @@ public class UnitManager : MonoBehaviour
 
     public void AreaSelection(Rect _rect)
     {
-        selectedUnits.Clear();
+        ClearAllSelectedUnits();
+
         foreach (Unit _unit in allUnits)
         {
             Vector3 unitScreenPos = Camera.main.WorldToScreenPoint(_unit.transform.position);
             Debug.Log($"{_rect} - {unitScreenPos}");
             if (_rect.Contains(unitScreenPos, true))
             {
-                selectedUnits.Add(_unit);
+                SelectUnit(_unit);
             }
+        }
+    }
+
+    private void SelectUnit(Unit _unit)
+    {
+        selectedUnits.Add(_unit);
+        _unit.ShowSelectionIndicator();
+    }
+
+    private void DeselectUnit(Unit _unit)
+    {
+        if (!selectedUnits.Contains(_unit))
+        {
+            Debug.LogError("Attempted to deselect a unit that isn't selected");
+            return;
+        }
+
+        selectedUnits.Remove(_unit);
+        _unit.HideSelectionIndicator();
+    }
+
+    private void ClearAllSelectedUnits()
+    {
+        List<Unit> cacheSelectedUnits = new List<Unit>();
+        
+        foreach (Unit _unit in selectedUnits)
+        {
+            cacheSelectedUnits.Add(_unit);
+        }
+
+        foreach(Unit _unit in cacheSelectedUnits)
+        {
+            DeselectUnit(_unit);
         }
     }
 }

@@ -7,7 +7,17 @@ using UnityEngine.AI;
 /// </summary>
 public class Unit : MonoBehaviour
 {
+    [SerializeField] GameObject selectionIndiator;
     RTSPlayer rts_Player;
+
+    private void Awake()
+    {
+        if (selectionIndiator == null)
+        {
+            Debug.LogError("Unit selection indicator is missing");
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
@@ -21,5 +31,15 @@ public class Unit : MonoBehaviour
     protected virtual void Update()
     {
         
+    }
+
+    public virtual void ShowSelectionIndicator()
+    {
+        selectionIndiator.SetActive(true);
+    }
+
+    public virtual void HideSelectionIndicator()
+    {
+        selectionIndiator.SetActive(false);
     }
 }
