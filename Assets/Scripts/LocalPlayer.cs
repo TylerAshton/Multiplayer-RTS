@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class LocalPlayer : NetworkBehaviour
 {
     [SerializeField] float moveSpeed = 4f;
-
+    RelayManager manager = RelayManager.Instance;
     Rigidbody rb;
 
     float moveHorizontal, moveVertical;
@@ -15,6 +15,7 @@ public class LocalPlayer : NetworkBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        //manager.CreatePlayerRpc();
     }
 
     // Update is called once per frame
