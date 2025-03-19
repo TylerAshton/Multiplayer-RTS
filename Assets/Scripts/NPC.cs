@@ -8,6 +8,7 @@ using UnityEngine.AI;
 public class NPC : Unit
 {
     private NavMeshAgent agent;
+    public NavMeshAgent Agent => agent;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();

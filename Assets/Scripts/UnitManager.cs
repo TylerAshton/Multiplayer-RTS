@@ -112,7 +112,8 @@ public class UnitManager : MonoBehaviour
         {
             if (_unit is NPC _NPC)
             {
-                _NPC.SetDestination(_worldPosition);
+                MoveState moveState = new MoveState(_worldPosition, _NPC);
+                _NPC.ChangeState(moveState);
             }
         }
     }

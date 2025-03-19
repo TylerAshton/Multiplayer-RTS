@@ -12,6 +12,8 @@ public class Unit : MonoBehaviour, IDestructible
     RTSPlayer rts_Player;
     Health health;
 
+    State currentState;
+
     private void Awake()
     {
         if (selectionIndiator == null)
@@ -31,16 +33,31 @@ public class Unit : MonoBehaviour, IDestructible
             return;
         }
 
+        currentState = new IdleState(this);
+        currentState.Enter();
+
         rts_Player = RTSPlayer.instance;
-
-
         rts_Player.UnitManager.AddUnit(this);
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        
+        if (currentState != null)
+        {
+            currentState.Update();
+        }
+    }
+
+    public void ChangeState(State _newState)
+    {
+        if (currentState != null)
+        {
+            currentState.Exit();
+        }
+
+        currentState = _newState;
+        currentState.Enter();
     }
 
     public virtual void ShowSelectionIndicator()
