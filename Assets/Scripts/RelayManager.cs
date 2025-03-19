@@ -72,6 +72,8 @@ public class RelayManager : NetworkBehaviour
 
         joinButton.gameObject.SetActive(false);
         joinInput.gameObject.SetActive(false);
+        hostButton.gameObject.SetActive(false);
+        codeText.gameObject.SetActive(true);
     }
 
     /// <summary>
