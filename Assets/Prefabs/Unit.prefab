@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 2073537483473770160}
   - component: {fileID: 4603332138403401944}
   - component: {fileID: 1529328762838441129}
+  - component: {fileID: 6865051652697631802}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -256,3 +257,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionIndiator: {fileID: 1773147165135798888}
+--- !u!114 &6865051652697631802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5610248129095907055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 1
+  animator: {fileID: 0}
+  deathAnimationLength: 0
+  test: 0
+  isDying: 0
