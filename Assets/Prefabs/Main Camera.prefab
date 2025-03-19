@@ -152,9 +152,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rtsPlayerControls: {fileID: 0}
   isPanning: 0
-  panMultiplier: 0.001
-  maxPanningSpeed: 0.25
-  panningEdgeThreshold: 100
+  panMultiplier: 0.1
+  maxPanningSpeed: 16
+  panningEdgeThreshold: 125
   minFOV: 15
-  maxFOV: 60
+  maxFOV: 120
   zoomSensitivity: 1
