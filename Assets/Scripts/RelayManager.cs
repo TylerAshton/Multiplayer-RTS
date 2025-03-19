@@ -9,6 +9,10 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using System.Collections.Generic;
 
+/// <summary>
+/// Creates the host and the clients for the game
+/// </summary>
+
 public class RelayManager : NetworkBehaviour
 {
     public static RelayManager Instance;
@@ -89,6 +93,10 @@ public class RelayManager : NetworkBehaviour
         canvas.gameObject.SetActive(false);
     }
 
+
+    /// <summary>
+    /// Command for the server to create a player and spawn it in.
+    /// </summary>
     //[Rpc(SendTo.Server)]
     public void CreatePlayerRpc()
     {

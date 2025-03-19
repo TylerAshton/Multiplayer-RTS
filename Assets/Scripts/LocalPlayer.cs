@@ -32,10 +32,6 @@ public class LocalPlayer : NetworkBehaviour
 
     public void CheckMove(InputAction.CallbackContext context)
     {
-        //moveHorizontal = Input.GetAxisRaw("Horizontal");
-        //moveVertical = Input.GetAxisRaw("Vertical");
-        //movement = new Vector2 (moveHorizontal, moveVertical).normalized;
-
         movementVector = context.ReadValue<Vector2>();
     }
 }
