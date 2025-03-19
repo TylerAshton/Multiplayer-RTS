@@ -67,7 +67,7 @@ public class CameraMovement : MonoBehaviour
 
     private void ApplyPan(Vector3 _panningVector)
     {
-        transform.position += _panningVector;
+        transform.position += _panningVector * Time.deltaTime;
     }
 
     public void ApplyZoom(int axis)

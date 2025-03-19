@@ -2053,21 +2053,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 413656065070580741, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-      propertyPath: maxFOV
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 413656065070580741, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-      propertyPath: maxPanningSpeed
-      value: 0.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 413656065070580741, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
       propertyPath: rtsPlayerControls
       value: 
       objectReference: {fileID: 1365260060}
-    - target: {fileID: 413656065070580741, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-      propertyPath: panningEdgeThreshold
-      value: 125
-      objectReference: {fileID: 0}
     - target: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
       propertyPath: m_Name
       value: Main Camera
