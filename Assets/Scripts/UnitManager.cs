@@ -1,10 +1,11 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-public class UnitManager : MonoBehaviour
+public class UnitManager : NetworkBehaviour
 {
     [SerializeField] private List<Unit> allUnits = new List<Unit>();
     [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
@@ -136,7 +137,7 @@ public class UnitManager : MonoBehaviour
 
         int positionInLayer = (index - 1) % moveLayerCapciaty;
 
-        float angle = positionInLayer * 45f;
+        float angle = positionInLayer * (360 / moveLayerCapciaty);
 
         // Calculate offset position in the circle
         float radius = layer * moveSpacing;
