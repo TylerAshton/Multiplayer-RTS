@@ -2,11 +2,15 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class UnitManager : MonoBehaviour
 {
     [SerializeField] private List<Unit> allUnits = new List<Unit>();
     [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
+
+    private readonly float moveSpacing = 2;
+    private readonly int moveLayerCapciaty = 8;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -50,7 +54,7 @@ public class UnitManager : MonoBehaviour
         foreach (Unit _unit in allUnits)
         {
             Vector3 unitScreenPos = Camera.main.WorldToScreenPoint(_unit.transform.position);
-            Debug.Log($"{_rect} - {unitScreenPos}");
+            //Debug.Log($"{_rect} - {unitScreenPos}");
             if (_rect.Contains(unitScreenPos, true))
             {
                 SelectUnit(_unit);
@@ -108,13 +112,37 @@ public class UnitManager : MonoBehaviour
     /// <exception cref="NotImplementedException"></exception>
     public void MoveOrder(Vector3 _worldPosition)
     {
-        foreach (Unit _unit in selectedUnits)
+        for (int i = 0; i < selectedUnits.Count; i++)
         {
-            if (_unit is NPC _NPC)
+            if (selectedUnits[i] is NPC _NPC)
             {
-                MoveState moveState = new MoveState(_worldPosition, _NPC);
+                Vector3 targetPosition = _worldPosition + CalculateFormationOffset(i);
+                MoveState moveState = new MoveState(targetPosition, _NPC);
                 _NPC.ChangeState(moveState);
             }
         }
+    }
+
+    /// <summary>
+    /// Calculates the position offset for a unit in the formation
+    /// </summary>
+    private Vector3 CalculateFormationOffset(int index)
+    {
+        if (index == 0) return Vector3.zero;
+
+        // Take away 1 from index calculations as the first unit is always ignored
+        int layer = (index - 1) / moveLayerCapciaty + 1; // Each layer has moveLayerCapciaty (8?) units;
+
+        int positionInLayer = (index - 1) % moveLayerCapciaty;
+
+        float angle = positionInLayer * 45f;
+
+        // Calculate offset position in the circle
+        float radius = layer * moveSpacing;
+        float radian = Mathf.Deg2Rad * angle;
+
+        Vector3 offset = new Vector3(Mathf.Cos(radian) * radius, 0, Mathf.Sin(radian) * radius);
+
+        return offset;
     }
 }

@@ -8,7 +8,7 @@ public class IdleState : State
 
     public override void Enter()
     {
-        Debug.Log("Entering Idle");
+        //Debug.Log("Entering Idle");
     }
     public override void Update()
     {
@@ -17,7 +17,7 @@ public class IdleState : State
 
     public override void Exit()
     {
-        Debug.Log("Exitting Idle");
+        //Debug.Log("Exitting Idle");
     }
 
     protected override bool IsComplete()

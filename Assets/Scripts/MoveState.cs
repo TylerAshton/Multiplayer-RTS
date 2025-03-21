@@ -4,7 +4,7 @@ public class MoveState : State
 {
     protected Vector3 destination;
     protected NPC npc;
-    private readonly float waypointLeniance = 2f;
+    private readonly float waypointLeniance = 0.1f;
     public MoveState(Vector3 _destination, Unit _unit) : base(_unit)
     {
         destination = _destination;
