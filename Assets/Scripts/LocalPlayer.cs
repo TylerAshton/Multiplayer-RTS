@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class LocalPlayer : NetworkBehaviour
 {
     [SerializeField] float moveSpeed = 4f;
-    RelayManager manager = RelayManager.Instance;
+    RelayManager manager;
     Rigidbody rb;
 
     float moveHorizontal, moveVertical;
@@ -14,18 +14,25 @@ public class LocalPlayer : NetworkBehaviour
 
     void Start()
     {
+        manager = RelayManager.Instance;
         rb = GetComponent<Rigidbody>();
-        //manager.CreatePlayerRpc();
+        //manager.CreatePlayerServerRpc();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!IsOwner) { return; }
-        Move();
+        MoveServerAuth();
     }
 
-    void Move()
+    void MoveServerAuth()
+    {
+        MoveServerRpc(movementVector);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void MoveServerRpc(Vector2 movementVector)
     {
         rb.linearVelocity = movementVector * moveSpeed;
     }
