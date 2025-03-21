@@ -639,7 +639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &605643483
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1087,8 +1087,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -589.24854, y: -456.6999}
-  m_SizeDelta: {x: 199.503, y: 70.6002}
+  m_AnchoredPosition: {x: -504, y: -289}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &890175374
 MonoBehaviour:
@@ -1133,7 +1133,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 890175375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1365260060}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: SetCommandMode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &890175375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1154,8 +1166,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1208,8 +1220,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -834, y: -477}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -704, y: -289}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1290305639
 MonoBehaviour:
@@ -1254,7 +1266,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1290305640}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1365260060}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: SetCommandMode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1290305640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1275,8 +1299,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 586ba2622cb179448993e9e86a70febc, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1547,6 +1571,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1365260060}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: ClearCommand
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b96ba981-e08d-480a-8e7d-55cae5981166
+    m_ActionName: 'UI/Esc[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2343,7 +2383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2061682658
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2884,6 +2924,18 @@ PrefabInstance:
       propertyPath: cameraMovement
       value: 
       objectReference: {fileID: 2029633323}
+    - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
+      propertyPath: commandCursors.moveCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 0894371b932f30f4eb0787480aeb0b3d, type: 3}
+    - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
+      propertyPath: commandCursors.attackCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: d15ea4dcf003b5447b598485099058cc, type: 3}
+    - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
+      propertyPath: commandCursors.defaultCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 353d1a21d35b0c44da95626533d3a006, type: 3}
     - target: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
       propertyPath: m_Name
       value: RTS Player

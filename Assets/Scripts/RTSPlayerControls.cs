@@ -3,6 +3,21 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum CommandMode
+{
+    None,
+    Move,
+    AttackMove
+}
+
+[System.Serializable]
+public struct CommandCursors
+{
+    public Texture2D defaultCursor;
+    public Texture2D moveCursor;
+    public Texture2D attackCursor;
+}
+
 public class RTSPlayerControls : MonoBehaviour
 {
     [SerializeField] private CameraMovement cameraMovement;
@@ -13,6 +28,10 @@ public class RTSPlayerControls : MonoBehaviour
 
     private bool isMouseHeld = false;
     private Vector2 mousetStartPosition; // Position of the mouse when they first press it.
+
+    [SerializeField] private CommandMode selectedCommand = CommandMode.None;
+    [SerializeField] private CommandCursors commandCursors;
+    
 
 
     private void Awake()
@@ -103,7 +122,21 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void OnRightClickStarted()
     {
-        RTSPlayer.instance.UnitManager.MoveOrder(worldPosition);
+        switch (selectedCommand)
+        {
+            case CommandMode.None:
+                break;
+            case CommandMode.Move:
+                RTSPlayer.instance.UnitManager.MoveOrder(worldPosition);
+                break;
+            case CommandMode.AttackMove:
+                break;
+        }
+
+        SetCommandMode(CommandMode.None);
+
+
+        
     }
     private void OnRightClickEnded()
     {
@@ -137,6 +170,56 @@ public class RTSPlayerControls : MonoBehaviour
     private void OnMiddleClickEnded()
     {
         cameraMovement.StopPanning();
+    }
+
+    public void OnClearAction(InputAction.CallbackContext context)
+    {
+        ClearCommand();
+    }
+
+    public void SetCommandMode(CommandMode _mode)
+    {
+        selectedCommand = _mode;
+
+        Texture2D cursorIcon = commandCursors.defaultCursor;
+
+        switch(_mode)
+        {
+            case CommandMode.None:
+                {
+                    cursorIcon = commandCursors.defaultCursor;
+                    break;
+                }
+            case CommandMode.Move:
+                {
+                    cursorIcon = commandCursors.moveCursor;
+                    break;
+                }
+            case CommandMode.AttackMove:
+                {
+                    cursorIcon = commandCursors.attackCursor;
+                    break;
+                }
+        }
+
+        Cursor.SetCursor(cursorIcon, default, CursorMode.Auto);
+    }
+
+    public void SetCommandMode(int _modeIndex)
+    {
+        CommandMode mode = (CommandMode)_modeIndex;
+
+        SetCommandMode(mode);
+    }
+
+    private void SetCursor(Cursor _cursor)
+    {
+
+    }
+
+    public void ClearCommand()
+    {
+        SetCommandMode(CommandMode.None);
     }
 
 }
