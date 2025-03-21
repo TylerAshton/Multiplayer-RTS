@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 5e76ba8c4e3ed244eacb39cc152a73cf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - CoopPlayerPrefab: {fileID: 4318466539626525345, guid: 37d3ff698a536a744bc0ce4f1fe32ad8, type: 3}
+  - RTSPlayer: {fileID: 4318466539626525345, guid: fc5db49c1c1c21b4aa34eac0f5c207ff, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

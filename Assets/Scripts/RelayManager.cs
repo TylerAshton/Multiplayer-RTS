@@ -21,12 +21,11 @@ public class RelayManager : NetworkBehaviour
     [SerializeField] Button joinButton;
     [SerializeField] TMP_InputField joinInput;
     [SerializeField] TextMeshProUGUI codeText;
-    [SerializeField] Canvas canvas;
-    [SerializeField] List<GameObject> playerList;
-    [SerializeField] GameObject CoopPlayerPrefab;
-    GameObject CoopPlayer;
-    [SerializeField] GameObject RTSPlayer;
+    [SerializeField] RectTransform mainMenu;
 
+    [SerializeField] RectTransform characterMenu;
+
+    [SerializeField] PlayerSpawner spawner;
 
     void Awake()
     {
@@ -41,8 +40,6 @@ public class RelayManager : NetworkBehaviour
             return;
         }
     }
-
-
 
     async void Start()
     {
@@ -68,8 +65,6 @@ public class RelayManager : NetworkBehaviour
 
         NetworkManager.Singleton.StartHost();
 
-        //CoopPlayer = Instantiate(RTSPlayer);
-
         joinButton.gameObject.SetActive(false);
         joinInput.gameObject.SetActive(false);
         hostButton.gameObject.SetActive(false);
@@ -88,22 +83,9 @@ public class RelayManager : NetworkBehaviour
 
         NetworkManager.Singleton.StartClient();
 
-        //Debug.Log(AuthenticationService.Instance.PlayerId);
+        //CoopPlayerManager.Instance.AddPlayer(AuthenticationService.Instance.PlayerId, CoopPlayer);
 
-        //CoopPlayer = Instantiate(CoopPlayerPrefab);
-
-        canvas.gameObject.SetActive(false);
-    }
-
-
-    /// <summary>
-    /// Command for the server to create a player and spawn it in.
-    /// </summary>
-    //[Rpc(SendTo.Server)]
-    public void CreatePlayerRpc()
-    {
-        Debug.Log($"{NetworkManager.Singleton.IsHost}, {NetworkManager.Singleton.IsClient}, {NetworkManager.Singleton.IsServer}");
-        CoopPlayer.GetComponent<NetworkObject>().Spawn();
-        CoopPlayerManager.Instance.AddPlayer(AuthenticationService.Instance.PlayerId, CoopPlayer);
+        mainMenu.gameObject.SetActive(false);
+        characterMenu.gameObject.SetActive(true);
     }
 }
