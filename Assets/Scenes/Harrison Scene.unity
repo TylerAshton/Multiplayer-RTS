@@ -1754,6 +1754,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: LocalPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 4318466539626525345, guid: 37d3ff698a536a744bc0ce4f1fe32ad8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318466539626525345, guid: 37d3ff698a536a744bc0ce4f1fe32ad8, type: 3}
+      propertyPath: m_TagString
+      value: Champion
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
