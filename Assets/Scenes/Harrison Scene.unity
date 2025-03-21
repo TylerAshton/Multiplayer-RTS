@@ -2925,6 +2925,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2029633323}
     - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
+      propertyPath: graphicRaycaster
+      value: 
+      objectReference: {fileID: 2094191155}
+    - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
       propertyPath: commandCursors.moveCursor
       value: 
       objectReference: {fileID: 2800000, guid: 0894371b932f30f4eb0787480aeb0b3d, type: 3}

@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public enum CommandMode
 {
@@ -23,6 +26,7 @@ public class RTSPlayerControls : MonoBehaviour
     [SerializeField] private CameraMovement cameraMovement;
     [SerializeField] private Vector2 mouseScreenPos;
     [SerializeField] private SelectionBox selectionBox;
+    [SerializeField] private GraphicRaycaster graphicRaycaster;
     public Vector2 MouseScreenPos => mouseScreenPos;
     private Vector3 worldPosition;
 
@@ -39,6 +43,12 @@ public class RTSPlayerControls : MonoBehaviour
         if (selectionBox == null)
         {
             Debug.LogError("Selection box wasn't selected");
+            return;
+        }
+        if (graphicRaycaster == null)
+        {
+            Debug.LogError("Graphics reaycaster wasn't selected");
+            return;
         }
 
         Cursor.lockState = CursorLockMode.Confined;
@@ -88,6 +98,11 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void OnMouseClickStarted()
     {
+        if (isUsingUI(mouseScreenPos))
+        {
+            return;
+        }
+
         isMouseHeld = true;
         mousetStartPosition = mouseScreenPos;
         selectionBox.EnableBox();
@@ -122,6 +137,11 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void OnRightClickStarted()
     {
+        if (isUsingUI(mouseScreenPos))
+        {
+            return;
+        }
+
         switch (selectedCommand)
         {
             case CommandMode.None:
@@ -222,4 +242,20 @@ public class RTSPlayerControls : MonoBehaviour
         SetCommandMode(CommandMode.None);
     }
 
+    /// <summary>
+    /// Returns a true value if the screenPosition overlaps a space on the canvas of the graphics raycaster
+    /// </summary>
+    /// <param name="_screenPosition"></param>
+    /// <returns></returns>
+    private bool isUsingUI(Vector2 _screenPosition)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = _screenPosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        graphicRaycaster.Raycast(eventData, results);
+        return results.Count > 0;
+    }
 }
