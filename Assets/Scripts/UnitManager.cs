@@ -8,6 +8,7 @@ public class UnitManager : MonoBehaviour
 {
     [SerializeField] private List<Unit> allUnits = new List<Unit>();
     [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
+    public List<Unit> SelectedUnits => selectedUnits;
 
     private readonly float moveSpacing = 2;
     private readonly int moveLayerCapciaty = 8;

@@ -34,6 +34,7 @@ public class RTSPlayerControls : MonoBehaviour
     private Vector2 mousetStartPosition; // Position of the mouse when they first press it.
 
     [SerializeField] private CommandMode selectedCommand = CommandMode.None;
+    public CommandMode SelectedCommand => selectedCommand;
     [SerializeField] private CommandCursors commandCursors;
     
 
@@ -118,6 +119,22 @@ public class RTSPlayerControls : MonoBehaviour
         isMouseHeld = false;
         RTSPlayer.instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
         selectionBox.DisableBox();
+
+        // If a unit was selected switch to move commands if idle
+        if (selectedCommand == CommandMode.None)
+        {
+            if (RTSPlayer.instance.UnitManager.SelectedUnits.Count > 0)
+            {
+                SetCommandMode(CommandMode.Move);
+            }
+        }
+        else if (selectedCommand != CommandMode.None)
+        {
+            if (RTSPlayer.instance.UnitManager.SelectedUnits.Count == 0)
+            {
+                SetCommandMode(CommandMode.None);
+            }
+        }
     }
 
     public void OnRightClick(InputAction.CallbackContext context)
@@ -152,8 +169,6 @@ public class RTSPlayerControls : MonoBehaviour
             case CommandMode.AttackMove:
                 break;
         }
-
-        SetCommandMode(CommandMode.None);
 
 
         
