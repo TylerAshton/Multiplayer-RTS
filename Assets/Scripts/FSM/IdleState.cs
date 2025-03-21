@@ -20,4 +20,13 @@ public class IdleState : State
         Debug.Log("Exitting Idle");
     }
 
+    protected override bool IsComplete()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnComplete()
+    {
+        throw new System.NotImplementedException();
+    }
 }

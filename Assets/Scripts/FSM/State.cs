@@ -23,4 +23,12 @@ public abstract class State
     /// Called when the state is ending
     /// </summary>
     public abstract void Exit();
+
+    /// <summary>
+    /// Called during update to see if it should change to idle state. Used for task states
+    /// </summary>
+    /// <returns></returns>
+    protected abstract bool IsComplete();
+
+    protected abstract void OnComplete();
 }

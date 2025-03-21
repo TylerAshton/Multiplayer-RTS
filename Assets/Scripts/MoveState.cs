@@ -4,6 +4,7 @@ public class MoveState : State
 {
     protected Vector3 destination;
     protected NPC npc;
+    private readonly float waypointLeniance = 2f;
     public MoveState(Vector3 _destination, Unit _unit) : base(_unit)
     {
         destination = _destination;
@@ -20,13 +21,34 @@ public class MoveState : State
         npc.Agent.SetDestination(destination);
     }
 
-
     public override void Update()
     {
-        
+        if (IsComplete())
+        {
+            OnComplete();
+        }
     }
     public override void Exit()
     {
         npc.Agent.ResetPath();
     }
+
+    protected override bool IsComplete()
+    {
+        float distance = Vector3.Distance(unit.transform.position, destination);
+
+        if (distance < waypointLeniance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected override void OnComplete()
+    {
+        IdleState idleState = new IdleState(unit);
+        unit.ChangeState(idleState);
+    }
+
+
 }
