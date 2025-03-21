@@ -123,9 +123,9 @@ GameObject:
   - component: {fileID: 4603332138403401944}
   - component: {fileID: 1529328762838441129}
   - component: {fileID: 6865051652697631802}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Unit
-  m_TagString: Untagged
+  m_TagString: Amalgam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
