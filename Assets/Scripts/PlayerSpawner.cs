@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Services.Matchmaker.Models;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlayerSpawner : NetworkBehaviour
@@ -11,22 +12,33 @@ public class PlayerSpawner : NetworkBehaviour
     [SerializeField] GameObject RTSPlayer;
     public List<GameObject> CoopPlayerPrefabList;
     private int prefabNumber;
+    private Vector3 tempPosition = new(0,0,0);
 
-    async public override void OnNetworkSpawn()
+    public override void OnNetworkSpawn()
     {
-        if (NetworkManager.Singleton.LocalClientId == 0)
-        {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-        }
-        else
-        {
-            SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabNumber);
-        }
+        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
-    public void changePrefab(int prefabId)
+    public async void changePrefab(int prefabId)
     {
-        prefabNumber = prefabId;
+        //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
+        DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId,prefabId, tempPosition);
+    }
+
+    private Vector3 getClientTransform(ulong clientId)
+    {
+        NetworkObject tempPlayer = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        tempPosition = tempPlayer.transform.position;
+        return tempPosition;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DespawnPlayerServerRpc(ulong clientId)
+    {
+        NetworkObject tempPlayer = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        tempPosition = tempPlayer.transform.position;
+        Destroy(tempPlayer.gameObject);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -55,6 +67,19 @@ public class PlayerSpawner : NetworkBehaviour
         {
             newPlayer = (GameObject)Instantiate(CoopPlayerPrefab);
         }
+
+        NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
+        newPlayer.SetActive(true);
+        netObj.SpawnAsPlayerObject(clientId, true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnPlayerServerRpc(ulong clientId, int prefabId, Vector3 position)
+    {
+        Debug.Log(prefabId);
+        GameObject newPlayer;
+
+        newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[prefabId]);
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
