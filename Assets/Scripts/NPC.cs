@@ -9,6 +9,15 @@ public class NPC : Unit
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
+    [SerializeField] private LayerMask unitLayer;
+    [SerializeField] private float detectionRange;
+    [SerializeField] private float fireCoolDown;
+    public float FireCoolDown => fireCoolDown;
+    [SerializeField] public float fireTime;
+    [SerializeField] private GameObject projectile;
+    private Transform target;
+    private Health targetHealth;
+    public Health TargetHealth => targetHealth;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -26,6 +35,13 @@ public class NPC : Unit
         base.Update();
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
     /// <summary>
     /// Sets the nav agent's destination to the give position
     /// </summary>
@@ -33,5 +49,47 @@ public class NPC : Unit
     public void SetDestination(Vector3 _worldPosition)
     {
         agent.SetDestination(_worldPosition);
+    }
+
+    public void ScanForTarget()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange, unitLayer);
+
+        foreach (Collider collider in hits)
+        {
+            if (collider.CompareTag("Champion"))
+            {
+                SetTarget(collider.gameObject);
+                AttackState attackState = new AttackState(this);
+                ChangeState(attackState);
+            }
+        }
+    }
+
+    public void Shoot()
+    {
+        Debug.Log("FIRE");
+    }
+
+    private void SetTarget(GameObject _targetGameObject)
+    {
+        if (_targetGameObject.TryGetComponent<Health>(out Health health))
+        {
+            targetHealth = health;
+            target = _targetGameObject.transform;
+            targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
+            targetHealth.OnDeath += ClearTarget;
+        }
+        else
+        {
+            Debug.LogWarning($"{_targetGameObject.name} does not have a Health component.");
+        }
+    }
+
+    private void ClearTarget()
+    {
+        targetHealth.OnDeath -= ClearTarget;
+        targetHealth = null;
+        target = null;
     }
 }

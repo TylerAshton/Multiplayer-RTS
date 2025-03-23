@@ -2,8 +2,14 @@ using UnityEngine;
 
 public class IdleState : State
 {
+    protected NPC npc;
     public IdleState(Unit _unit) : base(_unit)
     {
+        if (_unit is not NPC)
+        {
+            Debug.LogError("Attempted to start a moveState when the unit isn't an NPC");
+        }
+        npc = _unit as NPC;
     }
 
     public override void Enter()
@@ -12,7 +18,7 @@ public class IdleState : State
     }
     public override void Update()
     {
-        
+        npc.ScanForTarget();
     }
 
     public override void Exit()
