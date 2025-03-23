@@ -5,7 +5,7 @@ public class BulletProjectile : MonoBehaviour
 {
     private Rigidbody rb;
 
-    [SerializeField] float speed = 10f;
+    [SerializeField] float speed = 1f;
 
     private void Awake()
     {
@@ -14,6 +14,11 @@ public class BulletProjectile : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
+    {
+        
+    }
+
+    public void Fire()
     {
         rb.linearVelocity = transform.forward * speed;
     }

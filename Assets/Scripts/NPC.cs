@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.Netcode;
 
 /// <summary>
 /// NPCs are mobile units which use the nav mesh.
@@ -68,7 +69,16 @@ public class NPC : Unit
 
     public void Shoot()
     {
-        Debug.Log("FIRE");
+        Debug.Log("pew");
+        Vector3 direction = (target.position - transform.position).normalized;
+
+        GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
+
+        NetworkObject networkObject = newProjectile.GetComponent<NetworkObject>();
+        networkObject.Spawn();
+
+        BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
+        _projectile.Fire();
     }
 
     private void SetTarget(GameObject _targetGameObject)

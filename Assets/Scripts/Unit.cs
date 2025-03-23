@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour, IDestructible
     RTSPlayer rts_Player;
     Health health;
 
-    State currentState;
+    [SerializeField] State currentState;
 
     private void Awake()
     {
