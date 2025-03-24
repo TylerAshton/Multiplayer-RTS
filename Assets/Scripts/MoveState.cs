@@ -14,6 +14,7 @@ public class MoveState : State
             Debug.LogError("Attempted to start a moveState when the unit isn't an NPC");
         }
         npc = _unit as NPC;
+        stateDebugColor = Color.blue;
     }
 
     public override void Enter()
@@ -35,7 +36,8 @@ public class MoveState : State
 
     protected override bool IsComplete()
     {
-        float distance = Vector3.Distance(unit.transform.position, destination);
+        float distance = Vector3.Distance(unit.GetFeet(), destination);
+        Debug.Log(distance);
 
         if (distance < waypointLeniance)
         {

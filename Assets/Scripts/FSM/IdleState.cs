@@ -10,6 +10,7 @@ public class IdleState : State
             Debug.LogError("Attempted to start a moveState when the unit isn't an NPC");
         }
         npc = _unit as NPC;
+        stateDebugColor = Color.white;
     }
 
     public override void Enter()

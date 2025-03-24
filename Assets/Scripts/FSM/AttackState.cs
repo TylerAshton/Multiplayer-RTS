@@ -10,6 +10,7 @@ public class AttackState : State
             Debug.LogError("Attempted to start a moveState when the unit isn't an NPC");
         }
         npc = _unit as NPC;
+        stateDebugColor = Color.red;
     }
 
     public override void Enter()

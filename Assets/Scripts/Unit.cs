@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Health), typeof(Collider))]
 /// <summary>
 /// Unit component is an base class used for all forms of RTS units across the game.
 /// Contains logic for all common behaviours such as selection, death, and instructions.
@@ -9,19 +9,24 @@ using UnityEngine.AI;
 public class Unit : MonoBehaviour, IDestructible
 {
     [SerializeField] GameObject selectionIndiator;
+    MeshRenderer selectionRenderer;
     RTSPlayer rts_Player;
     Health health;
+    Collider colliderComp;
 
     [SerializeField] State currentState;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (selectionIndiator == null)
         {
             Debug.LogError("Unit selection indicator is missing");
         }
 
+        selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
         health = GetComponent<Health>();
+        colliderComp = GetComponent<Collider>();
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -58,6 +63,10 @@ public class Unit : MonoBehaviour, IDestructible
 
         currentState = _newState;
         currentState.Enter();
+
+        #if UNITY_EDITOR
+            SetSelectionColor(_newState.StateDebugColor);
+        #endif
     }
 
     public virtual void ShowSelectionIndicator()
@@ -70,8 +79,26 @@ public class Unit : MonoBehaviour, IDestructible
         selectionIndiator.SetActive(false);
     }
 
+    public void SetSelectionColor(Color _color)
+    {
+        selectionRenderer.material.color = _color;
+    }
+
     public virtual void DestroyObject()
     {
         rts_Player.UnitManager.RemoveUnit(this);
+    }
+
+    /// <summary>
+    /// Returns a Vector3 of the lowest point of the object in the centre
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetFeet()
+    {
+        Bounds bounds = colliderComp.bounds;
+
+        Vector3 lowestPoint = new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+
+        return lowestPoint;
     }
 }

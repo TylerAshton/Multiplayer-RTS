@@ -19,8 +19,9 @@ public class NPC : Unit
     private Transform target;
     private Health targetHealth;
     public Health TargetHealth => targetHealth;
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         agent = GetComponent<NavMeshAgent>();
     }
 

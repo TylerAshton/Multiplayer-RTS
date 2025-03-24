@@ -3,6 +3,8 @@ using UnityEngine;
 public abstract class State
 {
     protected Unit unit;
+    protected Color stateDebugColor = Color.black;
+    public Color StateDebugColor => stateDebugColor;
 
     public State(Unit _unit)
     {
