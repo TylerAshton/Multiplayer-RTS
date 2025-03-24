@@ -74,9 +74,6 @@ public class NPC : Unit
 
         GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
 
-        NetworkObject networkObject = newProjectile.GetComponent<NetworkObject>();
-        networkObject.Spawn();
-
         BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
         _projectile.Fire();
     }
