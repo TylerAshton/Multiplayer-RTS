@@ -19,7 +19,7 @@ public class PlayerSpawner : NetworkBehaviour
         SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
-    public async void changePrefab(int prefabId)
+    public void changePrefab(int prefabId)
     {
         //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
         DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
