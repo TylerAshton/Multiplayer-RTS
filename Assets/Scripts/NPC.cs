@@ -61,6 +61,13 @@ public class NPC : Unit
         {
             if (collider.CompareTag("Champion"))
             {
+                if (collider.TryGetComponent<Health>(out var _health))
+                {
+                    if(_health.IsDying) // TODO: Sloppy af
+                    {
+                        continue;
+                    }
+                }
                 SetTarget(collider.gameObject);
                 AttackState attackState = new AttackState(this);
                 ChangeState(attackState);

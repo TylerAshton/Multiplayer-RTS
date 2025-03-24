@@ -42,7 +42,10 @@ public class AttackState : State
 
     protected override void OnComplete()
     {
-        npc.TargetHealth.OnDeath -= OnComplete;
+        if (npc.TargetHealth != null) // TODO: This is a bit iffy as Target is being sudo managed by Attackstate and npc
+        {
+            npc.TargetHealth.OnDeath -= OnComplete;
+        }
         IdleState idleState = new IdleState(unit);
         unit.ChangeState(idleState);
     }
