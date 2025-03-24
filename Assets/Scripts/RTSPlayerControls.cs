@@ -23,6 +23,7 @@ public struct CommandCursors
 
 public class RTSPlayerControls : MonoBehaviour
 {
+    [SerializeField] private GameObject rtsCanvasPrefab;
     [SerializeField] private CameraMovement cameraMovement;
     [SerializeField] private Vector2 mouseScreenPos;
     [SerializeField] private SelectionBox selectionBox;
@@ -41,6 +42,12 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void Awake()
     {
+        GameObject canvas = Instantiate(rtsCanvasPrefab);
+        RTSCanvas rtsCanvas = canvas.GetComponent<RTSCanvas>();
+
+        selectionBox = rtsCanvas.selectionBox;
+        graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
+
         if (selectionBox == null)
         {
             Debug.LogError("Selection box wasn't selected");
