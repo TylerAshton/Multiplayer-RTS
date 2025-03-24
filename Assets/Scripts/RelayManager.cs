@@ -7,16 +7,39 @@ using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using Unity.Networking.Transport.Relay;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 
-public class RelayManager : MonoBehaviour
+/// <summary>
+/// Creates the host and the clients for the game
+/// </summary>
+
+public class RelayManager : NetworkBehaviour
 {
+    public static RelayManager Instance;
+
     [SerializeField] Button hostButton;
     [SerializeField] Button joinButton;
     [SerializeField] TMP_InputField joinInput;
     [SerializeField] TextMeshProUGUI codeText;
-    [SerializeField] Canvas canvas;
+    [SerializeField] RectTransform mainMenu;
+
+    [SerializeField] RectTransform characterMenu;
+
+    [SerializeField] PlayerSpawner spawner;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     async void Start()
     {
@@ -27,7 +50,9 @@ public class RelayManager : MonoBehaviour
         hostButton.onClick.AddListener(CreateRelay);
         joinButton.onClick.AddListener(() => JoinRelay(joinInput.text));
     }
-
+    /// <summary>
+    /// Starts host and Internal Client
+    /// </summary>
     async void CreateRelay()
     {
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
@@ -42,8 +67,14 @@ public class RelayManager : MonoBehaviour
 
         joinButton.gameObject.SetActive(false);
         joinInput.gameObject.SetActive(false);
+        hostButton.gameObject.SetActive(false);
+        codeText.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// External Client
+    /// </summary>
+    /// <param name="joinCode"></param>
     async void JoinRelay(string joinCode)
     {
         var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
@@ -52,6 +83,9 @@ public class RelayManager : MonoBehaviour
 
         NetworkManager.Singleton.StartClient();
 
-        canvas.gameObject.SetActive(false);
+        //CoopPlayerManager.Instance.AddPlayer(AuthenticationService.Instance.PlayerId, CoopPlayer);
+
+        mainMenu.gameObject.SetActive(false);
+        characterMenu.gameObject.SetActive(true);
     }
 }

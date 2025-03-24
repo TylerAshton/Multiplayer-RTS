@@ -17,10 +17,10 @@ GameObject:
   - component: {fileID: 1487907453719134264}
   - component: {fileID: 4967272248600565887}
   - component: {fileID: 2727815097557005387}
-  - component: {fileID: -3673072321566084153}
-  - component: {fileID: 4329844172233792976}
+  - component: {fileID: 2121023904292179664}
+  - component: {fileID: -7801375121915721748}
   m_Layer: 0
-  m_Name: LocalPlayer
+  m_Name: LocalPlayer 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7fb9703cb4516544483a93b59d94222d, type: 2}
+  - {fileID: 2100000, guid: ad161db012078d548bb0824bf8907978, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4121556667
+  GlobalObjectIdHash: 3413686294
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &-3673072321566084153
+--- !u!114 &2121023904292179664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -350,7 +350,7 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &4329844172233792976
+--- !u!114 &-7801375121915721748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
