@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-[RequireComponent (typeof(RTSPlayerControls), typeof(UnitManager))]
+[RequireComponent (typeof(RTSPlayerControls), typeof(UnitManager), typeof(PlayerInput))]
 public class RTSPlayer : MonoBehaviour
 {
     public static RTSPlayer instance { get; private set; }
@@ -8,6 +9,8 @@ public class RTSPlayer : MonoBehaviour
     public RTSPlayerControls RTSPlayerControls => rtsPlayerControls;
     private UnitManager unitManager;
     public UnitManager UnitManager => unitManager;
+    private PlayerInput playerInput;
+    
     private void Awake()
     {
         if (instance == null)
@@ -22,6 +25,9 @@ public class RTSPlayer : MonoBehaviour
 
         rtsPlayerControls = GetComponent<RTSPlayerControls>();
         unitManager = GetComponent<UnitManager>();
+        playerInput = GetComponent<PlayerInput>();
+        playerInput.enabled = true;
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
