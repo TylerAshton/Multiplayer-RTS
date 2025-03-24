@@ -23,7 +23,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
         DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId,prefabId, tempPosition);
+        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId, tempPosition);
     }
 
     private Vector3 getClientTransform(ulong clientId)
