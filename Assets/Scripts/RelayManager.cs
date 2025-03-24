@@ -25,6 +25,8 @@ public class RelayManager : NetworkBehaviour
 
     [SerializeField] RectTransform characterMenu;
 
+    [SerializeField] RectTransform readyUpMenu; 
+
     [SerializeField] PlayerSpawner spawner;
 
     void Awake()
@@ -69,6 +71,7 @@ public class RelayManager : NetworkBehaviour
         joinInput.gameObject.SetActive(false);
         hostButton.gameObject.SetActive(false);
         codeText.gameObject.SetActive(true);
+        readyUpMenu.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -87,5 +90,6 @@ public class RelayManager : NetworkBehaviour
 
         mainMenu.gameObject.SetActive(false);
         characterMenu.gameObject.SetActive(true);
+        readyUpMenu.gameObject.SetActive(true);
     }
 }
