@@ -1991,10 +1991,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6846700315286605413, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
-      propertyPath: cameraSpawnOffset.y
-      value: 17.9
-      objectReference: {fileID: 0}
     - target: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
       propertyPath: m_Name
       value: RTS Player
