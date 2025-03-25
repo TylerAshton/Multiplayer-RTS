@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e99dda8e1a311a40b5c00aec33433f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &1561204148913572438
 MonoBehaviour:
   m_ObjectHideFlags: 0
