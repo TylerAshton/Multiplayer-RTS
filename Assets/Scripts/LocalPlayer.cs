@@ -10,7 +10,7 @@ public class LocalPlayer : NetworkBehaviour
     Rigidbody rb;
 
     float moveHorizontal, moveVertical;
-    Vector2 movementVector;
+    Vector3 movementVector;
 
     void Start()
     {
@@ -32,13 +32,14 @@ public class LocalPlayer : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void MoveServerRpc(Vector2 movementVector)
+    void MoveServerRpc(Vector3 movementVector)
     {
         rb.linearVelocity = movementVector * moveSpeed;
     }
 
     public void CheckMove(InputAction.CallbackContext context)
     {
-        movementVector = context.ReadValue<Vector2>();
+        movementVector.x = context.ReadValue<Vector2>().x;
+        movementVector.z = context.ReadValue<Vector2>().y;
     }
 }
