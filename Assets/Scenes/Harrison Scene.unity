@@ -1817,6 +1817,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RTS Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3008950362022573519, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1953,7 +1957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6820472438362718674, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.1603155
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6820472438362718674, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
       propertyPath: m_LocalPosition.z

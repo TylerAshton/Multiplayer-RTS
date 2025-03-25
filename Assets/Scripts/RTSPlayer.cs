@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent (typeof(RTSPlayerControls), typeof(UnitManager),  typeof(PlayerInput))]
-public class RTSPlayer : MonoBehaviour
+public class RTSPlayer : NetworkBehaviour
 {
     public static RTSPlayer instance { get; private set; }
     private RTSPlayerControls rtsPlayerControls;
@@ -10,6 +11,8 @@ public class RTSPlayer : MonoBehaviour
     private UnitManager unitManager;
     public UnitManager UnitManager => unitManager;
     private PlayerInput playerInput;
+
+    private NetworkObject networkObject; 
     
     private void Awake()
     {
@@ -23,11 +26,17 @@ public class RTSPlayer : MonoBehaviour
             return;
         }
 
-        rtsPlayerControls = GetComponent<RTSPlayerControls>();
-        rtsPlayerControls.Init();
-        unitManager = GetComponent<UnitManager>();
-        playerInput = GetComponent<PlayerInput>();
-        playerInput.enabled = true;
+        networkObject = GetComponent<NetworkObject>();
+
+        if (networkObject.IsOwner)
+        {
+            rtsPlayerControls = GetComponent<RTSPlayerControls>();
+            rtsPlayerControls.Init();
+            unitManager = GetComponent<UnitManager>();
+            playerInput = GetComponent<PlayerInput>();
+            playerInput.enabled = true;
+        }
+        
 
     }
 

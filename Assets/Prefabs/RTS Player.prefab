@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e99dda8e1a311a40b5c00aec33433f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &1561204148913572438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,3 +437,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
+  cameraSpawnOffset: {x: 0, y: 17.9, z: 0}

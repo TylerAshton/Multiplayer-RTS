@@ -5,8 +5,9 @@ public class CameraSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cameraPrefab;
 
-    [SerializeField] private GameObject spawnedCamera;
-    [SerializeField] private Camera spawnedCameraComponent;
+    private GameObject spawnedCamera;
+    private Camera spawnedCameraComponent;
+    [SerializeField] private Vector3 cameraSpawnOffset;
 
     public void Init()
     {
@@ -21,6 +22,7 @@ public class CameraSpawner : MonoBehaviour
     {
         spawnedCamera = Instantiate(cameraPrefab, transform.position, cameraPrefab.transform.rotation);
         spawnedCameraComponent = spawnedCamera.GetComponent<Camera>();
+        spawnedCamera.transform.position += cameraSpawnOffset;
     }
 
     /// <summary>

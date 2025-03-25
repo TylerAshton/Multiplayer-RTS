@@ -14,6 +14,7 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private Transform ChampionSpawnPos;
     [SerializeField] private GameObject ChampionPlayer;
     private PlayerSpawner playerSpawner;
+    private NetworkObject networkObject;
 
     
 
@@ -32,12 +33,19 @@ public class LobbyManager : NetworkBehaviour
 
         playerSpawner = GetComponent<PlayerSpawner>();
 
-        NetworkObject networkObject = GetComponent<NetworkObject>();
+        if (!TryGetComponent<NetworkObject>(out networkObject))
+        {
+            Debug.LogError("Network object is required for cameraMovement");
+        }
         NetworkManager.Singleton.SceneManager.OnLoadComplete += SpawnAllPlayers;
     }
 
     private void SpawnAllPlayers(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
         // Spawn Players
         foreach (ulong id in GetAllConnectedClients())
         {
