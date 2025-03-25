@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,13 +7,14 @@ using UnityEngine.AI;
 /// Unit component is an base class used for all forms of RTS units across the game.
 /// Contains logic for all common behaviours such as selection, death, and instructions.
 /// </summary>
-public class Unit : MonoBehaviour, IDestructible
+public class Unit : NetworkBehaviour, IDestructible
 {
     [SerializeField] GameObject selectionIndiator;
     MeshRenderer selectionRenderer;
     RTSPlayer rts_Player;
     Health health;
     Collider colliderComp;
+    NetworkObject networkObject;
 
     [SerializeField] State currentState;
 
@@ -21,6 +23,11 @@ public class Unit : MonoBehaviour, IDestructible
         if (selectionIndiator == null)
         {
             Debug.LogError("Unit selection indicator is missing");
+        }
+
+        if (!TryGetComponent<NetworkObject>(out networkObject))
+        {
+            Debug.LogError("Network object is required for cameraMovement");
         }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
@@ -32,6 +39,11 @@ public class Unit : MonoBehaviour, IDestructible
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
         if (RTSPlayer.instance == null)
         {
             Debug.LogError("RTS Manager doesn't exist");
@@ -48,6 +60,11 @@ public class Unit : MonoBehaviour, IDestructible
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
         if (currentState != null)
         {
             currentState.Update();
