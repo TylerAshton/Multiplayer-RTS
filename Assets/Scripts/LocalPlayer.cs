@@ -11,12 +11,30 @@ public class LocalPlayer : NetworkBehaviour
 
     float moveHorizontal, moveVertical;
     Vector3 movementVector;
+    CameraSpawner cameraSpawner;
+    NetworkObject networkObject;
 
     void Start()
     {
         manager = RelayManager.Instance;
         rb = GetComponent<Rigidbody>();
         //manager.CreatePlayerServerRpc();
+
+        if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
+        {
+            Debug.LogError("Skissue");
+        }
+
+        if (!TryGetComponent<NetworkObject>(out networkObject))
+        {
+            Debug.LogError("Network object is required for cameraMovement");
+        }
+
+        if (networkObject.IsOwner)
+        {
+            cameraSpawner.Init();
+        }
+
     }
 
     // Update is called once per frame

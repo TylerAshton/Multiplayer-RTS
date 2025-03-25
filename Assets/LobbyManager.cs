@@ -42,6 +42,7 @@ public class LobbyManager : NetworkBehaviour
 
     private void SpawnAllPlayers(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
+        NetworkManager.Singleton.SceneManager.OnLoadComplete -= SpawnAllPlayers;
         if (!NetworkManager.Singleton.IsServer)
         {
             return;
@@ -58,6 +59,7 @@ public class LobbyManager : NetworkBehaviour
             else
             {
                 newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+                Debug.Log("HERE!");
             }
 
             NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
