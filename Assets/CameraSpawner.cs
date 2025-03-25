@@ -5,12 +5,13 @@ public class CameraSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cameraPrefab;
 
-    private GameObject spawnedCamera;
-    private Camera spawnedCameraComponent;
+    [SerializeField] private GameObject spawnedCamera;
+    [SerializeField] private Camera spawnedCameraComponent;
 
-    private void Awake()
+    public void Init()
     {
-        
+        SpawnCamera();
+        SetCameraMain();
     }
 
     /// <summary>
@@ -18,7 +19,7 @@ public class CameraSpawner : MonoBehaviour
     /// </summary>
     public void SpawnCamera()
     {
-        spawnedCamera = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
+        spawnedCamera = Instantiate(cameraPrefab, transform.position, cameraPrefab.transform.rotation);
         spawnedCameraComponent = spawnedCamera.GetComponent<Camera>();
     }
 
@@ -31,7 +32,7 @@ public class CameraSpawner : MonoBehaviour
 
         foreach(Camera camera in allCameras)
         {
-            if (camera != spawnedCamera)
+            if (camera != spawnedCameraComponent)
             {
                 camera.enabled = false;
             }
@@ -40,17 +41,5 @@ public class CameraSpawner : MonoBehaviour
             spawnedCameraComponent.tag = "MainCamera";
             spawnedCameraComponent.enabled = true;
         }
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        SpawnCamera();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

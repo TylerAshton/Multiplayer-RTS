@@ -21,11 +21,12 @@ public struct CommandCursors
     public Texture2D attackCursor;
 }
 
+[RequireComponent(typeof(CameraSpawner), typeof(CameraMovement))]
 public class RTSPlayerControls : MonoBehaviour
 {
     [SerializeField] private GameObject rtsCanvasPrefab;
     [SerializeField] private CameraMovement cameraMovement;
-    [SerializeField] private Vector2 mouseScreenPos;
+    [SerializeField] private Vector2 mouseScreenPos = Vector3.zero;
     [SerializeField] private SelectionBox selectionBox;
     [SerializeField] private GraphicRaycaster graphicRaycaster;
     public Vector2 MouseScreenPos => mouseScreenPos;
@@ -37,10 +38,11 @@ public class RTSPlayerControls : MonoBehaviour
     [SerializeField] private CommandMode selectedCommand = CommandMode.None;
     public CommandMode SelectedCommand => selectedCommand;
     [SerializeField] private CommandCursors commandCursors;
+    private CameraSpawner cameraSpawner;
     
 
 
-    private void Awake()
+    public void Init()
     {
         GameObject canvas = Instantiate(rtsCanvasPrefab);
         RTSCanvas rtsCanvas = canvas.GetComponent<RTSCanvas>();
@@ -48,10 +50,17 @@ public class RTSPlayerControls : MonoBehaviour
         selectionBox = rtsCanvas.selectionBox;
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
 
+        if(!TryGetComponent<CameraSpawner>(out cameraSpawner))
+        {
+            Debug.LogError("CameraSpawner is missing");
+        }
+        cameraSpawner.Init();
+
         if(!TryGetComponent<CameraMovement>(out cameraMovement)) // Would rather assure this in require comp but unity is fucked
         {
             Debug.LogError("Camera movement is missing");
         }
+        cameraMovement.Init();
 
         if (selectionBox == null)
         {

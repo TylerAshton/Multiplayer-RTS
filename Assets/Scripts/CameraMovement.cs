@@ -19,7 +19,7 @@ public class CameraMovement : MonoBehaviour
     float screenWidth = Screen.width;
     float screenHeight = Screen.height;
 
-    private void Awake()
+    public void Init()
     {
         mainCamera = Camera.main.gameObject;
         cameraComp = mainCamera.GetComponent<Camera>();

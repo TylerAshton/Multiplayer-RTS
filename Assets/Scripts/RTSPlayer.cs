@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent (typeof(RTSPlayerControls), typeof(UnitManager), typeof(PlayerInput))]
+[RequireComponent (typeof(RTSPlayerControls), typeof(UnitManager),  typeof(PlayerInput))]
 public class RTSPlayer : MonoBehaviour
 {
     public static RTSPlayer instance { get; private set; }
@@ -24,6 +24,7 @@ public class RTSPlayer : MonoBehaviour
         }
 
         rtsPlayerControls = GetComponent<RTSPlayerControls>();
+        rtsPlayerControls.Init();
         unitManager = GetComponent<UnitManager>();
         playerInput = GetComponent<PlayerInput>();
         playerInput.enabled = true;
