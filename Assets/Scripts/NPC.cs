@@ -21,7 +21,7 @@ public class NPC : Unit
     public Health TargetHealth => targetHealth;
     protected override void Awake()
     {
-        if (!IsServer)
+        if (!NetworkManager.Singleton.IsServer)
         {
             return;
         }

@@ -39,7 +39,7 @@ public class Unit : NetworkBehaviour, IDestructible
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
-        if (!IsServer)
+        if (!NetworkManager.Singleton.IsServer)
         {
             return;
         }
@@ -60,7 +60,7 @@ public class Unit : NetworkBehaviour, IDestructible
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (!IsServer)
+        if (!NetworkManager.Singleton.IsServer)
         {
             return;
         }

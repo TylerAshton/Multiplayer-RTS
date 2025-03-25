@@ -37,7 +37,7 @@ public class MoveState : State
     protected override bool IsComplete()
     {
         float distance = Vector3.Distance(unit.GetFeet(), destination);
-        Debug.Log(distance);
+        Debug.Log($"{distance}, {unit.GetFeet()}, {destination}");
 
         if (distance < waypointLeniance)
         {
