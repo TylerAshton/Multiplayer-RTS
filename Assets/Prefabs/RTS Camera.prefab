@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4601051790687055588}
   - component: {fileID: 5762154614998876203}
   - component: {fileID: 4149839590012210246}
-  - component: {fileID: 413656065070580741}
   m_Layer: 0
   m_Name: RTS Camera
   m_TagString: MainCamera
@@ -138,23 +137,3 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &413656065070580741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334692810404585016}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce0e1786b28c7c4ba7141df786f678e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rtsPlayerControls: {fileID: 0}
-  isPanning: 0
-  panMultiplier: 0.1
-  maxPanningSpeed: 16
-  panningEdgeThreshold: 125
-  minFOV: 15
-  maxFOV: 120
-  zoomSensitivity: 1

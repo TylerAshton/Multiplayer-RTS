@@ -738,17 +738,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1365260060 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
-  m_PrefabInstance: {fileID: 4093098133564680122}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38c4c33f7ecfa5d4d86a023378abcf19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1381858797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,17 +1490,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2029633323 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 413656065070580741, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-  m_PrefabInstance: {fileID: 3261886306850859206}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce0e1786b28c7c4ba7141df786f678e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2048910648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,10 +1813,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 413656065070580741, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-      propertyPath: rtsPlayerControls
-      value: 
-      objectReference: {fileID: 1365260060}
     - target: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
       propertyPath: m_Name
       value: RTS Camera
@@ -2012,18 +1986,6 @@ PrefabInstance:
     - target: {fileID: 6820472438362718674, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
-      propertyPath: selectionBox
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
-      propertyPath: cameraMovement
-      value: 
-      objectReference: {fileID: 2029633323}
-    - target: {fileID: 8246939001103950362, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
-      propertyPath: graphicRaycaster
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
       propertyPath: m_Name

@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 4708933369437137798}
   - component: {fileID: 3785458292357306518}
   - component: {fileID: 3909084894797125082}
+  - component: {fileID: 1561204148913572438}
   m_Layer: 0
   m_Name: RTS Player
   m_TagString: Untagged
@@ -401,3 +402,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e99dda8e1a311a40b5c00aec33433f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1561204148913572438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8786565032581669084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce0e1786b28c7c4ba7141df786f678e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rtsPlayerControls: {fileID: 8246939001103950362}
+  isPanning: 0
+  panMultiplier: 0.1
+  maxPanningSpeed: 16
+  panningEdgeThreshold: 125
+  minFOV: 15
+  maxFOV: 120
+  zoomSensitivity: 1

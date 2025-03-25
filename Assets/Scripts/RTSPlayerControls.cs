@@ -48,6 +48,11 @@ public class RTSPlayerControls : MonoBehaviour
         selectionBox = rtsCanvas.selectionBox;
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
 
+        if(!TryGetComponent<CameraMovement>(out cameraMovement))
+        {
+            Debug.LogError("Camera movement is missing");
+        }
+
         if (selectionBox == null)
         {
             Debug.LogError("Selection box wasn't selected");

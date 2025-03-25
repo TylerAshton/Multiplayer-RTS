@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
+[RequireComponent (typeof(RTSPlayerControls))]
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private RTSPlayerControls rtsPlayerControls;
@@ -11,7 +11,8 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float minFOV = 15;
     [SerializeField] private float maxFOV = 60;
     [SerializeField] private float zoomSensitivity = 1;
-    Camera camera;
+    Camera cameraComp;
+    GameObject mainCamera;
     private Vector2 panStartPos;
     private Vector2 screenPosition => rtsPlayerControls.MouseScreenPos;
 
@@ -20,7 +21,9 @@ public class CameraMovement : MonoBehaviour
 
     private void Awake()
     {
-        camera = GetComponent<Camera>();
+        mainCamera = Camera.main.gameObject;
+        cameraComp = mainCamera.GetComponent<Camera>();
+        rtsPlayerControls = GetComponent<RTSPlayerControls>();
     }
 
     // Update is called once per frame
@@ -67,13 +70,13 @@ public class CameraMovement : MonoBehaviour
 
     private void ApplyPan(Vector3 _panningVector)
     {
-        transform.position += _panningVector * Time.deltaTime;
+        mainCamera.transform.position += _panningVector * Time.deltaTime;
     }
 
     public void ApplyZoom(int axis)
     {
-        camera.fieldOfView -= axis * zoomSensitivity; // Adjust FOV
-        camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, minFOV, maxFOV); // Clamp zoom range
+        cameraComp.fieldOfView -= axis * zoomSensitivity; // Adjust FOV
+        cameraComp.fieldOfView = Mathf.Clamp(cameraComp.fieldOfView, minFOV, maxFOV); // Clamp zoom range
     }
 
     private Vector3 isMouseNearScreenEdge()
