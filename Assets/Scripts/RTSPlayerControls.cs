@@ -48,7 +48,7 @@ public class RTSPlayerControls : MonoBehaviour
         selectionBox = rtsCanvas.selectionBox;
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
 
-        if(!TryGetComponent<CameraMovement>(out cameraMovement))
+        if(!TryGetComponent<CameraMovement>(out cameraMovement)) // Would rather assure this in require comp but unity is fucked
         {
             Debug.LogError("Camera movement is missing");
         }

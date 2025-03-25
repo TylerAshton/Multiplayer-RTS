@@ -34,7 +34,7 @@ public class PlayerSpawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void DespawnPlayerServerRpc(ulong clientId)
+    private void DespawnPlayerServerRpc(ulong clientId)
     {
         NetworkObject tempPlayer = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
         tempPosition = tempPlayer.transform.position;
@@ -42,7 +42,7 @@ public class PlayerSpawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnPlayerServerRpc(ulong clientId, int prefabId)
+    private void SpawnPlayerServerRpc(ulong clientId, int prefabId)
     {
         Debug.Log(prefabId);
         GameObject newPlayer;
@@ -55,7 +55,7 @@ public class PlayerSpawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnPlayerServerRpc(ulong clientId)
+    private void SpawnPlayerServerRpc(ulong clientId)
     {
         GameObject newPlayer;
 
@@ -74,7 +74,7 @@ public class PlayerSpawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnPlayerServerRpc(ulong clientId, int prefabId, Vector3 position)
+    private void SpawnPlayerServerRpc(ulong clientId, int prefabId, Vector3 position)
     {
         Debug.Log(prefabId);
         GameObject newPlayer;

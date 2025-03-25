@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 3785458292357306518}
   - component: {fileID: 3909084894797125082}
   - component: {fileID: 1561204148913572438}
+  - component: {fileID: 6846700315286605413}
   m_Layer: 0
   m_Name: RTS Player
   m_TagString: Untagged
@@ -422,3 +423,16 @@ MonoBehaviour:
   minFOV: 15
   maxFOV: 120
   zoomSensitivity: 1
+--- !u!114 &6846700315286605413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8786565032581669084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
