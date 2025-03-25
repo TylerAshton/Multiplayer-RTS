@@ -21,6 +21,11 @@ public class NPC : Unit
     public Health TargetHealth => targetHealth;
     protected override void Awake()
     {
+        if (!IsServer)
+        {
+            return;
+        }
+
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
     }
@@ -81,6 +86,10 @@ public class NPC : Unit
         Vector3 direction = (target.position - transform.position).normalized;
 
         GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
+
+        // Register over network
+        NetworkObject bulletNetwork = newProjectile.GetComponent<NetworkObject>();
+        bulletNetwork.Spawn();
 
         BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
         _projectile.Fire();

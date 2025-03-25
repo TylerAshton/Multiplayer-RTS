@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 7306552849860519964}
   - component: {fileID: 2073537483473770160}
   - component: {fileID: 4603332138403401944}
+  - component: {fileID: 5018741435784974670}
   - component: {fileID: 1529328762838441129}
   - component: {fileID: 6865051652697631802}
   m_Layer: 7
@@ -232,8 +233,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 5
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -244,6 +245,31 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5018741435784974670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5610248129095907055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 218889727
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &1529328762838441129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,14 +282,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58263838d96d3349bbce02d6a307ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 1773147165135798888}
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
-  detectionRange: 5
+  detectionRange: 10
   fireCoolDown: 1
   fireTime: 0
-  projectile: {fileID: 0}
+  projectile: {fileID: 3152492050945720834, guid: 03eb2a9c4717b0749a2f52f3e534dcc8, type: 3}
 --- !u!114 &6865051652697631802
 MonoBehaviour:
   m_ObjectHideFlags: 0
