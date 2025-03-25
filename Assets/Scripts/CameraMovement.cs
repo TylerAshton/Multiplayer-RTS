@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent (typeof(RTSPlayerControls))]
-public class CameraMovement : MonoBehaviour
+public class CameraMovement : NetworkBehaviour
 {
     [SerializeField] private RTSPlayerControls rtsPlayerControls;
     [SerializeField] private bool isPanning = false;
@@ -13,29 +14,44 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float zoomSensitivity = 1;
     Camera cameraComp;
     GameObject mainCamera;
+    private NetworkObject networkObject;
     private Vector2 panStartPos;
     private Vector2 screenPosition => rtsPlayerControls.MouseScreenPos;
 
     float screenWidth = Screen.width;
     float screenHeight = Screen.height;
 
+    private void Awake()
+    {
+        if (!TryGetComponent<NetworkObject>(out networkObject))
+        {
+            Debug.LogError("Network object is required for cameraMovement");
+        }
+    }
+
     public void Init()
     {
         mainCamera = Camera.main.gameObject;
         cameraComp = mainCamera.GetComponent<Camera>();
         rtsPlayerControls = GetComponent<RTSPlayerControls>();
+
+        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isPanning)
+        if (networkObject.IsOwner)
         {
-            ApplyPan(GetManualPanVector());
-        }
-        else
-        {
-            ApplyPan(isMouseNearScreenEdge());
+            if (isPanning)
+            {
+                ApplyPan(GetManualPanVector());
+            }
+            else
+            {
+                ApplyPan(isMouseNearScreenEdge());
+            }
         }
     }
 
