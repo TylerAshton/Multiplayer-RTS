@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4601051790687055588}
   - component: {fileID: 5762154614998876203}
   - component: {fileID: 4149839590012210246}
-  - component: {fileID: 413656065070580741}
   m_Layer: 0
   m_Name: RTS Camera
   m_TagString: MainCamera
@@ -28,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1334692810404585016}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.21211797, y: 0, z: 0, w: 0.9772441}
-  m_LocalPosition: {x: 0, y: 26.9, z: -70}
+  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
+  m_LocalPosition: {x: 0, y: 17.9, z: -16.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 24.493, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
 --- !u!20 &4601051790687055588
 Camera:
   m_ObjectHideFlags: 0
@@ -138,23 +137,3 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &413656065070580741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334692810404585016}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce0e1786b28c7c4ba7141df786f678e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rtsPlayerControls: {fileID: 0}
-  isPanning: 0
-  panMultiplier: 0.1
-  maxPanningSpeed: 16
-  panningEdgeThreshold: 125
-  minFOV: 15
-  maxFOV: 120
-  zoomSensitivity: 1

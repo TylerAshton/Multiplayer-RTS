@@ -122,6 +122,8 @@ GameObject:
   - component: {fileID: 4708933369437137798}
   - component: {fileID: 3785458292357306518}
   - component: {fileID: 3909084894797125082}
+  - component: {fileID: 1561204148913572438}
+  - component: {fileID: 6846700315286605413}
   m_Layer: 0
   m_Name: RTS Player
   m_TagString: Untagged
@@ -174,7 +176,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8786565032581669084}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -361,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1575573791
+  GlobalObjectIdHash: 2053031413
   InScenePlacedSourceGlobalObjectIdHash: 1575573791
   DeferredDespawnTick: 0
   Ownership: 1
@@ -401,3 +403,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e99dda8e1a311a40b5c00aec33433f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1561204148913572438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8786565032581669084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce0e1786b28c7c4ba7141df786f678e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rtsPlayerControls: {fileID: 8246939001103950362}
+  isPanning: 0
+  panMultiplier: 0.1
+  maxPanningSpeed: 16
+  panningEdgeThreshold: 125
+  minFOV: 15
+  maxFOV: 120
+  zoomSensitivity: 1
+--- !u!114 &6846700315286605413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8786565032581669084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
