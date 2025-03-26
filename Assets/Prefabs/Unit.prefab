@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 4747266418519021561}
   - component: {fileID: 6457733874047174873}
   - component: {fileID: 4347908752179187669}
+  - component: {fileID: 5304088625346052678}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Amalgam
@@ -260,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1471200836
+  GlobalObjectIdHash: 218889727
   InScenePlacedSourceGlobalObjectIdHash: 218889727
   DeferredDespawnTick: 0
   Ownership: 1
@@ -306,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 1
+  hitPoints: 15
   animator: {fileID: 0}
   deathAnimationLength: 0
   test: 0
@@ -391,3 +392,15 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &5304088625346052678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5610248129095907055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4d9e6eb8591154f9cbfa77abe742eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

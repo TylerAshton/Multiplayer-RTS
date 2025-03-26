@@ -56,6 +56,10 @@ public class BulletProjectile : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.name.Contains("Unit")) ;
+        {
+            Debug.Log("Unit;");
+        }
         if (!NetworkManager.Singleton.IsServer)
         {
             return;
@@ -74,7 +78,7 @@ public class BulletProjectile : NetworkBehaviour
         StartDespawn();
     }
 
-    private void StartDespawn()
+    public void StartDespawn()
     {
         if (isDying)
         {
