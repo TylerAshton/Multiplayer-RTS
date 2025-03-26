@@ -85,11 +85,12 @@ public class NPC : Unit
         Debug.Log("pew");
         Vector3 direction = (target.position - transform.position).normalized;
 
-        GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
+        GameObject newProjectile = (GameObject)Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
 
         // Register over network
         NetworkObject bulletNetwork = newProjectile.GetComponent<NetworkObject>();
         bulletNetwork.Spawn();
+        newProjectile.SetActive(true);
 
         BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
         _projectile.Fire();

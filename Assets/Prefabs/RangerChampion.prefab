@@ -19,9 +19,10 @@ GameObject:
   - component: {fileID: -3673072321566084153}
   - component: {fileID: 4329844172233792976}
   - component: {fileID: 3401305040650681942}
-  m_Layer: 0
+  - component: {fileID: 442771930225507122}
+  m_Layer: 7
   m_Name: RangerChampion
-  m_TagString: Untagged
+  m_TagString: Champion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -372,3 +373,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
   cameraSpawnOffset: {x: 0, y: 5, z: -5}
+--- !u!114 &442771930225507122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4318466539626525345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 10
+  animator: {fileID: 0}
+  deathAnimationLength: 0
+  test: 0
+  isDying: 0

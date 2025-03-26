@@ -22,7 +22,7 @@ public class BulletProjectile : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Debug.Log("Bullet spawned");
     }
 
     public void Fire()
@@ -46,7 +46,8 @@ public class BulletProjectile : MonoBehaviour
         {
             _health.Damage(damage);
         }
-        
+
+        Debug.Log("Bullet Destroyed");
         Destroy(gameObject);
     }
 }
