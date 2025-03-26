@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Globalization;
 using UnityEngine.InputSystem;
+using Unity.Netcode.Components;
 
 public class ChampionInput : NetworkBehaviour
 {
@@ -16,10 +17,16 @@ public class ChampionInput : NetworkBehaviour
 
     Vector3 worldPosition;
 
+    Transform cameraPosition;
+    Vector3 diff;
+
     //Vector2 mousePosition = new Vector2(Screen.width / 2, Screen.height / 2);
 
     void Start()
     {
+        diff = Vector3.back;
+        worldPosition = Vector3.back;
+
         manager = RelayManager.Instance;
         rb = GetComponent<Rigidbody>();
         //manager.CreatePlayerServerRpc();
@@ -37,11 +44,19 @@ public class ChampionInput : NetworkBehaviour
         if (networkObject.IsOwner)
         {
             cameraSpawner.Init();
-            cameraSpawner.SpawnedCamera.transform.SetParent(transform);
+            cameraPosition = cameraSpawner.SpawnedCamera.transform;
+            CameraParentServerRpc();
+            //cameraSpawner.SpawnedCamera.transform.SetParent(transform);
         }
 
         Cursor.lockState = CursorLockMode.Confined;
 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void CameraParentServerRpc()
+    {
+        transform.SetParent(cameraPosition);
     }
 
     // Update is called once per frame
@@ -49,6 +64,7 @@ public class ChampionInput : NetworkBehaviour
     {
         if (!IsOwner) { return; }
         MoveServerAuth();
+        RotatePlayer();
     }
 
     void MoveServerAuth()
@@ -75,8 +91,29 @@ public class ChampionInput : NetworkBehaviour
         if (Physics.Raycast(castPoint, out hit))
         {
             worldPosition = hit.point;
-        }
+            Debug.Log(worldPosition);
 
-        transform.LookAt(worldPosition);
+            diff = worldPosition - transform.position;
+
+        };
+
+
+
+        GetRotationServerRpc();
+    }
+
+    
+    [ServerRpc(RequireOwnership = false)]
+    private void GetRotationServerRpc()
+    {
+        //float yrot = Mathf.Tan(diff.x/diff.z);
+        //Debug.Log(yrot * (180 / Mathf.PI));
+        //this.transform.rotation = new (transform.rotation.x, (yrot * (180 / Mathf.PI)), transform.rotation.z, 1);
+        //this.transform.rotation = Quaternion.LookRotation(diff, Vector3.up);
+        
+        this.transform.rotation = Quaternion.LookRotation(diff.normalized);
+
+        Debug.DrawRay(transform.position, diff, Color.red);
+        Debug.Log(diff);
     }
 }
