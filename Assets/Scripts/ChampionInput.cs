@@ -24,8 +24,6 @@ public class ChampionInput : NetworkBehaviour
 
     void Start()
     {
-        diff = Vector3.back;
-        worldPosition = Vector3.back;
 
         manager = RelayManager.Instance;
         rb = GetComponent<Rigidbody>();
@@ -97,23 +95,15 @@ public class ChampionInput : NetworkBehaviour
 
         };
 
-
-
-        GetRotationServerRpc();
+        GetRotationServerRpc(diff.x, diff.y, diff.z);
     }
 
     
     [ServerRpc(RequireOwnership = false)]
-    private void GetRotationServerRpc()
+    private void GetRotationServerRpc(float x, float y, float z)
     {
-        //float yrot = Mathf.Tan(diff.x/diff.z);
-        //Debug.Log(yrot * (180 / Mathf.PI));
-        //this.transform.rotation = new (transform.rotation.x, (yrot * (180 / Mathf.PI)), transform.rotation.z, 1);
-        //this.transform.rotation = Quaternion.LookRotation(diff, Vector3.up);
-        
-        this.transform.rotation = Quaternion.LookRotation(diff.normalized);
-
-        Debug.DrawRay(transform.position, diff, Color.red);
-        Debug.Log(diff);
+        float yrot = Mathf.Tan(x/z);
+        Debug.Log(yrot * (180 / Mathf.PI));
+        this.transform.rotation = Quaternion.LookRotation(new Vector3(x, this.transform.rotation.y, z));
     }
 }
