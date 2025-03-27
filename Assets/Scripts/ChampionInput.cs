@@ -4,27 +4,27 @@ using System.Globalization;
 using UnityEngine.InputSystem;
 using Unity.Netcode.Components;
 
+/// <summary>
+/// Handles input code for Champion Players
+/// </summary>
 public class ChampionInput : NetworkBehaviour
 {
-    [SerializeField] float moveSpeed = 4f;
-    RelayManager manager;
-    Rigidbody rb;
+    [SerializeField] float moveSpeed = 4f; //movement speed multiplier
+    RelayManager manager; //relay manager instance
+    Rigidbody rb; //rigidbody attached to the player
 
-    float moveHorizontal, moveVertical;
-    Vector3 movementVector;
-    CameraSpawner cameraSpawner;
-    NetworkObject networkObject;
+    Vector3 movementVector; //the movement vector to be added to the transform
+    CameraSpawner cameraSpawner; //camera spawner instance
+    NetworkObject networkObject; // current networkObject attached to the player
 
-    Vector3 worldPosition;
+    Vector3 worldPosition; // the position of the mouse relative to the world origin
 
-    GameObject playerCamera;
-    Vector3 diff;
+    GameObject playerCamera; // the camera that the player will be seeing the game through
 
     //Vector2 mousePosition = new Vector2(Screen.width / 2, Screen.height / 2);
 
     void Start()
     {
-
         manager = RelayManager.Instance;
         rb = GetComponent<Rigidbody>();
         //manager.CreatePlayerServerRpc();
@@ -50,12 +50,16 @@ public class ChampionInput : NetworkBehaviour
 
     }
 
+
+    /// <summary>
+    /// This Server-Rpc attempts to move the camera towards the players current location
+    /// </summary>
+    /// <param name="serverRpcParams"></param>
     [ServerRpc(RequireOwnership = false)]
     void MoveCameraServerRpc(ServerRpcParams serverRpcParams = default)
     {
         var clientId = serverRpcParams.Receive.SenderClientId;
         NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-        CameraMovement 
     }
 
     // Update is called once per frame
@@ -66,12 +70,20 @@ public class ChampionInput : NetworkBehaviour
         RotatePlayer();
     }
 
+    /// <summary>
+    /// This calls all of the Movement based Server-Rpcs
+    /// </summary>
     void MoveServerAuth()
     {
         MoveServerRpc(movementVector);
-        MoveCameraServerRpc();
+        //MoveCameraServerRpc();
     }
 
+    /// <summary>
+    /// This Server-Rpc attempts to move the player transform by adding the movementVector to its current transform
+    /// </summary>
+    /// <param name="movementVector"></param>
+    /// <param name="serverRpcParams"></param>
     [ServerRpc(RequireOwnership = false)]
     private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
     {
@@ -80,12 +92,20 @@ public class ChampionInput : NetworkBehaviour
         player.transform.position += movementVector * Time.fixedDeltaTime;
     }
 
+    /// <summary>
+    /// The unity input system uses this function to capture the input for the player movement
+    /// </summary>
+    /// <param name="context"></param>
     public void CheckMove(InputAction.CallbackContext context)
     {
         movementVector.x = context.ReadValue<Vector2>().x;
         movementVector.z = context.ReadValue<Vector2>().y;
     }
 
+
+    /// <summary>
+    /// This function rotates the player to face the current position of the mouse
+    /// </summary>
     public void RotatePlayer()
     {
         RaycastHit hit;
@@ -93,8 +113,6 @@ public class ChampionInput : NetworkBehaviour
         if (Physics.Raycast(castPoint, out hit))
         {
             worldPosition = hit.point;
-
-            diff = worldPosition - transform.position;
         };
 
         //GetRotationServerRpc(diff.x, diff.y, diff.z);
@@ -102,6 +120,12 @@ public class ChampionInput : NetworkBehaviour
     }
 
     
+    /// <summary>
+    /// This Server-Rpc attempts to 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
     [ServerRpc(RequireOwnership = false)]
     private void GetRotationServerRpc(float x, float y, float z)
     {

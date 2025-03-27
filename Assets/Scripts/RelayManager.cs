@@ -15,19 +15,19 @@ using System.Collections.Generic;
 
 public class RelayManager : NetworkBehaviour
 {
-    public static RelayManager Instance;
+    public static RelayManager Instance; //Self explanatory
 
-    [SerializeField] Button hostButton;
-    [SerializeField] Button joinButton;
-    [SerializeField] TMP_InputField joinInput;
-    [SerializeField] TextMeshProUGUI codeText;
-    [SerializeField] RectTransform mainMenu;
+    [SerializeField] Button hostButton; //Button to start the host
+    [SerializeField] Button joinButton; //Button to join the host via the join code
+    [SerializeField] TMP_InputField joinInput; //Text input to input the join code
+    [SerializeField] TextMeshProUGUI codeText; //Displays the generated lobby code
+    [SerializeField] RectTransform mainMenu; //A group of UI elements for the main menu
 
-    [SerializeField] RectTransform characterMenu;
+    [SerializeField] RectTransform characterMenu; // A group of UI elements for the player to select a character from
 
-    [SerializeField] RectTransform readyUpMenu; 
+    [SerializeField] RectTransform readyUpMenu; // A group of UI elements for the player to use to ready up for the main game
 
-    [SerializeField] PlayerSpawner spawner;
+    [SerializeField] PlayerSpawner spawner; // Instance of player spawner script
 
     void Awake()
     {
@@ -53,7 +53,7 @@ public class RelayManager : NetworkBehaviour
         joinButton.onClick.AddListener(() => JoinRelay(joinInput.text));
     }
     /// <summary>
-    /// Starts host and Internal Client
+    /// Starts Host and Internal Client as well as generates a join code for other clients
     /// </summary>
     async void CreateRelay()
     {
@@ -75,7 +75,7 @@ public class RelayManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// External Client
+    /// Connects the External Client to an existing Host via a join code
     /// </summary>
     /// <param name="joinCode"></param>
     async void JoinRelay(string joinCode)
