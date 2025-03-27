@@ -71,7 +71,7 @@ public class RelayManager : NetworkBehaviour
         joinInput.gameObject.SetActive(false);
         hostButton.gameObject.SetActive(false);
         codeText.gameObject.SetActive(true);
-        readyUpMenu.gameObject.SetActive(true);
+        //readyUpMenu.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -90,6 +90,33 @@ public class RelayManager : NetworkBehaviour
 
         mainMenu.gameObject.SetActive(false);
         characterMenu.gameObject.SetActive(true);
+    }
+
+
+    private void Update()
+    {
+        if (IsServer) { RunServerRPCs(); }
+        if (IsClient) { RunClientRPCs(); }
+    }
+
+    private void RunServerRPCs()
+    {
+        if (NetworkManager.Singleton.ConnectedClients.Count > 1)
+        {
+            ShowReadyUpClientRpc();
+        }
+    }
+
+    private void RunClientRPCs()
+    {
+
+    }
+
+
+    [ClientRpc(RequireOwnership = false)]
+    private void ShowReadyUpClientRpc()
+    {
+        Debug.Log("HERE!");
         readyUpMenu.gameObject.SetActive(true);
     }
 }
