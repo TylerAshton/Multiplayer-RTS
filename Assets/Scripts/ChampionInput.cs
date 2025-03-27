@@ -17,7 +17,7 @@ public class ChampionInput : NetworkBehaviour
 
     Vector3 worldPosition;
 
-    Transform cameraPosition;
+    GameObject playerCamera;
     Vector3 diff;
 
     //Vector2 mousePosition = new Vector2(Screen.width / 2, Screen.height / 2);
@@ -42,8 +42,7 @@ public class ChampionInput : NetworkBehaviour
         if (networkObject.IsOwner)
         {
             cameraSpawner.Init();
-            cameraPosition = cameraSpawner.SpawnedCamera.transform;
-            CameraParentServerRpc();
+            playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
             //cameraSpawner.SpawnedCamera.transform.SetParent(transform);
         }
 
@@ -52,9 +51,11 @@ public class ChampionInput : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void CameraParentServerRpc()
+    void MoveCameraServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        transform.SetParent(cameraPosition);
+        var clientId = serverRpcParams.Receive.SenderClientId;
+        NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        CameraMovement 
     }
 
     // Update is called once per frame
@@ -68,12 +69,15 @@ public class ChampionInput : NetworkBehaviour
     void MoveServerAuth()
     {
         MoveServerRpc(movementVector);
+        MoveCameraServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void MoveServerRpc(Vector3 movementVector)
+    private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
     {
-        rb.linearVelocity = movementVector * moveSpeed;
+        var clientId = serverRpcParams.Receive.SenderClientId;
+        NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        player.transform.position += movementVector * Time.fixedDeltaTime;
     }
 
     public void CheckMove(InputAction.CallbackContext context)
@@ -89,21 +93,26 @@ public class ChampionInput : NetworkBehaviour
         if (Physics.Raycast(castPoint, out hit))
         {
             worldPosition = hit.point;
-            Debug.Log(worldPosition);
 
             diff = worldPosition - transform.position;
-
         };
 
-        GetRotationServerRpc(diff.x, diff.y, diff.z);
+        //GetRotationServerRpc(diff.x, diff.y, diff.z);
+        GetRotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
     }
 
     
     [ServerRpc(RequireOwnership = false)]
     private void GetRotationServerRpc(float x, float y, float z)
     {
-        float yrot = Mathf.Tan(x/z);
-        Debug.Log(yrot * (180 / Mathf.PI));
-        this.transform.rotation = Quaternion.LookRotation(new Vector3(x, this.transform.rotation.y, z));
+        //Vector3 remakeDiff = new Vector3(x, y, z);
+        //float yrot = Mathf.Acos((Vector3.Dot(remakeDiff, -transform.position))/(Vector3.Magnitude(remakeDiff)*Vector3.Magnitude(-transform.position)));
+        //this.transform.rotation = Quaternion.LookRotation(new Vector3(x, this.transform.rotation.y, z), Vector3.up);
+
+        //Debug.Log((yrot * (180 / Mathf.PI)));
+
+        this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
+
+        //this.transform.rotation = new Quaternion(this.transform.rotation.x, (yrot * (180 / Mathf.PI)), this.transform.rotation.z, this.transform.rotation.w);
     }
 }
