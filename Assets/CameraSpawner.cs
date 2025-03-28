@@ -6,6 +6,7 @@ public class CameraSpawner : MonoBehaviour
     [SerializeField] private GameObject cameraPrefab;
 
     private GameObject spawnedCamera;
+    public GameObject SpawnedCamera => spawnedCamera;
     private Camera spawnedCameraComponent;
     [SerializeField] private Vector3 cameraSpawnOffset;
 

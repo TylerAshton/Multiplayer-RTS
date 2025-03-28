@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    [SerializeField] List<GameObject> playerList;
+    [SerializeField] List<GameObject> playerList; //
     [SerializeField] GameObject CoopPlayerPrefab;
     GameObject CoopPlayer;
     [SerializeField] GameObject RTSPlayer;
