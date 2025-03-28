@@ -32,5 +32,8 @@ public abstract class State
     /// <returns></returns>
     protected abstract bool IsComplete();
 
+    /// <summary>
+    /// Called once the task is complete, will not be ran if the task is ended.
+    /// </summary>
     protected abstract void OnComplete();
 }

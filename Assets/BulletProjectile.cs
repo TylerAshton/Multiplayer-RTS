@@ -1,6 +1,9 @@
 using Unity.Netcode;
 using UnityEngine;
 
+/// <summary>
+/// Personally I'd just remake this entire fucking script from the top
+/// </summary>
 [RequireComponent (typeof(Rigidbody))]
 public class BulletProjectile : NetworkBehaviour
 {

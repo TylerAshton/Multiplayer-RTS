@@ -30,7 +30,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Applies damage to the unit, destroying it if health reaches 0
+    /// Applies damage to the unit, destroying it if health reaches 0 via DestroyObject
     /// </summary>
     /// <param name="_damage"></param>
     public void Damage(float _damage)
@@ -73,6 +73,9 @@ public class Health : MonoBehaviour
         Invoke(nameof(Die), deathAnimationLength);
     }
 
+    /// <summary>
+    /// Forcably destroys the gameObject, bypassing all DestroyLogic
+    /// </summary>
     private void Die()
     {
         Destroy(gameObject);

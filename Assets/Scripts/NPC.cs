@@ -58,6 +58,10 @@ public class NPC : Unit
         agent.SetDestination(_worldPosition);
     }
 
+    /// <summary>
+    /// Attempts to find Champion within the detectionRange and sets it as the 
+    /// Target before entering the AttackState should one exist within range
+    /// </summary>
     public void ScanForTarget()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange, unitLayer);
@@ -80,6 +84,9 @@ public class NPC : Unit
         }
     }
 
+    /// <summary>
+    /// Fires the pojectile towards the target's position
+    /// </summary>
     public void Shoot()
     {
         Debug.Log("pew");
@@ -96,6 +103,10 @@ public class NPC : Unit
         _projectile.Fire();
     }
 
+    /// <summary>
+    /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
+    /// </summary>
+    /// <param name="_targetGameObject"></param>
     private void SetTarget(GameObject _targetGameObject)
     {
         if (_targetGameObject.TryGetComponent<Health>(out Health health))
@@ -111,6 +122,9 @@ public class NPC : Unit
         }
     }
 
+    /// <summary>
+    /// Unsubscribes from the target's OnDeath event and clears all target variables
+    /// </summary>
     private void ClearTarget()
     {
         targetHealth.OnDeath -= ClearTarget;

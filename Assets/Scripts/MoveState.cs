@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Moves the npc to the _destination inputted
+/// </summary>
 public class MoveState : State
 {
     protected Vector3 destination;
