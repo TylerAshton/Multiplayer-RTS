@@ -71,6 +71,10 @@ public class Unit : NetworkBehaviour, IDestructible
         }
     }
 
+    /// <summary>
+    /// Exits the current state if one exists, before entering the new state.
+    /// </summary>
+    /// <param name="_newState"></param>
     public void ChangeState(State _newState)
     {
         if (currentState != null)
@@ -86,16 +90,26 @@ public class Unit : NetworkBehaviour, IDestructible
         #endif
     }
 
+    /// <summary>
+    /// Shows the glowing sphere above the unit
+    /// </summary>
     public virtual void ShowSelectionIndicator()
     {
         selectionIndiator.SetActive(true);
     }
 
+    /// <summary>
+    /// Hides the glowing sphere above the unit
+    /// </summary>
     public virtual void HideSelectionIndicator()
     {
         selectionIndiator.SetActive(false);
     }
 
+    /// <summary>
+    /// Changes the colour of the glowing sphere above the unit, used for DEBUG purposes
+    /// </summary>
+    /// <param name="_color"></param>
     public void SetSelectionColor(Color _color)
     {
         selectionRenderer.material.color = _color;

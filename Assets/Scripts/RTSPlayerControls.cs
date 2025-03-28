@@ -41,7 +41,9 @@ public class RTSPlayerControls : MonoBehaviour
     private CameraSpawner cameraSpawner;
     
 
-
+    /// <summary>
+    /// Spawns in the UI canvas and initialises the CameraSpawner and CameraMovement scripts
+    /// </summary>
     public void Init()
     {
         GameObject canvas = Instantiate(rtsCanvasPrefab);
@@ -81,6 +83,10 @@ public class RTSPlayerControls : MonoBehaviour
         if (isMouseHeld) { OnMouseClickHeld(); }
     }
 
+    /// <summary>
+    /// Relays a zoom axis to the CameraMovement script when the player uses the scrollWheel
+    /// </summary>
+    /// <param name="context"></param>
     public void OnScroll(InputAction.CallbackContext context)
     {
         int axis = (int)context.ReadValue<Vector2>().y;
@@ -104,6 +110,10 @@ public class RTSPlayerControls : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calls the MouseClickStarted and Ended scripts when the player uses left click
+    /// </summary>
+    /// <param name="context"></param>
     public void OnMouseClick(InputAction.CallbackContext context)
     {
         float clickValue = context.ReadValue<float>();
@@ -118,6 +128,9 @@ public class RTSPlayerControls : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// If the player isn't using the UI, enables the selectionBox
+    /// </summary>
     private void OnMouseClickStarted()
     {
         if (isUsingUI(mouseScreenPos))
@@ -130,11 +143,18 @@ public class RTSPlayerControls : MonoBehaviour
         selectionBox.EnableBox();
     }
 
+    /// <summary>
+    /// Draws the selection box based on where the player started holding down the mouse and where it is now
+    /// </summary>
     private void OnMouseClickHeld()
     {
         selectionBox.DrawSelectionBox(mousetStartPosition, MouseScreenPos);
     }
 
+    /// <summary>
+    /// Sends the selectionBox ScreenRect to the unitManager to attempt and AreaSelection,
+    /// with said selection updates the cursor based on units selected
+    /// </summary>
     private void OnMouseClickEnded()
     {
         isMouseHeld = false;
@@ -158,6 +178,10 @@ public class RTSPlayerControls : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calls the MouseRightClickStarted and Ended scripts when the player uses right click
+    /// </summary>
+    /// <param name="context"></param>
     public void OnRightClick(InputAction.CallbackContext context)
     {
         float clickValue = context.ReadValue<float>();
@@ -172,7 +196,9 @@ public class RTSPlayerControls : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// If the player isn't using the UI, inacts the order that's tied to the currentCommandMode
+    /// </summary>
     private void OnRightClickStarted()
     {
         if (isUsingUI(mouseScreenPos))
@@ -228,11 +254,19 @@ public class RTSPlayerControls : MonoBehaviour
         cameraMovement.StopPanning();
     }
 
+    /// <summary>
+    /// Calls the ClearCommand function
+    /// </summary>
+    /// <param name="context"></param>
     public void OnClearAction(InputAction.CallbackContext context)
     {
         ClearCommand();
     }
 
+    /// <summary>
+    /// Sets the command mode, updating the cursorIcon to the associated cursor
+    /// </summary>
+    /// <param name="_mode"></param>
     public void SetCommandMode(CommandMode _mode)
     {
         selectedCommand = _mode;
@@ -261,6 +295,10 @@ public class RTSPlayerControls : MonoBehaviour
         Cursor.SetCursor(cursorIcon, default, CursorMode.Auto);
     }
 
+    /// <summary>
+    /// Accessable SetCommandMode overlap to be used by UnityButtons
+    /// </summary>
+    /// <param name="_modeIndex"></param>
     public void SetCommandMode(int _modeIndex)
     {
         CommandMode mode = (CommandMode)_modeIndex;
@@ -268,11 +306,9 @@ public class RTSPlayerControls : MonoBehaviour
         SetCommandMode(mode);
     }
 
-    private void SetCursor(Cursor _cursor)
-    {
-
-    }
-
+    /// <summary>
+    /// Sets command mode to None
+    /// </summary>
     public void ClearCommand()
     {
         SetCommandMode(CommandMode.None);

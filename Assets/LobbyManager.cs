@@ -40,7 +40,14 @@ public class LobbyManager : NetworkBehaviour
         NetworkManager.Singleton.SceneManager.OnLoadComplete += SpawnAllPlayers;
     }
 
-    private void SpawnAllPlayers(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    /// <summary>
+    /// Ran once level loading is complete, spawning all the player prefabs into the level by clientID
+    /// </summary>
+    /// <param name="clientId"></param>
+    /// <param name="sceneName"></param>
+    /// <param name="loadSceneMode"></param>
+    private void SpawnAllPlayers(ulong clientId, string sceneName, LoadSceneMode loadSceneMode) // TODO: Remove args
+                                                                                                // TODO: Use player dict
     {
         NetworkManager.Singleton.SceneManager.OnLoadComplete -= SpawnAllPlayers;
         if (!NetworkManager.Singleton.IsServer)
@@ -52,11 +59,11 @@ public class LobbyManager : NetworkBehaviour
         {
             GameObject newPlayer;
 
-            if (id == 0)
+            if (id == 0) // RTS
             {
                 newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
             }
-            else
+            else //COOP
             {
                 newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
                 Debug.Log("HERE!");
@@ -82,15 +89,13 @@ public class LobbyManager : NetworkBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Returns all the client IDs
+    /// </summary>
+    /// <returns></returns>
     public static List<ulong> GetAllConnectedClients()
     {
         List<ulong> clients = new List<ulong>(NetworkManager.Singleton.ConnectedClients.Keys);
         return clients;
-    }
-
-    private void SpawnAmalgam()
-    {
-
     }
 }

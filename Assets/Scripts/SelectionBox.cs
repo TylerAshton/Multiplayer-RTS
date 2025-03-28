@@ -41,6 +41,11 @@ public class SelectionBox : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Draws the selection box with the two corners given
+    /// </summary>
+    /// <param name="_startPos"></param>
+    /// <param name="_endPos"></param>
     public void DrawSelectionBox(Vector2 _startPos, Vector2 _endPos)
     {
         // Calculate min and max
@@ -54,6 +59,10 @@ public class SelectionBox : MonoBehaviour
         selectionRect.pivot = new Vector2(width < 0 ? 1 : 0, height < 0 ? 1 : 0);
     }
 
+    /// <summary>
+    /// Returns the screenRect of the selectionBox
+    /// </summary>
+    /// <returns></returns>
     public Rect GetScreenRect()
     {
         Vector2 size = selectionRect.sizeDelta;

@@ -1,6 +1,9 @@
 using NUnit.Framework;
 using UnityEngine;
 
+/// <summary>
+/// Spawns the Camera for the respective client
+/// </summary>
 public class CameraSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cameraPrefab;
@@ -9,6 +12,9 @@ public class CameraSpawner : MonoBehaviour
     private Camera spawnedCameraComponent;
     [SerializeField] private Vector3 cameraSpawnOffset;
 
+    /// <summary>
+    /// Spawns the camera with the allocated Offset and sets it to the main Camera
+    /// </summary>
     public void Init()
     {
         SpawnCamera();
