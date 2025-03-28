@@ -59,15 +59,14 @@ public class LobbyManager : NetworkBehaviour
         {
             GameObject newPlayer;
 
-            if (id == 0) // RTS
+/*            if (id == 0) // RTS
             {
                 newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
-            }
-            else //COOP
-            {
-                newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
-                Debug.Log("HERE!");
-            }
+            }*/
+
+            newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+            Debug.Log("HERE!");
+
 
             NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
             newPlayer.SetActive(true);

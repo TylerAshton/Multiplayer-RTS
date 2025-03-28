@@ -1,20 +1,14 @@
 using Unity.Netcode;
 using UnityEngine;
 
-/// <summary>
-/// Personally I'd just remake this entire fucking script from the top
-/// </summary>
-[RequireComponent (typeof(Rigidbody))]
 public class BulletProjectile : NetworkBehaviour
 {
-    private Rigidbody rb;
 
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
     [SerializeField] string friendlyTag;
     NetworkObject networkObject;
     private bool isDying = false;
-    private Collider collider;
     private MeshRenderer meshRenderer;
 
     private void Awake()
@@ -87,7 +81,7 @@ public class BulletProjectile : NetworkBehaviour
         isDying = true;
         rb.linearVelocity = Vector3.zero;
         rb.isKinematic = true;
-        collider.enabled = false;
+        GetComponent<Collider>().enabled = false;
         meshRenderer.enabled = false;
         //HideMeClientRpc();
 
