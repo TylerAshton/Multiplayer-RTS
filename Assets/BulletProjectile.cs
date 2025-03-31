@@ -5,12 +5,12 @@ using UnityEngine;
 public class BulletProjectile : NetworkBehaviour
 {
     private const float LingerTime = 0.2f;
+    [SerializeField] private float detectionRange = 0.1f;
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
     [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
     private float destroyAtTime = Mathf.Infinity;
-    private float deathTimer;
     NetworkObject networkObject;
     private bool isDead = false;
     private MeshRenderer meshRenderer;
@@ -45,7 +45,6 @@ public class BulletProjectile : NetworkBehaviour
     public void LaunchProjectile(Vector3 _direction)
     {
         direction = _direction;
-        deathTimer = 0f;
 
     }
 
@@ -57,7 +56,8 @@ public class BulletProjectile : NetworkBehaviour
         if (!IsServer) return;
 
         MoveProjectile();
-        HitDetection();
+
+
 
         if (direction == Vector3.zero)
         {
@@ -72,6 +72,10 @@ public class BulletProjectile : NetworkBehaviour
             return;
         }
 
+        if (!isDead)
+        {
+            HitDetection();
+        }
     }
 
     private void MoveProjectile()
@@ -88,7 +92,7 @@ public class BulletProjectile : NetworkBehaviour
     {
         Gizmos.color = Color.red;
         Vector3 rayStart = transform.position;
-        Vector3 rayDirection = direction.normalized * 0.2f;
+        Vector3 rayDirection = direction.normalized * detectionRange;
 
         Gizmos.DrawRay(rayStart, rayDirection);
     }
@@ -97,7 +101,7 @@ public class BulletProjectile : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 0.2f, layerMask))
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, detectionRange, layerMask))
         {
             if (hit.collider.gameObject.tag == friendlyTag)
             {
