@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,9 +6,18 @@ public class ProjectileWeapon : Weapon
 {
     [SerializeField] GameObject projectile;
     [SerializeField] Transform firePosition;
+
+
     public override void Attack()
     {
+        SpawnBulletServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnBulletServerRpc()
+    {
         GameObject spawnedProjectile = Instantiate(projectile, firePosition.position, Quaternion.identity);
+        spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(transform.forward);
     }
 

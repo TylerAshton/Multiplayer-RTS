@@ -1,15 +1,18 @@
+using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
 public class BulletProjectile : NetworkBehaviour
 {
-
+    private const float LingerTime = 0.2f;
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
     [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
+    private float destroyAtTime = Mathf.Infinity;
+    private float deathTimer;
     NetworkObject networkObject;
-    private bool isDying = false;
+    private bool isDead = false;
     private MeshRenderer meshRenderer;
     private Vector3 direction = Vector3.zero;
 
@@ -35,16 +38,24 @@ public class BulletProjectile : NetworkBehaviour
     void Start()
     {
         Debug.Log("Bullet spawned");
+
+
     }
 
     public void LaunchProjectile(Vector3 _direction)
     {
         direction = _direction;
+        deathTimer = 0f;
+
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
+        if (!IsServer) return;
+
         MoveProjectile();
         HitDetection();
 
@@ -52,21 +63,41 @@ public class BulletProjectile : NetworkBehaviour
         {
             Debug.LogError("Direction isn't set, use LaunchProjectile() after instantiating a projectile");
         }
+
+        // Lifetimer Check
+        if (destroyAtTime < Time.fixedTime)
+        {
+            Debug.Log("Killing bullet");
+            networkObject.Despawn();
+            return;
+        }
+
     }
 
     private void MoveProjectile()
     {
-        transform.position += direction * speed * Time.deltaTime;
-
         if (!IsServer) return;
 
+        transform.position += direction * speed * Time.deltaTime;
+
+
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 rayStart = transform.position;
+        Vector3 rayDirection = direction.normalized * 0.2f;
+
+        Gizmos.DrawRay(rayStart, rayDirection);
     }
 
     private void HitDetection()
     {
-        //if (!IsServer) return;
+        if (!IsServer) return;
 
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 0.1f, layerMask))
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 0.2f, layerMask))
         {
             if (hit.collider.gameObject.tag == friendlyTag)
             {
@@ -81,7 +112,7 @@ public class BulletProjectile : NetworkBehaviour
                 health.Damage(damage);
             }
 
-            Destroy(gameObject);
+            StartDespawn();
         }
 
 
@@ -110,17 +141,14 @@ public class BulletProjectile : NetworkBehaviour
 
     private void StartDespawn()
     {
-        if (isDying)
+        if (isDead)
         {
             return;
         }
 
-        isDying = true;
-        GetComponent<Collider>().enabled = false;
-        meshRenderer.enabled = false;
-        //HideMeClientRpc();
+        destroyAtTime = Time.fixedTime + LingerTime;
+        isDead = true;
 
-        Invoke(nameof(DestroyMe), 0.2f);
     }
 
     [ClientRpc]
