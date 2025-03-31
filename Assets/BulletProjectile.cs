@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletProjectile : NetworkBehaviour
 {
-    private const float LingerTime = 0.2f;
+    private const float LingerTime = 0.01f;
     [SerializeField] private float detectionRange = 0.1f;
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
@@ -44,8 +44,19 @@ public class BulletProjectile : NetworkBehaviour
 
     public void LaunchProjectile(Vector3 _direction)
     {
+        if (!IsServer)
+        {
+            Debug.Log("Bullets can only be launched by the Server");
+            return;
+        }
         direction = _direction;
+        SetDirectionClientRpc(direction);
+    }
 
+    [ClientRpc]
+    private void SetDirectionClientRpc(Vector3 _direction)
+    {
+        direction = _direction;
     }
 
 
@@ -53,20 +64,12 @@ public class BulletProjectile : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Client side bullet movement as it's deterministic
+        MoveProjectile();
+
         if (!IsServer) return;
 
-
-        if (!isDead)
-        {
-            MoveProjectile();
-        }
-
-
-
-        if (direction == Vector3.zero)
-        {
-            Debug.LogError("Direction isn't set, use LaunchProjectile() after instantiating a projectile");
-        }
+        
 
         // Lifetimer Check
         if (destroyAtTime < Time.fixedTime)
@@ -84,7 +87,10 @@ public class BulletProjectile : NetworkBehaviour
 
     private void MoveProjectile()
     {
-        if (!IsServer) return;
+        if (direction == Vector3.zero)
+        {
+            Debug.LogError("Direction isn't set, use LaunchProjectile() after instantiating a projectile");
+        }
 
         transform.position += direction * speed * Time.deltaTime;
 
