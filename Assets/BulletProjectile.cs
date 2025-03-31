@@ -7,13 +7,14 @@ public class BulletProjectile : NetworkBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
     [SerializeField] string friendlyTag;
+    [SerializeField] private LayerMask layerMask;
     NetworkObject networkObject;
     private bool isDying = false;
     private MeshRenderer meshRenderer;
+    private Vector3 direction = Vector3.zero;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
 
         if (friendlyTag == "")
         {
@@ -23,10 +24,6 @@ public class BulletProjectile : NetworkBehaviour
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
             Debug.LogError("Network object is required for BulletProjectile");
-        }
-        if (!TryGetComponent<Collider>(out collider))
-        {
-            Debug.LogError("Collider is required for BulletProjectile");
         }
         if (!TryGetComponent<MeshRenderer>(out meshRenderer))
         {
@@ -40,18 +37,58 @@ public class BulletProjectile : NetworkBehaviour
         Debug.Log("Bullet spawned");
     }
 
-    public void Fire()
+    public void LaunchProjectile(Vector3 _direction)
     {
-        rb.linearVelocity = transform.forward * speed;
+        direction = _direction;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        MoveProjectile();
+        HitDetection();
+
+        if (direction == Vector3.zero)
+        {
+            Debug.LogError("Direction isn't set, use LaunchProjectile() after instantiating a projectile");
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void MoveProjectile()
+    {
+        transform.position += direction * speed * Time.deltaTime;
+
+        if (!IsServer) return;
+
+    }
+
+    private void HitDetection()
+    {
+        //if (!IsServer) return;
+
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, 0.1f, layerMask))
+        {
+            if (hit.collider.gameObject.tag == friendlyTag)
+            {
+                return;
+            }
+
+            Debug.Log($"Bullet hit {hit.collider.name} at {hit.point}");
+
+            // Example: Damage logic
+            if (hit.collider.TryGetComponent(out Health health))
+            {
+                health.Damage(damage);
+            }
+
+            Destroy(gameObject);
+        }
+
+
+
+    }
+
+/*    private void OnTriggerEnter(Collider other)
     {
         if (!NetworkManager.Singleton.IsServer)
         {
@@ -69,7 +106,7 @@ public class BulletProjectile : NetworkBehaviour
 
         Debug.Log("Bullet Destroyed");
         StartDespawn();
-    }
+    }*/
 
     private void StartDespawn()
     {
@@ -79,8 +116,6 @@ public class BulletProjectile : NetworkBehaviour
         }
 
         isDying = true;
-        rb.linearVelocity = Vector3.zero;
-        rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
         meshRenderer.enabled = false;
         //HideMeClientRpc();

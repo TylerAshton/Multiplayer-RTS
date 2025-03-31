@@ -100,7 +100,7 @@ public class NPC : Unit
         newProjectile.SetActive(true);
 
         BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
-        _projectile.Fire();
+        _projectile.LaunchProjectile(direction);
     }
 
     /// <summary>
