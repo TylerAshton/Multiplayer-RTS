@@ -16,6 +16,7 @@ public class LobbyManager : NetworkBehaviour
     private PlayerSpawner playerSpawner;
     private NetworkObject networkObject;
 
+    CoopPlayerManager playerManager = CoopPlayerManager.Instance;
     
 
     void Awake()
@@ -58,7 +59,7 @@ public class LobbyManager : NetworkBehaviour
             }
             else
             {
-                newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+                newPlayer = (GameObject)Instantiate(playerManager.playerPrefabs[id], ChampionSpawnPos.position, Quaternion.identity);
                 Debug.Log("HERE!");
             }
 

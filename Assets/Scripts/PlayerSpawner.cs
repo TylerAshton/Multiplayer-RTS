@@ -12,9 +12,16 @@ public class PlayerSpawner : NetworkBehaviour
     private int prefabNumber;
     private Vector3 tempPosition = new(0,0,0);
 
+    CoopPlayerManager playerManager;
+
+    private void Start()
+    {
+        playerManager = CoopPlayerManager.Instance;
+    }
+
     public override void OnNetworkSpawn()
     {
-        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+        SpawnPlayerServerRpc();
     }
 
     public void changePrefab(int prefabId)
@@ -53,9 +60,12 @@ public class PlayerSpawner : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SpawnPlayerServerRpc(ulong clientId)
+    private void SpawnPlayerServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        var clientId = serverRpcParams.Receive.SenderClientId;
+
         GameObject newPlayer;
+        
 
         if (clientId == 0)
         {
@@ -82,5 +92,10 @@ public class PlayerSpawner : NetworkBehaviour
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
+    }
+
+    private void setPlayerPrefabGlobal(ulong _ID, GameObject _Prefab)
+    {
+        playerManager.AddPlayer(_ID, _Prefab);
     }
 }

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,14 @@ public class ReadyUpButton : MonoBehaviour
     {
         readyButton.onClick.AddListener(() =>
         {
+            ulong ID = NetworkManager.Singleton.LocalClientId;
+            Debug.Log("DEBUG . LOG");
+            if (ID != 0)
+            {
+                Debug.Log("DEBUG HERE");
+                NetworkObject player = NetworkManager.Singleton.ConnectedClients[ID].PlayerObject;
+                CoopPlayerManager.Instance.AddPlayer(ID, player.gameObject);
+            }
             PlayerReadyUp.Instance.SetPlayerReady();
         });
     }
