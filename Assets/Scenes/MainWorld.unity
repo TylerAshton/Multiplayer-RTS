@@ -2246,7 +2246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6865051652697631802, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: hitPoints
-      value: 10
+      value: 999999
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1529328762838441129, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}

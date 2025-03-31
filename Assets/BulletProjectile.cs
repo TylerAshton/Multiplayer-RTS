@@ -55,7 +55,11 @@ public class BulletProjectile : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        MoveProjectile();
+
+        if (!isDead)
+        {
+            MoveProjectile();
+        }
 
 
 
