@@ -8,6 +8,7 @@ using Unity.Services.Relay;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Creates the host and the clients for the game
@@ -103,7 +104,10 @@ public class RelayManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.ConnectedClients.Count > 1)
         {
-            ShowReadyUpClientRpc();
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                ShowReadyUpClientRpc();
+            }
         }
     }
 
