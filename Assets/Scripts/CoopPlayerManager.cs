@@ -15,7 +15,7 @@ public class CoopPlayerManager : NetworkBehaviour
     
     Vector2 movementVector;
     public Dictionary<ulong, GameObject> playerPrefabs = new Dictionary<ulong, GameObject>();
-    [SerializeField] LocalPlayer local;
+    //[SerializeField] LocalPlayer local;
 
     void Awake()
     {
@@ -62,5 +62,10 @@ public class CoopPlayerManager : NetworkBehaviour
             playerPrefabs.Remove(_ID);
             playerPrefabs.Add(_ID, _Prefab);
         }
+    }
+
+    public void AddPlayer(ulong _ID, NetworkObject _NetworkObject)
+    {
+        AddPlayer(_ID, _NetworkObject.gameObject);
     }
 }

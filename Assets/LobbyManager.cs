@@ -16,7 +16,7 @@ public class LobbyManager : NetworkBehaviour
     private PlayerSpawner playerSpawner;
     private NetworkObject networkObject;
 
-    CoopPlayerManager playerManager = CoopPlayerManager.Instance;
+    CoopPlayerManager playerManager;
     
 
     void Awake()
@@ -33,6 +33,7 @@ public class LobbyManager : NetworkBehaviour
         }
 
         playerSpawner = GetComponent<PlayerSpawner>();
+        playerManager = CoopPlayerManager.Instance;
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
@@ -59,6 +60,7 @@ public class LobbyManager : NetworkBehaviour
             }
             else
             {
+                
                 newPlayer = (GameObject)Instantiate(playerManager.playerPrefabs[id], ChampionSpawnPos.position, Quaternion.identity);
                 Debug.Log("HERE!");
             }
