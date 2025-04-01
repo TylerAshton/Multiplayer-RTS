@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1530415869249090484}
   - component: {fileID: 2092797954955654347}
   - component: {fileID: 2270452430535602147}
-  - component: {fileID: 924632405842027771}
+  - component: {fileID: 2817874106289935171}
   m_Layer: 0
-  m_Name: CrossBow
+  m_Name: Glave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,11 +29,10 @@ Transform:
   m_GameObject: {fileID: 2980274144771474231}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.347, y: 0.3865, z: 0.4595}
-  m_LocalScale: {x: 0.21669827, y: 0.2269, z: 1.0106578}
+  m_LocalPosition: {x: -0.0085, y: 0.3865, z: 0.472}
+  m_LocalScale: {x: 0.22832622, y: 0.2269, z: 0.86320895}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2613957484832828596}
+  m_Children: []
   m_Father: {fileID: 1678622031874244759}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1530415869249090484
@@ -110,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &924632405842027771
+--- !u!114 &2817874106289935171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,42 +118,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2980274144771474231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b64a623b8fb1a142b6bb2338ecc9fe5, type: 3}
+  m_Script: {fileID: 11500000, guid: fc06e058f3f58f444a0927a676b1f053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 4460309666732685197, guid: 96ec9c1637b11ad45a9341ee7a413add, type: 3}
-  firePosition: {fileID: 2613957484832828596}
---- !u!1 &4551774916426008346
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2613957484832828596}
-  m_Layer: 0
-  m_Name: FirePos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2613957484832828596
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4551774916426008346}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.452}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6194039391595552089}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  ShowTopMostFoldoutHeaderGroup: 1
+  maxAngle: 80
+  raycastResolution: 7
+  range: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  friendlyTag: Champion
+  damage: 100
 --- !u!1 &8331247639448990116
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,13 +143,13 @@ GameObject:
   - component: {fileID: 7147905203571034080}
   - component: {fileID: 5417916762348809506}
   - component: {fileID: 8791814528482307996}
-  - component: {fileID: 4918999882208161667}
   - component: {fileID: 6467110286790982830}
   - component: {fileID: 9045521050742347261}
   - component: {fileID: 5376358250431523494}
   - component: {fileID: 5379957661380716904}
   - component: {fileID: 1064232737581339245}
   - component: {fileID: 5214956394693867836}
+  - component: {fileID: 3372214426743234539}
   m_Layer: 7
   m_Name: MeleeTestPlayer
   m_TagString: Champion
@@ -286,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 940074096
+  GlobalObjectIdHash: 718220766
   InScenePlacedSourceGlobalObjectIdHash: 747014671
   DeferredDespawnTick: 0
   Ownership: 1
@@ -299,20 +274,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &4918999882208161667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331247639448990116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6141ed29375b0e479ee3e2bff0a22b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 4
 --- !u!54 &6467110286790982830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -367,7 +328,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4918999882208161667}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LocalPlayer, Assembly-CSharp
         m_MethodName: CheckMove
         m_Mode: 0
@@ -387,8 +348,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/Mouse/delta,/Touchscreen/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 924632405842027771}
-        m_TargetAssemblyTypeName: ProjectileWeapon, Assembly-CSharp
+      - m_Target: {fileID: 2817874106289935171}
+        m_TargetAssemblyTypeName: CleaveMeleeWeapon, Assembly-CSharp
         m_MethodName: INPUTAttack
         m_Mode: 0
         m_Arguments:
@@ -553,8 +514,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 10
+  hitPoints: 1000
   animator: {fileID: 0}
   deathAnimationLength: 0
   test: 0
   isDying: 0
+--- !u!114 &3372214426743234539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331247639448990116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a153099da20a83d4ab7e721fdf33e747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  moveSpeed: 4
