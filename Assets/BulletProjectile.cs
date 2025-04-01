@@ -16,6 +16,7 @@ public class BulletProjectile : NetworkBehaviour
     private MeshRenderer meshRenderer;
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 posLastFrame;
+    private Vector3[] corners = new Vector3[8];
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class BulletProjectile : NetworkBehaviour
             Debug.LogError("MeshRenderer is required for BulletProjectile");
         }
 
+
         posLastFrame = transform.position;
     }
 
@@ -42,7 +44,24 @@ public class BulletProjectile : NetworkBehaviour
     {
         Debug.Log("Bullet spawned");
 
+        CalculateCorners();
+    }
 
+    /// <summary>
+    /// Calculates the corner extends of the bullet which are used for hit detection
+    /// </summary>
+    private void CalculateCorners()
+    {
+        Bounds bounds = meshRenderer.bounds;
+
+        float radius = Mathf.Max(bounds.extents.x, bounds.extents.z);
+
+        for (int i = 0; i < 12; i++)
+        {
+            float angle = i * (360f / 12) * Mathf.Deg2Rad;
+
+            Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+        }
     }
 
     public void LaunchProjectile(Vector3 _direction)
@@ -53,6 +72,7 @@ public class BulletProjectile : NetworkBehaviour
             return;
         }
         moveDirection = _direction;
+        transform.rotation = Quaternion.LookRotation(moveDirection);
         SetDirectionClientRpc(moveDirection);
     }
 
@@ -103,11 +123,27 @@ public class BulletProjectile : NetworkBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Vector3 rayStart = transform.position;
+/*        Gizmos.color = Color.red;
         Vector3 rayDirection = moveDirection.normalized * detectionRange;
 
-        Gizmos.DrawRay(rayStart, rayDirection);
+
+        Bounds bounds = meshRenderer.bounds;
+
+        float radius = Mathf.Max(bounds.extents.x, bounds.extents.z);
+
+        for (int i = 0; i < 12; i++)
+        {
+            float angle = i * Mathf.PI * 2f / 12;
+
+            Vector3 localOffset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
+            Vector3 worldStart = transform.position + transform.rotation * localOffset;
+
+            worldStart = transform.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
+
+            Gizmos.DrawRay(worldStart, rayDirection);
+
+        }*/
+
     }
 
     /// <summary>
@@ -121,23 +157,29 @@ public class BulletProjectile : NetworkBehaviour
         Vector3 directionToLastPos = (posLastFrame - transform.position).normalized;
         float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame);
 
-        if (Physics.Raycast(transform.position, directionToLastPos, out RaycastHit hit, distanceToLastPos, layerMask))
+        foreach(Vector3 corner in corners)
         {
-            if (hit.collider.gameObject.tag == friendlyTag)
+            if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, layerMask))
             {
+                if (hit.collider.gameObject.tag == friendlyTag)
+                {
+                    continue;
+                }
+
+                Debug.Log($"Bullet hit {hit.collider.name} at {hit.point}");
+
+                // Example: Damage logic
+                if (hit.collider.TryGetComponent(out Health health))
+                {
+                    health.Damage(damage);
+                }
+
+                StartDespawn();
                 return;
             }
-
-            Debug.Log($"Bullet hit {hit.collider.name} at {hit.point}");
-
-            // Example: Damage logic
-            if (hit.collider.TryGetComponent(out Health health))
-            {
-                health.Damage(damage);
-            }
-
-            StartDespawn();
         }
+
+        
 
 
 

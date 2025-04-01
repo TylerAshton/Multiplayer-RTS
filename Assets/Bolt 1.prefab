@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3856248591967720180}
   - component: {fileID: 895509535246880742}
   - component: {fileID: 7162391976518567088}
+  - component: {fileID: -1178682786779891301}
   m_Layer: 0
   m_Name: Bolt 1
   m_TagString: Untagged
@@ -133,3 +134,24 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!135 &-1178682786779891301
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4460309666732685197}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
