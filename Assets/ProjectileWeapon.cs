@@ -16,6 +16,7 @@ public class ProjectileWeapon : Weapon
     [ServerRpc(RequireOwnership = false)]
     private void SpawnBulletServerRpc()
     {
+        Debug.Log("Yaa");
         GameObject spawnedProjectile = Instantiate(projectile, firePosition.position, Quaternion.identity);
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(transform.forward);
