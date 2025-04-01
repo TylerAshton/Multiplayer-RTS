@@ -168,13 +168,13 @@ GameObject:
   - component: {fileID: 7654968036448617407}
   - component: {fileID: 7063590484924852244}
   - component: {fileID: 2958308891413694566}
-  - component: {fileID: 402094121700673559}
   - component: {fileID: 8347684748946234856}
   - component: {fileID: 4387692837326368152}
   - component: {fileID: 5532959223338474741}
   - component: {fileID: 6489093602909430644}
   - component: {fileID: 5712823641169400829}
   - component: {fileID: 4738304484216011549}
+  - component: {fileID: 8792995177505451101}
   m_Layer: 7
   m_Name: ProjectileTestPlayer
   m_TagString: Champion
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4157848702
+  GlobalObjectIdHash: 747014671
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -299,20 +299,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &402094121700673559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8375617087245167681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6141ed29375b0e479ee3e2bff0a22b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 4
 --- !u!54 &8347684748946234856
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -367,7 +353,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 402094121700673559}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LocalPlayer, Assembly-CSharp
         m_MethodName: CheckMove
         m_Mode: 0
@@ -558,3 +544,17 @@ MonoBehaviour:
   deathAnimationLength: 0
   test: 0
   isDying: 0
+--- !u!114 &8792995177505451101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8375617087245167681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a153099da20a83d4ab7e721fdf33e747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  moveSpeed: 4
