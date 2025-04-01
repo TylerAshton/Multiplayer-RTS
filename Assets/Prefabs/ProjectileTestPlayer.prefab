@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b64a623b8fb1a142b6bb2338ecc9fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   projectile: {fileID: 4460309666732685197, guid: 96ec9c1637b11ad45a9341ee7a413add, type: 3}
   firePosition: {fileID: 6203916802450855487}
 --- !u!1 &8375617087245167681
@@ -353,8 +354,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LocalPlayer, Assembly-CSharp
+      - m_Target: {fileID: 8792995177505451101}
+        m_TargetAssemblyTypeName: ChampionInput, Assembly-CSharp
         m_MethodName: CheckMove
         m_Mode: 0
         m_Arguments:

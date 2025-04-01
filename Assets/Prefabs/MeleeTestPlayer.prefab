@@ -328,8 +328,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LocalPlayer, Assembly-CSharp
+      - m_Target: {fileID: 3372214426743234539}
+        m_TargetAssemblyTypeName: ChampionInput, Assembly-CSharp
         m_MethodName: CheckMove
         m_Mode: 0
         m_Arguments:
