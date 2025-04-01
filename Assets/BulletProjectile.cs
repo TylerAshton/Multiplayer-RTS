@@ -14,7 +14,8 @@ public class BulletProjectile : NetworkBehaviour
     NetworkObject networkObject;
     private bool isDead = false;
     private MeshRenderer meshRenderer;
-    private Vector3 direction = Vector3.zero;
+    private Vector3 moveDirection = Vector3.zero;
+    private Vector3 posLastFrame;
 
     private void Awake()
     {
@@ -32,6 +33,8 @@ public class BulletProjectile : NetworkBehaviour
         {
             Debug.LogError("MeshRenderer is required for BulletProjectile");
         }
+
+        posLastFrame = transform.position;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,14 +52,14 @@ public class BulletProjectile : NetworkBehaviour
             Debug.Log("Bullets can only be launched by the Server");
             return;
         }
-        direction = _direction;
-        SetDirectionClientRpc(direction);
+        moveDirection = _direction;
+        SetDirectionClientRpc(moveDirection);
     }
 
     [ClientRpc]
     private void SetDirectionClientRpc(Vector3 _direction)
     {
-        direction = _direction;
+        moveDirection = _direction;
     }
 
 
@@ -87,12 +90,12 @@ public class BulletProjectile : NetworkBehaviour
 
     private void MoveProjectile()
     {
-        if (direction == Vector3.zero)
+        if (moveDirection == Vector3.zero)
         {
             Debug.LogError("Direction isn't set, use LaunchProjectile() after instantiating a projectile");
         }
 
-        transform.position += direction * speed * Time.deltaTime;
+        transform.position += moveDirection * speed * Time.deltaTime;
 
 
     }
@@ -102,16 +105,23 @@ public class BulletProjectile : NetworkBehaviour
     {
         Gizmos.color = Color.red;
         Vector3 rayStart = transform.position;
-        Vector3 rayDirection = direction.normalized * detectionRange;
+        Vector3 rayDirection = moveDirection.normalized * detectionRange;
 
         Gizmos.DrawRay(rayStart, rayDirection);
     }
 
+    /// <summary>
+    /// Detects if we've gone through anything after our last movement by taking the current 
+    /// position and the position at the end of the last frame and performing a raycast
+    /// </summary>
     private void HitDetection()
     {
         if (!IsServer) return;
 
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, detectionRange, layerMask))
+        Vector3 directionToLastPos = (posLastFrame - transform.position).normalized;
+        float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame);
+
+        if (Physics.Raycast(transform.position, directionToLastPos, out RaycastHit hit, distanceToLastPos, layerMask))
         {
             if (hit.collider.gameObject.tag == friendlyTag)
             {
