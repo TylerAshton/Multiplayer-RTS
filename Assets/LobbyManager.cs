@@ -58,7 +58,7 @@ public class LobbyManager : NetworkBehaviour
             }
             else
             {
-                newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+                newPlayer = (GameObject)Instantiate(CoopPlayerManager.Instance.playerPrefabs[id], ChampionSpawnPos.position, Quaternion.identity);
                 Debug.Log("HERE!");
             }
 

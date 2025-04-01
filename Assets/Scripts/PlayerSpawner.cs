@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    [SerializeField] List<GameObject> playerList; //
+    [SerializeField] List<GameObject> playerList; // THIS IS THE ACTUAL PREFABS USED IN GAME
     [SerializeField] GameObject CoopPlayerPrefab;
     GameObject CoopPlayer;
     [SerializeField] GameObject RTSPlayer;
-    public List<GameObject> CoopPlayerPrefabList;
+    public List<GameObject> CoopPlayerPrefabList; // THIS IS THE MENU PREFABS
     private int prefabNumber;
     private Vector3 tempPosition = new(0,0,0);
+
+    CoopPlayerManager playerManager;
+
+    private void Awake()
+    {
+        playerManager = CoopPlayerManager.Instance;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -50,6 +57,8 @@ public class PlayerSpawner : NetworkBehaviour
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
+
+        playerManager.AddPlayer(clientId, );
     }
 
     [ServerRpc(RequireOwnership = false)]
