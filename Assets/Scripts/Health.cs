@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -78,6 +79,13 @@ public class Health : MonoBehaviour
     /// </summary>
     private void Die()
     {
-        Destroy(gameObject);
+        if(TryGetComponent<NetworkObject>(out var _networkObject))
+        {
+            _networkObject.Despawn();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
