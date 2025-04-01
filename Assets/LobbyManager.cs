@@ -63,10 +63,10 @@ public class LobbyManager : NetworkBehaviour
             {
                 newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
             }
-            else //COOP
+
+            else // COOP
             {
                 newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
-                Debug.Log("HERE!");
             }
 
             NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();

@@ -97,10 +97,9 @@ public class NPC : Unit
         // Register over network
         NetworkObject bulletNetwork = newProjectile.GetComponent<NetworkObject>();
         bulletNetwork.Spawn();
-        newProjectile.SetActive(true);
 
         BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
-        _projectile.Fire();
+        _projectile.LaunchProjectile(direction);
     }
 
     /// <summary>
