@@ -58,7 +58,7 @@ public class PlayerSpawner : NetworkBehaviour
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
 
-        playerManager.AddPlayer(clientId, );
+        //playerManager.AddPlayer(clientId, playerList[prefabId]);
     }
 
     [ServerRpc(RequireOwnership = false)]

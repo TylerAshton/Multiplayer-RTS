@@ -14,8 +14,7 @@ public class CoopPlayerManager : NetworkBehaviour
     public static CoopPlayerManager Instance;
 
     Vector2 movementVector;
-    public Dictionary<ulong, GameObject> playerPrefabs = new Dictionary<ulong, GameObject>();
-    [SerializeField] LocalPlayer local;
+    public static Dictionary<ulong, GameObject> playerPrefabs = new Dictionary<ulong, GameObject>();
     //[SerializeField] LocalPlayer local;
 
     void Awake()
