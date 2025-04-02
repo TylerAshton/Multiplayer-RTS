@@ -70,7 +70,7 @@ public class AnimatedChampion : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (!IsOwner) { return; }*/ // TODO: Uncomment
+        if (!IsOwner) { return; }
         MoveServerAuth();
         RotatePlayer();
     }
@@ -80,9 +80,9 @@ public class AnimatedChampion : NetworkBehaviour
     /// </summary>
     void MoveServerAuth()
     {
-        AnimatedMove(movementVector);
+        //AnimatedMove(movementVector);
+        MoveServerRpc(movementVector);
         UpdateAnimationParams(movementVector);
-        //MoveServerRpc(movementVector); // TODO: Rework
         //MoveCameraServerRpc();
     }
 
@@ -150,9 +150,9 @@ public class AnimatedChampion : NetworkBehaviour
         };
 
         //GetRotationServerRpc(diff.x, diff.y, diff.z);
-        //GetRotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
+        GetRotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
 
-        this.transform.LookAt(new Vector3(worldPosition.x, this.transform.position.y, worldPosition.z)); // TODO: Replace with ServerRPC
+        //this.transform.LookAt(new Vector3(worldPosition.x, this.transform.position.y, worldPosition.z)); // TODO: Replace with ServerRPC
     }
 
 

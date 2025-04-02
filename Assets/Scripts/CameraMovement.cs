@@ -53,7 +53,7 @@ public class CameraMovement : NetworkBehaviour
             }
             else
             {
-                ApplyPan(isMouseNearScreenEdge());
+                //ApplyPan(isMouseNearScreenEdge());
             }
         }
     }
