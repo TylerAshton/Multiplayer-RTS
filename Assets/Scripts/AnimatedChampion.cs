@@ -80,13 +80,14 @@ public class AnimatedChampion : NetworkBehaviour
     void MoveServerAuth()
     {
         AnimatedMove(movementVector);
+        UpdateAnimationParams(movementVector);
         //MoveServerRpc(movementVector); // TODO: Rework
         //MoveCameraServerRpc();
     }
 
     private void AnimatedMove(Vector3 _movementVector)
     {
-        transform.position += _movementVector * Time.fixedDeltaTime;
+        //transform.position += _movementVector * Time.deltaTime * moveSpeed;
     }
 
     /// <summary>
@@ -111,7 +112,7 @@ public class AnimatedChampion : NetworkBehaviour
         movementVector.x = context.ReadValue<Vector2>().x;
         movementVector.z = context.ReadValue<Vector2>().y;
 
-        UpdateAnimationParams(movementVector);
+        
     }
 
     /// <summary>
@@ -120,8 +121,11 @@ public class AnimatedChampion : NetworkBehaviour
     /// <param name="_movementInput"></param>
     private void UpdateAnimationParams(Vector3 _movementInput)
     {
-        animator.SetFloat("MoveX", _movementInput.x);
-        animator.SetFloat("MoveY", _movementInput.z);
+        float currentX = animator.GetFloat("MoveX");
+        //Debug.Log(currentX);
+        animator.SetFloat("MoveX", Mathf.Lerp(currentX, _movementInput.x, 5.0f * Time.deltaTime));
+        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), _movementInput.z, 5.0f * Time.deltaTime));
+        //animator.SetFloat("MoveY", _movementInput.z);
     }
 
 
