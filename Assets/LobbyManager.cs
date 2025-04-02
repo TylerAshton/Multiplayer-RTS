@@ -58,7 +58,7 @@ public class LobbyManager : NetworkBehaviour
             }
             else
             {
-                Debug.Log(CoopPlayerManager.Instance.playerPrefabs);
+                Debug.Log($"This is the client id : {id}");
                 foreach (KeyValuePair<ulong, GameObject> kvp in CoopPlayerManager.Instance.playerPrefabs)
                 {
                     Debug.Log("**********************");

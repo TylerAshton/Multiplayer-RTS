@@ -28,7 +28,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
         DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId, tempPosition);
+        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId);
     }
 
     private Vector3 getClientTransform(ulong clientId)
@@ -58,7 +58,8 @@ public class PlayerSpawner : NetworkBehaviour
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
 
-        //playerManager.AddPlayer(clientId, playerList[prefabId]);
+        playerManager.AddPlayer(clientId, playerList[prefabId]);
+        Debug.Log(clientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
