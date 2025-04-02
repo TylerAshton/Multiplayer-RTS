@@ -101,7 +101,7 @@ public class AnimatedChampion : NetworkBehaviour
     {
         var clientId = serverRpcParams.Receive.SenderClientId;
         NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-        player.transform.position += movementVector * Time.fixedDeltaTime;
+        player.transform.position += movementVector * Time.deltaTime * moveSpeed;
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public class AnimatedChampion : NetworkBehaviour
         float currentX = animator.GetFloat("MoveX");
         //Debug.Log(currentX);
 
-        Vector3 relativeMovement = Quaternion.Euler(0, transform.localEulerAngles.y, 0) * new Vector3 (-roundedMovement.x, 0, roundedMovement.z);
+        Vector3 relativeMovement = Quaternion.Euler(0, transform.localEulerAngles.y, 0) * new Vector3 (roundedMovement.x, 0, roundedMovement.z);
 
         Debug.Log($"{_movementInput}, {relativeMovement}: {transform.localEulerAngles.y}");
 
