@@ -1,5 +1,6 @@
 using System.Globalization;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -116,15 +117,22 @@ public class AnimatedChampion : NetworkBehaviour
     }
 
     /// <summary>
-    /// Updates the animator controller with the movement vector
+    /// Updates the animator controller with the movement vector relative to the rotation
     /// </summary>
     /// <param name="_movementInput"></param>
     private void UpdateAnimationParams(Vector3 _movementInput)
     {
+        Vector3Int roundedMovement = new Vector3Int(Mathf.RoundToInt(_movementInput.x), 0, Mathf.RoundToInt(_movementInput.z));
+
         float currentX = animator.GetFloat("MoveX");
         //Debug.Log(currentX);
-        animator.SetFloat("MoveX", Mathf.Lerp(currentX, _movementInput.x, 5.0f * Time.deltaTime));
-        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), _movementInput.z, 5.0f * Time.deltaTime));
+
+        Vector3 relativeMovement = Quaternion.Euler(0, transform.localEulerAngles.y, 0) * new Vector3 (-roundedMovement.x, 0, roundedMovement.z);
+
+        Debug.Log($"{_movementInput}, {relativeMovement}: {transform.localEulerAngles.y}");
+
+        animator.SetFloat("MoveX", Mathf.Lerp(currentX, relativeMovement.x, 5.0f * Time.deltaTime));
+        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeMovement.z, 5.0f * Time.deltaTime));
         //animator.SetFloat("MoveY", _movementInput.z);
     }
 
@@ -142,7 +150,9 @@ public class AnimatedChampion : NetworkBehaviour
         };
 
         //GetRotationServerRpc(diff.x, diff.y, diff.z);
-        GetRotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
+        //GetRotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
+
+        this.transform.LookAt(new Vector3(worldPosition.x, this.transform.position.y, worldPosition.z)); // TODO: Replace with ServerRPC
     }
 
 
