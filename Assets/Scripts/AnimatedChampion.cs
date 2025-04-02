@@ -88,7 +88,7 @@ public class AnimatedChampion : NetworkBehaviour
 
     private void AnimatedMove(Vector3 _movementVector)
     {
-        transform.position += _movementVector * Time.deltaTime * moveSpeed;
+        //transform.position += _movementVector * Time.deltaTime * moveSpeed;
     }
 
     /// <summary>
@@ -99,9 +99,9 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
     {
-        var clientId = serverRpcParams.Receive.SenderClientId;
-        NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-        player.transform.position += movementVector * Time.deltaTime * moveSpeed;
+        //var clientId = serverRpcParams.Receive.SenderClientId;
+        //NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        transform.position += movementVector * moveSpeed * Time.deltaTime;
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public class AnimatedChampion : NetworkBehaviour
         float currentX = animator.GetFloat("MoveX");
         //Debug.Log(currentX);
 
-        Vector3 relativeMovement = Quaternion.Euler(0, transform.localEulerAngles.y, 0) * new Vector3 (roundedMovement.x, 0, roundedMovement.z);
+        Vector3 relativeMovement = Quaternion.Euler(0, transform.localEulerAngles.y, 0) * new Vector3 (-roundedMovement.x, 0, roundedMovement.z);
 
         Debug.Log($"{_movementInput}, {relativeMovement}: {transform.localEulerAngles.y}");
 
