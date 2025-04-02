@@ -82,7 +82,7 @@ public class AnimatedChampion : NetworkBehaviour
     {
         //AnimatedMove(movementVector);
         MoveServerRpc(movementVector);
-        UpdateAnimationParams(movementVector);
+        UpdateAnimationParamsServerRpc(movementVector);
         //MoveCameraServerRpc();
     }
 
@@ -120,7 +120,9 @@ public class AnimatedChampion : NetworkBehaviour
     /// Updates the animator controller with the movement vector relative to the rotation
     /// </summary>
     /// <param name="_movementInput"></param>
-    private void UpdateAnimationParams(Vector3 _movementInput)
+    /// 
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateAnimationParamsServerRpc(Vector3 _movementInput)
     {
         Vector3Int roundedMovement = new Vector3Int(Mathf.RoundToInt(_movementInput.x), 0, Mathf.RoundToInt(_movementInput.z));
 
