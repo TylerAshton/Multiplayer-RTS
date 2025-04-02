@@ -87,7 +87,7 @@ public class AnimatedChampion : NetworkBehaviour
 
     private void AnimatedMove(Vector3 _movementVector)
     {
-        //transform.position += _movementVector * Time.deltaTime * moveSpeed;
+        transform.position += _movementVector * Time.deltaTime * moveSpeed;
     }
 
     /// <summary>
