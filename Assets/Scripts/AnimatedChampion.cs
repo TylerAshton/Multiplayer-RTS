@@ -69,7 +69,7 @@ public class AnimatedChampion : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOwner) { return; }
+        /*if (!IsOwner) { return; }*/ // TODO: Uncomment
         MoveServerAuth();
         RotatePlayer();
     }
@@ -79,8 +79,14 @@ public class AnimatedChampion : NetworkBehaviour
     /// </summary>
     void MoveServerAuth()
     {
-        MoveServerRpc(movementVector);
+        AnimatedMove(movementVector);
+        //MoveServerRpc(movementVector); // TODO: Rework
         //MoveCameraServerRpc();
+    }
+
+    private void AnimatedMove(Vector3 _movementVector)
+    {
+        transform.position += _movementVector * Time.fixedDeltaTime;
     }
 
     /// <summary>
@@ -104,6 +110,18 @@ public class AnimatedChampion : NetworkBehaviour
     {
         movementVector.x = context.ReadValue<Vector2>().x;
         movementVector.z = context.ReadValue<Vector2>().y;
+
+        UpdateAnimationParams(movementVector);
+    }
+
+    /// <summary>
+    /// Updates the animator controller with the movement vector
+    /// </summary>
+    /// <param name="_movementInput"></param>
+    private void UpdateAnimationParams(Vector3 _movementInput)
+    {
+        animator.SetFloat("MoveX", _movementInput.x);
+        animator.SetFloat("MoveY", _movementInput.z);
     }
 
 
