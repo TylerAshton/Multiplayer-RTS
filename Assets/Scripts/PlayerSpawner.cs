@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    [SerializeField] List<GameObject> playerList; //
+    [SerializeField] List<GameObject> playerList; // THIS IS THE ACTUAL PREFABS USED IN GAME
     [SerializeField] GameObject CoopPlayerPrefab;
     GameObject CoopPlayer;
     [SerializeField] GameObject RTSPlayer;
-    public List<GameObject> CoopPlayerPrefabList;
+    public List<GameObject> CoopPlayerPrefabList; // THIS IS THE MENU PREFABS
     private int prefabNumber;
     private Vector3 tempPosition = new(0,0,0);
 
     CoopPlayerManager playerManager;
 
-    private void Start()
+    private void Awake()
     {
         playerManager = CoopPlayerManager.Instance;
     }
@@ -28,7 +28,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
         DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId, tempPosition);
+        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId);
     }
 
     private Vector3 getClientTransform(ulong clientId)
@@ -57,6 +57,9 @@ public class PlayerSpawner : NetworkBehaviour
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
+
+        playerManager.AddPlayer(clientId, playerList[prefabId]);
+        Debug.Log(clientId);
     }
 
     [ServerRpc(RequireOwnership = false)]

@@ -12,7 +12,7 @@ using System;
 public class CoopPlayerManager : NetworkBehaviour
 {
     public static CoopPlayerManager Instance;
-    
+
     Vector2 movementVector;
     public Dictionary<ulong, GameObject> playerPrefabs = new Dictionary<ulong, GameObject>();
     //[SerializeField] LocalPlayer local;
@@ -34,7 +34,7 @@ public class CoopPlayerManager : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) { return; }
-        
+
     }
 
     //public void CheckMove(InputAction.CallbackContext context)
@@ -51,7 +51,7 @@ public class CoopPlayerManager : NetworkBehaviour
     /// </summary>
     /// <param name="_Prefab"></param>
     /// <returns></returns>
-    public void AddPlayer(ulong _ID, GameObject  _Prefab)
+    public void AddPlayer(ulong _ID, GameObject _Prefab)
     {
         try
         {
