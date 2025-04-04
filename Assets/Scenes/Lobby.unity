@@ -497,6 +497,7 @@ MonoBehaviour:
   characterMenu: {fileID: 1969261676}
   readyUpMenu: {fileID: 1499743751}
   spawner: {fileID: 610589157}
+  DEBUGIsSinglePlayer: 0
 --- !u!4 &142975211
 Transform:
   m_ObjectHideFlags: 0
