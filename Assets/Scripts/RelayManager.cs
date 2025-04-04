@@ -27,9 +27,12 @@ public class RelayManager : NetworkBehaviour
     [SerializeField] RectTransform characterMenu; // A group of UI elements for the player to select a character from
 
     [SerializeField] RectTransform readyUpMenu; // A group of UI elements for the player to use to ready up for the main game
-
     [SerializeField] PlayerSpawner spawner; // Instance of player spawner script
 
+    [Header("DEBUG Only")]
+
+    [Tooltip("Editor only: Forces the ready up button to appear even if there is only 1 player")]
+    [SerializeField] private bool DEBUGIsSinglePlayer = false; 
     void Awake()
     {
         if (Instance == null)
@@ -102,6 +105,12 @@ public class RelayManager : NetworkBehaviour
 
     private void RunServerRPCs()
     {
+        #if UNITY_EDITOR
+            if (DEBUGIsSinglePlayer)
+            {
+                ShowReadyUpClientRpc();
+            }
+        #endif
         if (NetworkManager.Singleton.ConnectedClients.Count > 1)
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)

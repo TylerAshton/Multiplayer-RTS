@@ -16,6 +16,10 @@ public class LobbyManager : NetworkBehaviour
     private PlayerSpawner playerSpawner;
     private NetworkObject networkObject;
 
+    [Header("Debug Only")]
+    [SerializeField] private bool DEBUGForceChampion = false;
+
+
     
 
     void Awake()
@@ -61,7 +65,16 @@ public class LobbyManager : NetworkBehaviour
 
             if (id == 0) // RTS
             {
-                newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
+                #if UNITY_EDITOR
+                    if (DEBUGForceChampion)
+                    {
+                        newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+                    }
+                    else // I'm important leave me alone
+                #endif
+                {
+                    newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
+                }
             }
 
             else // COOP

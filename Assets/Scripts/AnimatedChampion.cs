@@ -1,6 +1,4 @@
-using System.Globalization;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -99,8 +97,6 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
     {
-        //var clientId = serverRpcParams.Receive.SenderClientId;
-        //NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
         transform.position += movementVector * moveSpeed * Time.deltaTime;
     }
 
@@ -124,18 +120,19 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void UpdateAnimationParamsServerRpc(Vector3 _movementInput)
     {
-        Vector3Int roundedMovement = new Vector3Int(Mathf.RoundToInt(_movementInput.x), 0, Mathf.RoundToInt(_movementInput.z));
+        if (_movementInput.sqrMagnitude < 0.001f) // Smoothing even when we're standing still
+        {
+            animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, 5f * Time.deltaTime));
+            animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, 5f * Time.deltaTime));
+            return;
+        }
 
-        float currentX = animator.GetFloat("MoveX");
-        //Debug.Log(currentX);
+        Vector3 input = _movementInput.normalized;
+        float relativeX = Vector3.Dot(input, transform.right); // .Dot() Exists!! 
+        float relativeZ = Vector3.Dot(input, transform.forward);
 
-        Vector3 relativeMovement = Quaternion.Euler(0, transform.localEulerAngles.y, 0) * new Vector3 (-roundedMovement.x, 0, roundedMovement.z);
-
-        Debug.Log($"{_movementInput}, {relativeMovement}: {transform.localEulerAngles.y}");
-
-        animator.SetFloat("MoveX", Mathf.Lerp(currentX, relativeMovement.x, 5.0f * Time.deltaTime));
-        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeMovement.z, 5.0f * Time.deltaTime));
-        //animator.SetFloat("MoveY", _movementInput.z);
+        animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
+        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));
     }
 
 
@@ -151,10 +148,7 @@ public class AnimatedChampion : NetworkBehaviour
             worldPosition = hit.point;
         };
 
-        //GetRotationServerRpc(diff.x, diff.y, diff.z);
-        GetRotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
-
-        //this.transform.LookAt(new Vector3(worldPosition.x, this.transform.position.y, worldPosition.z)); // TODO: Replace with ServerRPC
+        RotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
     }
 
 
@@ -165,16 +159,8 @@ public class AnimatedChampion : NetworkBehaviour
     /// <param name="y"></param>
     /// <param name="z"></param>
     [ServerRpc(RequireOwnership = false)]
-    private void GetRotationServerRpc(float x, float y, float z)
+    private void RotationServerRpc(float x, float y, float z)
     {
-        //Vector3 remakeDiff = new Vector3(x, y, z);
-        //float yrot = Mathf.Acos((Vector3.Dot(remakeDiff, -transform.position))/(Vector3.Magnitude(remakeDiff)*Vector3.Magnitude(-transform.position)));
-        //this.transform.rotation = Quaternion.LookRotation(new Vector3(x, this.transform.rotation.y, z), Vector3.up);
-
-        //Debug.Log((yrot * (180 / Mathf.PI)));
-
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
-
-        //this.transform.rotation = new Quaternion(this.transform.rotation.x, (yrot * (180 / Mathf.PI)), this.transform.rotation.z, this.transform.rotation.w);
     }
 }
