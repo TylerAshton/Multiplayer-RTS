@@ -2358,7 +2358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPoints: 100
   animator: {fileID: 8215767443926878751}
-  deathAnimationLength: 0
+  deathAnimationLength: 1
   test: 0
   isDying: 0
 --- !u!114 &6078025101248540705
