@@ -66,7 +66,14 @@ public class LobbyManager : NetworkBehaviour
 
             else // COOP
             {
-                newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+                Debug.Log($"This is the client id : {id}");
+                foreach (KeyValuePair<ulong, GameObject> kvp in CoopPlayerManager.Instance.playerPrefabs)
+                {
+                    Debug.Log("**********************");
+                    Debug.Log($"{kvp.Key} + {kvp.Value}");
+                    Debug.Log("**********************");
+                }
+                newPlayer = (GameObject)Instantiate(CoopPlayerManager.Instance.playerPrefabs[id], ChampionSpawnPos.position, Quaternion.identity);
             }
 
             NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
