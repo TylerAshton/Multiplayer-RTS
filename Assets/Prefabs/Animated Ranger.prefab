@@ -959,6 +959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
   cameraSpawnOffset: {x: 0, y: 10, z: -10}
+  isChampion: 1
 --- !u!114 &3585590050127319289
 MonoBehaviour:
   m_ObjectHideFlags: 0

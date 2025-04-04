@@ -1,3 +1,4 @@
+using Cinemachine;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -9,9 +10,11 @@ public class CameraSpawner : MonoBehaviour
     [SerializeField] private GameObject cameraPrefab;
 
     private GameObject spawnedCamera;
+    private CinemachineVirtualCamera virtualCamera;
     public GameObject SpawnedCamera => spawnedCamera;
     private Camera spawnedCameraComponent;
     [SerializeField] private Vector3 cameraSpawnOffset;
+    [SerializeField] private bool isChampion = false;
 
     /// <summary>
     /// Spawns the camera with the allocated Offset and sets it to the main Camera
@@ -30,6 +33,15 @@ public class CameraSpawner : MonoBehaviour
         spawnedCamera = Instantiate(cameraPrefab, transform.position, cameraPrefab.transform.rotation);
         spawnedCameraComponent = spawnedCamera.GetComponent<Camera>();
         spawnedCamera.transform.position += cameraSpawnOffset;
+
+        if (isChampion)
+        {
+            virtualCamera = spawnedCamera.GetComponentInChildren<CinemachineVirtualCamera>();
+            virtualCamera.Follow = transform;
+            virtualCamera.LookAt = transform;
+            virtualCamera.enabled = true;
+        }
+        
     }
 
     /// <summary>
