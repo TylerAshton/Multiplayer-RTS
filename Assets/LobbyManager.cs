@@ -17,6 +17,8 @@ public class LobbyManager : NetworkBehaviour
     private NetworkObject networkObject;
 
     [Header("Debug Only")]
+
+    [Tooltip("Editor only: Replaces RTS spawning with Champion spawning instead.")]
     [SerializeField] private bool DEBUGForceChampion = false;
 
 

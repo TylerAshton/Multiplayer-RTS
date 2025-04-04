@@ -31,7 +31,7 @@ public class RelayManager : NetworkBehaviour
 
     [Header("DEBUG Only")]
 
-    [Tooltip("Editor only: Forces the ready up button to appear even if there is only 1 player")]
+    [Tooltip("Editor only: Forces the ready up button to appear even if there is only 1 player.")]
     [SerializeField] private bool DEBUGIsSinglePlayer = false; 
     void Awake()
     {
