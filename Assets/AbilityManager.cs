@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,6 +11,12 @@ enum AbilityState
     Cooldown
 }
 
+enum AbilityPositions
+{
+    Center,
+    Firearm
+}
+
 
 public class AbilityManager : NetworkBehaviour
 {
@@ -17,12 +24,20 @@ public class AbilityManager : NetworkBehaviour
 
     private Ability currentAbility;
     private Animator animator;
+    private AnimatedChampion animatedChampion;
+
+    [SerializeField] private List<Transform> abilityPositions;
+    public List<Transform>  AbilityPositions => abilityPositions;
 
     private void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
         {
-            Debug.LogError("Animator is required for AnimatedChampion");
+            Debug.LogError("Animator is required for AbilityManager");
+        }
+        if (!TryGetComponent<AnimatedChampion>(out animatedChampion))
+        {
+            Debug.LogError("AnimatedChampion is required for AbilityManager");
         }
     }
 
@@ -30,7 +45,7 @@ public class AbilityManager : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        currentAbility.OnUse(gameObject);
+        currentAbility.OnUse(gameObject, AbilityPositions);
     }
 
     /// <summary>
@@ -46,8 +61,6 @@ public class AbilityManager : NetworkBehaviour
         currentAbility = _abilty;
         _abilty.Activate(gameObject, animator);
         StartCoroutine(LockCastingUntil(_abilty.CastTime));
-
-
     }
 
     private IEnumerator LockCastingUntil(float _timer)

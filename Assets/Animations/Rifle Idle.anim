@@ -15302,11 +15302,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 1.2833333
-    functionName: LaunchProjectile
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: b6049916b0edafe44b95afd60826c695, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

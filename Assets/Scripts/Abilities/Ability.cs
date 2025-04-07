@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Ability : ScriptableObject
@@ -8,5 +9,5 @@ public abstract class Ability : ScriptableObject
 
     public abstract void Activate(GameObject user, Animator _animator);
 
-    public abstract void OnUse(GameObject _user);
+    public abstract void OnUse(GameObject _user, List<Transform> _abilityPositions);
 }

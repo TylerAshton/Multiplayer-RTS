@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a52167b63a06be94980a9db1fb1fd1e4, type: 3}
-  m_Name: Greatsword
+  m_Script: {fileID: 11500000, guid: d2e12e273157d5740bf167ce234674c9, type: 3}
+  m_Name: Crossbow
   m_EditorClassIdentifier: 
-  abilityName: Great Sword
-  castTime: 1.3
-  angleDegrees: 90
-  range: 4
-  damage: 1
+  abilityName: Crossbow
+  castTime: 0.1
+  projectile: {fileID: 4460309666732685197, guid: 96ec9c1637b11ad45a9341ee7a413add, type: 3}

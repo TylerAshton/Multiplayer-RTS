@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 [CreateAssetMenu(fileName = "New Melee Ability", menuName = "Abilities/Melee")]
 public class MeleeAbility : Ability
@@ -17,7 +17,7 @@ public class MeleeAbility : Ability
     /// Function called when the animation reaches the peak of its swing
     /// </summary>
     /// <param name="_user"></param>
-    public override void OnUse(GameObject _user)
+    public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
         Vector3 origin = _user.transform.position;
         Vector3 forward = _user.transform.forward;

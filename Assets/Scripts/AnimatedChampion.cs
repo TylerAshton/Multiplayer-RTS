@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +17,7 @@ public class AnimatedChampion : NetworkBehaviour
     NetworkObject networkObject; // current networkObject attached to the player
 
     Vector3 worldPosition; // the position of the mouse relative to the world origin
+    public Vector3 WorldPosition => worldPosition;
 
     GameObject playerCamera; // the camera that the player will be seeing the game through
 
@@ -24,7 +27,6 @@ public class AnimatedChampion : NetworkBehaviour
     private AbilityManager abilityManager;
 
     [SerializeField] private Ability primaryAbility;
-
     void Start()
     {
         manager = RelayManager.Instance;
