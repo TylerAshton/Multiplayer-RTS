@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Greatsword
   m_EditorClassIdentifier: 
   abilityName: Great Sword
-  castTime: 1.7
+  castTime: 1.5
   angleDegrees: 90
   range: 4
   damage: 1
