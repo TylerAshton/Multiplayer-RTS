@@ -21,9 +21,9 @@ public class AnimatedChampion : NetworkBehaviour
     //Vector2 mousePosition = new Vector2(Screen.width / 2, Screen.height / 2);
 
     private Animator animator;
+    private AbilityManager abilityManager;
 
     [SerializeField] private Ability primaryAbility;
-    [SerializeField] private AbilityState abilityState = AbilityState.Ready; // TODO: This is very temp, migrate to ability manager
 
     void Start()
     {
@@ -44,6 +44,10 @@ public class AnimatedChampion : NetworkBehaviour
         if (!TryGetComponent<Animator>(out animator))
         {
             Debug.LogError("Animator is required for AnimatedChampion");
+        }
+        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        {
+            Debug.LogError("AbilityManager is required for AnimatedChampion");
         }
 
         if (networkObject.IsOwner)
@@ -97,27 +101,16 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void CastAbilityServerRpc(int _AbilityIndex)
     {
-        if (abilityState == AbilityState.Casting)
-        {
-            return;
-        }
-
         switch (_AbilityIndex)
         {
             case 0:
-                primaryAbility.Activate(gameObject, animator);
-                StartCoroutine(LockCastingUntil(primaryAbility.CastTime));
+                abilityManager.TryCastAbility(primaryAbility);
                 break;
         }
 
     }
 
-    private IEnumerator LockCastingUntil(float _timer)
-    {
-        abilityState = AbilityState.Casting;
-        yield return new WaitForSeconds(_timer);
-        abilityState = AbilityState.Ready;
-    }
+    
 
     /// <summary>
     /// This calls all of the Movement based Server-Rpcs

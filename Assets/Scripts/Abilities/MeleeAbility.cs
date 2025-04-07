@@ -17,7 +17,7 @@ public class MeleeAbility : Ability
     /// Function called when the animation reaches the peak of its swing
     /// </summary>
     /// <param name="_user"></param>
-    public void OnMeleeHit(GameObject _user)
+    public override void OnUse(GameObject _user)
     {
         Vector3 origin = _user.transform.position;
         Vector3 forward = _user.transform.forward;

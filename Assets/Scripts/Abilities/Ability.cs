@@ -7,4 +7,6 @@ public abstract class Ability : ScriptableObject
     public float CastTime => castTime;
 
     public abstract void Activate(GameObject user, Animator _animator);
+
+    public abstract void OnUse(GameObject _user);
 }
