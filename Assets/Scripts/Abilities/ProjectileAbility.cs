@@ -9,7 +9,7 @@ public class ProjectileAbility : Ability
     [SerializeField] private GameObject projectile;
     public override void Activate(GameObject user, Animator _animator)
     {
-        _animator.Play("Rifle Fire", 1, 0f);
+        _animator.SetTrigger("ProjectileAttack");
     }
 
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
