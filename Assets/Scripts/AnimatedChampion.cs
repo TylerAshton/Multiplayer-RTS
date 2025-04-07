@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,6 +21,9 @@ public class AnimatedChampion : NetworkBehaviour
     //Vector2 mousePosition = new Vector2(Screen.width / 2, Screen.height / 2);
 
     private Animator animator;
+
+    [SerializeField] private Ability primaryAbility;
+    [SerializeField] private AbilityState abilityState = AbilityState.Ready; // TODO: This is very temp, migrate to ability manager
 
     void Start()
     {
@@ -71,6 +75,48 @@ public class AnimatedChampion : NetworkBehaviour
         if (!IsOwner) { return; }
         MoveServerAuth();
         RotatePlayer();
+    }
+
+    /// <summary>
+    /// Calls the server to use the primary ability the champion has
+    /// </summary>
+    /// <param name="context"></param>
+    public void UsePrimaryAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (!context.performed) return;
+
+        CastAbilityServerRpc(0);
+    }
+
+    /// <summary>
+    /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
+    /// </summary>
+    /// <param name="_AbilityIndex"></param>
+    [ServerRpc(RequireOwnership = false)]
+    private void CastAbilityServerRpc(int _AbilityIndex)
+    {
+        if (abilityState == AbilityState.Casting)
+        {
+            return;
+        }
+
+        switch (_AbilityIndex)
+        {
+            case 0:
+                primaryAbility.Activate(gameObject, animator);
+                StartCoroutine(LockCastingUntil(primaryAbility.CastTime));
+                break;
+        }
+
+    }
+
+    private IEnumerator LockCastingUntil(float _timer)
+    {
+        abilityState = AbilityState.Casting;
+        yield return new WaitForSeconds(_timer);
+        abilityState = AbilityState.Ready;
     }
 
     /// <summary>
