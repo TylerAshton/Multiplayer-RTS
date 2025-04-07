@@ -603,8 +603,8 @@ Transform:
   m_GameObject: {fileID: 2578188613586116002}
   serializedVersion: 2
   m_LocalRotation: {x: -0.63251716, y: -0.5843505, z: -0.24547876, w: 0.44519305}
-  m_LocalPosition: {x: 0.1986, y: 0.1032, z: 0.0112}
-  m_LocalScale: {x: 0.045703046, y: 0.22001447, z: 0.045703042}
+  m_LocalPosition: {x: 0.5013, y: 0.1171, z: -0.1032}
+  m_LocalScale: {x: 0.045703046, y: 0.6178446, z: 0.045703042}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1761558608919718433}
@@ -2258,6 +2258,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 1
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
+  abilityState: 0
 --- !u!114 &1083379821118792553
 MonoBehaviour:
   m_ObjectHideFlags: 0
