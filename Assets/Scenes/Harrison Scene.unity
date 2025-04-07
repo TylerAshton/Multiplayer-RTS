@@ -634,6 +634,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 3765082773
       objectReference: {fileID: 0}
+    - target: {fileID: 3779843464443528873, guid: d2fb075d37e529f45ac14bfc9173b192, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
