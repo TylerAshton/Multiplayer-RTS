@@ -10,7 +10,7 @@ public class MeleeAbility : Ability
 
     public override void Activate(GameObject _user, Animator _animator)
     {
-        _animator.SetTrigger("MeleeAttack");
+        _animator.SetTrigger($"{animationTrigger}");
     }
 
     /// <summary>
