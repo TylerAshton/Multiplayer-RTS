@@ -37,7 +37,7 @@ public class PlayerReadyUp : NetworkBehaviour
 
         if (allClientsReady)
         {
-            Loader.LoadNetwork(Loader.Scene.MainWorld);
+            Loader.LoadNetwork(Loader.Scene.Tyler);
         }
     }
 }
