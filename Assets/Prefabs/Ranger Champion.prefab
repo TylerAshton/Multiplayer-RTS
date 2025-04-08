@@ -672,7 +672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 1.3
-  primaryAbility: {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
+  primaryAbility: {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
 --- !u!114 &2885188943381047520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,6 +828,13 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: -1122186865
     TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 1
+    OriginatingState: 2081823275
+    DestinationState: -116021918
+    TransitionDuration: 0.25
+    TriggerNameHash: -297273395
+    TransitionIndex: 1
   m_Animator: {fileID: 3779843464443528873}
 --- !u!114 &6245597217510480515
 MonoBehaviour:
