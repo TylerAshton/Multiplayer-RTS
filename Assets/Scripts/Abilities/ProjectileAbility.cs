@@ -14,7 +14,6 @@ public class ProjectileAbility : Ability
 
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
-        Debug.Log("Yaa");
         GameObject spawnedProjectile = Instantiate(projectile, _abilityPositions[0].position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(_user.transform.forward);
