@@ -3803,7 +3803,7 @@ MonoBehaviour:
   AmalgamPlayer: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
   ChampionSpawnPos: {fileID: 1444580687}
   ChampionPlayer: {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
-  DEBUGForceChampion: 1
+  DEBUGForceChampion: 0
 --- !u!114 &1845778890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3842,10 +3842,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  playerList: []
-  CoopPlayerPrefab: {fileID: 4318466539626525345, guid: 37d3ff698a536a744bc0ce4f1fe32ad8, type: 3}
-  RTSPlayer: {fileID: 4318466539626525345, guid: fc5db49c1c1c21b4aa34eac0f5c207ff, type: 3}
-  CoopPlayerPrefabList: []
+  playerList:
+  - {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
+  - {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
+  CoopPlayerPrefab: {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
+  RTSPlayer: {fileID: 669737588030258381, guid: 0365449728674734fbecbf9a31abe724, type: 3}
+  CoopPlayerPrefabList:
+  - {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
+  - {fileID: 2434894007857547855, guid: bcab214d3a2d22241b3aa33ca1c8ae29, type: 3}
 --- !u!43 &1875403477
 Mesh:
   m_ObjectHideFlags: 0
