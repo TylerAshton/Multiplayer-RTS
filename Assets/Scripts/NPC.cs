@@ -47,6 +47,8 @@ public class NPC : Unit
     {
         base.Start();
 
+        if (!NetworkManager.Singleton.IsServer) return;
+
         agent.updateRotation = false; // I'M IN CHARGE NOW BITCH
     }
 
