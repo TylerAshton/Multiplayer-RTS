@@ -1,7 +1,5 @@
 using Unity.Netcode;
-using UnityEditor.ProBuilder;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class CapturePoint : NetworkBehaviour
 {
