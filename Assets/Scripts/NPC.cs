@@ -46,12 +46,18 @@ public class NPC : Unit
     protected override void Start()
     {
         base.Start();
+
+        agent.updateRotation = false; // I'M IN CHARGE NOW BITCH
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
+
+        if (!IsServer) return;
+
+        UpdateRotation();
     }
 
     private void OnDrawGizmos()
@@ -59,6 +65,19 @@ public class NPC : Unit
         Gizmos.color = Color.red;
 
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
+    private void UpdateRotation()
+    {
+        if (target != null)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), Time.deltaTime);
+        }
+
+        else if (agent.velocity.magnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.velocity.normalized), Time.deltaTime);
+        }       
     }
 
     /// <summary>
@@ -101,17 +120,6 @@ public class NPC : Unit
     /// </summary>
     public void Shoot()
     {
-        /*        Debug.Log("pew");
-                Vector3 direction = (target.position - transform.position).normalized;
-
-                GameObject newProjectile = (GameObject)Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
-
-                // Register over network
-                NetworkObject bulletNetwork = newProjectile.GetComponent<NetworkObject>();
-                bulletNetwork.Spawn();
-
-                BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
-                _projectile.LaunchProjectile(direction);*/
         abilityManager.TryCastAbility(primaryAbility);
     }
 

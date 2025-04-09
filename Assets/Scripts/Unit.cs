@@ -46,7 +46,7 @@ public class Unit : NetworkBehaviour, IDestructible
 
         if (RTSPlayer.instance == null)
         {
-            Debug.LogError("RTS Manager doesn't exist");
+            Debug.LogError("RTS Manager doesn't exist, shutting down");
             return;
         }
 
