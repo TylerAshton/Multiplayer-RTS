@@ -5401,6 +5401,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1036866696}
     - target: {fileID: 7638822680781091495, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: offset.y
+      value: -4.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638822680781091495, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: bonfireObj
       value: 
       objectReference: {fileID: 1560737971}
