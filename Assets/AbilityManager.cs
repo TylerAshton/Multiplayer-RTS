@@ -49,6 +49,11 @@ public class AbilityManager : NetworkBehaviour
     /// <param name="_AbilityIndex"></param>
     public void TryCastAbility(Ability _abilty)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to cast an ability");
+        }
+
         if (abilityState == AbilityState.Casting)
         {
             return;
