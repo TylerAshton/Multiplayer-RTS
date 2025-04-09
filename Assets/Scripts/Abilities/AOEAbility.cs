@@ -13,15 +13,10 @@ public class AOEAbility : Ability
 
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
-        EffectCoroutine(_abilityPositions[0]);
-        GameObject newEffect = Instantiate(effect, _abilityPositions[0].position, Quaternion.identity);
+        //GameObject newEffect = Instantiate(effect, _abilityPositions[0].position, Quaternion.identity);
+        GameObject newEffect = Instantiate(effect, _abilityPositions[1]);
         newEffect.transform.LookAt(_user.transform.forward);
     }
 
-    private IEnumerator EffectCoroutine(Transform _effectPos)
-    {
-        GameObject newEffect = Instantiate(effect);
-        yield return new WaitForSeconds(3);
-        Destroy(newEffect);
-    }
+    
 }
