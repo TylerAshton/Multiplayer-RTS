@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 726925420350623483}
+  - component: {fileID: 6868534114944796736}
   m_Layer: 0
   m_Name: flammenwerfer
   m_TagString: Untagged
@@ -34,6 +35,19 @@ Transform:
   - {fileID: 649454434710245629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6868534114944796736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6631761922747683013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a2fd5264bf6c24b8ca419903fe534b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTimeSec: 5
 --- !u!1001 &653895895252185199
 PrefabInstance:
   m_ObjectHideFlags: 0

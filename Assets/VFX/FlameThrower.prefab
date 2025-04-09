@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4584431484625042}
   - component: {fileID: 198637950067575458}
   - component: {fileID: 199982541912562440}
-  - component: {fileID: 391625493506128016}
   m_Layer: 0
   m_Name: FlameThrower
   m_TagString: Untagged
@@ -4857,19 +4856,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &391625493506128016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634767862067424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3a2fd5264bf6c24b8ca419903fe534b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTimeSec: 5
 --- !u!1 &1685911702664702
 GameObject:
   m_ObjectHideFlags: 0
