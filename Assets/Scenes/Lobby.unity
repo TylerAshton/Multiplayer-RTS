@@ -1452,7 +1452,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerList:
   - {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
-  - {fileID: 2434894007857547855, guid: bcab214d3a2d22241b3aa33ca1c8ae29, type: 3}
+  - {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
   CoopPlayerPrefab: {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
   RTSPlayer: {fileID: 669737588030258381, guid: 0365449728674734fbecbf9a31abe724, type: 3}
   CoopPlayerPrefabList:
@@ -2101,6 +2101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  DEBUGUseSceneTyler: 0
 --- !u!114 &875461204
 MonoBehaviour:
   m_ObjectHideFlags: 0
