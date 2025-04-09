@@ -1,5 +1,7 @@
 using Unity.Netcode;
+using UnityEditor.ProBuilder;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class CapturePoint : NetworkBehaviour
 {
@@ -18,11 +20,16 @@ public class CapturePoint : NetworkBehaviour
         CHAMPION
     }
 
+    private Material[] materials;
+
+    [SerializeField] GameObject circle;
+
     public owners owner = owners.NEUTRAL;
 
     private void Awake()
     {
-
+        circle.transform.localScale = new Vector3(r, 1, r);
+        circle.transform.position = this.transform.position + offset;
     }
 
     void Update()
@@ -52,6 +59,19 @@ public class CapturePoint : NetworkBehaviour
         else if (amalgs > minAmalgs && champs == 0)
         {
             owner = owners.AMALGAM;
+        }
+
+        if (owner == owners.AMALGAM)
+        {
+            circle.GetComponent<MeshRenderer>().material.color = Color.magenta;
+        }
+        else if (owner == owners.CHAMPION)
+        {
+            circle.GetComponent<MeshRenderer>().material.color = Color.blue;
+        }
+        else
+        {
+            circle.GetComponent<MeshRenderer>().material.color = Color.gray;
         }
     }
 
