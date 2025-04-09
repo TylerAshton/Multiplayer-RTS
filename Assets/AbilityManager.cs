@@ -38,7 +38,7 @@ public class AbilityManager : NetworkBehaviour
 
     public void OnAnimationApex()
     {
-        if (!IsOwner) return;
+       if (!NetworkManager.Singleton.IsServer) return;
 
         currentAbility.OnUse(gameObject, AbilityPositions);
     }
