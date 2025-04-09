@@ -23,6 +23,8 @@ public class CapturePoint : NetworkBehaviour
     private Material[] materials;
 
     [SerializeField] GameObject circle;
+    [SerializeField] ParticleSystem bonfire;
+    [SerializeField] GameObject bonfireObj;
 
     public owners owner = owners.NEUTRAL;
 
@@ -30,6 +32,7 @@ public class CapturePoint : NetworkBehaviour
     {
         circle.transform.localScale = new Vector3(r, 1, r);
         circle.transform.position = this.transform.position + offset;
+        bonfireObj.transform.position = this.transform.position + offset;
     }
 
     void Update()
@@ -63,15 +66,20 @@ public class CapturePoint : NetworkBehaviour
 
         if (owner == owners.AMALGAM)
         {
-            circle.GetComponent<MeshRenderer>().material.color = Color.magenta;
+            bonfire.enableEmission = true;
+            bonfire.startColor = Color.red;
+            circle.GetComponent<MeshRenderer>().material.color = Color.red;
         }
         else if (owner == owners.CHAMPION)
         {
+            bonfire.enableEmission = true;
+            bonfire.startColor = Color.blue;
             circle.GetComponent<MeshRenderer>().material.color = Color.blue;
         }
         else
         {
-            circle.GetComponent<MeshRenderer>().material.color = Color.gray;
+            bonfire.enableEmission = false;
+            circle.GetComponent<MeshRenderer>().material.color = Color.grey;
         }
     }
 
