@@ -467,7 +467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.160596
+      value: -0.18
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -475,7 +475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.412262
+      value: -13.62
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2197,7 +2197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.656143
+      value: 1.315547
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2205,7 +2205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.578127
+      value: -15.785865
       objectReference: {fileID: 0}
     - target: {fileID: 5258166357474630059, guid: ba0ee577e2806e4409a5b839dd743ea3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2728,7 +2728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1356942774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3005,7 +3005,7 @@ Transform:
   m_GameObject: {fileID: 1444580686}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.64, y: 2.02, z: -18.05}
+  m_LocalPosition: {x: -10.20348, y: 0.49999976, z: -18.520346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3721,7 +3721,8 @@ MonoBehaviour:
   AmalgamSpawnPos: {fileID: 2042348343}
   AmalgamPlayer: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
   ChampionSpawnPos: {fileID: 1444580687}
-  ChampionPlayer: {fileID: 8331247639448990116, guid: fd4e707f653df494c94ad39ea209e937, type: 3}
+  ChampionPlayer: {fileID: 2434894007857547855, guid: d2fb075d37e529f45ac14bfc9173b192, type: 3}
+  DEBUGForceChampion: 1
 --- !u!114 &1845778890
 MonoBehaviour:
   m_ObjectHideFlags: 0

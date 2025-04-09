@@ -16,6 +16,12 @@ public class LobbyManager : NetworkBehaviour
     private PlayerSpawner playerSpawner;
     private NetworkObject networkObject;
 
+    [Header("Debug Only")]
+
+    [Tooltip("Editor only: Replaces RTS spawning with Champion spawning instead.")]
+    [SerializeField] private bool DEBUGForceChampion = false;
+
+
     
 
     void Awake()
@@ -61,12 +67,28 @@ public class LobbyManager : NetworkBehaviour
 
             if (id == 0) // RTS
             {
-                newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
+                #if UNITY_EDITOR
+                    if (DEBUGForceChampion)
+                    {
+                        newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+                    }
+                    else // I'm important leave me alone
+                #endif
+                {
+                    newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
+                }
             }
 
             else // COOP
             {
-                newPlayer = (GameObject)Instantiate(ChampionPlayer, ChampionSpawnPos.position, Quaternion.identity);
+                Debug.Log($"This is the client id : {id}");
+                foreach (KeyValuePair<ulong, GameObject> kvp in CoopPlayerManager.Instance.playerPrefabs)
+                {
+                    Debug.Log("**********************");
+                    Debug.Log($"{kvp.Key} + {kvp.Value}");
+                    Debug.Log("**********************");
+                }
+                newPlayer = (GameObject)Instantiate(CoopPlayerManager.Instance.playerPrefabs[id], ChampionSpawnPos.position, Quaternion.identity);
             }
 
             NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();

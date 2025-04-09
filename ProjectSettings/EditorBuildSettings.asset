@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
-    path: Assets/Scenes/Tyler's Scene.unity
-    guid: ddc8d908b3c1b44449aef320e50d326e
   - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 63767c257c4dc5a4fa7f5854c39fc82b
   - enabled: 1
+    path: Assets/Scenes/Tyler.unity
+    guid: 07f414f463504e34d8130052cef99b78
+  - enabled: 0
     path: Assets/Scenes/Harrison Scene.unity
     guid: fefc938c8c8df9943a3f0d5658798e56
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainWorld.unity
     guid: 2f58dd0981810df418937192f9662217
   m_configObjects:

@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1471200836
+  GlobalObjectIdHash: 218889727
   InScenePlacedSourceGlobalObjectIdHash: 218889727
   DeferredDespawnTick: 0
   Ownership: 1
@@ -290,10 +290,10 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
-  detectionRange: 10
+  detectionRange: 15
   fireCoolDown: 1
   fireTime: 0
-  projectile: {fileID: 3152492050945720834, guid: 03eb2a9c4717b0749a2f52f3e534dcc8, type: 3}
+  projectile: {fileID: 4460309666732685197, guid: bc41bdd5399d26748a73664e564b6b1a, type: 3}
 --- !u!114 &6865051652697631802
 MonoBehaviour:
   m_ObjectHideFlags: 0

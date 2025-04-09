@@ -4,6 +4,7 @@ using System.Globalization;
 using UnityEngine.InputSystem;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System;
 
 /// <summary>
 /// Manages all Coop players movement and logic
@@ -11,11 +12,10 @@ using System.Collections.Generic;
 public class CoopPlayerManager : NetworkBehaviour
 {
     public static CoopPlayerManager Instance;
-    
+
     Vector2 movementVector;
-    Dictionary<string, LocalPlayer> localPlayers = new Dictionary<string, LocalPlayer>();
-    GameObject player;
-    [SerializeField] LocalPlayer local;
+    public Dictionary<ulong, GameObject> playerPrefabs = new Dictionary<ulong, GameObject>();
+    //[SerializeField] LocalPlayer local;
 
     void Awake()
     {
@@ -34,7 +34,7 @@ public class CoopPlayerManager : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) { return; }
-        
+
     }
 
     //public void CheckMove(InputAction.CallbackContext context)
@@ -47,20 +47,25 @@ public class CoopPlayerManager : NetworkBehaviour
     //}
 
     /// <summary>
-    /// Adds the parsed localPlayer into our dictionary of players.
+    /// Adds the parsed Player Prefab into our dictionary of players.
     /// </summary>
-    /// <param name="_localPlayer"></param>
+    /// <param name="_Prefab"></param>
     /// <returns></returns>
-    public void AddPlayer(string _ID, LocalPlayer _localPlayer)
+    public void AddPlayer(ulong _ID, GameObject _Prefab)
     {
-        localPlayers.Add(_ID, _localPlayer);
+        try
+        {
+            playerPrefabs.Add(_ID, _Prefab);
+        }
+        catch (ArgumentException)
+        {
+            playerPrefabs.Remove(_ID);
+            playerPrefabs.Add(_ID, _Prefab);
+        }
     }
 
-
-    public void AddPlayer(string _ID, GameObject _localPlayerGamobject)
+    public void AddPlayer(ulong _ID, NetworkObject _NetworkObject)
     {
-        LocalPlayer localPlayer = _localPlayerGamobject.GetComponent<LocalPlayer>();
-
-        localPlayers.Add(_ID, localPlayer);
+        AddPlayer(_ID, _NetworkObject.gameObject);
     }
 }

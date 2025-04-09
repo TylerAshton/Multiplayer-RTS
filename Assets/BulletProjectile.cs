@@ -166,8 +166,6 @@ public class BulletProjectile : NetworkBehaviour
                     continue;
                 }
 
-                Debug.Log($"Bullet hit {hit.collider.name} at {hit.point}");
-
                 // Example: Damage logic
                 if (hit.collider.TryGetComponent(out Health health))
                 {
