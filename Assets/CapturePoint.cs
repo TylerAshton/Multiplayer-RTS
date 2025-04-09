@@ -1,7 +1,5 @@
 using Unity.Netcode;
-using UnityEditor.ProBuilder;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class CapturePoint : NetworkBehaviour
 {
@@ -55,11 +53,11 @@ public class CapturePoint : NetworkBehaviour
                 amalgs++;
             }
         }
-        if (champs > minChamps && amalgs == 0)
+        if (champs >= minChamps && amalgs == 0)
         {
             owner = owners.CHAMPION;
         }
-        else if (amalgs > minAmalgs && champs == 0)
+        else if (amalgs >= minAmalgs && champs == 0)
         {
             owner = owners.AMALGAM;
         }
