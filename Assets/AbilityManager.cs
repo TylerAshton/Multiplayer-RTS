@@ -24,7 +24,6 @@ public class AbilityManager : NetworkBehaviour
 
     private Ability currentAbility;
     private Animator animator;
-    private AnimatedChampion animatedChampion;
 
     [SerializeField] private List<Transform> abilityPositions;
     public List<Transform>  AbilityPositions => abilityPositions;
@@ -34,10 +33,6 @@ public class AbilityManager : NetworkBehaviour
         if (!TryGetComponent<Animator>(out animator))
         {
             Debug.LogError("Animator is required for AbilityManager");
-        }
-        if (!TryGetComponent<AnimatedChampion>(out animatedChampion))
-        {
-            Debug.LogError("AnimatedChampion is required for AbilityManager");
         }
     }
 

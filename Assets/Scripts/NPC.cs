@@ -18,12 +18,24 @@ public class NPC : Unit
     [SerializeField] private GameObject projectile;
     private Transform target;
     private Health targetHealth;
+    private Animator animator;
+    private AbilityManager abilityManager;
     public Health TargetHealth => targetHealth;
+    [SerializeField] private Ability primaryAbility;
     protected override void Awake()
     {
         if (!NetworkManager.Singleton.IsServer)
         {
             return;
+        }
+
+        if (!TryGetComponent<Animator>(out animator))
+        {
+            Debug.LogError("Animator is required for NPC");
+        }
+        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        {
+            Debug.LogError("AbilityManager is required for NPC");
         }
 
         base.Awake();
@@ -89,17 +101,18 @@ public class NPC : Unit
     /// </summary>
     public void Shoot()
     {
-        Debug.Log("pew");
-        Vector3 direction = (target.position - transform.position).normalized;
+        /*        Debug.Log("pew");
+                Vector3 direction = (target.position - transform.position).normalized;
 
-        GameObject newProjectile = (GameObject)Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
+                GameObject newProjectile = (GameObject)Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
 
-        // Register over network
-        NetworkObject bulletNetwork = newProjectile.GetComponent<NetworkObject>();
-        bulletNetwork.Spawn();
+                // Register over network
+                NetworkObject bulletNetwork = newProjectile.GetComponent<NetworkObject>();
+                bulletNetwork.Spawn();
 
-        BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
-        _projectile.LaunchProjectile(direction);
+                BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
+                _projectile.LaunchProjectile(direction);*/
+        abilityManager.TryCastAbility(primaryAbility);
     }
 
     /// <summary>
