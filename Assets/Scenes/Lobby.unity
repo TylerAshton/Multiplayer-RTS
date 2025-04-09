@@ -497,7 +497,7 @@ MonoBehaviour:
   characterMenu: {fileID: 1969261676}
   readyUpMenu: {fileID: 1499743751}
   spawner: {fileID: 610589157}
-  DEBUGIsSinglePlayer: 1
+  DEBUGIsSinglePlayer: 0
 --- !u!4 &142975211
 Transform:
   m_ObjectHideFlags: 0
@@ -1451,13 +1451,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerList:
-  - {fileID: 4318466539626525345, guid: fc5db49c1c1c21b4aa34eac0f5c207ff, type: 3}
-  - {fileID: 4318466539626525345, guid: 890e1cb1e4b311a49af982fdeff275fa, type: 3}
-  CoopPlayerPrefab: {fileID: 4318466539626525345, guid: 37d3ff698a536a744bc0ce4f1fe32ad8, type: 3}
-  RTSPlayer: {fileID: 4318466539626525345, guid: fc5db49c1c1c21b4aa34eac0f5c207ff, type: 3}
+  - {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
+  - {fileID: 2434894007857547855, guid: bcab214d3a2d22241b3aa33ca1c8ae29, type: 3}
+  CoopPlayerPrefab: {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
+  RTSPlayer: {fileID: 669737588030258381, guid: 0365449728674734fbecbf9a31abe724, type: 3}
   CoopPlayerPrefabList:
-  - {fileID: 4318466539626525345, guid: 37d3ff698a536a744bc0ce4f1fe32ad8, type: 3}
-  - {fileID: 4318466539626525345, guid: 890e1cb1e4b311a49af982fdeff275fa, type: 3}
+  - {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
+  - {fileID: 2434894007857547855, guid: bcab214d3a2d22241b3aa33ca1c8ae29, type: 3}
 --- !u!4 &610589158
 Transform:
   m_ObjectHideFlags: 0
@@ -1467,7 +1467,7 @@ Transform:
   m_GameObject: {fileID: 610589155}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.682507, y: 34.56522, z: -67.789375}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
