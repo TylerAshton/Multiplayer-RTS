@@ -9,6 +9,11 @@ public class PlayerReadyUp : NetworkBehaviour
 
     private Dictionary<ulong, bool> playerReadyDictionary;
 
+    [Header("DEBUG Only")]
+
+    [Tooltip("Editor only: Toggles the match to instead use scene Tyler as opposed to MainWorld")]
+    [SerializeField] private bool DEBUGUseSceneTyler = false;
+
     private void Awake()
     {
         Instance = this;
@@ -37,7 +42,14 @@ public class PlayerReadyUp : NetworkBehaviour
 
         if (allClientsReady)
         {
-            Loader.LoadNetwork(Loader.Scene.Tyler);
+            #if UNITY_EDITOR
+                if (DEBUGUseSceneTyler)
+                {
+                    Loader.LoadNetwork(Loader.Scene.Tyler);
+                    return;
+                }
+            #endif
+            Loader.LoadNetwork(Loader.Scene.MainWorld);
         }
     }
 }
