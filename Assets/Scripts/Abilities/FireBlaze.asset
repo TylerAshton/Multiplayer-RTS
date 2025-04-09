@@ -15,4 +15,4 @@ MonoBehaviour:
   abilityName: Fire Blaze
   castTime: 1
   animationTrigger: FireBlast
-  effect: {fileID: 1634767862067424, guid: 80e8554790876b64c9bd280128c6d890, type: 3}
+  effect: {fileID: 6631761922747683013, guid: 28e2d8c08a0117841ba65ce212813fa3, type: 3}

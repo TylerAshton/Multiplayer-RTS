@@ -15,7 +15,7 @@ public class AOEAbility : Ability
     {
         //GameObject newEffect = Instantiate(effect, _abilityPositions[0].position, Quaternion.identity);
         GameObject newEffect = Instantiate(effect, _abilityPositions[1]);
-        newEffect.transform.LookAt(_user.transform.forward);
+        //newEffect.transform.LookAt(_user.transform.forward);
     }
 
     
