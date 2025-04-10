@@ -48,6 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTimeSec: 5
+  angleDegrees: 180
+  range: 7
+  damage: 10
+  armTimeSec: 0.4
+  burnTimeSec: 2
 --- !u!1001 &653895895252185199
 PrefabInstance:
   m_ObjectHideFlags: 0
