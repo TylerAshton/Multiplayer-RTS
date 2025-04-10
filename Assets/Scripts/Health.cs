@@ -21,6 +21,11 @@ public class Health : MonoBehaviour
     [SerializeField] private bool showHealthBar = true;
     private void Awake()
     {
+        if (!TryGetComponent<Animator>(out animator))
+        {
+            Debug.LogError("Animator is required for Health");
+        }
+
         if (animator != null && deathAnimationLength == 0)
         {
             Debug.LogError("A death animation was set but no length was given");
@@ -62,6 +67,8 @@ public class Health : MonoBehaviour
         hitPoints -= _damage;
 
         healthSlider.value = hitPoints; // TODO: Make a setter
+
+        animator.SetTrigger("OnHit");
 
         if (hitPoints <= 0)
         {

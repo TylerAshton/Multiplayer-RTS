@@ -117,7 +117,12 @@ public class Unit : NetworkBehaviour, IDestructible
 
     public virtual void DestroyObject()
     {
-        rts_Player.UnitManager.RemoveUnit(this);
+        if (rts_Player)
+        {
+            rts_Player.UnitManager.RemoveUnit(this);
+        }
+
+        
     }
 
     /// <summary>
