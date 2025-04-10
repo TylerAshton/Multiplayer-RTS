@@ -15,7 +15,8 @@ public class CapturePoint : NetworkBehaviour
     {
         AMALGAM,
         NEUTRAL,
-        CHAMPION
+        CHAMPION,
+        CONTESTED
     }
 
     private Material[] materials;
@@ -44,12 +45,10 @@ public class CapturePoint : NetworkBehaviour
             Debug.Log("SOMEONE REACHED THIS POINT");
             if (unit.collider.transform.tag == "Champion")
             {
-                Debug.Log("CHAMPS REACHED THIS POINT");
                 champs++;
             }
             else if(unit.collider.transform.tag == "Amalgam")
             {
-                Debug.Log("AMALGS REACHED THIS POINT");
                 amalgs++;
             }
         }
@@ -60,6 +59,10 @@ public class CapturePoint : NetworkBehaviour
         else if (amalgs >= minAmalgs && champs == 0)
         {
             owner = owners.AMALGAM;
+        }
+        else if (champs > 0 && amalgs > 0)
+        {
+            owner = owners.CONTESTED;
         }
 
         if (owner == owners.AMALGAM)
@@ -73,6 +76,12 @@ public class CapturePoint : NetworkBehaviour
             bonfire.enableEmission = true;
             bonfire.startColor = Color.blue;
             circle.GetComponent<MeshRenderer>().material.color = Color.blue;
+        }
+        else if (owner == owners.CONTESTED)
+        {
+            bonfire.enableEmission = true;
+            bonfire.startColor = Color.green;
+            circle.GetComponent<MeshRenderer>().material.color = Color.green;
         }
         else
         {
