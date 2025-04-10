@@ -2372,6 +2372,9 @@ MonoBehaviour:
   deathAnimationLength: 1
   test: 0
   isDying: 0
+  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  showHealthBar: 0
 --- !u!114 &6078025101248540705
 MonoBehaviour:
   m_ObjectHideFlags: 0

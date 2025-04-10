@@ -1259,9 +1259,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &-7404169916294810027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1279,6 +1279,8 @@ MonoBehaviour:
   deathAnimationLength: 0
   test: 0
   isDying: 0
+  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &9215544652138444917
 MonoBehaviour:
   m_ObjectHideFlags: 0

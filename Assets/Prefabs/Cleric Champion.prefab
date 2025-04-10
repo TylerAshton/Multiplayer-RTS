@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2710956934
+  GlobalObjectIdHash: 4222950
   InScenePlacedSourceGlobalObjectIdHash: 2710956934
   DeferredDespawnTick: 0
   Ownership: 1
@@ -828,6 +828,13 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: -1122186865
     TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 1
+    OriginatingState: 2081823275
+    DestinationState: -116021918
+    TransitionDuration: 0.25
+    TriggerNameHash: -297273395
+    TransitionIndex: 1
   m_Animator: {fileID: 3779843464443528873}
 --- !u!114 &6245597217510480515
 MonoBehaviour:
@@ -920,6 +927,9 @@ MonoBehaviour:
   deathAnimationLength: 0
   test: 0
   isDying: 0
+  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  showHealthBar: 0
 --- !u!114 &7496280509918056966
 MonoBehaviour:
   m_ObjectHideFlags: 0

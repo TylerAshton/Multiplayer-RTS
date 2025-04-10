@@ -1,7 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     [SerializeField] private float hitPoints;
@@ -15,6 +15,10 @@ public class Health : MonoBehaviour
 
     public event Action OnDeath; // Death event, used to begin respawn
 
+    [SerializeField] private GameObject healthBarPrefab;
+    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 0, 0);
+    private Slider healthSlider;
+    [SerializeField] private bool showHealthBar = true;
     private void Awake()
     {
         if (animator != null && deathAnimationLength == 0)
@@ -28,6 +32,25 @@ public class Health : MonoBehaviour
             Debug.LogError("Invalid health given");
             return;
         }
+
+        if (showHealthBar && healthBarOffset == null)
+        {
+            Debug.LogError("HealthBar prefab was not given");
+            return;
+        }
+    }
+
+    private void Start()
+    {
+        if (showHealthBar)
+        {
+            GameObject healthBar = Instantiate(healthBarPrefab, transform);
+            healthBar.transform.position += healthBarOffset;
+            healthSlider = healthBar.GetComponentInChildren<Slider>();
+
+            healthSlider.maxValue = hitPoints;
+            healthSlider.value = hitPoints;
+        }
     }
 
     /// <summary>
@@ -37,6 +60,8 @@ public class Health : MonoBehaviour
     public void Damage(float _damage)
     {
         hitPoints -= _damage;
+
+        healthSlider.value = hitPoints; // TODO: Make a setter
 
         if (hitPoints <= 0)
         {
