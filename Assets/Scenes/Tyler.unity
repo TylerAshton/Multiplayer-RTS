@@ -5289,6 +5289,14 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 173
       objectReference: {fileID: 0}
+    - target: {fileID: 7638822680781091495, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: minAmalgs
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638822680781091495, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: minChamps
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

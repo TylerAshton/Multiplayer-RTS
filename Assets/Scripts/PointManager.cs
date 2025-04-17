@@ -28,6 +28,10 @@ public class PointManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log($"THIS IS YOUR ID : { NetworkManager.Singleton.LocalClientId}");
+        playerPoints[0] = 0;
+        playerPoints[1] = 0;
+        playerPoints[2] = 0;
         if (NetworkManager.Singleton.IsServer)
         {
             StartCoroutine(generatePoints());
@@ -36,7 +40,6 @@ public class PointManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"C : {NetworkManager.Singleton.IsClient}, S : {NetworkManager.Singleton.IsServer}, H : {NetworkManager.Singleton.IsHost}");
         if (NetworkManager.Singleton.IsServer)
         {
             capturePoints.Clear();
@@ -65,7 +68,7 @@ public class PointManager : MonoBehaviour
                 AddPointsToPlayer(2, 100);
             }
         }
-
+        Debug.Log($"{playerPoints[0]},{playerPoints[1]},{playerPoints[2]}");
         yield return new WaitForSeconds(1f);
         StartCoroutine(generatePoints());
     }
@@ -74,12 +77,13 @@ public class PointManager : MonoBehaviour
     {
         try
         {
-            playerPoints.Add(id, points);
+            playerPoints.Add(id, playerPoints[id] + points);
         }
         catch (ArgumentException)
         {
+            int temp = playerPoints[id];
             playerPoints.Remove(id);
-            playerPoints.Add(id, points);
+            playerPoints.Add(id, temp + points);
         }
     }
 }
