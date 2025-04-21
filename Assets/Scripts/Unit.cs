@@ -60,7 +60,7 @@ public class Unit : NetworkBehaviour, IDestructible
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (!NetworkManager.Singleton.IsServer) 
+        if (NetworkManager.Singleton && !NetworkManager.Singleton.IsServer) 
         {
             return;
         }
