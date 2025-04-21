@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,6 +10,8 @@ using UnityEngine.AI;
 /// </summary>
 public class Unit : NetworkBehaviour, IDestructible
 {
+    private Queue<Task> taskQueue = new();
+    private Task currentTask;
     [SerializeField] GameObject selectionIndiator;
     MeshRenderer selectionRenderer;
     RTSPlayer rts_Player;
@@ -16,7 +19,7 @@ public class Unit : NetworkBehaviour, IDestructible
     Collider colliderComp;
     NetworkObject networkObject;
 
-    [SerializeField] State currentState;
+    //[SerializeField] State currentState;
 
     protected virtual void Awake()
     {
@@ -50,11 +53,34 @@ public class Unit : NetworkBehaviour, IDestructible
             return;
         }
 
-        currentState = new IdleState(this);
-        currentState.Enter();
-
         rts_Player = RTSPlayer.instance;
         rts_Player.UnitManager.AddUnit(this);
+    }
+
+    private void UpdateTask()
+    {
+        if (currentTask == null)
+        {
+            return;
+        }
+
+        currentTask.Update();
+    }
+
+    public void ImposeNewTask(Task _newTask)
+    {
+        SetCurrentTask(_newTask);
+    }
+
+    private void SetCurrentTask(Task _task)
+    {
+        if (currentTask != null)
+        {
+            currentTask.Exit();
+        }
+
+        currentTask = _task;
+        currentTask.Start();
     }
 
     // Update is called once per frame
@@ -65,13 +91,10 @@ public class Unit : NetworkBehaviour, IDestructible
             return;
         }
 
-        if (currentState != null)
-        {
-            currentState.Update();
-        }
+        UpdateTask();
     }
 
-    /// <summary>
+/*    /// <summary>
     /// Exits the current state if one exists, before entering the new state.
     /// </summary>
     /// <param name="_newState"></param>
@@ -88,7 +111,7 @@ public class Unit : NetworkBehaviour, IDestructible
         #if UNITY_EDITOR
             SetSelectionColor(_newState.StateDebugColor);
         #endif
-    }
+    }*/
 
     /// <summary>
     /// Shows the glowing sphere above the unit

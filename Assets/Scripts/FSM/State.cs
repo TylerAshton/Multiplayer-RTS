@@ -33,7 +33,7 @@ public abstract class State
     protected abstract bool IsComplete();
 
     /// <summary>
-    /// Called once the task is complete, will not be ran if the task is ended.
+    /// Called once the task is complete, will not be ran if the task is forcably stopped
     /// </summary>
     protected abstract void OnComplete();
 }

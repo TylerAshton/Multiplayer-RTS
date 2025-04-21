@@ -1,15 +1,45 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class MoveTask : NPCTask
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected Vector3 destination;
+    private readonly float waypointLeniance = 0.1f;
+
+    public MoveTask(NPC _npc, Vector3 _destination) : base(_npc)
     {
-        
+        destination = _destination;
+    }
+    public override void Start()
+    {
+        npc.Agent.SetDestination(destination);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Exit()
+    {
+        npc.Agent.ResetPath();
+    }
+
+    public override void Update()
+    {
+        if (IsComplete())
+        {
+            OnComplete();
+        }
+    }
+
+    protected override bool IsComplete()
+    {
+        float distance = Vector3.Distance(unit.GetFeet(), destination);
+        Debug.Log($"{distance}, {unit.GetFeet()}, {destination}");
+
+        if (distance < waypointLeniance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected override void OnComplete()
     {
         
     }

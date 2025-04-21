@@ -105,14 +105,17 @@ public class NPC : Unit
             {
                 if (collider.TryGetComponent<Health>(out var _health))
                 {
-                    if(_health.IsDying) // TODO: Sloppy af
+                    if (_health.IsDying) // TODO: Sloppy af
                     {
                         continue;
                     }
                 }
-                SetTarget(collider.gameObject);
+                /*SetTarget(collider.gameObject);
                 AttackState attackState = new AttackState(this);
-                ChangeState(attackState);
+                ChangeState(attackState);*/
+
+                // TODO: Finish up the new task system for movement then rework attacking to a system where
+                // if we have a target, use the Shoot Function
             }
         }
     }

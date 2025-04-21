@@ -14,7 +14,7 @@ public abstract class Task
     /// <summary>
     /// Called when the Task is began
     /// </summary>
-    public abstract void Enter();
+    public abstract void Start();
 
     /// <summary>
     /// Called every frame when the Task is active
@@ -22,7 +22,7 @@ public abstract class Task
     public abstract void Update();
 
     /// <summary>
-    /// Called when the Task is ending
+    /// Called when the Task has stopped
     /// </summary>
     public abstract void Exit();
 
