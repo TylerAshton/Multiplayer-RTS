@@ -20,8 +20,6 @@ public class Unit : NetworkBehaviour, IDestructible
     Collider colliderComp;
     NetworkObject networkObject;
 
-    //[SerializeField] State currentState;
-
     protected virtual void Awake()
     {
         if (selectionIndiator == null)
@@ -58,6 +56,9 @@ public class Unit : NetworkBehaviour, IDestructible
         rts_Player.UnitManager.AddUnit(this);
     }
 
+    /// <summary>
+    /// Runs the Update function in the currentTask should it exist
+    /// </summary>
     private void UpdateTask()
     {
         if (currentTask == null)
@@ -149,12 +150,6 @@ public class Unit : NetworkBehaviour, IDestructible
             CancelCurrentTask();
         }
 
-/*        if (_task == null) // If we are setting it to null, just clear the current task. However this isn't very readable
-        {
-            currentTask = null;
-            return;
-        }*/
-
         currentTask = _task;
         currentTask.OnTaskCompleted += OnTaskComplete;
         currentTask.Start();
@@ -172,25 +167,6 @@ public class Unit : NetworkBehaviour, IDestructible
 
         UpdateTask();
     }
-
-/*    /// <summary>
-    /// Exits the current state if one exists, before entering the new state.
-    /// </summary>
-    /// <param name="_newState"></param>
-    public void ChangeState(State _newState)
-    {
-        if (currentState != null)
-        {
-            currentState.Exit();
-        }
-
-        currentState = _newState;
-        currentState.Enter();
-
-        #if UNITY_EDITOR
-            SetSelectionColor(_newState.StateDebugColor);
-        #endif
-    }*/
 
     /// <summary>
     /// Shows the glowing sphere above the unit
@@ -222,9 +198,7 @@ public class Unit : NetworkBehaviour, IDestructible
         if (rts_Player)
         {
             rts_Player.UnitManager.RemoveUnit(this);
-        }
-
-        
+        }      
     }
 
     /// <summary>
