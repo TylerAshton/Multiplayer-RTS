@@ -1281,6 +1281,7 @@ MonoBehaviour:
   isDying: 0
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
   healthBarOffset: {x: 0, y: 0, z: 0}
+  showHealthBar: 1
 --- !u!114 &9215544652138444917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1301,8 +1302,6 @@ MonoBehaviour:
   detectionRange: 15
   fireCoolDown: 1
   fireTime: 0
-  projectile: {fileID: 4460309666732685197, guid: bc41bdd5399d26748a73664e564b6b1a, type: 3}
-  primaryAbility: {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1394,6 +1393,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   abilityPositions:
   - {fileID: 2773041799944470280}
+  abilities:
+  - {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
 --- !u!114 &-8325889620801518248
 MonoBehaviour:
   m_ObjectHideFlags: 0

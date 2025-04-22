@@ -35,7 +35,6 @@ public class Unit : NetworkBehaviour, IDestructible
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
         health = GetComponent<Health>();
         colliderComp = GetComponent<Collider>();
-
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

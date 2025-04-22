@@ -15,13 +15,11 @@ public class NPC : Unit
     [SerializeField] private float fireCoolDown;
     public float FireCoolDown => fireCoolDown;
     [SerializeField] public float fireTime;
-    [SerializeField] private GameObject projectile;
     private Transform target;
     private Health targetHealth;
     private Animator animator;
     private AbilityManager abilityManager;
     public Health TargetHealth => targetHealth;
-    [SerializeField] private Ability primaryAbility;
     protected override void Awake()
     {
         if (!NetworkManager.Singleton.IsServer)
@@ -130,7 +128,7 @@ public class NPC : Unit
     /// </summary>
     public void Shoot()
     {
-        abilityManager.TryCastAbility(primaryAbility);
+        abilityManager.TryCastAbility(0);
     }
 
     /// <summary>

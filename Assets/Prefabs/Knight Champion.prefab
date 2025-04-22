@@ -2523,6 +2523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityPositions: []
+  abilities:
+  - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!54 &145892177886631570
 Rigidbody:
   m_ObjectHideFlags: 0

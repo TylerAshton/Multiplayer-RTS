@@ -28,6 +28,8 @@ public class AbilityManager : NetworkBehaviour
     [SerializeField] private List<Transform> abilityPositions;
     public List<Transform>  AbilityPositions => abilityPositions;
 
+    [SerializeField] private List<Ability> abilities;
+
     private void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
@@ -52,7 +54,7 @@ public class AbilityManager : NetworkBehaviour
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>
-    public void TryCastAbility(Ability _abilty)
+    public void TryCastAbility(int _abilityIndex)
     {
         if (!IsServer)
         {
@@ -63,9 +65,9 @@ public class AbilityManager : NetworkBehaviour
         {
             return;
         }
-        currentAbility = _abilty;
-        _abilty.Activate(gameObject, animator);
-        StartCoroutine(LockCastingUntil(_abilty.CastTime));
+        currentAbility = abilities[_abilityIndex];
+        currentAbility.Activate(gameObject, animator);
+        StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
 
     /// <summary>

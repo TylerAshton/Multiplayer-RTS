@@ -103,13 +103,7 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void CastAbilityServerRpc(int _AbilityIndex)
     {
-        switch (_AbilityIndex)
-        {
-            case 0:
-                abilityManager.TryCastAbility(primaryAbility);
-                break;
-        }
-
+        abilityManager.TryCastAbility(_AbilityIndex);
     }
 
     

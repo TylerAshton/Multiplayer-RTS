@@ -954,8 +954,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 100
-  animator: {fileID: 0}
-  deathAnimationLength: 0
+  animator: {fileID: 3779843464443528873}
+  deathAnimationLength: 1
   test: 0
   isDying: 0
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
@@ -977,6 +977,8 @@ MonoBehaviour:
   abilityPositions:
   - {fileID: 5742072020312327593}
   - {fileID: 5960994509850344562}
+  abilities:
+  - {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
 --- !u!1 &2807604425998223400
 GameObject:
   m_ObjectHideFlags: 0
