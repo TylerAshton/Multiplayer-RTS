@@ -60,6 +60,16 @@ public class NPC : Unit
         if (!IsServer) return;
 
         UpdateRotation();
+
+
+        if (!target)
+        {
+            ScanForTarget();
+        }
+        else
+        {
+            Shoot();
+        }
     }
 
     private void OnDrawGizmos()
@@ -110,12 +120,7 @@ public class NPC : Unit
                         continue;
                     }
                 }
-                /*SetTarget(collider.gameObject);
-                AttackState attackState = new AttackState(this);
-                ChangeState(attackState);*/
-
-                // TODO: Finish up the new task system for movement then rework attacking to a system where
-                // if we have a target, use the Shoot Function
+                SetTarget(collider.gameObject);
             }
         }
     }
