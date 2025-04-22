@@ -23,12 +23,7 @@ public class NPCTask : Task
         throw new System.NotImplementedException();
     }
 
-    protected override bool IsComplete()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override void OnComplete()
+    public override bool IsComplete()
     {
         throw new System.NotImplementedException();
     }

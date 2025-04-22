@@ -119,8 +119,8 @@ public class UnitManager : NetworkBehaviour
             if (selectedUnits[i] is NPC _NPC)
             {
                 Vector3 targetPosition = _worldPosition + CalculateFormationOffset(i);
-                MoveState moveState = new MoveState(targetPosition, _NPC);
-                _NPC.ChangeState(moveState);
+                MoveTask moveTask = new MoveTask(_NPC, targetPosition);
+                _NPC.ImposeNewTask(moveTask);
             }
         }
     }

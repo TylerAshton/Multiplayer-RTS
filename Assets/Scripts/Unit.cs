@@ -12,6 +12,7 @@ public class Unit : NetworkBehaviour, IDestructible
 {
     private Queue<Task> taskQueue = new();
     private Task currentTask;
+    public Task CurrentTask => currentTask;
     [SerializeField] GameObject selectionIndiator;
     MeshRenderer selectionRenderer;
     RTSPlayer rts_Player;
@@ -67,21 +68,99 @@ public class Unit : NetworkBehaviour, IDestructible
         currentTask.Update();
     }
 
+    /// <summary>
+    /// When the current task is completed exit the task. 
+    /// Exit the task and start the next task if there is one in the queue
+    /// </summary>
+    /// <param name="_completedTask"></param>
+    private void OnTaskComplete(Task _completedTask)
+    {
+        if (TryStartNextTask())
+        {
+            return;
+        }
+
+        CancelCurrentTask();
+    }
+
+    /// <summary>
+    /// If there is a task in the taskQueue run SetCurrentTask with that task, returns true if successful
+    /// </summary>
+    private bool TryStartNextTask()
+    {
+        if (!taskQueue.TryDequeue(out Task nextTask))
+        {
+            return false;
+        }
+
+        SetCurrentTask(nextTask);
+        return true;
+    }
+
+    /// <summary>
+    /// Clears all tasks from the que and imposes a brand new task that starts immediately
+    /// </summary>
+    /// <param name="_newTask"></param>
     public void ImposeNewTask(Task _newTask)
     {
+        taskQueue.Clear();
         SetCurrentTask(_newTask);
     }
 
-    private void SetCurrentTask(Task _task)
+    /// <summary>
+    /// Exits the currentTask and sets it to null
+    /// </summary>
+    public void CancelCurrentTask()
     {
-        if (currentTask != null)
+        if (currentTask == null)
         {
-            currentTask.Exit();
+            Debug.LogError("Attempted to cancel current task when it doesn't exist");
+            return;
         }
 
+        currentTask.Exit();
+        currentTask.OnTaskCompleted -= OnTaskComplete;
+        currentTask = null;
+    }
+
+    /// <summary>
+    /// Enqueues the parsed task into the taskQueue of the unit
+    /// </summary>
+    /// <param name="_newTask"></param>
+    public void QueueNewTask(Task _newTask)
+    {
+        taskQueue.Enqueue(_newTask);
+    }
+
+    /// <summary>
+    /// Sets the currentTask to the parsed Task, exiting the prexisting currentTask should it exist
+    /// </summary>
+    /// <param name="_task"></param>
+    private void SetCurrentTask(Task _task)
+    {
+        if (_task == null)
+        {
+            Debug.LogError("Attempted to setCurrentTask with a null task");
+            return;
+        }
+
+        if (currentTask != null)
+        {
+            CancelCurrentTask();
+        }
+
+/*        if (_task == null) // If we are setting it to null, just clear the current task. However this isn't very readable
+        {
+            currentTask = null;
+            return;
+        }*/
+
         currentTask = _task;
+        currentTask.OnTaskCompleted += OnTaskComplete;
         currentTask.Start();
     }
+
+
 
     // Update is called once per frame
     protected virtual void Update()

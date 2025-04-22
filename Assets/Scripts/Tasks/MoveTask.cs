@@ -21,13 +21,10 @@ public class MoveTask : NPCTask
 
     public override void Update()
     {
-        if (IsComplete())
-        {
-            OnComplete();
-        }
+
     }
 
-    protected override bool IsComplete()
+    public override bool IsComplete()
     {
         float distance = Vector3.Distance(unit.GetFeet(), destination);
         Debug.Log($"{distance}, {unit.GetFeet()}, {destination}");
@@ -37,10 +34,5 @@ public class MoveTask : NPCTask
             return true;
         }
         return false;
-    }
-
-    protected override void OnComplete()
-    {
-        
     }
 }
