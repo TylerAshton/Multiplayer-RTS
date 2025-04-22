@@ -10,12 +10,8 @@ public class NPC : Unit
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
-    [SerializeField] private LayerMask unitLayer;
-    [SerializeField] private float detectionRange;
-    [SerializeField] private float fireCoolDown;
-    public float FireCoolDown => fireCoolDown;
-    [SerializeField] public float fireTime;
     private Transform target;
+    public Transform Target => target;
     private Health targetHealth;
     private Animator animator;
     private AbilityManager abilityManager;
@@ -58,24 +54,9 @@ public class NPC : Unit
         if (!IsServer) return;
 
         UpdateRotation();
-
-
-        if (!target)
-        {
-            ScanForTarget();
-        }
-        else
-        {
-            Shoot();
-        }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-    }
+    
 
     private void UpdateRotation()
     {
@@ -100,30 +81,6 @@ public class NPC : Unit
     }
 
     /// <summary>
-    /// Attempts to find Champion within the detectionRange and sets it as the 
-    /// Target before entering the AttackState should one exist within range
-    /// </summary>
-    public void ScanForTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange, unitLayer);
-
-        foreach (Collider collider in hits)
-        {
-            if (collider.CompareTag("Champion"))
-            {
-                if (collider.TryGetComponent<Health>(out var _health))
-                {
-                    if (_health.IsDying) // TODO: Sloppy af
-                    {
-                        continue;
-                    }
-                }
-                SetTarget(collider.gameObject);
-            }
-        }
-    }
-
-    /// <summary>
     /// Fires the pojectile towards the target's position
     /// </summary>
     public void Shoot()
@@ -135,7 +92,7 @@ public class NPC : Unit
     /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
     /// </summary>
     /// <param name="_targetGameObject"></param>
-    private void SetTarget(GameObject _targetGameObject)
+    public void SetTarget(GameObject _targetGameObject)
     {
         if (_targetGameObject.TryGetComponent<Health>(out Health health))
         {

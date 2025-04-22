@@ -1145,6 +1145,7 @@ GameObject:
   - component: {fileID: -7511856528107540043}
   - component: {fileID: -5570557594341943046}
   - component: {fileID: -8325889620801518248}
+  - component: {fileID: -6077374187836635579}
   m_Layer: 7
   m_Name: Demon 1
   m_TagString: Amalgam
@@ -1296,12 +1297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 1015896299060538320}
-  unitLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  detectionRange: 15
-  fireCoolDown: 1
-  fireTime: 0
+  Target: {fileID: 0}
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1417,6 +1413,23 @@ MonoBehaviour:
     TriggerNameHash: 1605434339
     TransitionIndex: 0
   m_Animator: {fileID: 2865285359833913113}
+--- !u!114 &-6077374187836635579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc26a50471bbf44b99f2c5ebc41b76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  detectionRange: 20
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &2453397364068737160
 GameObject:
   m_ObjectHideFlags: 0
