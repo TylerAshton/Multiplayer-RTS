@@ -21,7 +21,7 @@ public class MoveTask : NPCTask
 
     public override void Update()
     {
-
+        base.Update();
     }
 
     public override bool IsComplete()

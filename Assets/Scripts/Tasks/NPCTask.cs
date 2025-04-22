@@ -20,7 +20,7 @@ public class NPCTask : Task
 
     public override void Update()
     {
-        throw new System.NotImplementedException();
+        base.Update();
     }
 
     public override bool IsComplete()
