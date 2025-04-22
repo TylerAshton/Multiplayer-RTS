@@ -36,9 +36,14 @@ public class AbilityManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when the ability animation reaches the frame when the attack part of the ability should be cast. 
+    /// Which then runs the currentAbility's OnUse function
+    /// Requires the attack animation to have a correctly set up event that calls this function.
+    /// </summary>
     public void OnAnimationApex()
     {
-        if (!IsOwner) return;
+       if (!NetworkManager.Singleton.IsServer) return;
 
         currentAbility.OnUse(gameObject, AbilityPositions);
     }
@@ -63,6 +68,11 @@ public class AbilityManager : NetworkBehaviour
         StartCoroutine(LockCastingUntil(_abilty.CastTime));
     }
 
+    /// <summary>
+    /// Sets the AbilityState to Casting until the inputted time has elapsed.
+    /// </summary>
+    /// <param name="_timer"></param>
+    /// <returns></returns>
     private IEnumerator LockCastingUntil(float _timer)
     {
         abilityState = AbilityState.Casting;

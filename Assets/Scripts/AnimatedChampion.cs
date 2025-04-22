@@ -125,11 +125,6 @@ public class AnimatedChampion : NetworkBehaviour
         //MoveCameraServerRpc();
     }
 
-    private void AnimatedMove(Vector3 _movementVector)
-    {
-        //transform.position += _movementVector * Time.deltaTime * moveSpeed;
-    }
-
     /// <summary>
     /// This Server-Rpc attempts to move the player transform by adding the movementVector to its current transform
     /// </summary>
@@ -148,9 +143,7 @@ public class AnimatedChampion : NetworkBehaviour
     public void CheckMove(InputAction.CallbackContext context)
     {
         movementVector.x = context.ReadValue<Vector2>().x;
-        movementVector.z = context.ReadValue<Vector2>().y;
-
-        
+        movementVector.z = context.ReadValue<Vector2>().y; 
     }
 
     /// <summary>
@@ -194,7 +187,7 @@ public class AnimatedChampion : NetworkBehaviour
 
 
     /// <summary>
-    /// This Server-Rpc attempts to 
+    /// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>

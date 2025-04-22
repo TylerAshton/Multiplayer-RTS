@@ -8,10 +8,23 @@ public class AOECone : MonoBehaviour
     [SerializeField] float angleDegrees = 90f;
     [SerializeField] float range = 4f;
     [SerializeField] float damage = 1f;
+    [SerializeField] float armTimeSec = 0.2f;
+    [SerializeField] float burnTimeSec = 2f;
+    private float age = 0f;
 
     private void Start()
     {
         StartCoroutine(deathTime());
+    }
+
+    private void Update()
+    {
+        age += Time.deltaTime;
+
+        if (age > armTimeSec && age < burnTimeSec)
+        {
+            ApplyDamage();
+        }
     }
 
     private IEnumerator deathTime()
