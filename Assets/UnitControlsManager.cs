@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +34,7 @@ public class UnitControlsManager : MonoBehaviour
     /// </summary>
     /// <param name="_ability"></param>
     /// <param name="_cell"></param>
-    private void SetAbilityCell(Ability _ability, GameObject _cell)
+    private void SetAbilityCell(Ability _ability, GameObject _cell, List<Unit> _selectedUnits)
     {
         Image cellImage = _cell.GetComponent<Image>();
         Button cellButton = _cell.GetComponent<Button>();
@@ -42,18 +43,35 @@ public class UnitControlsManager : MonoBehaviour
         cellButton.interactable = true;
 
         cellImage.sprite = _ability.Icon;
+
+        // Add Event bindings to button pressed
+        cellButton.onClick.RemoveAllListeners();
+
+        cellButton.onClick.AddListener(() =>
+        {
+            foreach (Unit _unit in _selectedUnits)
+            {
+                int unitIndex = _unit.AbilityManager.Abilities.IndexOf(_ability);
+                if (unitIndex >= 0)
+                {
+                    _unit.AbilityManager.TryCastAbility(unitIndex);
+                }
+            }
+        });
+
+
     }
 
-    public void UpdateGridWithUnitSelection(List<Unit> _units)
+    public void UpdateGridWithUnitSelection(List<Unit> _selectedUnits)
     {
         ResetAbilityGrid();
-        List<Ability> commonAbilities = GetCommonAbilities(_units);
+        List<Ability> commonAbilities = GetCommonAbilities(_selectedUnits);
 
         int cellIndex = 0;
 
         for (int i = 0; i < commonAbilities.Count; i++)
         {
-            SetAbilityCell(commonAbilities[i], abilityCells[cellIndex]);
+            SetAbilityCell(commonAbilities[i], abilityCells[cellIndex], _selectedUnits);
             cellIndex++;
         }
     }
