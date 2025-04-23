@@ -29,6 +29,7 @@ public class AbilityManager : NetworkBehaviour
     public List<Transform>  AbilityPositions => abilityPositions;
 
     [SerializeField] private List<Ability> abilities;
+    public List<Ability> Abilities => abilities; 
 
     private void Awake()
     {

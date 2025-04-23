@@ -9,6 +9,8 @@ public class UnitManager : NetworkBehaviour
 {
     [SerializeField] private List<Unit> allUnits = new List<Unit>();
     [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
+    [SerializeField] private GameObject AbilityPanelPrefab;
+    private UnitControlsManager unitControlsManager;
     public List<Unit> SelectedUnits => selectedUnits;
 
     private readonly float moveSpacing = 2;
@@ -17,7 +19,8 @@ public class UnitManager : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
+        unitControlsManager = AbilityPanel.GetComponentInChildren<UnitControlsManager>();
     }
 
     // Update is called once per frame
@@ -71,6 +74,7 @@ public class UnitManager : NetworkBehaviour
     private void SelectUnit(Unit _unit)
     {
         selectedUnits.Add(_unit);
+        unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         _unit.ShowSelectionIndicator();
     }
 
@@ -87,6 +91,7 @@ public class UnitManager : NetworkBehaviour
         }
 
         selectedUnits.Remove(_unit);
+        unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         _unit.HideSelectionIndicator();
     }
 

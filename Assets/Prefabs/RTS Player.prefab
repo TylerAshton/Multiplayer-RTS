@@ -392,6 +392,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   allUnits: []
   selectedUnits: []
+  AbilityPanelPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &3909084894797125082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,3 +454,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69476e8899704944197891080e1b2876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityCells: []

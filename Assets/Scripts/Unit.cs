@@ -12,6 +12,8 @@ public class Unit : NetworkBehaviour, IDestructible
 {
     private Queue<Task> taskQueue = new();
     private Task currentTask;
+    private AbilityManager abilityManager;
+    public AbilityManager AbilityManager => abilityManager;
     public Task CurrentTask => currentTask;
     [SerializeField] GameObject selectionIndiator;
     MeshRenderer selectionRenderer;
@@ -29,7 +31,11 @@ public class Unit : NetworkBehaviour, IDestructible
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
-            Debug.LogError("Network object is required for cameraMovement");
+            Debug.LogError("Network object is required for Unit");
+        }
+        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        {
+            Debug.LogError("AbilityManager is required for Unit");
         }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
