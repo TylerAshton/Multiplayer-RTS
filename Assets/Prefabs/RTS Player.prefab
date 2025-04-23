@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 3909084894797125082}
   - component: {fileID: 1561204148913572438}
   - component: {fileID: 6846700315286605413}
+  - component: {fileID: -6131230619508944788}
   m_Layer: 0
   m_Name: RTS Player
   m_TagString: Untagged
@@ -363,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2053031413
+  GlobalObjectIdHash: 1575573791
   InScenePlacedSourceGlobalObjectIdHash: 1575573791
   DeferredDespawnTick: 0
   Ownership: 1
@@ -416,6 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce0e1786b28c7c4ba7141df786f678e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   rtsPlayerControls: {fileID: 8246939001103950362}
   isPanning: 0
   panMultiplier: 0.1
@@ -438,3 +440,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
   cameraSpawnOffset: {x: 0, y: 17.9, z: 0}
+  isChampion: 0
+--- !u!114 &-6131230619508944788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8786565032581669084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69476e8899704944197891080e1b2876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

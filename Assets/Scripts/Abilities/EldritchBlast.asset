@@ -15,4 +15,5 @@ MonoBehaviour:
   abilityName: EldritchBlast
   castTime: 1
   animationTrigger: EldritchBlast
+  icon: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
   projectile: {fileID: 4460309666732685197, guid: bc41bdd5399d26748a73664e564b6b1a, type: 3}

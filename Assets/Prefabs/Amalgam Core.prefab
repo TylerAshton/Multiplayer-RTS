@@ -10376,6 +10376,7 @@ GameObject:
   - component: {fileID: -1518687657229019451}
   - component: {fileID: 4434726133949733668}
   - component: {fileID: 8660236696455862255}
+  - component: {fileID: -8818372801074404822}
   m_Layer: 0
   m_Name: Amalgam Core
   m_TagString: Untagged
@@ -10593,7 +10594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1320629513
+  GlobalObjectIdHash: 2711955040
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -10620,6 +10621,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 3859389024563432009}
+--- !u!114 &-8818372801074404822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123164835970087146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174658616a3838242aec5b6a5c5320c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  abilityPositions:
+  - {fileID: 5813815697016714828}
+  abilities: []
 --- !u!1 &5134832880157673835
 GameObject:
   m_ObjectHideFlags: 0
