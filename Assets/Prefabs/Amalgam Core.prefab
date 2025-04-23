@@ -10636,7 +10636,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   abilityPositions:
   - {fileID: 5813815697016714828}
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
 --- !u!1 &5134832880157673835
 GameObject:
   m_ObjectHideFlags: 0
