@@ -91,7 +91,11 @@ public class UnitManager : NetworkBehaviour
         }
 
         selectedUnits.Remove(_unit);
-        unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+
+        if (selectedUnits.Count > 0)
+        {
+            unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        }
         _unit.HideSelectionIndicator();
     }
 

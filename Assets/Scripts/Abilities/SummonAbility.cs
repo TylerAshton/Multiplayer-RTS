@@ -5,6 +5,7 @@ using UnityEngine;
 public class SummonAbility : Ability
 {
     [SerializeField] private GameObject spawnee;
+    [SerializeField] private GameObject spawnVFX;
     [SerializeField] private float maxDispersion = 5f;
     [SerializeField] private float minDisperstion = 5f;
     [SerializeField] private Vector3 offset = Vector3.zero;
@@ -28,7 +29,7 @@ public class SummonAbility : Ability
             castPosition.y,
             castPosition.z + offsetXZ.y
         );
-
+        GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
     }
 

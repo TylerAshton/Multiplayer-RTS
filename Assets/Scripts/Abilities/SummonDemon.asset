@@ -16,7 +16,8 @@ MonoBehaviour:
   castTime: 1
   animationTrigger: 
   icon: {fileID: 21300000, guid: 0d3301ccf4b1d7243afda09fcd959c83, type: 3}
-  spawnee: {fileID: 4617036660772024948, guid: 3ba4e9fb1efc7d34b87c23700830b4ed, type: 3}
+  spawnee: {fileID: 2401997887451976919, guid: 44030ceaa8e63cb42ab47b206a6e8252, type: 3}
+  spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
   maxDispersion: 5
   minDisperstion: 5
   offset: {x: 0, y: 1, z: 0}
