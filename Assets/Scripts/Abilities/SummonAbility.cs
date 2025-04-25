@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Summon Ability", menuName = "Abilities/Summon")]
@@ -31,6 +32,7 @@ public class SummonAbility : Ability
         );
         GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
+        summoned.GetComponent<NetworkObject>().Spawn();
     }
 
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
