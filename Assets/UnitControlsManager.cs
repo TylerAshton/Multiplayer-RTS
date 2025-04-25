@@ -17,7 +17,7 @@ public class UnitControlsManager : MonoBehaviour
     /// <summary>
     /// Disables and hides all ability cells in the grid
     /// </summary>
-    private void ResetAbilityGrid()
+    public void ResetAbilityGrid()
     {
         foreach (GameObject _cell in abilityCells)
         {

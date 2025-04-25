@@ -26,10 +26,10 @@ public class AbilityManager : NetworkBehaviour
     private Animator animator;
 
     [SerializeField] private List<Transform> abilityPositions;
-    public List<Transform>  AbilityPositions => abilityPositions;
+    public List<Transform>  AbilityPositions => new List<Transform>(abilityPositions);
 
     [SerializeField] private List<Ability> abilities;
-    public List<Ability> Abilities => abilities; 
+    public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
     private void Awake()
     {

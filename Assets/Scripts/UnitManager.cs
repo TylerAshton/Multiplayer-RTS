@@ -11,7 +11,7 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
     [SerializeField] private GameObject AbilityPanelPrefab;
     private UnitControlsManager unitControlsManager;
-    public List<Unit> SelectedUnits => selectedUnits;
+    public List<Unit> SelectedUnits => new List<Unit>(selectedUnits);
 
     private readonly float moveSpacing = 2;
     private readonly int moveLayerCapciaty = 8;
@@ -95,6 +95,10 @@ public class UnitManager : NetworkBehaviour
         if (selectedUnits.Count > 0)
         {
             unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        }
+        else
+        {
+            unitControlsManager.ResetAbilityGrid();
         }
         _unit.HideSelectionIndicator();
     }
