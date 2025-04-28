@@ -1236,6 +1236,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 607043754}
+    - target: {fileID: 1240240842362434633, guid: deb4d9f60dd481b4f9d0594fe4af47f0, type: 3}
+      propertyPath: m_SelectedEdges.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1240240842362434633, guid: deb4d9f60dd481b4f9d0594fe4af47f0, type: 3}
+      propertyPath: m_SelectedFaces.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1240240842362434633, guid: deb4d9f60dd481b4f9d0594fe4af47f0, type: 3}
+      propertyPath: m_SelectedVertices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1401103538423392420, guid: deb4d9f60dd481b4f9d0594fe4af47f0, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3901,7 +3913,7 @@ MonoBehaviour:
   AmalgamPlayer: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
   ChampionSpawnPos: {fileID: 1444580687}
   ChampionPlayer: {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
-  DEBUGForceChampion: 0
+  DEBUGForceChampion: 1
 --- !u!114 &1845778890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4732,13 +4744,6 @@ SceneRoots:
   - {fileID: 1249066507}
   - {fileID: 228035121}
   - {fileID: 672040590}
-  - {fileID: 874546779}
-  - {fileID: 1493973326}
-  - {fileID: 1907801853}
-  - {fileID: 1527531008}
-  - {fileID: 755867179}
-  - {fileID: 784563271}
-  - {fileID: 831945787}
-  - {fileID: 117151638}
-  - {fileID: 937531431}
   - {fileID: 2119777202}
+  - {fileID: 680683570}
+  - {fileID: 558948676}
