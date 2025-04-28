@@ -22,32 +22,38 @@ public class NavAgentAnimator : NetworkBehaviour
     {
         if (!IsServer) return;
 
+        Debug.Log(agent.velocity);
+
         Vector3 movementNormalized = agent.velocity.normalized;
 
-        UpdateAnimationParamsServerRpc(movementNormalized);
+        UpdateAnimationParamsServerRpc(movementNormalized, agent.velocity);
     }
 
     /// <summary>
     /// Updates the animator controller with the movement vector relative to the rotation
     /// </summary>
-    /// <param name="_movementInput"></param>
+    /// <param name="_normalizedVel"></param>
     /// 
     [ServerRpc(RequireOwnership = false)]
-    private void UpdateAnimationParamsServerRpc(Vector3 _movementInput)
+    private void UpdateAnimationParamsServerRpc(Vector3 _normalizedVel, Vector3 _veloicty)
     {
-        if (_movementInput.sqrMagnitude < 0.001f) // Smoothing even when we're standing still
+        if (_normalizedVel.sqrMagnitude < 0.001f) // Smoothing even when we're standing still
         {
             animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, 5f * Time.deltaTime));
             animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, 5f * Time.deltaTime));
             return;
         }
 
-        Vector3 input = _movementInput.normalized;
+        Vector3 input = _normalizedVel.normalized;
         float relativeX = Vector3.Dot(input, transform.right); // .Dot() Exists!! 
         float relativeZ = Vector3.Dot(input, transform.forward);
 
         animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
         animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));
+
+        // Velocity for walk/run diff
+        animator.SetFloat("SpeedX", Vector3.Dot(transform.right, _veloicty));
+        animator.SetFloat("SpeedY", Vector3.Dot(transform.forward, _veloicty));
     }
 
 
