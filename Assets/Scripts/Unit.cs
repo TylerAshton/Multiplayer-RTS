@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,14 +10,17 @@ using UnityEngine.AI;
 /// </summary>
 public class Unit : NetworkBehaviour, IDestructible
 {
+    private Queue<Task> taskQueue = new();
+    private Task currentTask;
+    private AbilityManager abilityManager;
+    public AbilityManager AbilityManager => abilityManager;
+    public Task CurrentTask => currentTask;
     [SerializeField] GameObject selectionIndiator;
     MeshRenderer selectionRenderer;
     RTSPlayer rts_Player;
     Health health;
     Collider colliderComp;
     NetworkObject networkObject;
-
-    [SerializeField] State currentState;
 
     protected virtual void Awake()
     {
@@ -27,13 +31,16 @@ public class Unit : NetworkBehaviour, IDestructible
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
-            Debug.LogError("Network object is required for cameraMovement");
+            Debug.LogError("Network object is required for Unit");
+        }
+        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        {
+            Debug.LogError("AbilityManager is required for Unit");
         }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
         health = GetComponent<Health>();
         colliderComp = GetComponent<Collider>();
-
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -46,48 +53,124 @@ public class Unit : NetworkBehaviour, IDestructible
 
         if (RTSPlayer.instance == null)
         {
-            Debug.LogError("RTS Manager doesn't exist");
+            Debug.LogError("RTS Manager doesn't exist, shutting down");
             return;
         }
-
-        currentState = new IdleState(this);
-        currentState.Enter();
 
         rts_Player = RTSPlayer.instance;
         rts_Player.UnitManager.AddUnit(this);
     }
 
-    // Update is called once per frame
-    protected virtual void Update()
+    /// <summary>
+    /// Runs the Update function in the currentTask should it exist
+    /// </summary>
+    private void UpdateTask()
     {
-        if (!NetworkManager.Singleton.IsServer) 
+        if (currentTask == null)
         {
             return;
         }
 
-        if (currentState != null)
-        {
-            currentState.Update();
-        }
+        currentTask.Update();
     }
 
     /// <summary>
-    /// Exits the current state if one exists, before entering the new state.
+    /// When the current task is completed exit the task. 
+    /// Exit the task and start the next task if there is one in the queue
     /// </summary>
-    /// <param name="_newState"></param>
-    public void ChangeState(State _newState)
+    /// <param name="_completedTask"></param>
+    private void OnTaskComplete(Task _completedTask)
     {
-        if (currentState != null)
+        if (TryStartNextTask())
         {
-            currentState.Exit();
+            return;
         }
 
-        currentState = _newState;
-        currentState.Enter();
+        CancelCurrentTask();
+    }
 
-        #if UNITY_EDITOR
-            SetSelectionColor(_newState.StateDebugColor);
-        #endif
+    /// <summary>
+    /// If there is a task in the taskQueue run SetCurrentTask with that task, returns true if successful
+    /// </summary>
+    private bool TryStartNextTask()
+    {
+        if (!taskQueue.TryDequeue(out Task nextTask))
+        {
+            return false;
+        }
+
+        SetCurrentTask(nextTask);
+        return true;
+    }
+
+    /// <summary>
+    /// Clears all tasks from the que and imposes a brand new task that starts immediately
+    /// </summary>
+    /// <param name="_newTask"></param>
+    public void ImposeNewTask(Task _newTask)
+    {
+        taskQueue.Clear();
+        SetCurrentTask(_newTask);
+    }
+
+    /// <summary>
+    /// Exits the currentTask and sets it to null
+    /// </summary>
+    public void CancelCurrentTask()
+    {
+        if (currentTask == null)
+        {
+            Debug.LogError("Attempted to cancel current task when it doesn't exist");
+            return;
+        }
+
+        currentTask.Exit();
+        currentTask.OnTaskCompleted -= OnTaskComplete;
+        currentTask = null;
+    }
+
+    /// <summary>
+    /// Enqueues the parsed task into the taskQueue of the unit
+    /// </summary>
+    /// <param name="_newTask"></param>
+    public void QueueNewTask(Task _newTask)
+    {
+        taskQueue.Enqueue(_newTask);
+    }
+
+    /// <summary>
+    /// Sets the currentTask to the parsed Task, exiting the prexisting currentTask should it exist
+    /// </summary>
+    /// <param name="_task"></param>
+    private void SetCurrentTask(Task _task)
+    {
+        if (_task == null)
+        {
+            Debug.LogError("Attempted to setCurrentTask with a null task");
+            return;
+        }
+
+        if (currentTask != null)
+        {
+            CancelCurrentTask();
+        }
+
+        currentTask = _task;
+        currentTask.OnTaskCompleted += OnTaskComplete;
+        currentTask.Start();
+    }
+
+
+
+    // Update is called once per frame
+    protected virtual void Update()
+    {
+        if (NetworkManager.Singleton && !NetworkManager.Singleton.IsServer) 
+        {
+            return;
+        }
+
+        UpdateTask();
     }
 
     /// <summary>
@@ -117,7 +200,10 @@ public class Unit : NetworkBehaviour, IDestructible
 
     public virtual void DestroyObject()
     {
-        rts_Player.UnitManager.RemoveUnit(this);
+        if (rts_Player)
+        {
+            rts_Player.UnitManager.RemoveUnit(this);
+        }      
     }
 
     /// <summary>

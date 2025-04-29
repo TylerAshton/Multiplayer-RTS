@@ -116,8 +116,6 @@ public class BulletProjectile : NetworkBehaviour
         }
 
         transform.position += moveDirection * speed * Time.deltaTime;
-
-
     }
 
 

@@ -14,12 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tyler.unity
     guid: 07f414f463504e34d8130052cef99b78
+  - enabled: 1
+    path: Assets/Scenes/MainWorld.unity
+    guid: 2f58dd0981810df418937192f9662217
   - enabled: 0
     path: Assets/Scenes/Harrison Scene.unity
     guid: fefc938c8c8df9943a3f0d5658798e56
-  - enabled: 0
-    path: Assets/Scenes/MainWorld.unity
-    guid: 2f58dd0981810df418937192f9662217
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: af9003cab7efda648bbb1c9113025b74, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

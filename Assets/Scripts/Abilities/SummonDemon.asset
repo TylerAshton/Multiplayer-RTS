@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c659d45b5118c4c9c60f028df39bb4, type: 3}
+  m_Name: SummonDemon
+  m_EditorClassIdentifier: 
+  abilityName: Summon Demon
+  castTime: 1
+  animationTrigger: 
+  icon: {fileID: 21300000, guid: 0d3301ccf4b1d7243afda09fcd959c83, type: 3}
+  spawnee: {fileID: 2401997887451976919, guid: 44030ceaa8e63cb42ab47b206a6e8252, type: 3}
+  spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
+  maxDispersion: 5
+  minDisperstion: 5
+  offset: {x: 0, y: 1, z: 0}

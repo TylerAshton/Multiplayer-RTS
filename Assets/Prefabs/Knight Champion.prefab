@@ -2257,7 +2257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 1.3
+  moveSpeed: 2
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!114 &1083379821118792553
 MonoBehaviour:
@@ -2354,7 +2354,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1.7
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.86, z: 0}
 --- !u!114 &6858280541130533361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2372,6 +2372,9 @@ MonoBehaviour:
   deathAnimationLength: 1
   test: 0
   isDying: 0
+  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  showHealthBar: 0
 --- !u!114 &6078025101248540705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2520,6 +2523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityPositions: []
+  abilities:
+  - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!54 &145892177886631570
 Rigidbody:
   m_ObjectHideFlags: 0

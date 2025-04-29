@@ -7,6 +7,8 @@ TagManager:
   - FLOOR
   - Amalgam
   - Champion
+  - CinemachineTarget
+  - PointAwarder
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - Outline
   - Unit
-  - 
+  - Capture
   - 
   - 
   - 

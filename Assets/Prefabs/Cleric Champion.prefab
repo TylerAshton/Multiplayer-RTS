@@ -375,6 +375,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.066961214, y: -0.15552217, z: 0.06828025}
     m_Extent: {x: 0.43332022, y: 0.88681597, z: 0.40366074}
   m_DirtyAABB: 0
+--- !u!1 &1548403627768237879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5960994509850344562}
+  m_Layer: 0
+  m_Name: Fire Bolt Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5960994509850344562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548403627768237879}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.6942639, y: -0.006587297, z: 0.14312631, w: 0.70531493}
+  m_LocalPosition: {x: -0.1147, y: 0.0332, z: 0.055}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7223351878956580943}
+  m_LocalEulerAnglesHint: {x: -77.813, y: -80.206, z: 91.35}
 --- !u!1 &1746246953524309559
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2710956934
+  GlobalObjectIdHash: 4222950
   InScenePlacedSourceGlobalObjectIdHash: 2710956934
   DeferredDespawnTick: 0
   Ownership: 1
@@ -672,7 +703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 1.3
-  primaryAbility: {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
+  primaryAbility: {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
 --- !u!114 &2885188943381047520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,6 +859,13 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: -1122186865
     TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 1
+    OriginatingState: 2081823275
+    DestinationState: -116021918
+    TransitionDuration: 0.25
+    TriggerNameHash: -297273395
+    TransitionIndex: 1
   m_Animator: {fileID: 3779843464443528873}
 --- !u!114 &6245597217510480515
 MonoBehaviour:
@@ -916,10 +954,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoints: 100
-  animator: {fileID: 0}
-  deathAnimationLength: 0
+  animator: {fileID: 3779843464443528873}
+  deathAnimationLength: 1
   test: 0
   isDying: 0
+  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  showHealthBar: 0
 --- !u!114 &7496280509918056966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,6 +976,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   abilityPositions:
   - {fileID: 5742072020312327593}
+  - {fileID: 5960994509850344562}
+  abilities:
+  - {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
 --- !u!1 &2807604425998223400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,6 +1589,7 @@ Transform:
   - {fileID: 579411284879692431}
   - {fileID: 7993214868256201861}
   - {fileID: 5742072020312327593}
+  - {fileID: 5960994509850344562}
   m_Father: {fileID: 6372650176225443270}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5014460570525812207

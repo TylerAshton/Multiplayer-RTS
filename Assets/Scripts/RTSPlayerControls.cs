@@ -327,7 +327,14 @@ public class RTSPlayerControls : MonoBehaviour
         };
 
         List<RaycastResult> results = new List<RaycastResult>();
-        graphicRaycaster.Raycast(eventData, results);
+        // Scan all GraphicRaycasters in the scene
+        foreach (GraphicRaycaster raycaster in FindObjectsByType<GraphicRaycaster>(FindObjectsSortMode.None)) // TODO This is very performance intensive to find stuff every frame
+        {
+            raycaster.Raycast(eventData, results);
+            if (results.Count > 0)
+                return true;
+        }
+
         return results.Count > 0;
     }
 }

@@ -15,14 +15,23 @@ public class CapturePoint : NetworkBehaviour
     {
         AMALGAM,
         NEUTRAL,
-        CHAMPION
+        CHAMPION,
+        CONTESTED
     }
+
+    private Material[] materials;
+
+    [SerializeField] GameObject circle;
+    [SerializeField] ParticleSystem bonfire;
+    [SerializeField] GameObject bonfireObj;
 
     public owners owner = owners.NEUTRAL;
 
     private void Awake()
     {
-
+        circle.transform.localScale = new Vector3(r, 1, r);
+        circle.transform.position = this.transform.position + offset;
+        bonfireObj.transform.position = this.transform.position + offset;
     }
 
     void Update()
@@ -36,22 +45,48 @@ public class CapturePoint : NetworkBehaviour
             Debug.Log("SOMEONE REACHED THIS POINT");
             if (unit.collider.transform.tag == "Champion")
             {
-                Debug.Log("CHAMPS REACHED THIS POINT");
                 champs++;
             }
             else if(unit.collider.transform.tag == "Amalgam")
             {
-                Debug.Log("AMALGS REACHED THIS POINT");
                 amalgs++;
             }
         }
-        if (champs > minChamps && amalgs == 0)
+        if (champs >= minChamps && amalgs == 0)
         {
             owner = owners.CHAMPION;
         }
-        else if (amalgs > minAmalgs && champs == 0)
+        else if (amalgs >= minAmalgs && champs == 0)
         {
             owner = owners.AMALGAM;
+        }
+        else if (champs > 0 && amalgs > 0)
+        {
+            owner = owners.CONTESTED;
+        }
+
+        if (owner == owners.AMALGAM)
+        {
+            bonfire.enableEmission = true;
+            bonfire.startColor = Color.red;
+            circle.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+        else if (owner == owners.CHAMPION)
+        {
+            bonfire.enableEmission = true;
+            bonfire.startColor = Color.blue;
+            circle.GetComponent<MeshRenderer>().material.color = Color.blue;
+        }
+        else if (owner == owners.CONTESTED)
+        {
+            bonfire.enableEmission = true;
+            bonfire.startColor = Color.green;
+            circle.GetComponent<MeshRenderer>().material.color = Color.green;
+        }
+        else
+        {
+            bonfire.enableEmission = false;
+            circle.GetComponent<MeshRenderer>().material.color = Color.grey;
         }
     }
 

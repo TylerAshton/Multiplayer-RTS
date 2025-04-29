@@ -3,9 +3,11 @@ using UnityEngine;
 
 public abstract class Ability : ScriptableObject
 {
-    public string abilityName;
+    [SerializeField] private string abilityName;
     [SerializeField] private float castTime = 1f;
     [SerializeField] protected string animationTrigger;
+    [SerializeField] private Sprite icon;
+    public Sprite Icon => icon;
     public float CastTime => castTime;
 
     public abstract void Activate(GameObject user, Animator _animator);

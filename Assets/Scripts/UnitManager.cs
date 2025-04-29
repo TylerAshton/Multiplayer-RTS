@@ -9,7 +9,9 @@ public class UnitManager : NetworkBehaviour
 {
     [SerializeField] private List<Unit> allUnits = new List<Unit>();
     [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
-    public List<Unit> SelectedUnits => selectedUnits;
+    [SerializeField] private GameObject AbilityPanelPrefab;
+    private UnitControlsManager unitControlsManager;
+    public List<Unit> SelectedUnits => new List<Unit>(selectedUnits);
 
     private readonly float moveSpacing = 2;
     private readonly int moveLayerCapciaty = 8;
@@ -17,7 +19,8 @@ public class UnitManager : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
+        unitControlsManager = AbilityPanel.GetComponentInChildren<UnitControlsManager>();
     }
 
     // Update is called once per frame
@@ -71,6 +74,7 @@ public class UnitManager : NetworkBehaviour
     private void SelectUnit(Unit _unit)
     {
         selectedUnits.Add(_unit);
+        unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         _unit.ShowSelectionIndicator();
     }
 
@@ -87,6 +91,15 @@ public class UnitManager : NetworkBehaviour
         }
 
         selectedUnits.Remove(_unit);
+
+        if (selectedUnits.Count > 0)
+        {
+            unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        }
+        else
+        {
+            unitControlsManager.ResetAbilityGrid();
+        }
         _unit.HideSelectionIndicator();
     }
 
@@ -119,8 +132,8 @@ public class UnitManager : NetworkBehaviour
             if (selectedUnits[i] is NPC _NPC)
             {
                 Vector3 targetPosition = _worldPosition + CalculateFormationOffset(i);
-                MoveState moveState = new MoveState(targetPosition, _NPC);
-                _NPC.ChangeState(moveState);
+                MoveTask moveTask = new MoveTask(_NPC, targetPosition);
+                _NPC.ImposeNewTask(moveTask);
             }
         }
     }

@@ -24,10 +24,12 @@ public class AbilityManager : NetworkBehaviour
 
     private Ability currentAbility;
     private Animator animator;
-    private AnimatedChampion animatedChampion;
 
     [SerializeField] private List<Transform> abilityPositions;
-    public List<Transform>  AbilityPositions => abilityPositions;
+    public List<Transform>  AbilityPositions => new List<Transform>(abilityPositions);
+
+    [SerializeField] private List<Ability> abilities;
+    public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
     private void Awake()
     {
@@ -35,15 +37,16 @@ public class AbilityManager : NetworkBehaviour
         {
             Debug.LogError("Animator is required for AbilityManager");
         }
-        if (!TryGetComponent<AnimatedChampion>(out animatedChampion))
-        {
-            Debug.LogError("AnimatedChampion is required for AbilityManager");
-        }
     }
 
+    /// <summary>
+    /// Called when the ability animation reaches the frame when the attack part of the ability should be cast. 
+    /// Which then runs the currentAbility's OnUse function
+    /// Requires the attack animation to have a correctly set up event that calls this function.
+    /// </summary>
     public void OnAnimationApex()
     {
-        if (!IsOwner) return;
+       if (!NetworkManager.Singleton.IsServer) return;
 
         currentAbility.OnUse(gameObject, AbilityPositions);
     }
@@ -52,17 +55,27 @@ public class AbilityManager : NetworkBehaviour
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>
-    public void TryCastAbility(Ability _abilty)
+    public void TryCastAbility(int _abilityIndex)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to cast an ability");
+        }
+
         if (abilityState == AbilityState.Casting)
         {
             return;
         }
-        currentAbility = _abilty;
-        _abilty.Activate(gameObject, animator);
-        StartCoroutine(LockCastingUntil(_abilty.CastTime));
+        currentAbility = abilities[_abilityIndex];
+        currentAbility.Activate(gameObject, animator);
+        StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
 
+    /// <summary>
+    /// Sets the AbilityState to Casting until the inputted time has elapsed.
+    /// </summary>
+    /// <param name="_timer"></param>
+    /// <returns></returns>
     private IEnumerator LockCastingUntil(float _timer)
     {
         abilityState = AbilityState.Casting;

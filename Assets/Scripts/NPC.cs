@@ -10,20 +10,26 @@ public class NPC : Unit
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
-    [SerializeField] private LayerMask unitLayer;
-    [SerializeField] private float detectionRange;
-    [SerializeField] private float fireCoolDown;
-    public float FireCoolDown => fireCoolDown;
-    [SerializeField] public float fireTime;
-    [SerializeField] private GameObject projectile;
     private Transform target;
+    public Transform Target => target;
     private Health targetHealth;
+    private Animator animator;
+    private AbilityManager abilityManager;
     public Health TargetHealth => targetHealth;
     protected override void Awake()
     {
         if (!NetworkManager.Singleton.IsServer)
         {
             return;
+        }
+
+        if (!TryGetComponent<Animator>(out animator))
+        {
+            Debug.LogError("Animator is required for NPC");
+        }
+        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        {
+            Debug.LogError("AbilityManager is required for NPC");
         }
 
         base.Awake();
@@ -34,19 +40,35 @@ public class NPC : Unit
     protected override void Start()
     {
         base.Start();
+
+        if (!NetworkManager.Singleton.IsServer) return;
+
+        agent.updateRotation = false; // I'M IN CHARGE NOW BITCH
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
+
+        if (!IsServer) return;
+
+        UpdateRotation();
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
+    
 
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+    private void UpdateRotation()
+    {
+        if (target != null)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), Time.deltaTime);
+        }
+
+        else if (agent.velocity.magnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.velocity.normalized), Time.deltaTime);
+        }       
     }
 
     /// <summary>
@@ -59,54 +81,18 @@ public class NPC : Unit
     }
 
     /// <summary>
-    /// Attempts to find Champion within the detectionRange and sets it as the 
-    /// Target before entering the AttackState should one exist within range
-    /// </summary>
-    public void ScanForTarget()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange, unitLayer);
-
-        foreach (Collider collider in hits)
-        {
-            if (collider.CompareTag("Champion"))
-            {
-                if (collider.TryGetComponent<Health>(out var _health))
-                {
-                    if(_health.IsDying) // TODO: Sloppy af
-                    {
-                        continue;
-                    }
-                }
-                SetTarget(collider.gameObject);
-                AttackState attackState = new AttackState(this);
-                ChangeState(attackState);
-            }
-        }
-    }
-
-    /// <summary>
     /// Fires the pojectile towards the target's position
     /// </summary>
     public void Shoot()
     {
-        Debug.Log("pew");
-        Vector3 direction = (target.position - transform.position).normalized;
-
-        GameObject newProjectile = (GameObject)Instantiate(projectile, transform.position, Quaternion.LookRotation(direction));
-
-        // Register over network
-        NetworkObject bulletNetwork = newProjectile.GetComponent<NetworkObject>();
-        bulletNetwork.Spawn();
-
-        BulletProjectile _projectile = newProjectile.GetComponent<BulletProjectile>();
-        _projectile.LaunchProjectile(direction);
+        abilityManager.TryCastAbility(0);
     }
 
     /// <summary>
     /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
     /// </summary>
     /// <param name="_targetGameObject"></param>
-    private void SetTarget(GameObject _targetGameObject)
+    public void SetTarget(GameObject _targetGameObject)
     {
         if (_targetGameObject.TryGetComponent<Health>(out Health health))
         {

@@ -76,7 +76,8 @@ public class PlayerSpawner : NetworkBehaviour
         }
         else
         {
-            newPlayer = (GameObject)Instantiate(CoopPlayerPrefab);
+            newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[0]);
+            playerManager.AddPlayer(clientId, playerList[0]);
         }
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
@@ -95,6 +96,7 @@ public class PlayerSpawner : NetworkBehaviour
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
+        playerManager.AddPlayer(clientId, playerList[prefabId]);
     }
 
     private void setPlayerPrefabGlobal(ulong _ID, GameObject _Prefab)

@@ -103,13 +103,7 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void CastAbilityServerRpc(int _AbilityIndex)
     {
-        switch (_AbilityIndex)
-        {
-            case 0:
-                abilityManager.TryCastAbility(primaryAbility);
-                break;
-        }
-
+        abilityManager.TryCastAbility(_AbilityIndex);
     }
 
     
@@ -123,11 +117,6 @@ public class AnimatedChampion : NetworkBehaviour
         MoveServerRpc(movementVector);
         UpdateAnimationParamsServerRpc(movementVector);
         //MoveCameraServerRpc();
-    }
-
-    private void AnimatedMove(Vector3 _movementVector)
-    {
-        //transform.position += _movementVector * Time.deltaTime * moveSpeed;
     }
 
     /// <summary>
@@ -148,9 +137,7 @@ public class AnimatedChampion : NetworkBehaviour
     public void CheckMove(InputAction.CallbackContext context)
     {
         movementVector.x = context.ReadValue<Vector2>().x;
-        movementVector.z = context.ReadValue<Vector2>().y;
-
-        
+        movementVector.z = context.ReadValue<Vector2>().y; 
     }
 
     /// <summary>
@@ -194,7 +181,7 @@ public class AnimatedChampion : NetworkBehaviour
 
 
     /// <summary>
-    /// This Server-Rpc attempts to 
+    /// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
