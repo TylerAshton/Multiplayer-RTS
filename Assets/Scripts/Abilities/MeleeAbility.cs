@@ -7,6 +7,7 @@ public class MeleeAbility : Ability
     [SerializeField] private float angleDegrees = 90f;
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
+    [SerializeField] private GameObject hitEffect;
 
     public override void Activate(GameObject _user, Animator _animator)
     {
@@ -50,6 +51,7 @@ public class MeleeAbility : Ability
                 if (hit.TryGetComponent(out Health _health))
                 {
                     _health.Damage(damage);
+                    Instantiate(hitEffect, hit.transform);
                 }
             }
         }

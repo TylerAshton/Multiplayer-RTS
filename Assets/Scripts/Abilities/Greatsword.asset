@@ -19,3 +19,4 @@ MonoBehaviour:
   angleDegrees: 45
   range: 3
   damage: 1
+  hitEffect: {fileID: 6823302871133167919, guid: 33a967ddf22b41741828b0797077fa49, type: 3}
