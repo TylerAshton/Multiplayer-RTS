@@ -13,4 +13,6 @@ public abstract class Ability : ScriptableObject
     public abstract void Activate(GameObject user, Animator _animator);
 
     public abstract void OnUse(GameObject _user, List<Transform> _abilityPositions);
+
+    public abstract void DebugDrawing(GameObject _user, List<Transform> _abilityPositions);
 }

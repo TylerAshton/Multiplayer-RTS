@@ -182,6 +182,9 @@ public class AnimatedChampion : NetworkBehaviour
         {
             animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, 5f * Time.deltaTime));
             animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, 5f * Time.deltaTime));
+
+/*            animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), Mathf.Abs(velocity.x), 5.0f * Time.deltaTime));
+            animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), Mathf.Abs(velocity.z), 5.0f * Time.deltaTime));*/
             return;
         }
 
@@ -191,12 +194,13 @@ public class AnimatedChampion : NetworkBehaviour
 
         /*animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
         animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));*/
-
+        
         animator.SetFloat("MoveX", relativeX);
         animator.SetFloat("MoveY", relativeZ);
 
         animator.SetFloat("SpeedX", moveSpeed);
         animator.SetFloat("SpeedY", moveSpeed);
+
     }
 
 
