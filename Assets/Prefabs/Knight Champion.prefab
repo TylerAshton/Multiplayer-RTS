@@ -2257,7 +2257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 2
+  moveSpeed: 7
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!114 &1083379821118792553
 MonoBehaviour:

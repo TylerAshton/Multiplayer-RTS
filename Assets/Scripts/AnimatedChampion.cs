@@ -161,6 +161,9 @@ public class AnimatedChampion : NetworkBehaviour
 
         animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
         animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));
+
+        animator.SetFloat("SpeedX", moveSpeed);
+        animator.SetFloat("SpeedY", moveSpeed);
     }
 
 
