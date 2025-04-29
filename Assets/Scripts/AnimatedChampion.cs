@@ -25,6 +25,9 @@ public class AnimatedChampion : NetworkBehaviour
 
     private Animator animator;
     private AbilityManager abilityManager;
+    private CharacterController characterController;
+
+    private Vector3 velocity; // used for gravity shit
 
     [SerializeField] private Ability primaryAbility;
     void Start()
@@ -50,6 +53,10 @@ public class AnimatedChampion : NetworkBehaviour
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
             Debug.LogError("AbilityManager is required for AnimatedChampion");
+        }
+        if (!TryGetComponent<CharacterController>(out characterController))
+        {
+            Debug.LogError("CharacterController is required for AnimatedChampion");
         }
 
         if (networkObject.IsOwner)
@@ -127,7 +134,18 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
     {
-        transform.position += movementVector * moveSpeed * Time.deltaTime;
+        //transform.position += movementVector * moveSpeed * Time.deltaTime;
+
+        Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
+        characterController.Move(move * moveSpeed * Time.deltaTime);
+
+        if (characterController.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // TODO Magic number
+        }
+
+        // Gravity application
+        characterController.Move(velocity * Time.deltaTime);
     }
 
     /// <summary>
