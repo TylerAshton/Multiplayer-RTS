@@ -159,8 +159,11 @@ public class AnimatedChampion : NetworkBehaviour
         float relativeX = Vector3.Dot(input, transform.right); // .Dot() Exists!! 
         float relativeZ = Vector3.Dot(input, transform.forward);
 
-        animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
-        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));
+        /*animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
+        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));*/
+
+        animator.SetFloat("MoveX", relativeX);
+        animator.SetFloat("MoveY", relativeZ);
 
         animator.SetFloat("SpeedX", moveSpeed);
         animator.SetFloat("SpeedY", moveSpeed);
