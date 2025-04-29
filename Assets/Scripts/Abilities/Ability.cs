@@ -14,5 +14,10 @@ public abstract class Ability : ScriptableObject
 
     public abstract void OnUse(GameObject _user, List<Transform> _abilityPositions);
 
+    /// <summary>
+    /// Called everyframe to demonstrate debugging stuff such a gizmo range diagrams. Will not run on build
+    /// </summary>
+    /// <param name="_user"></param>
+    /// <param name="_abilityPositions"></param>
     public abstract void DebugDrawing(GameObject _user, List<Transform> _abilityPositions);
 }

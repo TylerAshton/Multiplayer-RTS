@@ -13,6 +13,21 @@ public class MeleeAbility : Ability
         _animator.SetTrigger($"{animationTrigger}");
     }
 
+    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    {
+        Gizmos.color = Color.yellow;
+        Vector3 forward = _user.transform.forward;
+
+        Vector3 leftSide = Quaternion.AngleAxis(angleDegrees / 2, Vector3.up) * forward;
+        leftSide = _user.transform.position + leftSide * range;
+        Vector3 rightSide = Quaternion.AngleAxis(-angleDegrees / 2, Vector3.up) * forward;
+        rightSide = _user.transform.position + rightSide * range;
+
+
+        Gizmos.DrawLine(_user.transform.position, rightSide);
+        Gizmos.DrawLine(_user.transform.position, leftSide);
+    }
+
     /// <summary>
     /// Function called when the animation reaches the peak of its swing
     /// </summary>

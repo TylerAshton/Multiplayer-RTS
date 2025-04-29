@@ -39,6 +39,16 @@ public class AbilityManager : NetworkBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        #if UNITY_EDITOR
+            foreach (var ability in abilities)
+            {
+                ability.DebugDrawing(gameObject, AbilityPositions);
+            }
+        #endif
+    }
+
     /// <summary>
     /// Called when the ability animation reaches the frame when the attack part of the ability should be cast. 
     /// Which then runs the currentAbility's OnUse function

@@ -11,6 +11,11 @@ public class AOEAbility : Ability
         _animator.SetTrigger($"{animationTrigger}");
     }
 
+    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    {
+        
+    }
+
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
         //GameObject newEffect = Instantiate(effect, _abilityPositions[0].position, Quaternion.identity);

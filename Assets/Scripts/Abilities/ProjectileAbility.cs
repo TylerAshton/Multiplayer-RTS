@@ -12,6 +12,11 @@ public class ProjectileAbility : Ability
         _animator.SetTrigger($"{animationTrigger}");
     }
 
+    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    {
+        
+    }
+
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
         GameObject spawnedProjectile = Instantiate(projectile, _abilityPositions[0].position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
