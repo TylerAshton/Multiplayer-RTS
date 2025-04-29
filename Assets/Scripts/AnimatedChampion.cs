@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,8 @@ using UnityEngine.InputSystem;
 public class AnimatedChampion : NetworkBehaviour
 {
     [SerializeField] float moveSpeed = 4f; //movement speed multiplier
+    [SerializeField] float acceleration = 10f;
+    [SerializeField] float deceleration = 15f;
     RelayManager manager; //relay manager instance
     Rigidbody rb; //rigidbody attached to the player
 
@@ -137,7 +140,16 @@ public class AnimatedChampion : NetworkBehaviour
         //transform.position += movementVector * moveSpeed * Time.deltaTime;
 
         Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
-        characterController.Move(move * moveSpeed * Time.deltaTime);
+
+        Vector3 targetVelocity = move * moveSpeed;
+
+        float lerpSpeed = (movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
+
+        // lerp towards targetVelocity
+        velocity = Vector3.MoveTowards(velocity, targetVelocity, lerpSpeed * Time.deltaTime);
+
+
+        //characterController.Move(move * moveSpeed * Time.deltaTime);
 
         if (characterController.isGrounded && velocity.y < 0)
         {
