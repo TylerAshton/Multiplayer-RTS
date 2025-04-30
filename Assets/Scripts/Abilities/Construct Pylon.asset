@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b417402d18af9d0478c400d049c81d72, type: 3}
+  m_Name: Construct Pylon
+  m_EditorClassIdentifier: 
+  abilityName: Construct Pylon
+  castTime: 1
+  animationTrigger: 
+  icon: {fileID: 21300000, guid: 859fbc8486cc55646866eec839beedd0, type: 3}
+  spawnee: {fileID: 5123164835970087146, guid: a3dd1adf908c46342bbd0d6f6cf2f312, type: 3}
+  spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
