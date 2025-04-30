@@ -2371,14 +2371,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 100
   animator: {fileID: 8215767443926878751}
   deathAnimationLength: 1
   test: 0
   isDying: 0
+  overlayHealthBar: {fileID: 2757501461227020302, guid: 0177b71b52bece94d9886a50c80fcf12, type: 3}
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
   healthBarOffset: {x: 0, y: 0, z: 0}
-  showHealthBar: 0
+  showHealthBar: 1
+  showOnOwnerScreen: 1
 --- !u!114 &6078025101248540705
 MonoBehaviour:
   m_ObjectHideFlags: 0
