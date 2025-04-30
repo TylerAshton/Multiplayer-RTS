@@ -122,9 +122,9 @@ GameObject:
   - component: {fileID: 7921561840989305767}
   - component: {fileID: 1298520754925574514}
   - component: {fileID: 4566964034565402655}
-  - component: {fileID: 1067902684302147444}
   - component: {fileID: 8014679277335582758}
   - component: {fileID: 7750733840084467600}
+  - component: {fileID: 428394598585228709}
   m_Layer: 0
   m_Name: ConstructionPad
   m_TagString: Untagged
@@ -142,7 +142,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 31.9403, y: 0.5497, z: -2.0569}
-  m_LocalScale: {x: 2, y: 0.2595, z: 2}
+  m_LocalScale: {x: 5, y: 0.2595, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4635363070123410762}
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3156460849
+  GlobalObjectIdHash: 1857141485
   InScenePlacedSourceGlobalObjectIdHash: 3156460849
   DeferredDespawnTick: 0
   Ownership: 1
@@ -267,20 +267,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1067902684302147444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7708722605112869330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78dadc6294c5334ba888a15c4c11753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  selectionIndiator: {fileID: 7489209139734554470}
 --- !u!114 &8014679277335582758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,3 +305,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &428394598585228709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708722605112869330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f27aef5a6c7b3f43a70629037e93f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  selectionIndiator: {fileID: 7489209139734554470}

@@ -16,8 +16,8 @@ public class Construct : Ability
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
 
-        user.GetComponent<Building>().HideBuildPad();
-        summoned.GetComponent<Health>().OnDeath += user.GetComponent<Building>().ShowBuildPad;
+/*        user.GetComponent<Building>().HideBuildPad();
+        summoned.GetComponent<Health>().OnDeath += user.GetComponent<Building>().ShowBuildPad;*/
     }
 
     public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
