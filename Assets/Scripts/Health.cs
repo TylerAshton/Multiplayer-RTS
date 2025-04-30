@@ -124,6 +124,8 @@ public class Health : NetworkBehaviour
     {
         hitPoints += _health;
 
+        healthSlider.value = hitPoints;
+
         Mathf.Clamp(hitPoints, 0, maxHealth);
     }
 
