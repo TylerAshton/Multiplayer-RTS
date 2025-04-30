@@ -58,6 +58,10 @@ public class UnitManager : NetworkBehaviour
 
         foreach (Unit _unit in allUnits)
         {
+            if (!_unit.IsSelectable)
+            {
+                continue;
+            }
             Vector3 unitScreenPos = Camera.main.WorldToScreenPoint(_unit.transform.position);
             //Debug.Log($"{_rect} - {unitScreenPos}");
             if (_rect.Contains(unitScreenPos, true))
