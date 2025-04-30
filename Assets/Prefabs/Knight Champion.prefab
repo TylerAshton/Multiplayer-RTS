@@ -2573,6 +2573,7 @@ MonoBehaviour:
   abilityPositions: []
   abilities:
   - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
+  - {fileID: 11400000, guid: 2c3b25891acc3d943883286778422896, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!1 &8588891501480843583
 GameObject:
