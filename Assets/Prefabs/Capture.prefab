@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 1191104328691993228}
   - component: {fileID: 6924199076545172511}
   - component: {fileID: 7638822680781091495}
-  m_Layer: 0
+  - component: {fileID: 6342540273694048179}
+  m_Layer: 8
   m_Name: Capture
-  m_TagString: Untagged
+  m_TagString: PointAwarder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,12 +80,28 @@ MonoBehaviour:
     m_Bits: 128
   champs: 0
   amalgs: 0
-  minChamps: 0
-  minAmalgs: 1
+  minChamps: 1
+  minAmalgs: 5
   circle: {fileID: 8768507414282470780}
   bonfire: {fileID: 1822217176419311534}
   bonfireObj: {fileID: 3173700271377119470}
+  shop: {fileID: 6342540273694048179}
   owner: 1
+--- !u!114 &6342540273694048179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462886220653058648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff667d343aed0474e831f0c4fd75f2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopOwner: 0
+  amalgamObjs: []
+  championObjs: []
 --- !u!1 &3173700271377119470
 GameObject:
   m_ObjectHideFlags: 0
@@ -6215,7 +6232,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 170
+  m_VersionIndex: 185
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
