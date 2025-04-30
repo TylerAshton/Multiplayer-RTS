@@ -3,7 +3,7 @@ using UnityEngine;
 public class ChampionAbilityManager : AbilityManager
 {
     [SerializeField] private GameObject AbilityUIPrefab;
-    private ChampionUIManager UIAbilityManager;
+    private AbilityUIManager UIAbilityManager;
 
     protected override void Awake()
     {
@@ -11,13 +11,13 @@ public class ChampionAbilityManager : AbilityManager
 
         // Spawn and setup Ability UI
         GameObject AbilityUI = Instantiate(AbilityUIPrefab);
-        UIAbilityManager = AbilityUI.GetComponentInChildren<ChampionUIManager>();
+        UIAbilityManager = AbilityUI.GetComponentInChildren<AbilityUIManager>();
 
         
     }
 
     protected void Start()
     {
-        UIAbilityManager.UpdateGridWithChampionAbilities(this);
+        UIAbilityManager.UpdateGridWithAbilityManager(this);
     }
 }

@@ -10,7 +10,7 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private List<Unit> allUnits = new List<Unit>();
     [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
     [SerializeField] private GameObject AbilityPanelPrefab;
-    private UnitControlsManager unitControlsManager;
+    private AbilityUIManager unitControlsManager;
     public List<Unit> SelectedUnits => new List<Unit>(selectedUnits);
 
     private readonly float moveSpacing = 2;
@@ -20,7 +20,7 @@ public class UnitManager : NetworkBehaviour
     void Start()
     {
         GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
-        unitControlsManager = AbilityPanel.GetComponentInChildren<UnitControlsManager>();
+        unitControlsManager = AbilityPanel.GetComponentInChildren<AbilityUIManager>();
     }
 
     // Update is called once per frame
