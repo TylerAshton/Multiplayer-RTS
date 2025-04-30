@@ -6,6 +6,8 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float hitPoints;
     public float HitPoints => hitPoints;
+
+    private float maxHealth;
     [SerializeField] private Animator animator;
     [SerializeField] private float deathAnimationLength = 0;
     [SerializeField] private bool test;
@@ -56,6 +58,8 @@ public class Health : MonoBehaviour
             healthSlider.maxValue = hitPoints;
             healthSlider.value = hitPoints;
         }
+
+        maxHealth = hitPoints;
     }
 
     /// <summary>
@@ -74,6 +78,17 @@ public class Health : MonoBehaviour
         {
             DestroyObject();
         }
+    }
+
+    /// <summary>
+    /// Increases the current health by the parsed amount within the confines of maxHealth
+    /// </summary>
+    /// <param name="_health"></param>
+    public void Heal(float _health)
+    {
+        hitPoints += _health;
+
+        Mathf.Clamp(hitPoints, 0, maxHealth);
     }
 
     /// <summary>

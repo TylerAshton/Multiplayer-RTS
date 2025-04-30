@@ -31,6 +31,8 @@ public class AbilityManager : NetworkBehaviour
     [SerializeField] protected List<Ability> abilities;
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
+    private float AttackSpeed = 1;
+
     protected virtual void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
@@ -51,6 +53,12 @@ public class AbilityManager : NetworkBehaviour
             }
             
         #endif
+    }
+
+    public void SetAttackSpeed(float _attackSpeed)
+    {
+        AttackSpeed = _attackSpeed;
+        animator.SetFloat("AttackSpeed", _attackSpeed);
     }
 
     /// <summary>

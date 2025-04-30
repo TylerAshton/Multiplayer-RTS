@@ -6,6 +6,7 @@ using UnityEngine;
 public class BuffAbility : Ability
 {
     [SerializeField] private GameObject buffEffects;
+    [SerializeField] private Effect effect;
     public override void Activate(GameObject user, Animator _animator)
     {
         _animator.SetTrigger($"{animationTrigger}");
@@ -18,6 +19,7 @@ public class BuffAbility : Ability
 
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
-        GameObject effect = Instantiate(buffEffects, _user.transform);
+        Instantiate(buffEffects, _user.transform);
+        _user.GetComponent<EffectManager>().AddEffect(effect);
     }
 }

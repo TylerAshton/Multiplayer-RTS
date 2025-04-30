@@ -2173,6 +2173,7 @@ GameObject:
   - component: {fileID: 145892177886631570}
   - component: {fileID: 9025558608976535429}
   - component: {fileID: 785699896743842906}
+  - component: {fileID: -8172366779438765040}
   m_Layer: 7
   m_Name: Knight Champion
   m_TagString: Champion
@@ -2275,7 +2276,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1563094196
+    DestinationState: 1780992433
+    TransitionDuration: 0.25
+    TriggerNameHash: 1500070530
+    TransitionIndex: 0
   m_Animator: {fileID: 8215767443926878751}
 --- !u!114 &1480990190808758957
 MonoBehaviour:
@@ -2591,6 +2599,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
   - {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
+--- !u!114 &-8172366779438765040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0
