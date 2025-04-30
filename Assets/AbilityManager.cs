@@ -22,16 +22,16 @@ public class AbilityManager : NetworkBehaviour
 {
     AbilityState abilityState = AbilityState.Ready;
 
-    private Ability currentAbility;
-    private Animator animator;
+    protected Ability currentAbility;
+    protected Animator animator;
 
     [SerializeField] private List<Transform> abilityPositions;
     public List<Transform>  AbilityPositions => new List<Transform>(abilityPositions);
 
-    [SerializeField] private List<Ability> abilities;
+    [SerializeField] protected List<Ability> abilities;
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
         {
@@ -39,13 +39,17 @@ public class AbilityManager : NetworkBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         #if UNITY_EDITOR
-            foreach (var ability in abilities)
+            if (abilities != null && abilities.Count > 0)
             {
-                ability.DebugDrawing(gameObject, AbilityPositions);
+                foreach (var ability in abilities)
+                {
+                    ability.DebugDrawing(gameObject, AbilityPositions);
+                }
             }
+            
         #endif
     }
 
@@ -86,7 +90,7 @@ public class AbilityManager : NetworkBehaviour
     /// </summary>
     /// <param name="_timer"></param>
     /// <returns></returns>
-    private IEnumerator LockCastingUntil(float _timer)
+    protected IEnumerator LockCastingUntil(float _timer)
     {
         abilityState = AbilityState.Casting;
         yield return new WaitForSeconds(_timer);

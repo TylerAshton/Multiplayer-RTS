@@ -29,6 +29,7 @@ public class AnimatedChampion : NetworkBehaviour
     private Animator animator;
     private AbilityManager abilityManager;
     private CharacterController characterController;
+    
 
     private Vector3 velocity; // used for gravity shit
 
@@ -67,6 +68,8 @@ public class AnimatedChampion : NetworkBehaviour
             cameraSpawner.Init();
             playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
             //cameraSpawner.SpawnedCamera.transform.SetParent(transform);
+
+            
         }
 
         Cursor.lockState = CursorLockMode.Confined;

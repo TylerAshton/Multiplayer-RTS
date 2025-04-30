@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4246887364674062054}
   - component: {fileID: 7955389656107280584}
   - component: {fileID: 7201755041364747683}
-  - component: {fileID: 8517358076619142401}
+  - component: {fileID: 3015846207033830864}
   m_Layer: 5
   m_Name: Ability Panel
   m_TagString: Untagged
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &8517358076619142401
+--- !u!114 &3015846207033830864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 305221128013870930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69476e8899704944197891080e1b2876, type: 3}
+  m_Script: {fileID: 11500000, guid: bbf624ec21e92dd44a54eccca2fd18cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   abilityCells:
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 3949107298765259594}
   - component: {fileID: 4291435489794943456}
   m_Layer: 5
-  m_Name: RTS HUD Canvas
+  m_Name: Champion HUD Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
