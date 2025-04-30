@@ -109,6 +109,15 @@ public class AnimatedChampion : NetworkBehaviour
         CastAbilityServerRpc(0);
     }
 
+    public void UseSecondaryAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (!context.performed) return;
+
+        CastAbilityServerRpc(1);
+    }
+
     /// <summary>
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>

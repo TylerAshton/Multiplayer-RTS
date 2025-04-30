@@ -74,9 +74,15 @@ public class AbilityManager : NetworkBehaviour
         if (!IsServer)
         {
             Debug.LogError("Client attempted to cast an ability");
+            return;
         }
 
         if (abilityState == AbilityState.Casting)
+        {
+            return;
+        }
+
+        if (abilities[_abilityIndex] == null)
         {
             return;
         }

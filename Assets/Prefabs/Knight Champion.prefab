@@ -2209,9 +2209,9 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0b235959500198d449ae48a6d2146d02, type: 3}
   m_Controller: {fileID: 9100000, guid: efd3a394f96cbca40a5bbc00bb401b5b, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2500,6 +2500,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b96ba981-e08d-480a-8e7d-55cae5981166
     m_ActionName: 'UI/Esc[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6512302321430887414}
+        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+        m_MethodName: UseSecondaryAbility
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 397e86ce-1a9d-42ea-83f4-b9adaedb76fd
+    m_ActionName: 'Player/Attack2[/Keyboard/2]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2573,7 +2589,7 @@ MonoBehaviour:
   abilityPositions: []
   abilities:
   - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
-  - {fileID: 11400000, guid: 2c3b25891acc3d943883286778422896, type: 2}
+  - {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!1 &8588891501480843583
 GameObject:
