@@ -20,10 +20,7 @@ public class UIManager : MonoBehaviour
             {
                 if (id >= 0)
                 {
-                    NetworkObject obj = NetworkManager.Singleton.ConnectedClients[id].PlayerObject;
-                    Canvas canvas = obj.GetComponentInChildren<Canvas>(true);
-                    canvas.gameObject.SetActive(true);
-                    canvas.GetComponentInChildren<TextMeshProUGUI>().text = ($"CLIENT ID : {id}");
+                    enableUIRpc(id);                    
                 }
             }
         }
@@ -31,5 +28,13 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
+    }
+
+    [Rpc(SendTo.NotServer)]
+    void enableUIRpc(ulong id)
+    {
+        GameObject UI = GameObject.Find("Champion UI");
+        UI.gameObject.SetActive(true);
+        UI.GetComponentInChildren<TextMeshProUGUI>().text = ($"CLIENT ID : {id}");
     }
 }
