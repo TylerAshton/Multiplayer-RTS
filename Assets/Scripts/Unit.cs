@@ -21,6 +21,8 @@ public class Unit : NetworkBehaviour, IDestructible
     Health health;
     Collider colliderComp;
     NetworkObject networkObject;
+    private bool isSelectable = true;
+    public bool IsSelectable => isSelectable;
 
     protected virtual void Awake()
     {
@@ -59,6 +61,15 @@ public class Unit : NetworkBehaviour, IDestructible
 
         rts_Player = RTSPlayer.instance;
         rts_Player.UnitManager.AddUnit(this);
+    }
+
+    /// <summary>
+    /// Sets if unit is selectable bool
+    /// </summary>
+    /// <param name="_isSelectable"></param>
+    public void SetIsSelectable(bool _isSelectable)
+    {
+        isSelectable = _isSelectable;
     }
 
     /// <summary>

@@ -2,7 +2,7 @@ using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BulletProjectile : NetworkBehaviour
+public class BulletProjectile : NetworkBehaviour, IDestructible
 {
     private const float LingerTime = 0.01f;
     [SerializeField] private float detectionRange = 0.1f;
@@ -10,6 +10,8 @@ public class BulletProjectile : NetworkBehaviour
     [SerializeField] private float damage = 1f;
     [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private GameObject deathVFX;
+    [SerializeField] private float lifeTime = 5f;
     private float destroyAtTime = Mathf.Infinity;
     NetworkObject networkObject;
     private bool isDead = false;
@@ -42,7 +44,10 @@ public class BulletProjectile : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Bullet spawned");
+        if (lifeTime > 0)
+        {
+            destroyAtTime = Time.fixedTime + lifeTime;
+        }
 
         CalculateCorners();
     }
@@ -97,8 +102,7 @@ public class BulletProjectile : NetworkBehaviour
         // Lifetimer Check
         if (destroyAtTime < Time.fixedTime)
         {
-            Debug.Log("Killing bullet");
-            networkObject.Despawn();
+            DestroyObject();
             return;
         }
 
@@ -219,8 +223,13 @@ public class BulletProjectile : NetworkBehaviour
         meshRenderer.enabled = false;
     }
 
-    private void DestroyMe()
+    public void DestroyObject()
     {
-        Destroy(gameObject);
+        Debug.Log("Killing bullet");
+        if (deathVFX)
+        {
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
+        }
+        networkObject.Despawn();
     }
 }

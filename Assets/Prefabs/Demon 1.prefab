@@ -1275,9 +1275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 10
+  hitPoints: 3
   animator: {fileID: 2865285359833913113}
-  deathAnimationLength: 1
+  deathAnimationLength: 0.01
   test: 0
   isDying: 0
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
