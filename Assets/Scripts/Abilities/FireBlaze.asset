@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: FireBlaze
   m_EditorClassIdentifier: 
   abilityName: Fire Blaze
-  castTime: 1
+  castTime: 4
   animationTrigger: FireBlast
+  icon: {fileID: 21300000, guid: bb3562d29e9225a4aa9f0e8d0af40351, type: 3}
   effect: {fileID: 6631761922747683013, guid: 28e2d8c08a0117841ba65ce212813fa3, type: 3}
