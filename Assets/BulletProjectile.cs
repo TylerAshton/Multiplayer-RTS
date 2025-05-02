@@ -11,6 +11,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible
     [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject deathVFX;
+    [SerializeField] private float lifeTime = 5f;
     private float destroyAtTime = Mathf.Infinity;
     NetworkObject networkObject;
     private bool isDead = false;
@@ -43,7 +44,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Bullet spawned");
+        if (lifeTime > 0)
+        {
+            destroyAtTime = Time.fixedTime + lifeTime;
+        }
 
         CalculateCorners();
     }
