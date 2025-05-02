@@ -4042,7 +4042,7 @@ MonoBehaviour:
   AmalgamSpawnPos: {fileID: 2042348343}
   AmalgamPlayer: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
   ChampionSpawnPos: {fileID: 1444580687}
-  ChampionPlayer: {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
+  ChampionPlayer: {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
   DEBUGForceChampion: 1
 --- !u!114 &1845778890
 MonoBehaviour:
