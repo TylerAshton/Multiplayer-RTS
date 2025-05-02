@@ -2212,7 +2212,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: efd3a394f96cbca40a5bbc00bb401b5b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2262,6 +2262,7 @@ MonoBehaviour:
   moveSpeed: 7
   acceleration: 30
   deceleration: 40
+  smoothSpeed: 15
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!114 &1083379821118792553
 MonoBehaviour:

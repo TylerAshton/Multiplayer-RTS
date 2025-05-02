@@ -9,22 +9,21 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Animator))]
 public class AnimatedChampion : NetworkBehaviour
 {
-    [SerializeField] float moveSpeed = 4f; //movement speed multiplier
-    [SerializeField] float acceleration = 10f;
-    [SerializeField] float deceleration = 15f;
-    RelayManager manager; //relay manager instance
-    Rigidbody rb; //rigidbody attached to the player
+    [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
+    [SerializeField] private float acceleration = 10f;
+    [SerializeField] private float deceleration = 15f;
+    [SerializeField] private float smoothSpeed = 10f;
+    private RelayManager manager; //relay manager instance
+    private Rigidbody rb; //rigidbody attached to the player
 
-    Vector3 movementVector; //the movement vector to be added to the transform
-    CameraSpawner cameraSpawner; //camera spawner instance
-    NetworkObject networkObject; // current networkObject attached to the player
+    private Vector3 movementVector; //the movement vector to be added to the transform
+    private CameraSpawner cameraSpawner; //camera spawner instance
+    private NetworkObject networkObject; // current networkObject attached to the player
 
-    Vector3 worldPosition; // the position of the mouse relative to the world origin
+    private Vector3 worldPosition; // the position of the mouse relative to the world origin
     public Vector3 WorldPosition => worldPosition;
 
-    GameObject playerCamera; // the camera that the player will be seeing the game through
-
-    //Vector2 mousePosition = new Vector2(Screen.width / 2, Screen.height / 2);
+    private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private Animator animator;
     private AbilityManager abilityManager;
@@ -190,30 +189,30 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void UpdateAnimationParamsServerRpc(Vector3 _movementInput)
     {
-        if (_movementInput.sqrMagnitude < 0.001f) // Smoothing even when we're standing still
-        {
-            animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, 5f * Time.deltaTime));
-            animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, 5f * Time.deltaTime));
+        
 
-/*            animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), Mathf.Abs(velocity.x), 5.0f * Time.deltaTime));
-            animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), Mathf.Abs(velocity.z), 5.0f * Time.deltaTime));*/
+        if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
+        {
+            animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, smoothSpeed * Time.deltaTime));
+            animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, smoothSpeed * Time.deltaTime));
+            animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), 0f, smoothSpeed * Time.deltaTime));
+            animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), 0f, smoothSpeed * Time.deltaTime));
             return;
         }
 
-        Vector3 input = _movementInput.normalized;
-        float relativeX = Vector3.Dot(input, transform.right); // .Dot() Exists!! 
-        float relativeZ = Vector3.Dot(input, transform.forward);
+        // Normalize input to find local direction (relative)
+        Vector3 inputDirection = _movementInput.normalized;
+        float relativeX = Vector3.Dot(inputDirection, transform.right); // .Dot() Exists!! 
+        float relativeZ = Vector3.Dot(inputDirection, transform.forward);
 
-        /*animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
-        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));*/
 
-        Vector3 localMove = transform.InverseTransformDirection(velocity);
+        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
 
-        animator.SetFloat("MoveX", relativeX);
-        animator.SetFloat("MoveY", relativeZ);
-
-        animator.SetFloat("SpeedX", Mathf.Abs(localMove.x));
-        animator.SetFloat("SpeedY", Mathf.Abs(localMove.z));
+        // Smoothly update animation parameters
+        animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, smoothSpeed * Time.deltaTime));
+        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, smoothSpeed * Time.deltaTime));
+        animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), Mathf.Abs(localVelocity.x), smoothSpeed * Time.deltaTime));
+        animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), Mathf.Abs(localVelocity.z), smoothSpeed * Time.deltaTime));
 
     }
 
