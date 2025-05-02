@@ -111,7 +111,7 @@ public class RTSPlayerControls : MonoBehaviour
     }
 
     /// <summary>
-    /// Calls the MouseClickStarted and Ended scripts when the player uses left click
+    /// Calls the MouseClickStarted and Ended scripts when the player uses left click. Provided they're not clicking the ui
     /// </summary>
     /// <param name="context"></param>
     public void OnMouseClick(InputAction.CallbackContext context)
@@ -157,6 +157,11 @@ public class RTSPlayerControls : MonoBehaviour
     /// </summary>
     private void OnMouseClickEnded()
     {
+        if (isUsingUI(mouseScreenPos))
+        {
+            return;
+        }
+
         isMouseHeld = false;
         RTSPlayer.instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
         selectionBox.DisableBox();
@@ -330,6 +335,10 @@ public class RTSPlayerControls : MonoBehaviour
         // Scan all GraphicRaycasters in the scene
         foreach (GraphicRaycaster raycaster in FindObjectsByType<GraphicRaycaster>(FindObjectsSortMode.None)) // TODO This is very performance intensive to find stuff every frame
         {
+            if (raycaster.gameObject.name == "RTS SelectionCanvas(Clone)") // TODO: This it yet another reason why this this function is shit
+            {
+                continue;
+            }
             raycaster.Raycast(eventData, results);
             if (results.Count > 0)
                 return true;
