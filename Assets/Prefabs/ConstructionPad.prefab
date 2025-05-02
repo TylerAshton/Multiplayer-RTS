@@ -120,8 +120,8 @@ GameObject:
   - component: {fileID: 9216179889386677432}
   - component: {fileID: 9185221870156461105}
   - component: {fileID: 7921561840989305767}
-  - component: {fileID: 1298520754925574514}
   - component: {fileID: 4566964034565402655}
+  - component: {fileID: 1298520754925574514}
   - component: {fileID: 8014679277335582758}
   - component: {fileID: 7750733840084467600}
   - component: {fileID: 428394598585228709}
@@ -222,26 +222,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1298520754925574514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7708722605112869330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitPoints: 10
-  animator: {fileID: 0}
-  deathAnimationLength: 0.1
-  test: 0
-  isDying: 0
-  healthBarPrefab: {fileID: 0}
-  healthBarOffset: {x: 0, y: 0, z: 0}
-  showHealthBar: 0
 --- !u!114 &4566964034565402655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1857141485
+  GlobalObjectIdHash: 3156460849
   InScenePlacedSourceGlobalObjectIdHash: 3156460849
   DeferredDespawnTick: 0
   Ownership: 1
@@ -267,6 +247,29 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1298520754925574514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708722605112869330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  hitPoints: 10
+  animator: {fileID: 0}
+  deathAnimationLength: 0.1
+  test: 0
+  isDying: 0
+  overlayHealthBar: {fileID: 0}
+  healthBarPrefab: {fileID: 0}
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  showHealthBar: 0
+  showOnOwnerScreen: 0
 --- !u!114 &8014679277335582758
 MonoBehaviour:
   m_ObjectHideFlags: 0
