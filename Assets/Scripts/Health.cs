@@ -2,10 +2,13 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-public class Health : MonoBehaviour
+using static UnityEngine.ProBuilder.AutoUnwrapSettings;
+public class Health : NetworkBehaviour
 {
     [SerializeField] private float hitPoints;
     public float HitPoints => hitPoints;
+
+    private float maxHealth;
     [SerializeField] private Animator animator;
     [SerializeField] private float deathAnimationLength = 0;
     [SerializeField] private bool test;
@@ -15,10 +18,12 @@ public class Health : MonoBehaviour
 
     public event Action OnDeath; // Death event, used to begin respawn
 
+    [SerializeField] private GameObject overlayHealthBar;
     [SerializeField] private GameObject healthBarPrefab;
     [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 0, 0);
     private Slider healthSlider;
     [SerializeField] private bool showHealthBar = true;
+    [SerializeField] private bool showOnOwnerScreen = false;
     private void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
@@ -47,15 +52,51 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        if (showHealthBar)
-        {
-            GameObject healthBar = Instantiate(healthBarPrefab, transform);
-            healthBar.transform.position += healthBarOffset;
-            healthSlider = healthBar.GetComponentInChildren<Slider>();
+        maxHealth = hitPoints;
+        ShowHealthBar();
 
-            healthSlider.maxValue = hitPoints;
-            healthSlider.value = hitPoints;
+    }
+
+    private void ShowHealthBar()
+    {
+        if (!showHealthBar)
+        {
+            return;
         }
+
+        if (showOnOwnerScreen && IsOwner)
+        {
+            ShowOverlayHealthBar();
+        }
+        else
+        {
+            ShowHoverBar();
+        }
+    }
+
+    /// <summary>
+    /// Used to create your standard healthbar hovering around the character
+    /// </summary>
+    private void ShowHoverBar()
+    {
+        GameObject healthBar = Instantiate(healthBarPrefab, transform);
+        healthBar.transform.position += healthBarOffset;
+        healthSlider = healthBar.GetComponentInChildren<Slider>();
+
+        healthSlider.maxValue = maxHealth;
+        healthSlider.value = hitPoints;
+    }
+
+    /// <summary>
+    /// Shows the health bar on the screen as a HUD, used for champion player's healthbar for the owner only
+    /// </summary>
+    private void ShowOverlayHealthBar()
+    {
+        GameObject healthBar = Instantiate(overlayHealthBar);
+        healthSlider = healthBar.GetComponentInChildren<Slider>();
+
+        healthSlider.maxValue = maxHealth;
+        healthSlider.value = hitPoints;
     }
 
     /// <summary>
@@ -74,6 +115,19 @@ public class Health : MonoBehaviour
         {
             DestroyObject();
         }
+    }
+
+    /// <summary>
+    /// Increases the current health by the parsed amount within the confines of maxHealth
+    /// </summary>
+    /// <param name="_health"></param>
+    public void Heal(float _health)
+    {
+        hitPoints += _health;
+
+        healthSlider.value = hitPoints;
+
+        Mathf.Clamp(hitPoints, 0, maxHealth);
     }
 
     /// <summary>

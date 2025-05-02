@@ -2,29 +2,35 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
 public class AnimatedChampion : NetworkBehaviour
 {
-    [SerializeField] float moveSpeed = 4f; //movement speed multiplier
-    RelayManager manager; //relay manager instance
-    Rigidbody rb; //rigidbody attached to the player
+    [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
+    [SerializeField] private float acceleration = 10f;
+    [SerializeField] private float deceleration = 15f;
+    [SerializeField] private float smoothSpeed = 10f;
+    private RelayManager manager; //relay manager instance
+    private Rigidbody rb; //rigidbody attached to the player
 
-    Vector3 movementVector; //the movement vector to be added to the transform
-    CameraSpawner cameraSpawner; //camera spawner instance
-    NetworkObject networkObject; // current networkObject attached to the player
+    private Vector3 movementVector; //the movement vector to be added to the transform
+    private CameraSpawner cameraSpawner; //camera spawner instance
+    private NetworkObject networkObject; // current networkObject attached to the player
 
-    Vector3 worldPosition; // the position of the mouse relative to the world origin
+    private Vector3 worldPosition; // the position of the mouse relative to the world origin
     public Vector3 WorldPosition => worldPosition;
 
-    GameObject playerCamera; // the camera that the player will be seeing the game through
-
-    //Vector2 mousePosition = new Vector2(Screen.width / 2, Screen.height / 2);
+    private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private Animator animator;
     private AbilityManager abilityManager;
+    private CharacterController characterController;
+    
+
+    private Vector3 velocity; // used for gravity shit
 
     [SerializeField] private Ability primaryAbility;
     void Start()
@@ -51,12 +57,18 @@ public class AnimatedChampion : NetworkBehaviour
         {
             Debug.LogError("AbilityManager is required for AnimatedChampion");
         }
+        if (!TryGetComponent<CharacterController>(out characterController))
+        {
+            Debug.LogError("CharacterController is required for AnimatedChampion");
+        }
 
         if (networkObject.IsOwner)
         {
             cameraSpawner.Init();
             playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
             //cameraSpawner.SpawnedCamera.transform.SetParent(transform);
+
+            
         }
 
         Cursor.lockState = CursorLockMode.Confined;
@@ -96,6 +108,15 @@ public class AnimatedChampion : NetworkBehaviour
         CastAbilityServerRpc(0);
     }
 
+    public void UseSecondaryAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (!context.performed) return;
+
+        CastAbilityServerRpc(1);
+    }
+
     /// <summary>
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
@@ -127,7 +148,27 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
     {
-        transform.position += movementVector * moveSpeed * Time.deltaTime;
+        //transform.position += movementVector * moveSpeed * Time.deltaTime;
+
+        Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
+
+        Vector3 targetVelocity = move * moveSpeed;
+
+        float lerpSpeed = (movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
+
+        // lerp towards targetVelocity
+        velocity = Vector3.MoveTowards(velocity, targetVelocity, lerpSpeed * Time.deltaTime);
+
+
+        //characterController.Move(move * moveSpeed * Time.deltaTime);
+
+        if (characterController.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // TODO Magic number
+        }
+
+        // Gravity application
+        characterController.Move(velocity * Time.deltaTime);
     }
 
     /// <summary>
@@ -148,19 +189,31 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void UpdateAnimationParamsServerRpc(Vector3 _movementInput)
     {
-        if (_movementInput.sqrMagnitude < 0.001f) // Smoothing even when we're standing still
+        
+
+        if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
-            animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, 5f * Time.deltaTime));
-            animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, 5f * Time.deltaTime));
+            animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, smoothSpeed * Time.deltaTime));
+            animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, smoothSpeed * Time.deltaTime));
+            animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), 0f, smoothSpeed * Time.deltaTime));
+            animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), 0f, smoothSpeed * Time.deltaTime));
             return;
         }
 
-        Vector3 input = _movementInput.normalized;
-        float relativeX = Vector3.Dot(input, transform.right); // .Dot() Exists!! 
-        float relativeZ = Vector3.Dot(input, transform.forward);
+        // Normalize input to find local direction (relative)
+        Vector3 inputDirection = _movementInput.normalized;
+        float relativeX = Vector3.Dot(inputDirection, transform.right); // .Dot() Exists!! 
+        float relativeZ = Vector3.Dot(inputDirection, transform.forward);
 
-        animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, 5.0f * Time.deltaTime));
-        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));
+
+        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+
+        // Smoothly update animation parameters
+        animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, smoothSpeed * Time.deltaTime));
+        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, smoothSpeed * Time.deltaTime));
+        animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), Mathf.Abs(localVelocity.x), smoothSpeed * Time.deltaTime));
+        animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), Mathf.Abs(localVelocity.z), smoothSpeed * Time.deltaTime));
+
     }
 
 

@@ -7,10 +7,26 @@ public class MeleeAbility : Ability
     [SerializeField] private float angleDegrees = 90f;
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
+    [SerializeField] private GameObject hitEffect;
 
     public override void Activate(GameObject _user, Animator _animator)
     {
         _animator.SetTrigger($"{animationTrigger}");
+    }
+
+    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    {
+        Gizmos.color = Color.yellow;
+        Vector3 forward = _user.transform.forward;
+
+        Vector3 leftSide = Quaternion.AngleAxis(angleDegrees / 2, Vector3.up) * forward;
+        leftSide = _user.transform.position + leftSide * range;
+        Vector3 rightSide = Quaternion.AngleAxis(-angleDegrees / 2, Vector3.up) * forward;
+        rightSide = _user.transform.position + rightSide * range;
+
+
+        Gizmos.DrawLine(_user.transform.position, rightSide);
+        Gizmos.DrawLine(_user.transform.position, leftSide);
     }
 
     /// <summary>
@@ -35,6 +51,7 @@ public class MeleeAbility : Ability
                 if (hit.TryGetComponent(out Health _health))
                 {
                     _health.Damage(damage);
+                    Instantiate(hitEffect, hit.transform);
                 }
             }
         }

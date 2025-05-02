@@ -35,6 +35,11 @@ public class SummonAbility : Ability
         summoned.GetComponent<NetworkObject>().Spawn();
     }
 
+    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    {
+
+    }
+
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
         throw new System.NotImplementedException();

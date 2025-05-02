@@ -22,21 +22,43 @@ public class AbilityManager : NetworkBehaviour
 {
     AbilityState abilityState = AbilityState.Ready;
 
-    private Ability currentAbility;
-    private Animator animator;
+    protected Ability currentAbility;
+    protected Animator animator;
 
     [SerializeField] private List<Transform> abilityPositions;
     public List<Transform>  AbilityPositions => new List<Transform>(abilityPositions);
 
-    [SerializeField] private List<Ability> abilities;
+    [SerializeField] protected List<Ability> abilities;
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
-    private void Awake()
+    private float AttackSpeed = 1;
+
+    protected virtual void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
         {
             Debug.LogError("Animator is required for AbilityManager");
         }
+    }
+
+    protected void OnDrawGizmos()
+    {
+        #if UNITY_EDITOR
+            if (abilities != null && abilities.Count > 0)
+            {
+                foreach (var ability in abilities)
+                {
+                    ability.DebugDrawing(gameObject, AbilityPositions);
+                }
+            }
+            
+        #endif
+    }
+
+    public void SetAttackSpeed(float _attackSpeed)
+    {
+        AttackSpeed = _attackSpeed;
+        animator.SetFloat("AttackSpeed", _attackSpeed);
     }
 
     /// <summary>
@@ -60,9 +82,15 @@ public class AbilityManager : NetworkBehaviour
         if (!IsServer)
         {
             Debug.LogError("Client attempted to cast an ability");
+            return;
         }
 
         if (abilityState == AbilityState.Casting)
+        {
+            return;
+        }
+
+        if (abilities[_abilityIndex] == null)
         {
             return;
         }
@@ -76,7 +104,7 @@ public class AbilityManager : NetworkBehaviour
     /// </summary>
     /// <param name="_timer"></param>
     /// <returns></returns>
-    private IEnumerator LockCastingUntil(float _timer)
+    protected IEnumerator LockCastingUntil(float _timer)
     {
         abilityState = AbilityState.Casting;
         yield return new WaitForSeconds(_timer);

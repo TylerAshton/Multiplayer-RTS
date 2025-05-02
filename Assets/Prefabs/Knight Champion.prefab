@@ -2170,8 +2170,10 @@ GameObject:
   - component: {fileID: 1837269192722182152}
   - component: {fileID: 6858280541130533361}
   - component: {fileID: 6078025101248540705}
-  - component: {fileID: 9022254892259460586}
   - component: {fileID: 145892177886631570}
+  - component: {fileID: 9025558608976535429}
+  - component: {fileID: 785699896743842906}
+  - component: {fileID: -8172366779438765040}
   m_Layer: 7
   m_Name: Knight Champion
   m_TagString: Champion
@@ -2208,7 +2210,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0b235959500198d449ae48a6d2146d02, type: 3}
   m_Controller: {fileID: 9100000, guid: efd3a394f96cbca40a5bbc00bb401b5b, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -2257,7 +2259,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 2
+  moveSpeed: 7
+  acceleration: 30
+  deceleration: 40
+  smoothSpeed: 15
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!114 &1083379821118792553
 MonoBehaviour:
@@ -2274,11 +2279,11 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList:
   - IsCrossFadeExit: 0
-    Layer: 1
-    OriginatingState: 1486958411
-    DestinationState: -1952858472
+    Layer: 0
+    OriginatingState: 1563094196
+    DestinationState: 1780992433
     TransitionDuration: 0.25
-    TriggerNameHash: 1273568435
+    TriggerNameHash: 1500070530
     TransitionIndex: 0
   m_Animator: {fileID: 8215767443926878751}
 --- !u!114 &1480990190808758957
@@ -2367,14 +2372,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 100
   animator: {fileID: 8215767443926878751}
   deathAnimationLength: 1
   test: 0
   isDying: 0
+  overlayHealthBar: {fileID: 2757501461227020302, guid: 0177b71b52bece94d9886a50c80fcf12, type: 3}
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
   healthBarOffset: {x: 0, y: 0, z: 0}
-  showHealthBar: 0
+  showHealthBar: 1
+  showOnOwnerScreen: 1
 --- !u!114 &6078025101248540705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2504,27 +2512,27 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b96ba981-e08d-480a-8e7d-55cae5981166
     m_ActionName: 'UI/Esc[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6512302321430887414}
+        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+        m_MethodName: UseSecondaryAbility
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 397e86ce-1a9d-42ea-83f4-b9adaedb76fd
+    m_ActionName: 'Player/Attack2[/Keyboard/2]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &9022254892259460586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8393315380538558816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 174658616a3838242aec5b6a5c5320c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  abilityPositions: []
-  abilities:
-  - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!54 &145892177886631570
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2548,10 +2556,65 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!143 &9025558608976535429
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.7
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.86, z: 0}
+--- !u!114 &785699896743842906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e64f41606245f43986b810ab303a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  abilityPositions: []
+  abilities:
+  - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
+  - {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
+  AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
+--- !u!114 &-8172366779438765040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0
