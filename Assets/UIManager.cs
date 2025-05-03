@@ -14,13 +14,13 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (NetworkManager.Singleton.IsServer)
+        if (NetworkManager.Singleton.IsClient)
         {
             foreach (ulong id in NetworkManager.Singleton.ConnectedClientsIds)
             {
                 if (id >= 0)
                 {
-                    enableUIRpc(id);                    
+
                 }
             }
         }
@@ -35,6 +35,6 @@ public class UIManager : MonoBehaviour
     {
         GameObject UI = GameObject.Find("Champion UI");
         UI.gameObject.SetActive(true);
-        UI.GetComponentInChildren<TextMeshProUGUI>().text = ($"CLIENT ID : {id}");
+        //UI.GetComponentInChildren<TextMeshProUGUI>().text = ($"CLIENT ID : {id}");
     }
 }
