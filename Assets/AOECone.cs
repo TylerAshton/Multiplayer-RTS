@@ -1,8 +1,9 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-public class AOECone : MonoBehaviour
+public class AOECone : NetworkBehaviour
 {
     [SerializeField] float lifeTimeSec = 2f;
     [SerializeField] float angleDegrees = 90f;
@@ -30,7 +31,8 @@ public class AOECone : MonoBehaviour
     private IEnumerator deathTime()
     {
         yield return new WaitForSeconds(lifeTimeSec);
-        Destroy(gameObject);
+        GetComponent<NetworkObject>().Despawn();
+
     }
 
     private void OnDrawGizmos()

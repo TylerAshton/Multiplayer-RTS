@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 726925420350623483}
-  - component: {fileID: 6868534114944796736}
   - component: {fileID: 2114877790569134866}
+  - component: {fileID: 6868534114944796736}
   - component: {fileID: -8430653827568925035}
   - component: {fileID: 7615475957404927392}
   m_Layer: 0
@@ -38,24 +38,6 @@ Transform:
   - {fileID: 649454434710245629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6868534114944796736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6631761922747683013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3a2fd5264bf6c24b8ca419903fe534b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTimeSec: 5
-  angleDegrees: 180
-  range: 7
-  damage: 10
-  armTimeSec: 0.4
-  burnTimeSec: 2
 --- !u!114 &2114877790569134866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +63,25 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &6868534114944796736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6631761922747683013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a2fd5264bf6c24b8ca419903fe534b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  lifeTimeSec: 5
+  angleDegrees: 180
+  range: 7
+  damage: 10
+  armTimeSec: 0.4
+  burnTimeSec: 2
 --- !u!114 &-8430653827568925035
 MonoBehaviour:
   m_ObjectHideFlags: 0

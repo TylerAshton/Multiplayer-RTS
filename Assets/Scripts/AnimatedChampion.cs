@@ -184,11 +184,11 @@ public class AnimatedChampion : NetworkBehaviour
 
         if (characterController.isGrounded && velocity.y < 0)
         {
-            velocity.y = -1f; // Keeps grounded nicely (adjustable)
+            velocity.y = -1f; // TODO: Magic number
         }
         else
         {
-            velocity.y += gravity * Time.deltaTime; // Gravity accumulates
+            velocity.y += gravity * Time.deltaTime;
         }
 
         // Movement application
