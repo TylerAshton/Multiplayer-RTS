@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class AnimatedChampion : NetworkBehaviour
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 15f;
     [SerializeField] private float smoothSpeed = 10f;
+    [SerializeField] private float gravity = -9.81f;
     private RelayManager manager; //relay manager instance
     private Rigidbody rb; //rigidbody attached to the player
 
@@ -172,7 +174,11 @@ public class AnimatedChampion : NetworkBehaviour
 
         if (characterController.isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f; // TODO Magic number
+            velocity.y = -1f; // Keeps grounded nicely (adjustable)
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime; // Gravity accumulates
         }
 
         // Movement application

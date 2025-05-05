@@ -48591,6 +48591,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 1207010946
       objectReference: {fileID: 0}
+    - target: {fileID: 4434726133949733668, guid: a3dd1adf908c46342bbd0d6f6cf2f312, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 2711955040
+      objectReference: {fileID: 0}
     - target: {fileID: 5123164835970087146, guid: a3dd1adf908c46342bbd0d6f6cf2f312, type: 3}
       propertyPath: m_Name
       value: Amalgam Core
