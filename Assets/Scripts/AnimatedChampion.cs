@@ -13,7 +13,7 @@ public class AnimatedChampion : NetworkBehaviour
     private RelayManager manager; //relay manager instance
     private Rigidbody rb; //rigidbody attached to the player
 
-    private Vector3 movementVector; //the movement vector to be added to the transform
+    private Vector3 movementVector; // SERVER ONLY the movement vector to be added to the transform
     private CameraSpawner cameraSpawner; //camera spawner instance
     private NetworkObject networkObject; // current networkObject attached to the player
 
@@ -92,8 +92,25 @@ public class AnimatedChampion : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOwner) { return; }
+        ServerUpdate();
+        OwnerUpdate();
+    }
+
+    /// <summary>
+    /// Runs all update logic for the server
+    /// </summary>
+    private void ServerUpdate()
+    {
+        if (!IsServer) { return; }
         MoveServerAuth();
+    }
+
+    /// <summary>
+    /// Runs all update logic for the client who owns the champion
+    /// </summary>
+    private void OwnerUpdate()
+    {
+        if (!IsOwner) { return; }
         RotatePlayer();
     }
 
@@ -134,26 +151,27 @@ public class AnimatedChampion : NetworkBehaviour
     /// </summary>
     void MoveServerAuth()
     {
-        //AnimatedMove(movementVector);
-        MoveServerRpc(movementVector);
-        UpdateAnimationParamsServerRpc(movementVector);
-        //MoveCameraServerRpc();
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to move the player!");
+            return;
+        }
+        ChampionMove(movementVector);
+        SetAnimationParams(movementVector);
     }
 
     /// <summary>
-    /// This Server-Rpc attempts to move the player transform by adding the movementVector to its current transform
+    /// This attempts to move the player transform by adding the movementVector to its current transform
     /// </summary>
     /// <param name="movementVector"></param>
     /// <param name="serverRpcParams"></param>
-    [ServerRpc(RequireOwnership = false)]
-    private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
+    private void ChampionMove(Vector3 movementVector)
     {
         if (!IsServer)
         {
             Debug.LogError("Client attempted to move the player!");
             return;
         }
-        //transform.position += movementVector * moveSpeed * Time.deltaTime;
 
         Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
 
@@ -163,9 +181,6 @@ public class AnimatedChampion : NetworkBehaviour
 
         // lerp towards targetVelocity
         velocity = Vector3.MoveTowards(velocity, targetVelocity, lerpSpeed * Time.deltaTime);
-
-
-        //characterController.Move(move * moveSpeed * Time.deltaTime);
 
         if (characterController.isGrounded && velocity.y < 0)
         {
@@ -187,8 +202,18 @@ public class AnimatedChampion : NetworkBehaviour
     /// <param name="context"></param>
     public void CheckMove(InputAction.CallbackContext context)
     {
-        movementVector.x = context.ReadValue<Vector2>().x;
-        movementVector.z = context.ReadValue<Vector2>().y; 
+        Vector3 newMovementVector = new Vector3();
+        newMovementVector.x = context.ReadValue<Vector2>().x;
+        newMovementVector.y = 0;
+        newMovementVector.z = context.ReadValue<Vector2>().y;
+
+        SetMoveInputServerRpc(newMovementVector);
+    }
+
+    [ServerRpc]
+    private void SetMoveInputServerRpc(Vector3 _newMovementVector)
+    {
+        movementVector = _newMovementVector;
     }
 
     /// <summary>
@@ -196,10 +221,13 @@ public class AnimatedChampion : NetworkBehaviour
     /// </summary>
     /// <param name="_movementInput"></param>
     /// 
-    [ServerRpc(RequireOwnership = false)]
-    private void UpdateAnimationParamsServerRpc(Vector3 _movementInput)
+    private void SetAnimationParams(Vector3 _movementInput)
     {
-        
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to update the animations!");
+            return;
+        }
 
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
@@ -223,7 +251,6 @@ public class AnimatedChampion : NetworkBehaviour
         animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, smoothSpeed * Time.deltaTime));
         animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), Mathf.Abs(localVelocity.x), smoothSpeed * Time.deltaTime));
         animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), Mathf.Abs(localVelocity.z), smoothSpeed * Time.deltaTime));
-
     }
 
 
