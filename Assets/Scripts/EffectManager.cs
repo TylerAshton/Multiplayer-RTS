@@ -35,21 +35,21 @@ public class EffectManager : MonoBehaviour
     {
         foreach(Effect _effect in activeEffects)
         {
-            _effect.Update(this);
+            _effect.OnUpdate(this);
         }
     }
 
     public void AddEffect(Effect _effect)
     {
         activeEffects.Add(_effect);
-        _effect.Start(this);
+        _effect.OnStart(this);
         StartCoroutine(EffectTimer(_effect, _effect.Duration));
 
     }
 
     public void EndEffect(Effect _effect)
     {
-        _effect.End(this);
+        _effect.OnEnd(this);
         activeEffects.Remove(_effect);
     }
 
