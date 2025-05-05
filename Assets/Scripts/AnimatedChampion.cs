@@ -28,7 +28,8 @@ public class AnimatedChampion : NetworkBehaviour
     private Animator animator;
     private AbilityManager abilityManager;
     private CharacterController characterController;
-    
+    private PlayerInput playerInput;
+
 
     private Vector3 velocity; // used for gravity shit
 
@@ -67,8 +68,12 @@ public class AnimatedChampion : NetworkBehaviour
             cameraSpawner.Init();
             playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
             //cameraSpawner.SpawnedCamera.transform.SetParent(transform);
+            if (!TryGetComponent<PlayerInput>(out playerInput))
+            {
+                Debug.LogError("CharacterController is required for AnimatedChampion");
+            }
+            playerInput.enabled = true;
 
-            
         }
 
         Cursor.lockState = CursorLockMode.Confined;
@@ -101,10 +106,11 @@ public class AnimatedChampion : NetworkBehaviour
     /// <param name="context"></param>
     public void UsePrimaryAbility(InputAction.CallbackContext context)
     {
+        Debug.Log("Ree");
         if (!IsOwner) return;
-
+        Debug.Log("Ree1");
         if (!context.performed) return;
-
+        Debug.Log("Ree2");
         CastAbilityServerRpc(0);
     }
 
