@@ -6802,6 +6802,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstructionPad (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6810,6 +6814,11 @@ PrefabInstance:
 --- !u!4 &159631877 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3484767236939548870, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+  m_PrefabInstance: {fileID: 159631876}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &159631878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
   m_PrefabInstance: {fileID: 159631876}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &165533520
@@ -9216,6 +9225,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstructionPad (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9224,6 +9237,11 @@ PrefabInstance:
 --- !u!4 &233797322 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3484767236939548870, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+  m_PrefabInstance: {fileID: 233797321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &233797323 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
   m_PrefabInstance: {fileID: 233797321}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &250228486
@@ -18961,6 +18979,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstructionPad (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18969,6 +18991,11 @@ PrefabInstance:
 --- !u!4 &447297188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3484767236939548870, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+  m_PrefabInstance: {fileID: 447297187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &447297189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
   m_PrefabInstance: {fileID: 447297187}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &451634421
@@ -19193,7 +19220,7 @@ MonoBehaviour:
   AmalgamPlayer: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
   ChampionSpawnPos: {fileID: 1107714647}
   ChampionPlayer: {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
-  DEBUGForceChampion: 1
+  DEBUGForceChampion: 0
 --- !u!114 &463821284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20622,13 +20649,13 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!43 &491350398
+--- !u!43 &508372392
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-37328
+  m_Name: pb_Mesh-37328(Clone)(Clone)(Clone)
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -20787,13 +20814,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!43 &508372392
+--- !u!43 &520240412
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-37328(Clone)(Clone)(Clone)
+  m_Name: pb_Mesh-1572
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -22164,6 +22191,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstructionPad (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22172,6 +22203,11 @@ PrefabInstance:
 --- !u!4 &554899397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3484767236939548870, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+  m_PrefabInstance: {fileID: 554899396}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &554899398 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
   m_PrefabInstance: {fileID: 554899396}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &564156514
@@ -30288,6 +30324,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 451634421}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: amalgamObjs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: 'amalgamObjs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 233797323}
     - target: {fileID: 6924199076545172511, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3287007759
@@ -30296,6 +30340,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 451634421}
+    - target: {fileID: 7067908941866904807, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: m_VersionIndex
+      value: 191
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34318,6 +34366,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2027973570}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: amalgamObjs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: 'amalgamObjs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 554899398}
     - target: {fileID: 6924199076545172511, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2941484087
@@ -34326,6 +34382,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2027973570}
+    - target: {fileID: 7067908941866904807, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: m_VersionIndex
+      value: 191
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34977,6 +35037,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 508372392}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: amalgamObjs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: 'amalgamObjs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1674194593}
     - target: {fileID: 6924199076545172511, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2331688675
@@ -34985,6 +35053,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 508372392}
+    - target: {fileID: 7067908941866904807, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: m_VersionIndex
+      value: 191
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35046,6 +35118,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 909022230}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: amalgamObjs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: 'amalgamObjs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 159631878}
     - target: {fileID: 6924199076545172511, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1157014615
@@ -35054,6 +35134,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 909022230}
+    - target: {fileID: 7067908941866904807, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: m_VersionIndex
+      value: 191
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -54702,6 +54786,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstructionPad (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -54710,6 +54798,11 @@ PrefabInstance:
 --- !u!4 &1531640286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3484767236939548870, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+  m_PrefabInstance: {fileID: 1531640285}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1531640287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
   m_PrefabInstance: {fileID: 1531640285}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1540214513
@@ -63507,6 +63600,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConstructionPad (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -63515,6 +63612,11 @@ PrefabInstance:
 --- !u!4 &1674194592 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3484767236939548870, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+  m_PrefabInstance: {fileID: 1674194591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1674194593 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7708722605112869330, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
   m_PrefabInstance: {fileID: 1674194591}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1680055803
@@ -84173,7 +84275,19 @@ PrefabInstance:
     - target: {fileID: 6286978852045222157, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 491350398}
+      objectReference: {fileID: 520240412}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: amalgamObjs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: 'amalgamObjs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 447297189}
+    - target: {fileID: 6342540273694048179, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: 'amalgamObjs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1531640287}
     - target: {fileID: 6924199076545172511, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4152224647
@@ -84181,7 +84295,11 @@ PrefabInstance:
     - target: {fileID: 7067908941866904807, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 491350398}
+      objectReference: {fileID: 520240412}
+    - target: {fileID: 7067908941866904807, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+      propertyPath: m_VersionIndex
+      value: 197
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
