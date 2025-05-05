@@ -24,6 +24,7 @@ public class CapturePoint : NetworkBehaviour
     [SerializeField] GameObject circle;
     [SerializeField] ParticleSystem bonfire;
     [SerializeField] GameObject bonfireObj;
+    [SerializeField] ShopManager shop;
 
     public owners owner = owners.NEUTRAL;
 
@@ -42,7 +43,6 @@ public class CapturePoint : NetworkBehaviour
         
         foreach (RaycastHit unit in units)
         {
-            Debug.Log("SOMEONE REACHED THIS POINT");
             if (unit.collider.transform.tag == "Champion")
             {
                 champs++;
@@ -70,23 +70,27 @@ public class CapturePoint : NetworkBehaviour
             bonfire.enableEmission = true;
             bonfire.startColor = Color.red;
             circle.GetComponent<MeshRenderer>().material.color = Color.red;
+            shop.shopOwner = ShopManager.shopOwners.AMALGAM;
         }
         else if (owner == owners.CHAMPION)
         {
             bonfire.enableEmission = true;
             bonfire.startColor = Color.blue;
             circle.GetComponent<MeshRenderer>().material.color = Color.blue;
+            shop.shopOwner = ShopManager.shopOwners.CHAMPION;
         }
         else if (owner == owners.CONTESTED)
         {
             bonfire.enableEmission = true;
             bonfire.startColor = Color.green;
             circle.GetComponent<MeshRenderer>().material.color = Color.green;
+            shop.shopOwner = ShopManager.shopOwners.NONE;
         }
         else
         {
             bonfire.enableEmission = false;
             circle.GetComponent<MeshRenderer>().material.color = Color.grey;
+            shop.shopOwner = ShopManager.shopOwners.NONE;
         }
     }
 

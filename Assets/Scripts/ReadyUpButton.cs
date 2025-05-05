@@ -14,7 +14,6 @@ public class ReadyUpButton : MonoBehaviour
         readyButton.onClick.AddListener(() =>
         {
             ulong ID = NetworkManager.Singleton.LocalClientId;
-            Debug.Log(ID);
             if (ID != 0)
             {
                 NetworkObject player = NetworkManager.Singleton.ConnectedClients[ID].PlayerObject;

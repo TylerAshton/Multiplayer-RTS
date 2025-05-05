@@ -129,7 +129,6 @@ public class RelayManager : NetworkBehaviour
     [ClientRpc(RequireOwnership = false)]
     private void ShowReadyUpClientRpc()
     {
-        Debug.Log("HERE!");
         readyUpMenu.gameObject.SetActive(true);
     }
 }
