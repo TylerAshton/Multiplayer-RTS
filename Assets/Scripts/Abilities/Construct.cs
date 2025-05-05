@@ -13,6 +13,7 @@ public class Construct : Ability
 
 
         GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
+        vfx.GetComponent<NetworkObject>().Spawn();
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
 

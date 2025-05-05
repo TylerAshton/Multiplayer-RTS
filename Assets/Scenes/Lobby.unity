@@ -2102,6 +2102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   DEBUGUseSceneTyler: 0
+  DEBUGUseSceneOld: 0
 --- !u!114 &875461204
 MonoBehaviour:
   m_ObjectHideFlags: 0

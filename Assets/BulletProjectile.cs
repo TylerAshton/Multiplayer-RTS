@@ -228,7 +228,8 @@ public class BulletProjectile : NetworkBehaviour, IDestructible
         Debug.Log("Killing bullet");
         if (deathVFX)
         {
-            Instantiate(deathVFX, transform.position, Quaternion.identity);
+            GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
+            spawnedVfx.GetComponent<NetworkObject>().Spawn();
         }
         networkObject.Despawn();
     }

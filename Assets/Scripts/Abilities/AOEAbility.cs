@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New AOE Ability", menuName = "Abilities/AOE")]
@@ -18,8 +19,8 @@ public class AOEAbility : Ability
 
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
-        //GameObject newEffect = Instantiate(effect, _abilityPositions[0].position, Quaternion.identity);
         GameObject newEffect = Instantiate(effect, _abilityPositions[1]);
-        //newEffect.transform.LookAt(_user.transform.forward);
+        newEffect.GetComponent<NetworkObject>().Spawn();
+        newEffect.GetComponent<NetworkParent>().SetParent(_abilityPositions[1]);
     }
 }

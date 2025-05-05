@@ -193,7 +193,7 @@ public class AnimatedChampion : NetworkBehaviour
 
         // Movement application
         characterController.Move(velocity * Time.deltaTime);
-        Debug.Log(velocity);
+        //Debug.Log(velocity);
     }
 
     /// <summary>

@@ -2263,6 +2263,7 @@ MonoBehaviour:
   acceleration: 30
   deceleration: 40
   smoothSpeed: 15
+  gravity: -9.81
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
 --- !u!114 &1083379821118792553
 MonoBehaviour:
@@ -2350,7 +2351,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

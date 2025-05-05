@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Buff Ability", menuName = "Abilities/Buff")]
@@ -19,7 +20,9 @@ public class BuffAbility : Ability
 
     public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
     {
-        Instantiate(buffEffects, _user.transform);
+        GameObject buffVfx = Instantiate(buffEffects, _user.transform);
+        buffVfx.GetComponent<NetworkObject>().Spawn();
+        buffVfx.GetComponent<NetworkParent>().SetParent(_user.transform);
         _user.GetComponent<EffectManager>().AddEffect(effect);
     }
 }
