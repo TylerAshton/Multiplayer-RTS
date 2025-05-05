@@ -106,11 +106,8 @@ public class AnimatedChampion : NetworkBehaviour
     /// <param name="context"></param>
     public void UsePrimaryAbility(InputAction.CallbackContext context)
     {
-        Debug.Log("Ree");
         if (!IsOwner) return;
-        Debug.Log("Ree1");
         if (!context.performed) return;
-        Debug.Log("Ree2");
         CastAbilityServerRpc(0);
     }
 
@@ -154,6 +151,11 @@ public class AnimatedChampion : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void MoveServerRpc(Vector3 movementVector, ServerRpcParams serverRpcParams = default)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to move the player!");
+            return;
+        }
         //transform.position += movementVector * moveSpeed * Time.deltaTime;
 
         Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
@@ -173,8 +175,9 @@ public class AnimatedChampion : NetworkBehaviour
             velocity.y = -2f; // TODO Magic number
         }
 
-        // Gravity application
+        // Movement application
         characterController.Move(velocity * Time.deltaTime);
+        Debug.Log(velocity);
     }
 
     /// <summary>
