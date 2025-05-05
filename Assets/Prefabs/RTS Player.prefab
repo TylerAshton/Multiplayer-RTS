@@ -124,7 +124,6 @@ GameObject:
   - component: {fileID: 3909084894797125082}
   - component: {fileID: 1561204148913572438}
   - component: {fileID: 6846700315286605413}
-  - component: {fileID: -6131230619508944788}
   m_Layer: 0
   m_Name: RTS Player
   m_TagString: Untagged
@@ -347,6 +346,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b96ba981-e08d-480a-8e7d-55cae5981166
     m_ActionName: 'UI/Esc[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 397e86ce-1a9d-42ea-83f4-b9adaedb76fd
+    m_ActionName: 'Player/Attack2[/Keyboard/2]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -442,16 +445,3 @@ MonoBehaviour:
   cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
   cameraSpawnOffset: {x: 0, y: 17.9, z: 0}
   isChampion: 0
---- !u!114 &-6131230619508944788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8786565032581669084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69476e8899704944197891080e1b2876, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityCells: []

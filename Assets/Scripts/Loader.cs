@@ -12,7 +12,8 @@ public static class Loader
         MainMenu,
         LoadingScene,
         MainWorld,
-        Tyler
+        Tyler,
+        MainWorldOLD
     }
 
     private static Scene targetScene; //The scene the game will transition to

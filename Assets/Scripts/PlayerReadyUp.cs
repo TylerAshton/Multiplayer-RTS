@@ -14,6 +14,9 @@ public class PlayerReadyUp : NetworkBehaviour
     [Tooltip("Editor only: Toggles the match to instead use scene Tyler as opposed to MainWorld")]
     [SerializeField] private bool DEBUGUseSceneTyler = false;
 
+    [Tooltip("Editor only: Toggles the match to instead use scene OldMainWorld as opposed to MainWorld")]
+    [SerializeField] private bool DEBUGUseSceneOld = false;
+
     private void Awake()
     {
         Instance = this;
@@ -46,6 +49,11 @@ public class PlayerReadyUp : NetworkBehaviour
                 if (DEBUGUseSceneTyler)
                 {
                     Loader.LoadNetwork(Loader.Scene.Tyler);
+                    return;
+                }
+                if (DEBUGUseSceneOld)
+                {
+                    Loader.LoadNetwork(Loader.Scene.MainWorldOLD);
                     return;
                 }
             #endif
