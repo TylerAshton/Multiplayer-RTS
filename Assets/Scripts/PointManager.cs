@@ -73,7 +73,7 @@ public class PointManager : MonoBehaviour
         StartCoroutine(generatePoints());
     }
 
-    private void AddPointsToPlayer(ulong id, int points)
+    public void AddPointsToPlayer(ulong id, int points)
     {
         try
         {
@@ -84,6 +84,20 @@ public class PointManager : MonoBehaviour
             int temp = playerPoints[id];
             playerPoints.Remove(id);
             playerPoints.Add(id, temp + points);
+        }
+    }
+
+    public void RemovePointsFromPlayer(ulong id, int points)
+    {
+        try
+        {
+            playerPoints.Add(id, playerPoints[id] - points);
+        }
+        catch (ArgumentException)
+        {
+            int temp = playerPoints[id];
+            playerPoints.Remove(id);
+            playerPoints.Add(id, temp - points);
         }
     }
 }
