@@ -4,9 +4,11 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : NetworkBehaviour
 {
     public static UIManager Instance;
+
+    [SerializeField] private GameObject champUI;
 
     [SerializeField] GameObject clericShop;
     [SerializeField] GameObject knightShop;
@@ -18,6 +20,7 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(champUI);
         }
         else
         {
@@ -35,7 +38,10 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"{playerShops[0]} , {playerShops[1]}");
+        foreach (KeyValuePair<ulong, int> kvp in playerShops)
+        {
+            Debug.Log($"{kvp.Key} ++ {kvp.Value}");
+        }
     }
 
     public void ToggleUI()
@@ -56,11 +62,4 @@ public class UIManager : MonoBehaviour
         shopObj.SetActive(!shopObj.activeInHierarchy);
     }
 
-    [Rpc(SendTo.NotServer)]
-    void enableUIRpc(ulong id)
-    {
-        GameObject UI = GameObject.Find("Champion UI");
-        UI.gameObject.SetActive(true);
-        //UI.GetComponentInChildren<TextMeshProUGUI>().text = ($"CLIENT ID : {id}");
-    }
 }
