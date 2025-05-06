@@ -133,7 +133,9 @@ MonoBehaviour:
   friendlyTag: Champion
   layerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 896
+  deathVFX: {fileID: 0}
+  lifeTime: 5
 --- !u!135 &6882503118890853894
 SphereCollider:
   m_ObjectHideFlags: 0
