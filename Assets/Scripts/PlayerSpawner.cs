@@ -32,20 +32,13 @@ public class PlayerSpawner : NetworkBehaviour
         //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
         DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
         SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId);
-        AddShop(NetworkManager.Singleton.LocalClientId, prefabId);
+        AddShopRpc(NetworkManager.Singleton.LocalClientId, prefabId);
     }
 
-    public void AddShop(ulong _ID, int _Prefab)
+    [Rpc(SendTo.Server)]
+    public void AddShopRpc(ulong _ID, int _Prefab)
     {
-        try
-        {
-            uimanager.playerShops.Add(_ID, _Prefab);
-        }
-        catch (ArgumentException)
-        {
-            uimanager.playerShops.Remove(_ID);
-            uimanager.playerShops.Add(_ID, _Prefab);
-        }
+        uimanager.AddtoShop(_ID, _Prefab);
     }
 
     //private Vector3 getClientTransform(ulong clientId)
@@ -90,13 +83,13 @@ public class PlayerSpawner : NetworkBehaviour
         if (clientId == 0)
         {
             newPlayer = (GameObject)Instantiate(RTSPlayer);
-            AddShop(clientId, -1);
+            AddShopRpc(clientId, -1);
         }
         else
         {
             newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[0]);
             playerManager.AddPlayer(clientId, playerList[0]);
-            AddShop(clientId, 0);
+            AddShopRpc(clientId, 0);
         }
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -12,7 +13,7 @@ public class UIManager : NetworkBehaviour
 
     [SerializeField] GameObject clericShop;
     [SerializeField] GameObject knightShop;
-    public Dictionary<ulong, int> playerShops = new Dictionary<ulong, int>();
+    private Dictionary<ulong, int> playerShops = new Dictionary<ulong, int>();
 
     void Awake()
     {
@@ -38,10 +39,48 @@ public class UIManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (KeyValuePair<ulong, int> kvp in playerShops)
+        if (NetworkManager.Singleton.IsServer)
         {
-            Debug.Log($"{kvp.Key} ++ {kvp.Value}");
+            foreach (KeyValuePair<ulong, int> kvp in playerShops)
+            {
+                Debug.Log($"{kvp.Key} ++ {kvp.Value}");
+            }
         }
+    }
+
+    public void AddtoShop(ulong _ClientID, int _PrefabID)
+    {
+        AddRpc(_ClientID, _PrefabID);
+    }
+
+    public void RemovefromShop(ulong _ClientID, int _PrefabID)
+    {
+        RemoveRpc(_ClientID, _PrefabID);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void AddRpc(ulong _ClientID, int _PrefabID)
+    {
+        try
+        {
+            playerShops.Add(_ClientID, _PrefabID);
+        }
+        catch (ArgumentException)
+        {
+            playerShops.Remove(_ClientID);
+            playerShops.Add(_ClientID, _PrefabID);
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void RemoveRpc(ulong _ClientID, int _PrefabID)
+    {
+        playerShops.Remove(_ClientID);
+    }
+
+    public void RunRpcs()
+    {
+        //SyncRpc(playerShops);
     }
 
     public void ToggleUI()
