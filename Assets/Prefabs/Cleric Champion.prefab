@@ -856,9 +856,9 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack2[/Keyboard/2]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 885333497884250568, guid: c22e1d46c32eb624cba67f75dc0642b7, type: 3}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ToggleUI
+      - m_Target: {fileID: 6204940461610679389}
+        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+        m_MethodName: UIToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1030,7 +1030,6 @@ MonoBehaviour:
   - {fileID: 5960994509850344562}
   abilities:
   - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
-  - {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!1 &2807604425998223400
 GameObject:

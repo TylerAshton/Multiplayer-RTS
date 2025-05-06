@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1447527999
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2887489648
+  InScenePlacedSourceGlobalObjectIdHash: 1447527999
   DeferredDespawnTick: 0
-  Ownership: 1
+  Ownership: 8
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -74,3 +74,16 @@ MonoBehaviour:
   champUI: {fileID: 0}
   clericShop: {fileID: 0}
   knightShop: {fileID: 0}
+  inShopZone: 0
+  moveInput: {x: 0, y: 0}
+  optionsCleric:
+  - {fileID: 0}
+  - {fileID: 0}
+  optionsKnight:
+  - {fileID: 0}
+  - {fileID: 0}
+  options: []
+  normalColour: {r: 0, g: 0.4016366, b: 1, a: 1}
+  highlightedColour: {r: 0.8114557, g: 0, b: 1, a: 1}
+  abilitesCleric: []
+  abilitesKnight: []

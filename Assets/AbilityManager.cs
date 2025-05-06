@@ -28,7 +28,7 @@ public class AbilityManager : NetworkBehaviour
     [SerializeField] private List<Transform> abilityPositions;
     public List<Transform>  AbilityPositions => new List<Transform>(abilityPositions);
 
-    [SerializeField] protected List<Ability> abilities;
+    [SerializeField] public List<Ability> abilities; //THIS HAS BEEN CHANGED TO CHECK IF I CAN AWARD ABILITIES (SHOULD BE "PROTECTED"). This has been done as a read-only list does not allow manipulation
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
     private float AttackSpeed = 1;

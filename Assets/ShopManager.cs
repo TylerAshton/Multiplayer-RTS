@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class ShopManager : MonoBehaviour
@@ -14,7 +15,6 @@ public class ShopManager : MonoBehaviour
     public shopOwners shopOwner;
 
     [SerializeField] List<GameObject> amalgamObjs;
-    [SerializeField] List<GameObject> championObjs;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,17 +41,11 @@ public class ShopManager : MonoBehaviour
 
         if (shopOwner == shopOwners.CHAMPION)
         {
-            foreach (GameObject element in championObjs)
-            {
-                element.SetActive(true);
-            }
+            UIManager.Instance.inShopZone = true;
         }
         else
         {
-            foreach (GameObject element in championObjs)
-            {
-                element.SetActive(false);
-            }
+            //UIManager.Instance.inShopZone = false;
         }
     }
 }

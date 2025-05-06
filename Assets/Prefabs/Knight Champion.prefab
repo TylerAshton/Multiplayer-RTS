@@ -2446,7 +2446,19 @@ MonoBehaviour:
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/XInputControllerWindows/buttonWest,/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6858280541130533361}
+        m_TargetAssemblyTypeName: Health, Assembly-CSharp
+        m_MethodName: Damage
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 25
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
     m_ActionName: 'Player/Interact[/Keyboard/e,/XInputControllerWindows/buttonNorth]'
   - m_PersistentCalls:
@@ -2531,9 +2543,9 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack2[/Keyboard/2]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 885333497884250568, guid: c22e1d46c32eb624cba67f75dc0642b7, type: 3}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ToggleUI
+      - m_Target: {fileID: 6512302321430887414}
+        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+        m_MethodName: UIToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2618,7 +2630,6 @@ MonoBehaviour:
   abilityPositions: []
   abilities:
   - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
-  - {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &-8172366779438765040
 MonoBehaviour:
