@@ -183,6 +183,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIManagaer
       objectReference: {fileID: 0}
+    - target: {fileID: 2445613441502838638, guid: c22e1d46c32eb624cba67f75dc0642b7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3332557674005857752, guid: c22e1d46c32eb624cba67f75dc0642b7, type: 3}
+      propertyPath: Ownership
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3332557674005857752, guid: c22e1d46c32eb624cba67f75dc0642b7, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2887489648

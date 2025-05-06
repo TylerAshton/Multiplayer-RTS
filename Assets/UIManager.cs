@@ -15,6 +15,8 @@ public class UIManager : NetworkBehaviour
     [SerializeField] GameObject knightShop;
     private Dictionary<ulong, int> playerShops = new Dictionary<ulong, int>();
 
+    [SerializeField] int DEBUGShopCount = 0;
+
     void Awake()
     {
         if (Instance == null)
@@ -46,6 +48,8 @@ public class UIManager : NetworkBehaviour
                 Debug.Log($"{kvp.Key} ++ {kvp.Value}");
             }
         }
+
+        DEBUGShopCount = playerShops.Count;
     }
 
     public void AddtoShop(ulong _ClientID, int _PrefabID)
