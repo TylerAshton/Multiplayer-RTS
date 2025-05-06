@@ -32,16 +32,28 @@ public class ConstructionPad : Unit
 
     public void HideBuildPad()
     {
-        meshRenderer.enabled = false;
-        collider.enabled = false;
+        HidebuildPadClientRpc();
         SetIsSelectable(false);
     }
 
     public void ShowBuildPad()
     {
+        ShowbuildPadClientRpc();
+        SetIsSelectable(true);
+    }
+
+    [ClientRpc]
+    private void HidebuildPadClientRpc()
+    {
+        meshRenderer.enabled = false;
+        collider.enabled = false;
+    }
+
+    [ClientRpc]
+    private void ShowbuildPadClientRpc() // TODO: Build pads are only supposed to be visible for the amalgam player in the future
+    {
         meshRenderer.enabled = true;
         collider.enabled = true;
-        SetIsSelectable(true);
     }
 
     public void SetConstructionState(ConstructionState _state)

@@ -14,7 +14,6 @@ public class NPC : Unit
     public Transform Target => target;
     private Health targetHealth;
     private Animator animator;
-    private AbilityManager abilityManager;
     public Health TargetHealth => targetHealth;
     protected override void Awake()
     {

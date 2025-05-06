@@ -9802,8 +9802,8 @@ GameObject:
   - component: {fileID: 328558227413381630}
   - component: {fileID: 2319384772025575332}
   - component: {fileID: 6299362341641363023}
-  - component: {fileID: 8568352981000588192}
   - component: {fileID: -899786506362468394}
+  - component: {fileID: 8568352981000588192}
   m_Layer: 0
   m_Name: Star hit
   m_TagString: Untagged
@@ -14696,19 +14696,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &8568352981000588192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4535006216103734310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5268b391fcefa8143b5b5da7ba61f9cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 5
 --- !u!114 &-899786506362468394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14721,7 +14708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1737810301
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -14734,6 +14721,20 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8568352981000588192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4535006216103734310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5268b391fcefa8143b5b5da7ba61f9cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  lifeTime: 5
 --- !u!1 &7851872916918845318
 GameObject:
   m_ObjectHideFlags: 0

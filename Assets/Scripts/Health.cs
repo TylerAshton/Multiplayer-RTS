@@ -107,7 +107,7 @@ public class Health : NetworkBehaviour
     {
         hitPoints -= _damage;
 
-        healthSlider.value = hitPoints; // TODO: Make a setter
+        UpdateHealthBarClientRpc(hitPoints);
 
         animator.SetTrigger("OnHit");
 
@@ -115,6 +115,12 @@ public class Health : NetworkBehaviour
         {
             DestroyObject();
         }
+    }
+
+    [ClientRpc]
+    private void UpdateHealthBarClientRpc(float _currentHealth)
+    {
+        healthSlider.value = _currentHealth; // TODO: Make a setter
     }
 
     /// <summary>

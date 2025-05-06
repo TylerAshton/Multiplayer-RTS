@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Melee Ability", menuName = "Abilities/Melee")]
@@ -51,7 +52,8 @@ public class MeleeAbility : Ability
                 if (hit.TryGetComponent(out Health _health))
                 {
                     _health.Damage(damage);
-                    Instantiate(hitEffect, hit.transform);
+                    GameObject hitVFX = Instantiate(hitEffect, hit.transform);
+                    hitVFX.GetComponent<NetworkObject>().Spawn();
                 }
             }
         }

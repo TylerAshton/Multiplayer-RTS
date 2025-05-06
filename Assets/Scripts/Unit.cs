@@ -12,7 +12,7 @@ public class Unit : NetworkBehaviour, IDestructible
 {
     private Queue<Task> taskQueue = new();
     private Task currentTask;
-    private AbilityManager abilityManager;
+    protected AbilityManager abilityManager;
     public AbilityManager AbilityManager => abilityManager;
     public Task CurrentTask => currentTask;
     [SerializeField] GameObject selectionIndiator;
