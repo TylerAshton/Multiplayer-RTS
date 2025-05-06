@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class PlayerSpawner : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         SpawnPlayerServerRpc();
+
     }
 
     public void changePrefab(int prefabId)
@@ -29,6 +31,21 @@ public class PlayerSpawner : NetworkBehaviour
         //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
         DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
         SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId);
+        AddShop(NetworkManager.Singleton.LocalClientId, prefabId);
+    }
+
+    public void AddShop(ulong _ID, int _Prefab)
+    {
+        try
+        {
+            UIManager.Instance.playerShops.Add(_ID, _Prefab);
+
+        }
+        catch (ArgumentException)
+        {
+            UIManager.Instance.playerShops.Remove(_ID);
+            UIManager.Instance.playerShops.Add(_ID, _Prefab);
+        }
     }
 
     private Vector3 getClientTransform(ulong clientId)
@@ -78,6 +95,7 @@ public class PlayerSpawner : NetworkBehaviour
         {
             newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[0]);
             playerManager.AddPlayer(clientId, playerList[0]);
+            AddShop(NetworkManager.Singleton.LocalClientId, 0);
         }
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();

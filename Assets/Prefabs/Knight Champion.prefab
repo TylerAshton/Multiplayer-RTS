@@ -2529,6 +2529,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 397e86ce-1a9d-42ea-83f4-b9adaedb76fd
     m_ActionName: 'Player/Attack2[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 797c381afabf4d34ab806b29b0d127ac, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 251ac3ca-eec3-48cc-9ecf-d8d65e04f522
+    m_ActionName: 'Player/Shop[/Keyboard/h]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

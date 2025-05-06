@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -5,6 +6,26 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+
+    [SerializeField] GameObject clericShop;
+    [SerializeField] GameObject knightShop;
+    public Dictionary<ulong, int> playerShops = new Dictionary<ulong, int>();
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,20 +35,25 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (NetworkManager.Singleton.IsClient)
-        {
-            foreach (ulong id in NetworkManager.Singleton.ConnectedClientsIds)
-            {
-                if (id >= 0)
-                {
+        Debug.Log($"{playerShops[0]} , {playerShops[1]}");
+    }
 
-                }
-            }
+    public void ToggleUI()
+    {
+        GameObject shopObj;
+        ulong id = NetworkManager.Singleton.LocalClientId;
+        //Check what the type of champion is
+        if (playerShops[id] == 1)
+        {
+            shopObj = clericShop;
         }
         else
         {
-            return;
+            shopObj = knightShop;
         }
+        //Then asign the shop game object to match the player type
+        //Once done the game will then toggle the respective ui on
+        shopObj.SetActive(!shopObj.activeInHierarchy);
     }
 
     [Rpc(SendTo.NotServer)]
