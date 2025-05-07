@@ -8,9 +8,11 @@ using UnityEngine;
 public class PointManager : MonoBehaviour
 {
     public static PointManager Instance;
-    public Dictionary<ulong, int> playerPoints = new Dictionary<ulong, int>();
+    private Dictionary<ulong, int> playerPoints = new Dictionary<ulong, int>();
     private GameObject[] pointAwarders;
     private List<GameObject> capturePoints = new List<GameObject>();
+
+    [SerializeField] private List<int> DEBUGplayerPoints;
 
     void Awake()
     {
@@ -51,29 +53,54 @@ public class PointManager : MonoBehaviour
                     capturePoints.Add(awarder);
                 }
             }
+
+            DEBUGplayerPoints.Clear();
+            foreach (KeyValuePair<ulong, int> kvp in playerPoints)
+            {
+                DEBUGplayerPoints.Add(kvp.Value);
+            }
         }
     }
     
     IEnumerator generatePoints()
     {
-        foreach (GameObject point in capturePoints)
+        if (NetworkManager.Singleton.IsServer)
         {
-            if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.AMALGAM)
+            foreach (GameObject point in capturePoints)
             {
-                AddPointsToPlayer(0, 100);
+                if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.AMALGAM)
+                {
+                    AddPoints(0, 100);
+                }
+                else if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.CHAMPION)
+                {
+                    AddPoints(1, 100);
+                    AddPoints(2, 100);
+                }
             }
-            else if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.CHAMPION)
-            {
-                AddPointsToPlayer(1, 100);
-                AddPointsToPlayer(2, 100);
-            }
+            Debug.Log($"{playerPoints[0]},{playerPoints[1]},{playerPoints[2]}");
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(generatePoints());
         }
-        Debug.Log($"{playerPoints[0]},{playerPoints[1]},{playerPoints[2]}");
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(generatePoints());
     }
 
-    public void AddPointsToPlayer(ulong id, int points)
+    public int GetPoints(ulong id)
+    {
+        return playerPoints[id];
+    }
+
+    public void AddPoints(ulong id, int points)
+    {
+        AddPointsToPlayerRpc(id, points);
+    }
+    
+    public void RemovePoints(ulong id, int points)
+    {
+        RemovePointsFromPlayerRpc(id, points);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void AddPointsToPlayerRpc(ulong id, int points)
     {
         try
         {
@@ -87,7 +114,8 @@ public class PointManager : MonoBehaviour
         }
     }
 
-    public void RemovePointsFromPlayer(ulong id, int points)
+    [Rpc(SendTo.Everyone)]
+    public void RemovePointsFromPlayerRpc(ulong id, int points)
     {
         try
         {
