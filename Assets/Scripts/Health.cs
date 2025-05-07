@@ -133,7 +133,7 @@ public class Health : NetworkBehaviour
 
         healthSlider.value = hitPoints;
 
-        Mathf.Clamp(hitPoints, 0, maxHealth);
+        hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
     }
 
     /// <summary>
