@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PointManager : MonoBehaviour
+public class PointManager : NetworkBehaviour
 {
     public static PointManager Instance;
     private Dictionary<ulong, int> playerPoints = new Dictionary<ulong, int>();
@@ -100,7 +100,7 @@ public class PointManager : MonoBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void AddPointsToPlayerRpc(ulong id, int points)
+    private void AddPointsToPlayerRpc(ulong id, int points)
     {
         try
         {
@@ -115,7 +115,7 @@ public class PointManager : MonoBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void RemovePointsFromPlayerRpc(ulong id, int points)
+    private void RemovePointsFromPlayerRpc(ulong id, int points)
     {
         try
         {

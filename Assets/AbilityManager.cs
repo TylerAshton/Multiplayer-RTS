@@ -28,7 +28,7 @@ public class AbilityManager : NetworkBehaviour
     [SerializeField] private List<Transform> abilityPositions;
     public List<Transform>  AbilityPositions => new List<Transform>(abilityPositions);
 
-    [SerializeField] public List<Ability> abilities; //THIS HAS BEEN CHANGED TO CHECK IF I CAN AWARD ABILITIES (SHOULD BE "PROTECTED"). This has been done as a read-only list does not allow manipulation
+    [SerializeField] protected List<Ability> abilities;
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
     private float AttackSpeed = 1;
@@ -51,8 +51,28 @@ public class AbilityManager : NetworkBehaviour
                     ability.DebugDrawing(gameObject, AbilityPositions);
                 }
             }
-            
         #endif
+    }
+
+    public void SetAbility(int _index, Ability _ability)
+    {
+        abilities[_index] = _ability;
+    }
+
+    //public void AddAbility(Ability _ability)
+    //{
+    //    AddAbilityRpc(_ability);
+    //}
+
+    //[Rpc(SendTo.Everyone)]
+    public void AddAbility(Ability _ability)
+    {
+        abilities.Add(_ability);
+    }
+
+    public bool CheckAbility(Ability _ability)
+    {
+        return abilities.Contains(_ability);
     }
 
     public void SetAttackSpeed(float _attackSpeed)

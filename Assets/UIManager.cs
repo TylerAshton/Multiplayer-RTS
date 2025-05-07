@@ -120,19 +120,21 @@ public class UIManager : NetworkBehaviour
                         {
                             if (playerShops[NetworkManager.Singleton.LocalClientId] == 1)
                             {
-                                if (!player.GetComponent<ChampionAbilityManager>().abilities.Contains(abilitesCleric[selectedOption - 1]))
+                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO CLERIC");
-                                    player.GetComponent<ChampionAbilityManager>().abilities.Add(abilitesCleric[selectedOption - 1]);
+                                    player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesCleric[selectedOption - 1]);
+                                    player.GetComponent<ChampionAbilityManager>().UpdateGrid();
                                     PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
                                 }
                             }
                             else
                             {
-                                if (!player.GetComponent<ChampionAbilityManager>().abilities.Contains(abilitesKnight[selectedOption - 1]))
+                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO KNIGHT");
-                                    player.GetComponent<ChampionAbilityManager>().abilities.Add(abilitesKnight[selectedOption - 1]);
+                                    player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesKnight[selectedOption - 1]);
+                                    player.GetComponent<ChampionAbilityManager>().UpdateGrid();
                                     PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
                                 }
                             }
