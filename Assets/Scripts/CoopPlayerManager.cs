@@ -56,7 +56,6 @@ public class CoopPlayerManager : NetworkBehaviour
         try
         {
             playerPrefabs.Add(_ID, _Prefab);
-            
         }
         catch (ArgumentException)
         {

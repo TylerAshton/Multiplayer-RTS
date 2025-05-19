@@ -27,8 +27,6 @@ public class AnimatedChampion : NetworkBehaviour
     private CharacterController characterController;
     private PlayerInput playerInput;
 
-    private UIManager uiManager;
-
 
     private Vector3 velocity; // used for gravity shit
 
@@ -36,7 +34,6 @@ public class AnimatedChampion : NetworkBehaviour
     void Start()
     {
         manager = RelayManager.Instance;
-        uiManager = UIManager.Instance;
         rb = GetComponent<Rigidbody>();
         //manager.CreatePlayerServerRpc();
 
@@ -78,11 +75,6 @@ public class AnimatedChampion : NetworkBehaviour
 
         Cursor.lockState = CursorLockMode.Confined;
 
-    }
-
-    public void UIToggle()
-    {
-        uiManager.ToggleUI();
     }
 
 

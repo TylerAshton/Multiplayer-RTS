@@ -17,7 +17,14 @@ public class ReadyUpButton : MonoBehaviour
             if (ID != 0)
             {
                 NetworkObject player = NetworkManager.Singleton.ConnectedClients[ID].PlayerObject;
+                Debug.Log(playerManager);
                 playerManager.AddPlayer(ID, player);
+                foreach (KeyValuePair<ulong, GameObject> kvp in playerManager.playerPrefabs)
+                {
+                    Debug.Log("************");
+                    Debug.Log($"{kvp.Key} + {kvp.Value}");
+                    Debug.Log("************");
+                }
             }
             PlayerReadyUp.Instance.SetPlayerReady();
         });
