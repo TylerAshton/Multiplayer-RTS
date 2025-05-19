@@ -50,6 +50,7 @@ public class RTSPlayerControls : MonoBehaviour
         RTSCanvas rtsCanvas = canvas.GetComponent<RTSCanvas>();
 
         selectionBox = rtsCanvas.selectionBox;
+        selectionBox.Init();
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
 
         if(!TryGetComponent<CameraSpawner>(out cameraSpawner))

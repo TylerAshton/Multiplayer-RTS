@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class SelectionBox : MonoBehaviour
     private Vector2 startPos;
 
 
-    private void Awake()
+    public void Init()
     {
         selectionRect = GetComponent<RectTransform>();
     }
