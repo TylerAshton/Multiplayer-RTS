@@ -3,13 +3,13 @@ using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Construct Ability", menuName = "Abilities/Construct")]
-public class Construct : Ability
+public class Construct : Ability<IConstructionPad>
 {
     [SerializeField] private GameObject spawnee;
     [SerializeField] private GameObject spawnVFX;
-    public override void Activate(GameObject user, Animator _animator)
+    protected override void ActivateTyped(IConstructionPad _user)
     {
-        Vector3 spawnPosition = user.transform.position;
+        Vector3 spawnPosition = _user.Transform.position;
 
 
         GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
@@ -17,16 +17,16 @@ public class Construct : Ability
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
 
-        user.GetComponent<ConstructionPad>().HideBuildPad();
-        summoned.GetComponent<Health>().OnDeath += user.GetComponent<ConstructionPad>().ShowBuildPad;
+        _user.ConstructionPad.HideBuildPad();
+        summoned.GetComponent<Health>().OnDeath += _user.ConstructionPad.ShowBuildPad;
     }
 
-    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    protected override void DebugDrawingTyped(IConstructionPad _user)
     {
         
     }
 
-    public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
+    protected override void OnUseTyped(IConstructionPad _user)
     {
         
     }

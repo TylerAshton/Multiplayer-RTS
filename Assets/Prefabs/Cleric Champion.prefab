@@ -618,6 +618,7 @@ GameObject:
   - component: {fileID: -7655420320514313834}
   - component: {fileID: 515333486455282324}
   - component: {fileID: -1441250743326855691}
+  - component: {fileID: 9122862085660864469}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -708,6 +709,11 @@ MonoBehaviour:
   deceleration: 40
   smoothSpeed: 15
   gravity: -9.81
+  abilityPositionsStructList:
+  - key: 1
+    value: {fileID: 5742072020312327593}
+  - key: 4
+    value: {fileID: 5960994509850344562}
   primaryAbility: {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
 --- !u!114 &2885188943381047520
 MonoBehaviour:
@@ -1016,6 +1022,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
   - {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
+--- !u!114 &9122862085660864469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2807604425998223400
 GameObject:
   m_ObjectHideFlags: 0

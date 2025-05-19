@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e12e273157d5740bf167ce234674c9, type: 3}
   m_Name: IceBolt
   m_EditorClassIdentifier: 
-  abilityName: IceBolt
   castTime: 0.4
+  castPositionName: 1
   animationTrigger: ProjectileAttack
   icon: {fileID: 21300000, guid: 599d104ccf9159f439c44424cbe55c92, type: 3}
   projectile: {fileID: 4460309666732685197, guid: 96ec9c1637b11ad45a9341ee7a413add, type: 3}

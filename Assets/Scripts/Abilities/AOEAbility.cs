@@ -4,23 +4,24 @@ using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New AOE Ability", menuName = "Abilities/AOE")]
-public class AOEAbility : Ability
+public class AOEAbility : Ability<IAbilityUser>
 {
     [SerializeField] GameObject effect;
-    public override void Activate(GameObject user, Animator _animator)
+    protected override void ActivateTyped(IAbilityUser _user)
     {
-        _animator.SetTrigger($"{animationTrigger}");
+        _user.Animator.SetTrigger($"{AnimationTrigger}");
     }
 
-    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    protected override void DebugDrawingTyped(IAbilityUser _user)
     {
         
     }
 
-    public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
+    protected override void OnUseTyped(IAbilityUser _user)
     {
-        GameObject newEffect = Instantiate(effect, _abilityPositions[1]);
+        Transform castPositionTransform = GetCastPositionTransform(_user);
+        GameObject newEffect = Instantiate(effect, castPositionTransform);
         newEffect.GetComponent<NetworkObject>().Spawn();
-        newEffect.GetComponent<NetworkParent>().SetParent(_abilityPositions[1]);
+        newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
     }
 }

@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour
+public class AnimatedChampion : NetworkBehaviour, IAbilityUser
 {
     [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
     [SerializeField] private float acceleration = 10f;
@@ -20,6 +21,20 @@ public class AnimatedChampion : NetworkBehaviour
     private Vector3 worldPosition; // the position of the mouse relative to the world origin
     public Vector3 WorldPosition => worldPosition;
 
+    public Animator Animator => animator;
+
+    public Transform Transform => transform;
+
+    [SerializeField]
+    private List<AbilityPositionStruct> abilityPositionsStructList;
+
+    private Dictionary<AbilityPosition, Transform> abilityPositions; // Define in awake with struct
+
+    public Dictionary<AbilityPosition, Transform> AbilityPositions => abilityPositions;
+
+    private EffectManager effectManager;
+    public EffectManager EffectManager => effectManager;
+
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private Animator animator;
@@ -31,6 +46,16 @@ public class AnimatedChampion : NetworkBehaviour
     private Vector3 velocity; // used for gravity shit
 
     [SerializeField] private Ability primaryAbility;
+
+    private void Awake()
+    {
+        abilityPositions = new Dictionary<AbilityPosition, Transform>();
+        foreach (var entry in abilityPositionsStructList)
+        {
+            abilityPositions[entry.key] = entry.value;
+        }
+    }
+
     void Start()
     {
         manager = RelayManager.Instance;
@@ -58,6 +83,10 @@ public class AnimatedChampion : NetworkBehaviour
         if (!TryGetComponent<CharacterController>(out characterController))
         {
             Debug.LogError("CharacterController is required for AnimatedChampion");
+        }
+        if (!TryGetComponent<EffectManager>(out effectManager))
+        {
+            Debug.LogError("EffectManager is required for AnimatedChampion");
         }
 
         if (networkObject.IsOwner)

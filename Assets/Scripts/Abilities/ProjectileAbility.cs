@@ -4,23 +4,24 @@ using UnityEngine;
 using UnityEngine.ProBuilder;
 
 [CreateAssetMenu(fileName = "New Projectile Ability", menuName = "Abilities/Projectile")]
-public class ProjectileAbility : Ability
+public class ProjectileAbility : Ability<IAbilityUser>
 {
     [SerializeField] private GameObject projectile;
-    public override void Activate(GameObject user, Animator _animator)
+    protected override void ActivateTyped(IAbilityUser _user)
     {
-        _animator.SetTrigger($"{animationTrigger}");
+        _user.Animator.SetTrigger($"{AnimationTrigger}");
     }
 
-    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    protected override void DebugDrawingTyped(IAbilityUser _user)
     {
         
     }
 
-    public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
+    protected override void OnUseTyped(IAbilityUser _user)
     {
-        GameObject spawnedProjectile = Instantiate(projectile, _abilityPositions[0].position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
+        Transform castPositionTransform = GetCastPositionTransform(_user);
+        GameObject spawnedProjectile = Instantiate(projectile, castPositionTransform.position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
-        spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(_user.transform.forward);
+        spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(_user.Transform.forward);
     }
 }

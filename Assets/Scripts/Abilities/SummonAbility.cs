@@ -3,16 +3,16 @@ using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Summon Ability", menuName = "Abilities/Summon")]
-public class SummonAbility : Ability
+public class SummonAbility : Ability<IAbilityUser>
 {
     [SerializeField] private GameObject spawnee;
     [SerializeField] private GameObject spawnVFX;
     [SerializeField] private float maxDispersion = 5f;
     [SerializeField] private float minDisperstion = 5f;
     [SerializeField] private Vector3 offset = Vector3.zero;
-    public override void Activate(GameObject user, Animator _animator)
+    protected override void ActivateTyped(IAbilityUser _user)
     {
-        Vector3 castPosition = user.transform.position + offset;
+        Vector3 castPosition = _user.Transform.position + offset;
 
         // Generate random XZ offset within the specified dispersion range
         float offsetX = Random.Range(-maxDispersion, maxDispersion);
@@ -35,12 +35,12 @@ public class SummonAbility : Ability
         summoned.GetComponent<NetworkObject>().Spawn();
     }
 
-    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    protected override void DebugDrawingTyped(IAbilityUser _user)
     {
 
     }
 
-    public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
+    protected override void OnUseTyped(IAbilityUser _user)
     {
         throw new System.NotImplementedException();
     }

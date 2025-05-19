@@ -4,6 +4,12 @@ using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
+[System.Serializable]
+public struct AbilityPositionStruct // Work around struct for the dictionary of ability positions
+{
+    public AbilityPosition key;
+    public Transform value;
+}
 enum AbilityState
 {
     Ready,
@@ -22,6 +28,8 @@ public class AbilityManager : NetworkBehaviour
 {
     AbilityState abilityState = AbilityState.Ready;
 
+    private IAbilityUser abilityUser;
+
     protected Ability currentAbility;
     protected Animator animator;
 
@@ -33,11 +41,12 @@ public class AbilityManager : NetworkBehaviour
 
     private float AttackSpeed = 1;
 
+
     protected virtual void Awake()
     {
-        if (!TryGetComponent<Animator>(out animator))
+        if (!TryGetComponent<IAbilityUser>(out abilityUser))
         {
-            Debug.LogError("Animator is required for AbilityManager");
+            Debug.LogError("AbilityUser is required for AbilityManager");
         }
     }
 
@@ -48,7 +57,7 @@ public class AbilityManager : NetworkBehaviour
             {
                 foreach (var ability in abilities)
                 {
-                    ability.DebugDrawing(gameObject, AbilityPositions);
+                    ability.DebugDrawing(abilityUser);
                 }
             }
             
@@ -70,7 +79,7 @@ public class AbilityManager : NetworkBehaviour
     {
        if (!NetworkManager.Singleton.IsServer) return;
 
-        currentAbility.OnUse(gameObject, AbilityPositions);
+        currentAbility.OnUse(gameObject.GetComponent<IAbilityUser>());
     }
 
     /// <summary>
@@ -95,7 +104,7 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
         currentAbility = abilities[_abilityIndex];
-        currentAbility.Activate(gameObject, animator);
+        currentAbility.Activate(abilityUser);
         StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
 

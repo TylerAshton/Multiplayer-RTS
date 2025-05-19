@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,13 +9,23 @@ public enum ConstructionState
 }
 
 
-public class ConstructionPad : Unit
+public class ConstructionPad : Unit, IConstructionPad
 {
     private MeshRenderer meshRenderer;
     private Collider collider;
     private ConstructionState constructionState;
     private Building occupiedBuilding;
     public Building OccupiedBuilding => occupiedBuilding;
+
+    ConstructionPad IConstructionPad.ConstructionPad => throw new System.NotImplementedException();
+
+    public Animator Animator => throw new System.NotImplementedException();
+
+    public Transform Transform => throw new System.NotImplementedException();
+
+    public Dictionary<AbilityPosition, Transform> AbilityPositions => throw new System.NotImplementedException();
+
+    public EffectManager EffectManager => throw new System.NotImplementedException();
 
     protected override void Awake()
     {

@@ -4,25 +4,26 @@ using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Buff Ability", menuName = "Abilities/Buff")]
-public class BuffAbility : Ability
+public class BuffAbility : Ability<IAbilityUser>
 {
     [SerializeField] private GameObject buffEffects;
     [SerializeField] private Effect effect;
-    public override void Activate(GameObject user, Animator _animator)
+    protected override void ActivateTyped(IAbilityUser _user)
     {
-        _animator.SetTrigger($"{animationTrigger}");
+        _user.Animator.SetTrigger($"{AnimationTrigger}");
     }
 
-    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    protected override void DebugDrawingTyped(IAbilityUser _user)
     {
 
     }
 
-    public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
+    protected override void OnUseTyped(IAbilityUser _user)
     {
-        GameObject buffVfx = Instantiate(buffEffects, _user.transform);
+        Transform castPositionTransform = GetCastPositionTransform(_user);
+        GameObject buffVfx = Instantiate(buffEffects, _user.Transform);
         buffVfx.GetComponent<NetworkObject>().Spawn();
-        buffVfx.GetComponent<NetworkParent>().SetParent(_user.transform);
-        _user.GetComponent<EffectManager>().AddEffect(effect);
+        buffVfx.GetComponent<NetworkParent>().SetParent(castPositionTransform);
+        _user.EffectManager.AddEffect(effect);
     }
 }

@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.Netcode;
+using System.Collections.Generic;
 
 /// <summary>
 /// NPCs are mobile units which use the nav mesh.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class NPC : Unit
+public class NPC : Unit, IAbilityUser
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
@@ -15,6 +16,18 @@ public class NPC : Unit
     private Health targetHealth;
     private Animator animator;
     public Health TargetHealth => targetHealth;
+
+    public Animator Animator => animator;
+
+    public Transform Transform => transform;
+
+    private Dictionary<AbilityPosition, Transform> abilityPositions = new Dictionary<AbilityPosition, Transform>();
+
+    public Dictionary<AbilityPosition, Transform> AbilityPositions => abilityPositions;
+
+    private EffectManager effectManager;
+    public EffectManager EffectManager => effectManager;
+
     protected override void Awake()
     {
         if (!NetworkManager.Singleton.IsServer)

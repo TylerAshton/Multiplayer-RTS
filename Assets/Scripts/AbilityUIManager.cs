@@ -50,10 +50,10 @@ public class AbilityUIManager : MonoBehaviour
         {
             foreach (AbilityManager _abilityManager in _abilityManagers)
             {
-                int unitIndex = _abilityManager.Abilities.IndexOf(_ability);
-                if (unitIndex >= 0)
+                int abilityIndex = _abilityManager.Abilities.IndexOf(_ability);
+                if (abilityIndex >= 0)
                 {
-                    _abilityManager.TryCastAbility(unitIndex);
+                    _abilityManager.TryCastAbility(abilityIndex);
                 }
             }
         });

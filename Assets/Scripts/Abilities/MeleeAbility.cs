@@ -3,41 +3,41 @@ using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Melee Ability", menuName = "Abilities/Melee")]
-public class MeleeAbility : Ability
+public class MeleeAbility : Ability<IAbilityUser>
 {
     [SerializeField] private float angleDegrees = 90f;
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
     [SerializeField] private GameObject hitEffect;
 
-    public override void Activate(GameObject _user, Animator _animator)
+    protected override void ActivateTyped(IAbilityUser _user)
     {
-        _animator.SetTrigger($"{animationTrigger}");
+        _user.Animator.SetTrigger($"{AnimationTrigger}");
     }
 
-    public override void DebugDrawing(GameObject _user, List<Transform> _abilityPositions)
+    protected override void DebugDrawingTyped(IAbilityUser _user)
     {
         Gizmos.color = Color.yellow;
-        Vector3 forward = _user.transform.forward;
+        Vector3 forward = _user.Transform.forward;
 
         Vector3 leftSide = Quaternion.AngleAxis(angleDegrees / 2, Vector3.up) * forward;
-        leftSide = _user.transform.position + leftSide * range;
+        leftSide = _user.Transform.position + leftSide * range;
         Vector3 rightSide = Quaternion.AngleAxis(-angleDegrees / 2, Vector3.up) * forward;
-        rightSide = _user.transform.position + rightSide * range;
+        rightSide = _user.Transform.position + rightSide * range;
 
 
-        Gizmos.DrawLine(_user.transform.position, rightSide);
-        Gizmos.DrawLine(_user.transform.position, leftSide);
+        Gizmos.DrawLine(_user.Transform.position, rightSide);
+        Gizmos.DrawLine(_user.Transform.position, leftSide);
     }
 
     /// <summary>
     /// Function called when the animation reaches the peak of its swing
     /// </summary>
     /// <param name="_user"></param>
-    public override void OnUse(GameObject _user, List<Transform> _abilityPositions)
+    protected override void OnUseTyped(IAbilityUser _user)
     {
-        Vector3 origin = _user.transform.position;
-        Vector3 forward = _user.transform.forward;
+        Vector3 origin = _user.Transform.position;
+        Vector3 forward = _user.Transform.forward;
         float cosAngle = Mathf.Cos(angleDegrees * 0.5f * Mathf.Deg2Rad); // Conversion of our angleDegrees to a cos for dot. 
                                                                          // We use half as the full cone is angleDegrees
 
