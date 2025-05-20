@@ -16,7 +16,27 @@ public abstract class Ability : ScriptableObject
     public string AnimationTrigger => animationTrigger;
     public Sprite Icon => icon;
 
+    /// <summary>
+    /// Phantom function form for Activate which allows different types of ability classes to type cast
+    /// themselves when they are called without necessarily calling them. For example when accessed
+    /// via a mixed list
+    /// </summary>
+    /// <param name="_user"></param>
     public abstract void Activate(IAbilityUser _user);
+
+    /// <summary>
+    /// Phantom function form for OnUse which allows different types of ability classes to type cast
+    /// themselves when they are called without necessarily calling them. For example when accessed
+    /// via a mixed list
+    /// </summary>
+    /// <param name="_user"></param>
     public abstract void OnUse(IAbilityUser _user);
+
+    /// <summary>
+    /// Phantom function form for DebugDrawing which allows different types of ability classes to type cast
+    /// themselves when they are called without necessarily calling them. For example when accessed
+    /// via a mixed list
+    /// </summary>
+    /// <param name="_user"></param>
     public abstract void DebugDrawing(IAbilityUser _user);
 }

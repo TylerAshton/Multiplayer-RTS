@@ -17,13 +17,15 @@ public class ConstructionPad : Unit, IConstructionPad
     private Building occupiedBuilding;
     public Building OccupiedBuilding => occupiedBuilding;
 
-    ConstructionPad IConstructionPad.ConstructionPad => throw new System.NotImplementedException();
+    ConstructionPad IConstructionPad.ConstructionPad => this;
 
     public Animator Animator => throw new System.NotImplementedException();
 
-    public Transform Transform => throw new System.NotImplementedException();
+    public Transform Transform => transform;
 
-    public Dictionary<AbilityPosition, Transform> AbilityPositions => throw new System.NotImplementedException();
+    private AbilityPositionManager abilityPositionManager;
+
+    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
 
     public EffectManager EffectManager => throw new System.NotImplementedException();
 
@@ -38,6 +40,10 @@ public class ConstructionPad : Unit, IConstructionPad
         if (!TryGetComponent<Collider>(out collider))
         {
             Debug.LogError("Collider is required for ConstructionPad");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError("AbilityPositionManager is required for ConstructionPad"); // TODO: Make all of these use gettype
         }
     }
 

@@ -2174,6 +2174,7 @@ GameObject:
   - component: {fileID: 9025558608976535429}
   - component: {fileID: 785699896743842906}
   - component: {fileID: -8172366779438765040}
+  - component: {fileID: 3480903240323997627}
   m_Layer: 7
   m_Name: Knight Champion
   m_TagString: Champion
@@ -2599,7 +2600,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  abilityPositions: []
   abilities:
   - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
   - {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
@@ -2616,6 +2616,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3480903240323997627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32821867aff27c547b61a123e46cba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityPositionsEntries:
+  - key: 0
+    value: {fileID: 8695154952966607106}
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0

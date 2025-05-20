@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 
 [System.Serializable]
-public struct AbilityPositionStruct // Work around struct for the dictionary of ability positions
+public struct AbilityPositionEntry // Work around struct for the dictionary of ability positions
 {
     public AbilityPosition key;
     public Transform value;
@@ -33,9 +33,6 @@ public class AbilityManager : NetworkBehaviour
     protected Ability currentAbility;
     protected Animator animator;
 
-    [SerializeField] private List<Transform> abilityPositions;
-    public List<Transform>  AbilityPositions => new List<Transform>(abilityPositions);
-
     [SerializeField] protected List<Ability> abilities;
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
@@ -53,13 +50,13 @@ public class AbilityManager : NetworkBehaviour
     protected void OnDrawGizmos()
     {
         #if UNITY_EDITOR
-            if (abilities != null && abilities.Count > 0)
+/*            if (abilities != null && abilities.Count > 0) TODO: Reenable me and fix nullRef for abilityUser
             {
                 foreach (var ability in abilities)
                 {
                     ability.DebugDrawing(abilityUser);
                 }
-            }
+            }*/
             
         #endif
     }

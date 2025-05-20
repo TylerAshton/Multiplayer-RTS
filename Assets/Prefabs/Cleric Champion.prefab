@@ -385,7 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5960994509850344562}
   m_Layer: 0
-  m_Name: Fire Bolt Pos
+  m_Name: Middle Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -619,6 +619,7 @@ GameObject:
   - component: {fileID: 515333486455282324}
   - component: {fileID: -1441250743326855691}
   - component: {fileID: 9122862085660864469}
+  - component: {fileID: 2436520570790276548}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -709,11 +710,6 @@ MonoBehaviour:
   deceleration: 40
   smoothSpeed: 15
   gravity: -9.81
-  abilityPositionsStructList:
-  - key: 1
-    value: {fileID: 5742072020312327593}
-  - key: 4
-    value: {fileID: 5960994509850344562}
   primaryAbility: {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
 --- !u!114 &2885188943381047520
 MonoBehaviour:
@@ -1015,9 +1011,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  abilityPositions:
-  - {fileID: 5742072020312327593}
-  - {fileID: 5960994509850344562}
   abilities:
   - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
   - {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
@@ -1034,6 +1027,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2436520570790276548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32821867aff27c547b61a123e46cba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityPositionsEntries:
+  - key: 1
+    value: {fileID: 5742072020312327593}
+  - key: 4
+    value: {fileID: 5960994509850344562}
 --- !u!1 &2807604425998223400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,7 +1953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5742072020312327593}
   m_Layer: 0
-  m_Name: Ice Bolt FirePos
+  m_Name: Right Hand Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5,6 +5,6 @@ public interface IAbilityUser
 {
     Animator Animator { get; }
     Transform Transform { get; }
-    Dictionary<AbilityPosition, Transform> AbilityPositions { get; }
+    IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions { get; }
     EffectManager EffectManager { get; }
 }

@@ -21,9 +21,9 @@ public class NPC : Unit, IAbilityUser
 
     public Transform Transform => transform;
 
-    private Dictionary<AbilityPosition, Transform> abilityPositions = new Dictionary<AbilityPosition, Transform>();
+    private AbilityPositionManager abilityPositionManager;
 
-    public Dictionary<AbilityPosition, Transform> AbilityPositions => abilityPositions;
+    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
 
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
@@ -42,6 +42,10 @@ public class NPC : Unit, IAbilityUser
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
             Debug.LogError("AbilityManager is required for NPC");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError("AbilityPositionManager is required for NPC");
         }
 
         base.Awake();

@@ -1146,6 +1146,7 @@ GameObject:
   - component: {fileID: -5570557594341943046}
   - component: {fileID: -8325889620801518248}
   - component: {fileID: -6077374187836635579}
+  - component: {fileID: 3387665949539355155}
   m_Layer: 7
   m_Name: Demon 1
   m_TagString: Amalgam
@@ -1275,14 +1276,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69359086133f6747a679c2996f23e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 3
   animator: {fileID: 2865285359833913113}
   deathAnimationLength: 0.01
   test: 0
   isDying: 0
+  overlayHealthBar: {fileID: 0}
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
   healthBarOffset: {x: 0, y: 0, z: 0}
   showHealthBar: 1
+  showOnOwnerScreen: 0
 --- !u!114 &9215544652138444917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1386,8 +1390,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  abilityPositions:
-  - {fileID: 2773041799944470280}
   abilities:
   - {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
 --- !u!114 &-8325889620801518248
@@ -1403,14 +1405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList:
-  - IsCrossFadeExit: 0
-    Layer: 1
-    OriginatingState: 2081823275
-    DestinationState: 455649621
-    TransitionDuration: 0.25
-    TriggerNameHash: 1605434339
-    TransitionIndex: 0
+  TransitionStateInfoList: []
   m_Animator: {fileID: 2865285359833913113}
 --- !u!114 &-6077374187836635579
 MonoBehaviour:
@@ -1429,6 +1424,21 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &3387665949539355155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32821867aff27c547b61a123e46cba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityPositionsEntries:
+  - key: 1
+    value: {fileID: 2773041799944470280}
 --- !u!1 &2453397364068737160
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,9 +5,11 @@ public class Building : Unit, IAbilityUser
 {
     public Animator Animator => throw new System.NotImplementedException();
 
-    public Transform Transform => throw new System.NotImplementedException();
+    public Transform Transform => transform;
 
-    public Dictionary<AbilityPosition, Transform> AbilityPositions => throw new System.NotImplementedException();
+    private AbilityPositionManager abilityPositionManager;
+
+    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
 
     public EffectManager EffectManager => throw new System.NotImplementedException();
 }

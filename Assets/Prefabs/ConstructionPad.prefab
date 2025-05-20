@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 8014679277335582758}
   - component: {fileID: 7750733840084467600}
   - component: {fileID: 428394598585228709}
+  - component: {fileID: -8378991676466092027}
   m_Layer: 0
   m_Name: ConstructionPad
   m_TagString: Untagged
@@ -283,7 +284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  abilityPositions: []
   abilities:
   - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
 --- !u!95 &7750733840084467600
@@ -322,3 +322,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 7489209139734554470}
+--- !u!114 &-8378991676466092027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708722605112869330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32821867aff27c547b61a123e46cba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityPositionsEntries:
+  - key: 0
+    value: {fileID: 3484767236939548870}

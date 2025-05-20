@@ -25,12 +25,9 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser
 
     public Transform Transform => transform;
 
-    [SerializeField]
-    private List<AbilityPositionStruct> abilityPositionsStructList;
+    private AbilityPositionManager abilityPositionManager;
 
-    private Dictionary<AbilityPosition, Transform> abilityPositions; // Define in awake with struct
-
-    public Dictionary<AbilityPosition, Transform> AbilityPositions => abilityPositions;
+    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
 
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
@@ -46,15 +43,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser
     private Vector3 velocity; // used for gravity shit
 
     [SerializeField] private Ability primaryAbility;
-
-    private void Awake()
-    {
-        abilityPositions = new Dictionary<AbilityPosition, Transform>();
-        foreach (var entry in abilityPositionsStructList)
-        {
-            abilityPositions[entry.key] = entry.value;
-        }
-    }
 
     void Start()
     {
@@ -79,6 +67,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
             Debug.LogError("AbilityManager is required for AnimatedChampion");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError("AbilityPositionManager is required for AnimatedChampion");
         }
         if (!TryGetComponent<CharacterController>(out characterController))
         {
