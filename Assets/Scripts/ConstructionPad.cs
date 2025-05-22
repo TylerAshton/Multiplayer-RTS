@@ -47,12 +47,19 @@ public class ConstructionPad : Unit, IConstructionPad
         }
     }
 
+    /// <summary>
+    /// Hides the build pad from the player and sets it to not selectable while also deselecting the unit.
+    /// </summary>
     public void HideBuildPad()
     {
         HidebuildPadClientRpc();
+        RTSPlayer.instance.UnitManager.DeselectUnit(this);
         SetIsSelectable(false);
     }
 
+    /// <summary>
+    /// Unhides the build pad from the player and sets it to selectable.
+    /// </summary>
     public void ShowBuildPad()
     {
         ShowbuildPadClientRpc();

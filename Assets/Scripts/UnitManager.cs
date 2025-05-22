@@ -75,7 +75,7 @@ public class UnitManager : NetworkBehaviour
     /// Adds the unit to the selectedUNits list and shows its selection indicator
     /// </summary>
     /// <param name="_unit"></param>
-    private void SelectUnit(Unit _unit)
+    public void SelectUnit(Unit _unit)
     {
         selectedUnits.Add(_unit);
         unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
@@ -86,7 +86,7 @@ public class UnitManager : NetworkBehaviour
     /// Removes the unit from the selectedUnits list and hides its selection indicator
     /// </summary>
     /// <param name="_unit"></param>
-    private void DeselectUnit(Unit _unit)
+    public void DeselectUnit(Unit _unit)
     {
         if (!selectedUnits.Contains(_unit))
         {
