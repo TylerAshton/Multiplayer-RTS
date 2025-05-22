@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, IAbilityUser
+public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 {
     [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
     [SerializeField] private float acceleration = 10f;
@@ -31,6 +31,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser
 
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
+
+    public Faction Faction => faction;
+
+    private readonly Faction faction = Faction.Champion;
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 /// Unit component is an base class used for all forms of RTS units across the game.
 /// Contains logic for all common behaviours such as selection, death, and instructions.
 /// </summary>
-public class Unit : NetworkBehaviour, IDestructible
+public class Unit : NetworkBehaviour, IDestructible, IFaction
 {
     private Queue<Task> taskQueue = new();
     private Task currentTask;
@@ -23,6 +23,9 @@ public class Unit : NetworkBehaviour, IDestructible
     NetworkObject networkObject;
     private bool isSelectable = true;
     public bool IsSelectable => isSelectable;
+
+    private readonly Faction faction = Faction.Amalgam;
+    public Faction Faction => throw new System.NotImplementedException();
 
     protected virtual void Awake()
     {
