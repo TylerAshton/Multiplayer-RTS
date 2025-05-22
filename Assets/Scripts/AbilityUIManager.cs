@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,6 +77,10 @@ public class AbilityUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the ability grid with the abilities of the passed in ability manager
+    /// </summary>
+    /// <param name="_abilityManager"></param>
     public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
     {
         ResetAbilityGrid();

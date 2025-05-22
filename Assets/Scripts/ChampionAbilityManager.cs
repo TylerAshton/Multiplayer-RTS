@@ -9,15 +9,32 @@ public class ChampionAbilityManager : AbilityManager
     {
         base.Awake();
 
-        // Spawn and setup Ability UI
-        GameObject AbilityUI = Instantiate(AbilityUIPrefab);
-        UIAbilityManager = AbilityUI.GetComponentInChildren<AbilityUIManager>();
-
         
     }
 
     protected void Start()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
+        SpawnUI();
         UIAbilityManager.UpdateGridWithAbilityManager(this);
+    }
+
+    /// <summary>
+    /// Instantiates and spawns the AbilityUI for the owning player and saves it as the variable.
+    /// </summary>
+    private void SpawnUI()
+    {
+        if (!IsOwner)
+        {
+            Debug.LogError("Attempted to spawn another player's UI");
+            return;
+        }
+
+        GameObject AbilityUI = Instantiate(AbilityUIPrefab);
+        UIAbilityManager = AbilityUI.GetComponentInChildren<AbilityUIManager>();
     }
 }
