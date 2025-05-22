@@ -131,6 +131,8 @@ public class Health : NetworkBehaviour
     {
         hitPoints += _health;
 
+        UpdateHealthBarClientRpc(hitPoints);
+
         healthSlider.value = hitPoints;
 
         hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
