@@ -12,4 +12,6 @@ public class Building : Unit, IAbilityUser
     public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
 
     public EffectManager EffectManager => throw new System.NotImplementedException();
+
+    public IFaction IFaction => this;
 }

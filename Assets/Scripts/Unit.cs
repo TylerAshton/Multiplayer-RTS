@@ -24,8 +24,8 @@ public class Unit : NetworkBehaviour, IDestructible, IFaction
     private bool isSelectable = true;
     public bool IsSelectable => isSelectable;
 
-    private readonly Faction faction = Faction.Amalgam;
-    public Faction Faction => throw new System.NotImplementedException();
+    protected Faction faction = Faction.Amalgam;
+    Faction IFaction.Faction { get => faction; set => faction = value; }
 
     protected virtual void Awake()
     {

@@ -29,6 +29,8 @@ public class ConstructionPad : Unit, IConstructionPad
 
     public EffectManager EffectManager => throw new System.NotImplementedException();
 
+    public IFaction IFaction => this;
+
     protected override void Awake()
     {
         base.Awake();

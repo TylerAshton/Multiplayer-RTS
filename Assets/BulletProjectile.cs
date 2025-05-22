@@ -2,7 +2,7 @@ using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BulletProjectile : NetworkBehaviour, IDestructible
+public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 {
     private const float LingerTime = 0.01f;
     [SerializeField] private float detectionRange = 0.1f;
@@ -19,6 +19,9 @@ public class BulletProjectile : NetworkBehaviour, IDestructible
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 posLastFrame;
     private Vector3[] corners = new Vector3[8];
+
+    private Faction faction = Faction.None;
+    public Faction Faction { get => faction; set => faction = value; }
 
     private void Awake()
     {
@@ -163,9 +166,18 @@ public class BulletProjectile : NetworkBehaviour, IDestructible
         {
             if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, layerMask))
             {
-                if (hit.collider.gameObject.tag == friendlyTag)
+                /*if (hit.collider.gameObject.tag == friendlyTag) // This is no longer used as we now use faction enums
                 {
                     continue;
+                }*/
+
+                // Skip if the hit object is part of the same faction
+                if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
+                {
+                    if (faction.Faction == this.faction)
+                    {
+                        continue;
+                    }
                 }
 
                 // Example: Damage logic

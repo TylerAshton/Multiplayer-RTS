@@ -32,9 +32,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
 
-    public Faction Faction => faction;
+    private Faction faction = Faction.Champion;
+    Faction IFaction.Faction { get => faction; set => faction = value; }
 
-    private readonly Faction faction = Faction.Champion;
+    public IFaction IFaction => this;
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 

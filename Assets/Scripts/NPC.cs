@@ -28,6 +28,8 @@ public class NPC : Unit, IAbilityUser
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
 
+    public IFaction IFaction => this;
+
     protected override void Awake()
     {
         if (!NetworkManager.Singleton.IsServer)

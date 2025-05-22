@@ -23,5 +23,6 @@ public class ProjectileAbility : Ability<IAbilityUser>
         GameObject spawnedProjectile = Instantiate(projectile, castPositionTransform.position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(_user.Transform.forward);
+        spawnedProjectile.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 }

@@ -23,5 +23,6 @@ public class AOEAbility : Ability<IAbilityUser>
         GameObject newEffect = Instantiate(effect, castPositionTransform);
         newEffect.GetComponent<NetworkObject>().Spawn();
         newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
+        newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 }

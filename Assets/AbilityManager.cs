@@ -45,6 +45,11 @@ public class AbilityManager : NetworkBehaviour
         {
             Debug.LogError("AbilityUser is required for AbilityManager");
         }
+
+        if (!TryGetComponent<Animator>(out animator))
+        {
+            Debug.LogError("Animator is required for AbilityManager");
+        }
     }
 
     protected void OnDrawGizmos()

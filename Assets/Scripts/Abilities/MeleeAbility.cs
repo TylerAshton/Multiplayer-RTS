@@ -44,6 +44,15 @@ public class MeleeAbility : Ability<IAbilityUser>
         Collider[] hits = Physics.OverlapSphere(origin, range);
         foreach (var hit in hits)
         {
+            // Skip if the hit object is part of the same faction
+            if (hit.TryGetComponent<IFaction>(out IFaction faction))
+            {
+                if (faction.Faction == _user.IFaction.Faction)
+                {
+                    continue;
+                }
+            }
+
             Vector3 toTarget = (hit.transform.position - origin).normalized;
             float dot = Vector3.Dot(forward, toTarget);
 

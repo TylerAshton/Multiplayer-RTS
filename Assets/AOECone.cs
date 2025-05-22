@@ -1,9 +1,8 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-public class AOECone : NetworkBehaviour
+public class AOECone : NetworkBehaviour, IFaction
 {
     [SerializeField] float lifeTimeSec = 2f;
     [SerializeField] float angleDegrees = 90f;
@@ -13,13 +12,26 @@ public class AOECone : NetworkBehaviour
     [SerializeField] float burnTimeSec = 2f;
     private float age = 0f;
 
+    private Faction faction = Faction.None;
+    Faction IFaction.Faction { get => faction; set => faction = value; }
+
     private void Start()
     {
+        if (!IsServer)
+        {
+            return;
+        }
+
         StartCoroutine(deathTime());
     }
 
     private void Update()
     {
+        if (!IsServer)
+        {
+            return;
+        }
+
         age += Time.deltaTime;
 
         if (age > armTimeSec && age < burnTimeSec)
@@ -50,6 +62,15 @@ public class AOECone : NetworkBehaviour
         Collider[] hits = Physics.OverlapSphere(origin, range);
         foreach (var hit in hits)
         {
+            // Skip if the hit object is part of the same faction
+            if (hit.TryGetComponent<IFaction>(out IFaction faction))
+            {
+                if (faction.Faction == this.faction)
+                {
+                    continue; 
+                }
+            }
+
             Vector3 toTarget = (hit.transform.position - origin).normalized;
             float dot = Vector3.Dot(forward, toTarget);
 
