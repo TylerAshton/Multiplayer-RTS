@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c659d45b5118c4c9c60f028df39bb4, type: 3}
   m_Name: SummonDemon
   m_EditorClassIdentifier: 
-  abilityName: Summon Demon
+  abilityID: spawnDemon
   castTime: 1
+  castPositionName: 0
   animationTrigger: 
   icon: {fileID: 21300000, guid: 0d3301ccf4b1d7243afda09fcd959c83, type: 3}
   spawnee: {fileID: 2401997887451976919, guid: 44030ceaa8e63cb42ab47b206a6e8252, type: 3}

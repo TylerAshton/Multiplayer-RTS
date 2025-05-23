@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52167b63a06be94980a9db1fb1fd1e4, type: 3}
   m_Name: Blade Spin
   m_EditorClassIdentifier: 
-  abilityName: Blade Spin
+  abilityID: bladeSpin
   castTime: 1
+  castPositionName: 0
   animationTrigger: BladeSpin
   icon: {fileID: 21300000, guid: 11990dec99b4cf346abcd769b2974c7b, type: 3}
   angleDegrees: 360

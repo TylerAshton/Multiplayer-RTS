@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e12e273157d5740bf167ce234674c9, type: 3}
   m_Name: IceBolt
   m_EditorClassIdentifier: 
+  abilityID: iceBolt
   castTime: 0.4
   castPositionName: 1
   animationTrigger: ProjectileAttack

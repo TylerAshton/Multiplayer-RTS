@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public abstract class Ability : ScriptableObject
 {
+    [SerializeField] private string abilityID = string.Empty;
+    public string AbilityID => abilityID;
     [SerializeField] private float castTime = 1f;
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
     [SerializeField] private string animationTrigger;

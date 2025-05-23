@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28d32f4a1997914192c5c1efc4ddc64, type: 3}
   m_Name: FireBlaze
   m_EditorClassIdentifier: 
+  abilityID: fireBlaze
   castTime: 4
   castPositionName: 4
   animationTrigger: FireBlast
