@@ -197,26 +197,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     }
 
-/*    private void OnTriggerEnter(Collider other)
-    {
-        if (!NetworkManager.Singleton.IsServer)
-        {
-            return;
-        }
-
-        if (other.CompareTag(friendlyTag)) // Friendly fire will not be tolerated
-        {
-            return;
-        }
-        if (other.TryGetComponent<Health>(out var _health))
-        {
-            _health.Damage(damage);
-        }
-
-        Debug.Log("Bullet Destroyed");
-        StartDespawn();
-    }*/
-
     private void StartDespawn()
     {
         if (isDead)

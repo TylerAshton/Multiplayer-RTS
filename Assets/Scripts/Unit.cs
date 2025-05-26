@@ -179,7 +179,7 @@ public class Unit : NetworkBehaviour, IDestructible, IFaction
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (NetworkManager.Singleton && !NetworkManager.Singleton.IsServer) 
+        if (!IsServer) 
         {
             return;
         }

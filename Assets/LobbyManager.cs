@@ -55,8 +55,9 @@ public class LobbyManager : NetworkBehaviour
     private void SpawnAllPlayers(ulong clientId, string sceneName, LoadSceneMode loadSceneMode) // TODO: Remove args
                                                                                                 // TODO: Use player dict
     {
+
         NetworkManager.Singleton.SceneManager.OnLoadComplete -= SpawnAllPlayers;
-        if (!NetworkManager.Singleton.IsServer)
+        if (!NetworkManager.Singleton.IsHost)
         {
             return;
         }
@@ -97,7 +98,7 @@ public class LobbyManager : NetworkBehaviour
         {
             Debug.Log("inactive");
         }
-        Debug.Log($"{NetworkManager.Singleton.IsServer} {NetworkManager.Singleton.IsClient} {NetworkManager.Singleton.IsHost}");
+        Debug.Log($"{IsServer} {IsClient} {IsHost}");
         if (!IsHost)
         {
             return;

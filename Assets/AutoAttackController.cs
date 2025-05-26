@@ -29,7 +29,7 @@ public class AutoAttackController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!NetworkManager.Singleton.IsServer)
+        if (!IsServer)
         {
             return;
         }

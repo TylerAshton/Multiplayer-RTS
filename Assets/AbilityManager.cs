@@ -79,7 +79,7 @@ public class AbilityManager : NetworkBehaviour
     /// </summary>
     public void OnAnimationApex()
     {
-       if (!NetworkManager.Singleton.IsServer) return;
+       if (!IsServer) return;
 
         currentAbility.OnUse(gameObject.GetComponent<IAbilityUser>());
     }
