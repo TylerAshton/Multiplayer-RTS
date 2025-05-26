@@ -55,6 +55,11 @@ public class ConstructionPad : Unit, IConstructionPad
     {
         base.Update();
 
+        if (!IsServer)
+        {
+            return;
+        }
+
         if (shouldDisplay())
         {
             ShowBuildPad();
