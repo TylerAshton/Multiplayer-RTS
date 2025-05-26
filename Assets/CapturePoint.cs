@@ -11,7 +11,8 @@ public class CapturePoint : NetworkBehaviour
     [SerializeField] private int minChamps = 0;
     [SerializeField] private int minAmalgs = 0;
 
-    [SerializeField] public enum owners
+    [SerializeField]
+    public enum owners
     {
         AMALGAM,
         NEUTRAL,
@@ -40,14 +41,14 @@ public class CapturePoint : NetworkBehaviour
         champs = 0;
         amalgs = 0;
         RaycastHit[] units = Physics.SphereCastAll(this.transform.position + offset, r, Vector3.forward, 0, mask);
-        
+
         foreach (RaycastHit unit in units)
         {
             if (unit.collider.transform.tag == "Champion")
             {
                 champs++;
             }
-            else if(unit.collider.transform.tag == "Amalgam")
+            else if (unit.collider.transform.tag == "Amalgam")
             {
                 amalgs++;
             }

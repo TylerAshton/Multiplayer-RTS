@@ -41,17 +41,7 @@ public class ShopManager : MonoBehaviour
 
         if (shopOwner == shopOwners.CHAMPION)
         {
-            foreach (GameObject element in championObjs)
-            {
-                element.SetActive(true);
-            }
-        }
-        else
-        {
-            foreach (GameObject element in championObjs)
-            {
-                element.SetActive(false);
-            }
+            UIManager.Instance.inShopZone = true;
         }
     }
 }
