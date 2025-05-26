@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class ConstructionPad : Unit, IConstructionPad
     public Transform Transform => transform;
 
     private AbilityPositionManager abilityPositionManager;
+    [SerializeField] public bool territoryOwned = false;
 
     public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
 
@@ -49,13 +51,27 @@ public class ConstructionPad : Unit, IConstructionPad
         }
     }
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (shouldDisplay())
+        {
+            ShowBuildPad();
+        }
+        else
+        {
+            HideBuildPad();
+        }
+    }
+
     /// <summary>
     /// Hides the build pad from the player and sets it to not selectable while also deselecting the unit.
     /// </summary>
     public void HideBuildPad()
     {
         HidebuildPadClientRpc();
-        RTSPlayer.instance.UnitManager.DeselectUnit(this);
+        RTSPlayer.instance.UnitManager.TryDeselectUnit(this);
         SetIsSelectable(false);
     }
 
@@ -66,6 +82,20 @@ public class ConstructionPad : Unit, IConstructionPad
     {
         ShowbuildPadClientRpc();
         SetIsSelectable(true);
+    }
+
+    /// <summary>
+    /// Returns true if the construction pad should be visible and selectable
+    /// </summary>
+    /// <returns></returns>
+    private bool shouldDisplay() // WTF is this
+    {
+        if (territoryOwned && occupiedBuilding == null)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     [ClientRpc]
@@ -92,5 +122,11 @@ public class ConstructionPad : Unit, IConstructionPad
         occupiedBuilding.GetComponent<Health>().DestroyObject();
     }
 
-
+    internal void SetOccupiedBuilding(GameObject _building)
+    {
+        if(!_building.TryGetComponent<Building>(out occupiedBuilding))
+        {
+            Debug.LogError("Attempted to set occupied building with an object that isn't a building");
+        }
+    }
 }

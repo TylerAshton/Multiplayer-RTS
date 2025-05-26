@@ -108,6 +108,19 @@ public class UnitManager : NetworkBehaviour
     }
 
     /// <summary>
+    /// Botched. Tries to deselect a unit if it's selected
+    /// </summary>
+    /// <param name="constructionPad"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void TryDeselectUnit(Unit _unit)
+    {
+        if (selectedUnits.Contains(_unit))
+        {
+            DeselectUnit(_unit);
+        }
+    }
+
+    /// <summary>
     /// Runs the DeselectUnit function on all units that are selected
     /// </summary>
     private void ClearAllSelectedUnits()
@@ -164,4 +177,6 @@ public class UnitManager : NetworkBehaviour
 
         return offset;
     }
+
+    
 }

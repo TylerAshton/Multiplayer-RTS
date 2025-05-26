@@ -17,7 +17,7 @@ public class Construct : Ability<IConstructionPad>
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
 
-        _user.ConstructionPad.HideBuildPad();
+        _user.ConstructionPad.SetOccupiedBuilding(summoned);
         summoned.GetComponent<Health>().OnDeath += _user.ConstructionPad.ShowBuildPad;
 
         // Select new unit

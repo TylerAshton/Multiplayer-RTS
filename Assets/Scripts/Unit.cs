@@ -21,7 +21,7 @@ public class Unit : NetworkBehaviour, IDestructible, IFaction
     Health health;
     Collider colliderComp;
     NetworkObject networkObject;
-    private bool isSelectable = true;
+    [SerializeField] private bool isSelectable = true;
     public bool IsSelectable => isSelectable;
 
     protected Faction faction = Faction.Amalgam;

@@ -322,6 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 7489209139734554470}
+  isSelectable: 0
 --- !u!114 &-8378991676466092027
 MonoBehaviour:
   m_ObjectHideFlags: 0
