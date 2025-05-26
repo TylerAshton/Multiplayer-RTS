@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  hitPoints: 10
+  hitPoints: 1e+11
   animator: {fileID: 0}
   deathAnimationLength: 0.1
   test: 0
@@ -323,6 +323,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 7489209139734554470}
   isSelectable: 0
+  territoryOwned: 0
 --- !u!114 &-8378991676466092027
 MonoBehaviour:
   m_ObjectHideFlags: 0
