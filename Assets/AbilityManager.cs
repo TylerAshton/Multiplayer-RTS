@@ -66,6 +66,28 @@ public class AbilityManager : NetworkBehaviour
         #endif
     }
 
+    public void SetAbility(int _index, Ability _ability)
+    {
+        abilities[_index] = _ability;
+    }
+
+    //[Rpc(SendTo.Everyone)]
+    //public void AddAbility(Ability _ability)
+    //{
+    //    AddAbilityRpc(_ability);
+    //}
+
+    public void AddAbility(Ability _ability)
+    {
+        abilities.Add(_ability);
+    }
+
+    public bool CheckAbility(Ability _ability)
+    {
+        return abilities.Contains(_ability);
+    }
+
+
     public void SetAttackSpeed(float _attackSpeed)
     {
         AttackSpeed = _attackSpeed;

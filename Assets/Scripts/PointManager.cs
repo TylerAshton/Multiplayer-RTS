@@ -5,12 +5,14 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PointManager : MonoBehaviour
+public class PointManager : NetworkBehaviour
 {
     public static PointManager Instance;
-    public Dictionary<ulong, int> playerPoints = new Dictionary<ulong, int>();
+    private Dictionary<ulong, int> playerPoints = new Dictionary<ulong, int>();
     private GameObject[] pointAwarders;
     private List<GameObject> capturePoints = new List<GameObject>();
+
+    [SerializeField] private List<int> DEBUGplayerPoints;
 
     void Awake()
     {
@@ -28,7 +30,7 @@ public class PointManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"THIS IS YOUR ID : { NetworkManager.Singleton.LocalClientId}");
+        Debug.Log($"THIS IS YOUR ID : {NetworkManager.Singleton.LocalClientId}");
         playerPoints[0] = 0;
         playerPoints[1] = 0;
         playerPoints[2] = 0;
@@ -51,29 +53,54 @@ public class PointManager : MonoBehaviour
                     capturePoints.Add(awarder);
                 }
             }
-        }
-    }
-    
-    IEnumerator generatePoints()
-    {
-        foreach (GameObject point in capturePoints)
-        {
-            if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.AMALGAM)
+
+            DEBUGplayerPoints.Clear();
+            foreach (KeyValuePair<ulong, int> kvp in playerPoints)
             {
-                AddPointsToPlayer(0, 100);
-            }
-            else if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.CHAMPION)
-            {
-                AddPointsToPlayer(1, 100);
-                AddPointsToPlayer(2, 100);
+                DEBUGplayerPoints.Add(kvp.Value);
             }
         }
-        Debug.Log($"{playerPoints[0]},{playerPoints[1]},{playerPoints[2]}");
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(generatePoints());
     }
 
-    private void AddPointsToPlayer(ulong id, int points)
+    IEnumerator generatePoints()
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            foreach (GameObject point in capturePoints)
+            {
+                if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.AMALGAM)
+                {
+                    AddPoints(0, 100);
+                }
+                else if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.CHAMPION)
+                {
+                    AddPoints(1, 100);
+                    AddPoints(2, 100);
+                }
+            }
+            Debug.Log($"{playerPoints[0]},{playerPoints[1]},{playerPoints[2]}");
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(generatePoints());
+        }
+    }
+
+    public int GetPoints(ulong id)
+    {
+        return playerPoints[id];
+    }
+
+    public void AddPoints(ulong id, int points)
+    {
+        AddPointsToPlayerRpc(id, points);
+    }
+
+    public void RemovePoints(ulong id, int points)
+    {
+        RemovePointsFromPlayerRpc(id, points);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void AddPointsToPlayerRpc(ulong id, int points)
     {
         try
         {
@@ -84,6 +111,21 @@ public class PointManager : MonoBehaviour
             int temp = playerPoints[id];
             playerPoints.Remove(id);
             playerPoints.Add(id, temp + points);
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void RemovePointsFromPlayerRpc(ulong id, int points)
+    {
+        try
+        {
+            playerPoints.Add(id, playerPoints[id] - points);
+        }
+        catch (ArgumentException)
+        {
+            int temp = playerPoints[id];
+            playerPoints.Remove(id);
+            playerPoints.Add(id, temp - points);
         }
     }
 }

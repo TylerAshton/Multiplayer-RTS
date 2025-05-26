@@ -49,9 +49,12 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     [SerializeField] private Ability primaryAbility;
 
+    private UIManager uiManager;
+
     void Start()
     {
         manager = RelayManager.Instance;
+        uiManager = UIManager.Instance;
         rb = GetComponent<Rigidbody>();
         //manager.CreatePlayerServerRpc();
 
@@ -103,6 +106,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     }
 
+    public void UIToggle()
+    {
+        uiManager.ToggleUI();
+    }
 
     /// <summary>
     /// This Server-Rpc attempts to move the camera towards the players current location
