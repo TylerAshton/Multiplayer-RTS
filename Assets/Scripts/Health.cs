@@ -151,7 +151,13 @@ public class Health : NetworkBehaviour
     /// </summary>
     public void DestroyObject()
     {
-        isDying = true;
+        if (isDying == true)
+        {
+            return;
+        }
+
+        isDying = true;     
+
         OnDeath?.Invoke();
 
         if (animator != null)
@@ -181,6 +187,11 @@ public class Health : NetworkBehaviour
     {
         if(TryGetComponent<NetworkObject>(out var _networkObject))
         {
+            if (_networkObject.IsSpawned == false)
+            {
+                Debug.LogError("FUKED");
+            }
+
             _networkObject.Despawn();
         }
         else

@@ -46,6 +46,12 @@ public class UnitManager : NetworkBehaviour
     public void RemoveUnit(Unit _unit)
     {
         allUnits.Remove(_unit);
+        selectedUnits.Remove(_unit);
+
+        if (selectedUnits.Count > 0)
+        {
+            unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        }
     }
 
     /// <summary>
