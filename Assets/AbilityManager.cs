@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -35,6 +36,8 @@ public class AbilityManager : NetworkBehaviour
 
     [SerializeField] protected List<Ability> abilities;
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
+
+    private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();
 
     private float AttackSpeed = 1;
 
@@ -145,6 +148,7 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
+        StartCooldown(currentAbility);
         currentAbility.Activate(abilityUser);
         StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
@@ -174,7 +178,7 @@ public class AbilityManager : NetworkBehaviour
         {
             return false;
         }
-        // Cost checker
+        // Cost checker // TODO: Enable ability cost checking
         /*int currentPoints = PointManager.Instance.GetPoints(ownerClientId);
 
         if (currentPoints < _ability.AbilityCost)
@@ -183,8 +187,43 @@ public class AbilityManager : NetworkBehaviour
         }*/
 
         // Cooldown checker
+        if (cooldownTimers.TryGetValue(_ability.AbilityID, out float lastUsedTime))
+        {
+            if (Time.time < lastUsedTime + _ability.Cooldown)
+            {
+                return false;
+            }
+        }
 
-        return true; // Placeholder, implement actual checks
+
+        return true; 
+    }
+
+    /// <summary>
+    /// Sets the cooldown for an ability in the server and sends an update to the clients
+    /// </summary>
+    /// <param name="_ability"></param>
+    private void StartCooldown(Ability _ability)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set an ability cooldown");
+            return;
+        }
+
+        cooldownTimers[_ability.AbilityID] = Time.time;
+        SetCooldownRpc(_ability.AbilityID, Time.time);
+    }
+
+    /// <summary>
+    /// Updates the clients with the cooldown of said ability
+    /// </summary>
+    /// <param name="abilityID"></param>
+    /// <param name="serverTimeStamp"></param>
+    [Rpc(SendTo.NotMe)]
+    private void SetCooldownRpc(string abilityID, float serverTimeStamp)
+    {
+        cooldownTimers[abilityID] = serverTimeStamp;
     }
 
 

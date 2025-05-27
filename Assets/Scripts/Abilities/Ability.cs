@@ -15,6 +15,8 @@ public abstract class Ability : ScriptableObject
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private float cooldown = 0f;
 
+    public float Cooldown => cooldown;
+
     public int AbilityCost => abilityCost;
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
