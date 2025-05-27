@@ -1278,6 +1278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 3
+  isImmune: 0
   animator: {fileID: 2865285359833913113}
   deathAnimationLength: 0.01
   test: 0
@@ -1301,6 +1302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 1015896299060538320}
+  isSelectable: 1
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1421,6 +1423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   detectionRange: 20
+  forgivenessRange: 21
   unitLayer:
     serializedVersion: 2
     m_Bits: 128

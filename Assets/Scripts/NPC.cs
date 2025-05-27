@@ -112,6 +112,15 @@ public class NPC : Unit, IAbilityUser
     /// <param name="_targetGameObject"></param>
     public void SetTarget(GameObject _targetGameObject)
     {
+        if (_targetGameObject == null)
+        {
+            targetHealth.OnDeath -= ClearTarget;
+            targetHealth = null;
+            target = null;
+
+            return;
+        }
+
         if (_targetGameObject.TryGetComponent<Health>(out Health health))
         {
             targetHealth = health;

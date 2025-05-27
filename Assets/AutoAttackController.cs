@@ -1,9 +1,11 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
 public class AutoAttackController : NetworkBehaviour
 {
     [SerializeField] private float detectionRange;
+    [SerializeField] private float forgivenessRange;
     [SerializeField] private LayerMask unitLayer;
     private NPC npc;
     private AbilityManager abilityManager;
@@ -35,10 +37,28 @@ public class AutoAttackController : NetworkBehaviour
         }
 
         TryAttackTarget();
+        TryForgiveTarget();
 
         if (!npc.Target)
         {
             ScanForTarget();
+        }
+
+        
+    }
+
+    private void TryForgiveTarget()
+    {
+        if (!npc.Target)
+        {
+            return;
+        }
+
+        float targetDistance = Vector3.Distance(npc.Target.position, npc.transform.position);
+
+        if (targetDistance > forgivenessRange)
+        {
+            npc.SetTarget(null);
         }
     }
 
