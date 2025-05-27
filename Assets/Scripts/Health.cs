@@ -7,6 +7,7 @@ public class Health : NetworkBehaviour
 {
     [SerializeField] private float hitPoints;
     public float HitPoints => hitPoints;
+    [SerializeField] private bool isImmune = false;
 
     private float maxHealth;
     [SerializeField] private Animator animator;
@@ -105,6 +106,11 @@ public class Health : NetworkBehaviour
     /// <param name="_damage"></param>
     public void Damage(float _damage)
     {
+        if (isImmune)
+        {
+            return;
+        }
+
         hitPoints -= _damage;
 
         UpdateHealthBarClientRpc(hitPoints);
