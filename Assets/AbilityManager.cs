@@ -38,6 +38,10 @@ public class AbilityManager : NetworkBehaviour
 
     private float AttackSpeed = 1;
 
+    private NetworkObject networkObject;
+
+    ulong ownerClientId = 999999;
+
 
     protected virtual void Awake()
     {
@@ -50,6 +54,16 @@ public class AbilityManager : NetworkBehaviour
         {
             Debug.LogError("Animator is required for AbilityManager");
         }
+        if (!TryGetComponent<NetworkObject>(out networkObject))
+        {
+            Debug.LogError("NetworkObject is required for AbilityManager");
+        }
+        
+    }
+
+    protected virtual void Start()
+    {
+        ownerClientId = networkObject.OwnerClientId;
     }
 
     protected void OnDrawGizmos()
@@ -118,16 +132,19 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        if (abilityState == AbilityState.Casting)
-        {
-            return;
-        }
-
         if (abilities[_abilityIndex] == null)
         {
             return;
         }
+
         currentAbility = abilities[_abilityIndex];
+
+        if (!CanCastAbility(currentAbility))
+        {
+            Debug.LogWarning("Cannot cast ability due to checks failing");
+            return;
+        }
+
         currentAbility.Activate(abilityUser);
         StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
@@ -142,6 +159,32 @@ public class AbilityManager : NetworkBehaviour
         abilityState = AbilityState.Casting;
         yield return new WaitForSeconds(_timer);
         abilityState = AbilityState.Ready;
+    }
+
+    /// <summary>
+    /// Checks if the ability can be used. Checking: if another ability is still casting, if player can afford it,
+    /// and if the ability is on cooldown. 
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private bool CanCastAbility(Ability _ability)
+    {
+        // isCasting checker
+        if (abilityState == AbilityState.Casting)
+        {
+            return false;
+        }
+        // Cost checker
+        /*int currentPoints = PointManager.Instance.GetPoints(ownerClientId);
+
+        if (currentPoints < _ability.AbilityCost)
+        {
+            return false;
+        }*/
+
+        // Cooldown checker
+
+        return true; // Placeholder, implement actual checks
     }
 
 

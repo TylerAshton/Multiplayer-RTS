@@ -12,7 +12,10 @@ public abstract class Ability : ScriptableObject
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
     [SerializeField] private string animationTrigger;
     [SerializeField] private Sprite icon;
+    [SerializeField] private int abilityCost = 0;
+    [SerializeField] private float cooldown = 0f;
 
+    public int AbilityCost => abilityCost;
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
     public string AnimationTrigger => animationTrigger;
