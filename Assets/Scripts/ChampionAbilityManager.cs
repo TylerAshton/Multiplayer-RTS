@@ -12,8 +12,10 @@ public class ChampionAbilityManager : AbilityManager
         
     }
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
+
         if (!IsOwner)
         {
             return;

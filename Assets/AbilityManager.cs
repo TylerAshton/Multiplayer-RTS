@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -36,7 +37,13 @@ public class AbilityManager : NetworkBehaviour
     [SerializeField] protected List<Ability> abilities;
     public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
 
+    private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();
+
     private float AttackSpeed = 1;
+
+    private NetworkObject networkObject;
+
+    ulong ownerClientId = 999999;
 
 
     protected virtual void Awake()
@@ -50,6 +57,16 @@ public class AbilityManager : NetworkBehaviour
         {
             Debug.LogError("Animator is required for AbilityManager");
         }
+        if (!TryGetComponent<NetworkObject>(out networkObject))
+        {
+            Debug.LogError("NetworkObject is required for AbilityManager");
+        }
+        
+    }
+
+    protected virtual void Start()
+    {
+        ownerClientId = networkObject.OwnerClientId;
     }
 
     protected void OnDrawGizmos()
@@ -118,16 +135,20 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        if (abilityState == AbilityState.Casting)
-        {
-            return;
-        }
-
         if (abilities[_abilityIndex] == null)
         {
             return;
         }
+
         currentAbility = abilities[_abilityIndex];
+
+        if (!CanCastAbility(currentAbility))
+        {
+            Debug.LogWarning("Cannot cast ability due to checks failing");
+            return;
+        }
+
+        StartCooldown(currentAbility);
         currentAbility.Activate(abilityUser);
         StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
@@ -142,6 +163,67 @@ public class AbilityManager : NetworkBehaviour
         abilityState = AbilityState.Casting;
         yield return new WaitForSeconds(_timer);
         abilityState = AbilityState.Ready;
+    }
+
+    /// <summary>
+    /// Checks if the ability can be used. Checking: if another ability is still casting, if player can afford it,
+    /// and if the ability is on cooldown. 
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private bool CanCastAbility(Ability _ability)
+    {
+        // isCasting checker
+        if (abilityState == AbilityState.Casting)
+        {
+            return false;
+        }
+        // Cost checker // TODO: Enable ability cost checking
+        /*int currentPoints = PointManager.Instance.GetPoints(ownerClientId);
+
+        if (currentPoints < _ability.AbilityCost)
+        {
+            return false;
+        }*/
+
+        // Cooldown checker
+        if (cooldownTimers.TryGetValue(_ability.AbilityID, out float lastUsedTime))
+        {
+            if (Time.time < lastUsedTime + _ability.Cooldown)
+            {
+                return false;
+            }
+        }
+
+
+        return true; 
+    }
+
+    /// <summary>
+    /// Sets the cooldown for an ability in the server and sends an update to the clients
+    /// </summary>
+    /// <param name="_ability"></param>
+    private void StartCooldown(Ability _ability)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set an ability cooldown");
+            return;
+        }
+
+        cooldownTimers[_ability.AbilityID] = Time.time;
+        SetCooldownRpc(_ability.AbilityID, Time.time);
+    }
+
+    /// <summary>
+    /// Updates the clients with the cooldown of said ability
+    /// </summary>
+    /// <param name="abilityID"></param>
+    /// <param name="serverTimeStamp"></param>
+    [Rpc(SendTo.NotMe)]
+    private void SetCooldownRpc(string abilityID, float serverTimeStamp)
+    {
+        cooldownTimers[abilityID] = serverTimeStamp;
     }
 
 
