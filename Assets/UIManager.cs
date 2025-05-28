@@ -123,8 +123,7 @@ public class UIManager : NetworkBehaviour
                                 if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO CLERIC");
-                                    player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesCleric[selectedOption - 1]);
-                                    player.GetComponent<ChampionAbilityManager>().UpdateGrid();
+                                    //ADD ABILITY TO CLERIC
                                     PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
                                 }
                             }
@@ -133,8 +132,7 @@ public class UIManager : NetworkBehaviour
                                 if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO KNIGHT");
-                                    player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesKnight[selectedOption - 1]);
-                                    player.GetComponent<ChampionAbilityManager>().UpdateGrid();
+                                    //ADD ABILITY TO KNIGHT
                                     PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
                                 }
                             }
