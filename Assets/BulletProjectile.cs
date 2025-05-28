@@ -191,7 +191,9 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             }
         }
 
-        
+        posLastFrame = transform.position;
+
+
 
 
 
