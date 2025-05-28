@@ -63,7 +63,7 @@ public class AbilityUIManager : MonoBehaviour
 
     }
 
-    public void UpdateGridWithUnitSelection(List<Unit> _selectedUnits) // TODO: Quite dry between these two updategrid functions
+    public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits) // TODO: Quite dry between these two updategrid functions
     {
         ResetAbilityGrid();
         List<Ability> commonAbilities = GetCommonAbilities(_selectedUnits);
@@ -100,7 +100,7 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     /// <param name="_units"></param>
     /// <returns></returns>
-    private List<Ability> GetCommonAbilities(List<Unit> _units)
+    private List<Ability> GetCommonAbilities(List<SelectableObject> _units)
     {
         if (_units == null || _units.Count == 0)
         {
@@ -118,7 +118,7 @@ public class AbilityUIManager : MonoBehaviour
         // Eliminate uncommon abilities in all other units to our list of commonAbilities
         for (int i = 1; i < _units.Count; i++)
         {
-            Unit unit = _units[i];
+            SelectableObject unit = _units[i];
 
             // Iterate backwards to correctly remove unfound abilities while looping
             for (int x = commonAbilities.Count - 1; x >= 0; x--)

@@ -13,7 +13,7 @@ public class ShopManager : MonoBehaviour
     }
     public shopOwners shopOwner;
 
-    [SerializeField] List<Unit> amalgamObjs;
+    [SerializeField] List<SelectableObject> amalgamObjs;
     [SerializeField] List<GameObject> championObjs;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +26,7 @@ public class ShopManager : MonoBehaviour
     {
         if (shopOwner == shopOwners.AMALGAM)
         {
-            foreach (Unit unit in amalgamObjs)
+            foreach (SelectableObject unit in amalgamObjs)
             {
                 if (unit is ConstructionPad constructionPad)
                 {
@@ -41,7 +41,7 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            foreach (Unit unit in amalgamObjs)
+            foreach (SelectableObject unit in amalgamObjs)
             {
                 if (unit is ConstructionPad constructionPad)
                 {

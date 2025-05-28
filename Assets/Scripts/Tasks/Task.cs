@@ -3,13 +3,13 @@ using UnityEngine;
 
 public abstract class Task
 {
-    protected Unit unit;
+    protected SelectableObject unit;
     protected Color stateDebugColor = Color.black;
     public Color StateDebugColor => stateDebugColor;
     public event Action<Task> OnTaskCompleted;
     private bool hasCompleted = false; // Used as a safeguard against completing twice
 
-    public Task(Unit _unit)
+    public Task(SelectableObject _unit)
     {
         unit = _unit;
     }

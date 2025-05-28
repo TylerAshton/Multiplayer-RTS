@@ -7,11 +7,11 @@ using UnityEngine.TextCore.Text;
 
 public class UnitManager : NetworkBehaviour
 {
-    [SerializeField] private List<Unit> allUnits = new List<Unit>();
-    [SerializeField] private List<Unit> selectedUnits = new List<Unit>();
+    [SerializeField] private List<SelectableObject> allUnits = new List<SelectableObject>();
+    [SerializeField] private List<SelectableObject> selectedUnits = new List<SelectableObject>();
     [SerializeField] private GameObject AbilityPanelPrefab;
     private AbilityUIManager unitControlsManager;
-    public List<Unit> SelectedUnits => new List<Unit>(selectedUnits);
+    public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
 
     private readonly float moveSpacing = 2;
     private readonly int moveLayerCapciaty = 8;
@@ -33,7 +33,7 @@ public class UnitManager : NetworkBehaviour
     /// Adds unit to units list. Will not allow duplicate units to be added
     /// </summary>
     /// <param name="_unit"></param>
-    public void AddUnit(Unit _unit)
+    public void AddUnit(SelectableObject _unit)
     {
         if (allUnits.Contains(_unit))
         {
@@ -43,7 +43,7 @@ public class UnitManager : NetworkBehaviour
         allUnits.Add(_unit);
     }
 
-    public void RemoveUnit(Unit _unit)
+    public void RemoveUnit(SelectableObject _unit)
     {
         allUnits.Remove(_unit);
         selectedUnits.Remove(_unit);
@@ -62,7 +62,7 @@ public class UnitManager : NetworkBehaviour
     {
         ClearAllSelectedUnits();
 
-        foreach (Unit _unit in allUnits)
+        foreach (SelectableObject _unit in allUnits)
         {
             if (!_unit.IsSelectable)
             {
@@ -81,7 +81,7 @@ public class UnitManager : NetworkBehaviour
     /// Adds the unit to the selectedUNits list and shows its selection indicator
     /// </summary>
     /// <param name="_unit"></param>
-    public void SelectUnit(Unit _unit)
+    public void SelectUnit(SelectableObject _unit)
     {
         selectedUnits.Add(_unit);
         unitControlsManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
@@ -92,7 +92,7 @@ public class UnitManager : NetworkBehaviour
     /// Removes the unit from the selectedUnits list and hides its selection indicator
     /// </summary>
     /// <param name="_unit"></param>
-    public void DeselectUnit(Unit _unit)
+    public void DeselectUnit(SelectableObject _unit)
     {
         if (!selectedUnits.Contains(_unit))
         {
@@ -118,7 +118,7 @@ public class UnitManager : NetworkBehaviour
     /// </summary>
     /// <param name="constructionPad"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void TryDeselectUnit(Unit _unit)
+    public void TryDeselectUnit(SelectableObject _unit)
     {
         if (selectedUnits.Contains(_unit))
         {
@@ -131,14 +131,14 @@ public class UnitManager : NetworkBehaviour
     /// </summary>
     private void ClearAllSelectedUnits()
     {
-        List<Unit> cacheSelectedUnits = new List<Unit>();
+        List<SelectableObject> cacheSelectedUnits = new List<SelectableObject>();
         
-        foreach (Unit _unit in selectedUnits)
+        foreach (SelectableObject _unit in selectedUnits)
         {
             cacheSelectedUnits.Add(_unit);
         }
 
-        foreach(Unit _unit in cacheSelectedUnits)
+        foreach(SelectableObject _unit in cacheSelectedUnits)
         {
             DeselectUnit(_unit);
         }

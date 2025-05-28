@@ -10,7 +10,7 @@ public enum ConstructionState
 }
 
 
-public class ConstructionPad : Unit, IConstructionPad
+public class ConstructionPad : SelectableObject, IConstructionPad
 {
     private MeshRenderer meshRenderer;
     private Collider collider;
