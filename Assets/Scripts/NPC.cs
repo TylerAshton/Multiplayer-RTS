@@ -15,6 +15,8 @@ public class NPC : Unit, IAbilityUser
     public Transform Target => target;
     private Health targetHealth;
     private Animator animator;
+
+    Collider colliderComp;
     public Health TargetHealth => targetHealth;
 
     public Animator Animator => animator;
@@ -49,6 +51,10 @@ public class NPC : Unit, IAbilityUser
         {
             Debug.LogError("AbilityPositionManager is required for NPC");
         }
+        if (!TryGetComponent<Collider>(out colliderComp))
+        {
+            Debug.LogError("Collider is required for NPC");
+        }
 
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
@@ -74,7 +80,19 @@ public class NPC : Unit, IAbilityUser
         UpdateRotation();
     }
 
-    
+    /// <summary>
+    /// Returns a Vector3 of the lowest point of the object in the centre
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetFeet()
+    {
+        Bounds bounds = colliderComp.bounds;
+
+        Vector3 lowestPoint = new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+
+        return lowestPoint;
+    }
+
 
     private void UpdateRotation()
     {

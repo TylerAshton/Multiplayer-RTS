@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Health), typeof(Collider))]
+[RequireComponent(typeof(Health))]
 /// <summary>
 /// Unit component is an base class used for all forms of RTS units across the game.
 /// Contains logic for all common behaviours such as selection, death, and instructions.
@@ -19,7 +19,7 @@ public class Unit : NetworkBehaviour, IDestructible, IFaction
     MeshRenderer selectionRenderer;
     RTSPlayer rts_Player;
     Health health;
-    Collider colliderComp;
+    
     NetworkObject networkObject;
     [SerializeField] private bool isSelectable = true;
     public bool IsSelectable => isSelectable;
@@ -45,7 +45,6 @@ public class Unit : NetworkBehaviour, IDestructible, IFaction
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
         health = GetComponent<Health>();
-        colliderComp = GetComponent<Collider>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -220,16 +219,5 @@ public class Unit : NetworkBehaviour, IDestructible, IFaction
         }      
     }
 
-    /// <summary>
-    /// Returns a Vector3 of the lowest point of the object in the centre
-    /// </summary>
-    /// <returns></returns>
-    public Vector3 GetFeet()
-    {
-        Bounds bounds = colliderComp.bounds;
-
-        Vector3 lowestPoint = new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
-
-        return lowestPoint;
-    }
+    
 }
