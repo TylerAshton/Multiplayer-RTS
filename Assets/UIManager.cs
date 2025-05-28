@@ -104,45 +104,45 @@ public class UIManager : NetworkBehaviour
 
             Debug.Log(PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId));
 
-            //if (Input.GetMouseButtonDown(0))
-            //{
-            //    switch (selectedOption)
-            //    {
-            //        case 0:
-            //            if (PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId) >= 500)
-            //            {
-            //                player.GetComponent<Health>().Heal(999);
-            //                PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 500);
-            //            }
-            //            break;
-            //        case 1:
-            //            if (PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId) >= 3000)
-            //            {
-            //                if (playerShops[NetworkManager.Singleton.LocalClientId] == 1)
-            //                {
-            //                    if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
-            //                    {
-            //                        Debug.Log("AWARDED TO CLERIC");
-            //                        player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesCleric[selectedOption - 1]);
-            //                        player.GetComponent<ChampionAbilityManager>().UpdateGrid();
-            //                        PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
-            //                    {
-            //                        Debug.Log("AWARDED TO KNIGHT");
-            //                        player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesKnight[selectedOption - 1]);
-            //                        player.GetComponent<ChampionAbilityManager>().UpdateGrid();
-            //                        PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
-            //                    }
-            //                }
-            //            }
-            //            break;
-            //    }
-            //    ToggleUI();
-            //}
+            if (Input.GetMouseButtonDown(0))
+            {
+                switch (selectedOption)
+                {
+                    case 0:
+                        if (PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId) >= 500)
+                        {
+                            player.GetComponent<Health>().Heal(999);
+                            PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 500);
+                        }
+                        break;
+                    case 1:
+                        if (PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId) >= 3000)
+                        {
+                            if (playerShops[NetworkManager.Singleton.LocalClientId] == 1)
+                            {
+                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
+                                {
+                                    Debug.Log("AWARDED TO CLERIC");
+                                    player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesCleric[selectedOption - 1]);
+                                    player.GetComponent<ChampionAbilityManager>().UpdateGrid();
+                                    PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
+                                }
+                            }
+                            else
+                            {
+                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
+                                {
+                                    Debug.Log("AWARDED TO KNIGHT");
+                                    player.GetComponent<ChampionAbilityManager>().AddAbility(abilitesKnight[selectedOption - 1]);
+                                    player.GetComponent<ChampionAbilityManager>().UpdateGrid();
+                                    PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
+                                }
+                            }
+                        }
+                        break;
+                }
+                ToggleUI();
+            }
         }
     }
 
