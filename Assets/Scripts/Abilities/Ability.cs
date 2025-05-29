@@ -7,7 +7,9 @@ using UnityEngine;
 public abstract class Ability : ScriptableObject
 {
     [SerializeField] private string abilityID = string.Empty;
+    [SerializeField] private string abilityName = string.Empty;
     public string AbilityID => abilityID;
+    public string AbilityName => abilityName;
     [SerializeField] private float castTime = 1f;
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
     [SerializeField] private string animationTrigger;

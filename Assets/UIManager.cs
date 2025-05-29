@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : NetworkBehaviour
@@ -38,6 +39,7 @@ public class UIManager : NetworkBehaviour
     [SerializeField] private List<Ability> abilitesCleric;
     [SerializeField] private List<Ability> abilitesKnight;
 
+
     void Awake()
     {
         if (Instance == null)
@@ -62,7 +64,15 @@ public class UIManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shopObj.activeInHierarchy)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
+        {
+            //return;
+        }
+        else
+        {
+            
+        }
+        if (shopObj.activeInHierarchy || NetworkManager.Singleton.LocalClientId != 0)
         {
             moveInput.x = Input.mousePosition.x - (Screen.width / 2f);
             moveInput.y = Input.mousePosition.y - (Screen.height / 2f);
@@ -114,18 +124,33 @@ public class UIManager : NetworkBehaviour
                             player.GetComponent<Health>().Heal(999);
                             PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 500);
                         }
+                        ToggleUI();
                         break;
                     case 1:
                         if (PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId) >= 3000)
                         {
                             if (playerShops[NetworkManager.Singleton.LocalClientId] == 1)
                             {
-                                if (!!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
+                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO CLERIC");
                                     //ADD ABILITY TO CLERIC
-                                    Debug.Log(options[selectedOption].text);
-                                    //
+                                    Ability selectedAbility = null;
+
+                                    foreach (Ability _ability in abilitesCleric)
+                                    {
+                                        if (_ability.AbilityName == options[selectedOption].text)
+                                        {
+                                            selectedAbility = _ability;
+                                            break;
+                                        }
+                                    }
+
+                                    // TODO: Add return statement if selectedAbility == null
+
+                                    // THIS CODE WAS ALSO WORKED ON BY HARRISON ON MY ACCOUNT, THIS IS HERE TO GIVE CREDIT DESPITE WHAT GITBLAME MIGHT REFLECT. SIGNED : TALINNETT
+
+                                    player.GetComponent<ChampionAbilityManager>().AddAbility(selectedAbility);
                                     PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
                                 }
                             }
@@ -141,9 +166,9 @@ public class UIManager : NetworkBehaviour
                                 }
                             }
                         }
+                        ToggleUI();
                         break;
                 }
-                ToggleUI();
             }
         }
     }

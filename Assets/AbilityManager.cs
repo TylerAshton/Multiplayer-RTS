@@ -97,6 +97,8 @@ public class AbilityManager : NetworkBehaviour
     public virtual void AddAbility(Ability _ability)
     {
         abilities.Add(_ability);
+
+        // TODO: Harrison please update abilityGrid
     }
 
     public bool CheckAbility(Ability _ability)
