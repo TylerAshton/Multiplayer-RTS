@@ -120,19 +120,23 @@ public class UIManager : NetworkBehaviour
                         {
                             if (playerShops[NetworkManager.Singleton.LocalClientId] == 1)
                             {
-                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
+                                if (!!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesCleric[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO CLERIC");
                                     //ADD ABILITY TO CLERIC
+                                    Debug.Log(options[selectedOption].text);
+                                    //
                                     PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
                                 }
                             }
                             else
                             {
-                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
+                                if (!!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO KNIGHT");
                                     //ADD ABILITY TO KNIGHT
+                                    Debug.Log(options[selectedOption].text); //THIS RETURNS THE NAME OF THE SELECTED ABILITY. WE MIGHT HAVE TO STRIP THE STRING.
+                                    //
                                     PointManager.Instance.RemovePoints(NetworkManager.Singleton.LocalClientId, 3000);
                                 }
                             }
