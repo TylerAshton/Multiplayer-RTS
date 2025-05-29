@@ -83,7 +83,7 @@ public class AbilityManager : NetworkBehaviour
         #endif
     }
 
-    public void SetAbility(int _index, Ability _ability)
+    public virtual void SetAbility(int _index, Ability _ability)
     {
         abilities[_index] = _ability;
     }
@@ -94,7 +94,7 @@ public class AbilityManager : NetworkBehaviour
     //    AddAbilityRpc(_ability);
     //}
 
-    public void AddAbility(Ability _ability)
+    public virtual void AddAbility(Ability _ability)
     {
         abilities.Add(_ability);
     }

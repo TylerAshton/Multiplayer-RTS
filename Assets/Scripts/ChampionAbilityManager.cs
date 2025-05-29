@@ -39,4 +39,16 @@ public class ChampionAbilityManager : AbilityManager
         GameObject AbilityUI = Instantiate(AbilityUIPrefab);
         UIAbilityManager = AbilityUI.GetComponentInChildren<AbilityUIManager>();
     }
+
+    public override void AddAbility(Ability _ability)
+    {
+        base.AddAbility(_ability);
+        UIAbilityManager.UpdateGridWithAbilityManager(this);
+    }
+
+    public override void SetAbility(int _index, Ability _ability)
+    {
+        base.SetAbility(_index, _ability);
+        UIAbilityManager.UpdateGridWithAbilityManager(this);
+    }
 }
