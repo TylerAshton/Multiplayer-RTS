@@ -149,6 +149,7 @@ public class AbilityManager : NetworkBehaviour
         }
 
         StartCooldown(currentAbility);
+        PointManager.Instance.RemovePoints(ownerClientId, currentAbility.AbilityCost);
         currentAbility.Activate(abilityUser);
         StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
@@ -179,12 +180,12 @@ public class AbilityManager : NetworkBehaviour
             return false;
         }
         // Cost checker // TODO: Enable ability cost checking
-        /*int currentPoints = PointManager.Instance.GetPoints(ownerClientId);
+        int currentPoints = PointManager.Instance.GetPoints(ownerClientId);
 
         if (currentPoints < _ability.AbilityCost)
         {
             return false;
-        }*/
+        }
 
         // Cooldown checker
         if (cooldownTimers.TryGetValue(_ability.AbilityID, out float lastUsedTime))
