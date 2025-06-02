@@ -124,22 +124,21 @@ public class AbilityUIManager : MonoBehaviour
 
         // Calculate how many abilities have already been shown on previous pages.
         // pageNumber is 0, then we have no skipped abilities.
-        // pageNumber is 1, then we have 3 skipped abilities, as 1 cell is used for nav buttons.
+        // pageNumber is 1, then we have 3 + 0 = 3 skipped abilities, as 1 cell is used for nav buttons.
         // pageNumber is 2, then we have 3 + 2 = 5 skipped abilities, as 3 cell is used for nav button.
         int skippedAbilities = 0;
 
         if (pageNumber > 0)
         {
-            skippedAbilities = 3 + (pageNumber - 1) * abilityCells.Count - 2;
+            skippedAbilities = 3 + (pageNumber - 1) * (abilityCells.Count - 2);
         }
 
         Queue<Ability> abilitiesInPage = 
-        new Queue<Ability>(commonAbilities.GetRange(skippedAbilities, 
-        Mathf.Min(abilityCells.Count, commonAbilities.Count - skippedAbilities)));
+        new Queue<Ability>(commonAbilities.GetRange(skippedAbilities, commonAbilities.Count - skippedAbilities));
 
         int abilitiesRemaining = abilitiesInPage.Count;
 
-        for (int cellIndex = 0; cellIndex < Mathf.Min(abilityCells.Count, abilitiesRemaining); cellIndex++)
+        for (int cellIndex = 0; cellIndex <= Mathf.Min(abilityCells.Count, abilitiesRemaining); cellIndex++)
         {
             switch (cellIndex)
             {
@@ -160,7 +159,7 @@ public class AbilityUIManager : MonoBehaviour
                     SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
                     break;
                 case 3:
-                    if (abilitiesRemaining > 0)
+                    if (abilitiesInPage.Count > 1)
                     {
                         SetPageCell(abilityCells[cellIndex], pageNumber + 1);
                     }

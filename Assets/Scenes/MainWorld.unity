@@ -4932,33 +4932,37 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
+      propertyPath: 'abilities.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c0008e4df8400724c9ecf82f7d7865bb, type: 2}
+    - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
       propertyPath: 'abilities.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+      objectReference: {fileID: 11400000, guid: 81735795af1971346a5220ff697a843b, type: 2}
     - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
       propertyPath: 'abilities.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+      objectReference: {fileID: 11400000, guid: 1784e034798a97c4ba19c9d45795f2bb, type: 2}
     - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
       propertyPath: 'abilities.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+      objectReference: {fileID: 11400000, guid: 210f3808e4b245a4eb79049b9d465d7e, type: 2}
     - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
       propertyPath: 'abilities.Array.data[4]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+      objectReference: {fileID: 11400000, guid: 45359c14d4fae6943bacb13202b3f3b8, type: 2}
     - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
       propertyPath: 'abilities.Array.data[5]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+      objectReference: {fileID: 11400000, guid: 4e475a7004e5a0541ad426a26e793a48, type: 2}
     - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
       propertyPath: 'abilities.Array.data[6]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+      objectReference: {fileID: 11400000, guid: 59101f4679d21574b9020afb29ce9522, type: 2}
     - target: {fileID: 8014679277335582758, guid: 1f75137af49f1d049bf8403226ae677b, type: 3}
       propertyPath: 'abilities.Array.data[7]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+      objectReference: {fileID: 11400000, guid: d805d8b421d77d74ab9041fddb94f5d0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
