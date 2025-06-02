@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+public class ShopPopulatedArgs
+{
+}
+
 public class PlayerSpawner : NetworkBehaviour
 {
     [SerializeField] List<GameObject> playerList; // THIS IS THE ACTUAL PREFABS USED IN GAME
@@ -25,7 +29,25 @@ public class PlayerSpawner : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         SpawnPlayerServerRpc();
+
     }
+
+
+
+    EventHandler onShopPopulated;
+
+    private void raiseShopPopulated()
+    {
+        if (onShopPopulated != null)
+        {
+            onShopPopulated(this, EventArgs.Empty);
+        }
+    }
+
+    
+
+
+
 
     public void changePrefab(int prefabId)
     {
@@ -39,6 +61,7 @@ public class PlayerSpawner : NetworkBehaviour
     public void AddShopRpc(ulong _ID, int _Prefab)
     {
         uimanager.AddtoShop(_ID, _Prefab);
+        raiseShopPopulated();
     }
 
     //private Vector3 getClientTransform(ulong clientId)

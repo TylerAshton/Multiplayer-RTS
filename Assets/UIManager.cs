@@ -66,11 +66,7 @@ public class UIManager : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
         {
-            //return;
-        }
-        else
-        {
-            
+            return;
         }
         if (shopObj.activeInHierarchy || NetworkManager.Singleton.LocalClientId != 0)
         {
@@ -156,7 +152,7 @@ public class UIManager : NetworkBehaviour
                             }
                             else
                             {
-                                if (!!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
+                                if (!player.GetComponent<ChampionAbilityManager>().CheckAbility(abilitesKnight[selectedOption - 1]))
                                 {
                                     Debug.Log("AWARDED TO KNIGHT");
                                     //ADD ABILITY TO KNIGHT
@@ -204,8 +200,28 @@ public class UIManager : NetworkBehaviour
     }
     public void ToggleUI()
     {
-        ulong id = NetworkManager.Singleton.LocalClientId;
+        //ulong id = NetworkManager.Singleton.LocalClientId;
         //Check what the type of champion is
+        //if (playerShops[id] == 1)
+        //{
+        //    shopObj = clericShop;
+        //}
+        //else
+        //{
+        //    shopObj = knightShop;
+        //}
+        //Then asign the shop game object to match the player type
+        //Once done the game will then toggle the respective ui on
+        if (!inShopZone) { return; }
+        else
+        {
+            shopObj.SetActive(!shopObj.activeInHierarchy);
+        }
+    }
+
+    public void CheckShopType()
+    {
+        ulong id = NetworkManager.Singleton.LocalClientId;
         if (playerShops[id] == 1)
         {
             shopObj = clericShop;
@@ -214,12 +230,10 @@ public class UIManager : NetworkBehaviour
         {
             shopObj = knightShop;
         }
-        //Then asign the shop game object to match the player type
-        //Once done the game will then toggle the respective ui on
-        if (!inShopZone) { return; }
-        else
-        {
-            shopObj.SetActive(!shopObj.activeInHierarchy);
-        }
+    }
+
+    public void SetUpShop(object sender, EventArgs args)
+    {
+
     }
 }
