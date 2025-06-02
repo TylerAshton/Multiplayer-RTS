@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class AbilityUIManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
+    private int pageNumber = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -65,16 +66,10 @@ public class AbilityUIManager : MonoBehaviour
 
     public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits) // TODO: Quite dry between these two updategrid functions
     {
-        ResetAbilityGrid();
         List<Ability> commonAbilities = GetCommonAbilities(_selectedUnits);
         List<AbilityManager> abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
-        int cellIndex = 0;
 
-        for (int i = 0; i < commonAbilities.Count; i++)
-        {
-            SetAbilityCell(commonAbilities[i], abilityCells[cellIndex], abilityManagers);
-            cellIndex++;
-        }
+        UpdateGrid(commonAbilities, abilityManagers);
     }
 
     /// <summary>
@@ -83,16 +78,20 @@ public class AbilityUIManager : MonoBehaviour
     /// <param name="_abilityManager"></param>
     public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
     {
+        UpdateGrid(_abilityManager.Abilities, new List<AbilityManager>() { _abilityManager });
+    }
+
+    private void UpdateGrid(List<Ability> _abilities, List<AbilityManager> _abilityManagers)
+    {
         ResetAbilityGrid();
-        List<AbilityManager> abilityManagers = new List<AbilityManager>() { _abilityManager };
+
         int cellIndex = 0;
 
-        for (int i = 0; i < _abilityManager.Abilities.Count; i++)
+        for (int i = 0; i < _abilities.Count; i++)
         {
-            SetAbilityCell(_abilityManager.Abilities[i], abilityCells[cellIndex], abilityManagers);
+            SetAbilityCell(_abilities[i], abilityCells[cellIndex], _abilityManagers);
             cellIndex++;
         }
-
     }
 
     /// <summary>
