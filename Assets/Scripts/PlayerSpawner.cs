@@ -1,10 +1,16 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine;
 
 public class ShopPopulatedArgs
 {
+    public ShopPopulatedArgs(ulong _ID, int _playerShop) { ID = _ID; playerShop = _playerShop; }
+
+    public int playerShop;
+    public ulong ID;
+
 }
 
 public class PlayerSpawner : NetworkBehaviour
@@ -24,6 +30,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         playerManager = CoopPlayerManager.Instance;
         uimanager = UIManager.Instance;
+        onShopPopulated += uimanager.SetCurrentShop;
     }
 
     public override void OnNetworkSpawn()
@@ -34,13 +41,13 @@ public class PlayerSpawner : NetworkBehaviour
 
 
 
-    EventHandler onShopPopulated;
+    EventHandler<ShopPopulatedArgs> onShopPopulated;
 
-    private void raiseShopPopulated()
+    private void raiseShopPopulated(ulong _ID, int _playerShop)
     {
         if (onShopPopulated != null)
         {
-            onShopPopulated(this, EventArgs.Empty);
+            onShopPopulated(this, new ShopPopulatedArgs(_ID, _playerShop));
         }
     }
 
@@ -60,8 +67,8 @@ public class PlayerSpawner : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void AddShopRpc(ulong _ID, int _Prefab)
     {
-        uimanager.AddtoShop(_ID, _Prefab);
-        raiseShopPopulated();
+        //uimanager.AddtoShop(_ID, _Prefab);
+        raiseShopPopulated(_ID, _Prefab);
     }
 
     //private Vector3 getClientTransform(ulong clientId)
