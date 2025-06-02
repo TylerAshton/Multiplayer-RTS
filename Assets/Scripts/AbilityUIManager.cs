@@ -8,7 +8,11 @@ using UnityEngine.UI;
 public class AbilityUIManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
-    private int pageNumber = 0;
+    [SerializeField] private Sprite forwardSprite;
+    [SerializeField] private Sprite backSprite;
+    [SerializeField] private int pageNumber = 0;
+    private List<Ability> commonAbilities;
+    private List<AbilityManager> abilityManagers;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,16 +64,40 @@ public class AbilityUIManager : MonoBehaviour
                 }
             }
         });
-
-
     }
 
-    public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits) // TODO: Quite dry between these two updategrid functions
+    private void SetPageCell(GameObject _cell, int _pageIndex)
     {
-        List<Ability> commonAbilities = GetCommonAbilities(_selectedUnits);
-        List<AbilityManager> abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
+        Image cellImage = _cell.GetComponent<Image>();
+        Button cellButton = _cell.GetComponent<Button>();
 
-        UpdateGrid(commonAbilities, abilityManagers);
+        cellImage.enabled = true;
+        cellButton.interactable = true;
+
+        cellImage.sprite = (_pageIndex > pageNumber) ? forwardSprite: backSprite;
+
+        cellButton.onClick.RemoveAllListeners();
+
+        cellButton.onClick.AddListener(() =>
+        {
+            this.SetPage(_pageIndex);
+        });
+    }
+
+    public void SetPage(int _newPageIndex)
+    {
+        pageNumber = _newPageIndex;
+
+        RefreshGrid();
+    }
+
+    public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits)
+    {
+        pageNumber = 0;
+        commonAbilities = GetCommonAbilities(_selectedUnits);
+        abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
+
+        RefreshGrid();
     }
 
     /// <summary>
@@ -78,19 +106,70 @@ public class AbilityUIManager : MonoBehaviour
     /// <param name="_abilityManager"></param>
     public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
     {
-        UpdateGrid(_abilityManager.Abilities, new List<AbilityManager>() { _abilityManager });
+        pageNumber = 0; // TODO: Unsure about setting it to zero straight up?
+        commonAbilities = _abilityManager.Abilities;
+        abilityManagers = new List<AbilityManager>() { _abilityManager };
+
+        RefreshGrid();
     }
 
-    private void UpdateGrid(List<Ability> _abilities, List<AbilityManager> _abilityManagers)
+    private void RefreshGrid()
     {
         ResetAbilityGrid();
 
-        int cellIndex = 0;
-
-        for (int i = 0; i < _abilities.Count; i++)
+        if (pageNumber == 2)
         {
-            SetAbilityCell(_abilities[i], abilityCells[cellIndex], _abilityManagers);
-            cellIndex++;
+            Debug.Log("f");
+        }
+
+        // Calculate how many abilities have already been shown on previous pages.
+        // pageNumber is 0, then we have no skipped abilities.
+        // pageNumber is 1, then we have 3 skipped abilities, as 1 cell is used for nav buttons.
+        // pageNumber is 2, then we have 3 + 2 = 5 skipped abilities, as 3 cell is used for nav button.
+        int skippedAbilities = 0;
+
+        if (pageNumber > 0)
+        {
+            skippedAbilities = 3 + (pageNumber - 1) * abilityCells.Count - 2;
+        }
+
+        Queue<Ability> abilitiesInPage = 
+        new Queue<Ability>(commonAbilities.GetRange(skippedAbilities, 
+        Mathf.Min(abilityCells.Count, commonAbilities.Count - skippedAbilities)));
+
+        int abilitiesRemaining = abilitiesInPage.Count;
+
+        for (int cellIndex = 0; cellIndex < Mathf.Min(abilityCells.Count, abilitiesRemaining); cellIndex++)
+        {
+            switch (cellIndex)
+            {
+                case 0:
+                    if (pageNumber > 0)
+                    {
+                        SetPageCell(abilityCells[cellIndex], pageNumber - 1);
+                    }
+                    else
+                    {
+                        SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    }
+                    break;
+                case 1:
+                    SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    break;
+                case 2:
+                    SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    break;
+                case 3:
+                    if (abilitiesRemaining > 0)
+                    {
+                        SetPageCell(abilityCells[cellIndex], pageNumber + 1);
+                    }
+                    else
+                    {
+                        SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    }
+                    break;
+            }
         }
     }
 
