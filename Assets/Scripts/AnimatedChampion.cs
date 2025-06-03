@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,7 +44,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     private AbilityManager abilityManager;
     private CharacterController characterController;
     private PlayerInput playerInput;
-
 
     private Vector3 velocity; // used for gravity shit
 
@@ -116,15 +116,16 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         }
     }
 
-
     public void ToggleUI()
     {
-        Shop playerShop = gameObject.GetComponentInChildren<Shop>();
+        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
+        playerShop.enabled = !playerShop.enabled;
         foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
         {
             child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
         }
     }
+
 
     /// <summary>
     /// This Server-Rpc attempts to move the camera towards the players current location

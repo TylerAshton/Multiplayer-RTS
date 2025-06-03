@@ -3055,6 +3055,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7685157206407137729, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9095056402624267295, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_Name
       value: Knight Shop UI

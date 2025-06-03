@@ -3003,6 +3003,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cleric Shop UI
       objectReference: {fileID: 0}
+    - target: {fileID: 7428385193701931226, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: points
+      value: 
+      objectReference: {fileID: 3470483445845382030}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3013,3 +3017,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3689581820145366390, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
   m_PrefabInstance: {fileID: 2326959612764856535}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3470483445845382030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1180689937490211673, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+  m_PrefabInstance: {fileID: 2326959612764856535}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
