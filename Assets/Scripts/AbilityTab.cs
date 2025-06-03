@@ -18,6 +18,11 @@ public class AbilityTab
         abilities[_abilityIndex] = _ability;
     }
 
+    public void OverrideList(List<Ability> _abilities)
+    {
+        abilities = new List<Ability>(_abilities);
+    }
+
     public void AddAbility(Ability _ability)
     {
         abilities.Add(_ability);
