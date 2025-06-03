@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Ability<T> : Ability where T : IAbilityUser 
@@ -56,4 +57,9 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
     {
         return _user.AbilityPositions[CastPositionName];
     }
+
+/*    protected virtual void CopySubclassTo(Ability<T> _target)
+    {
+        CopyBaseTo(_target);
+    }*/
 }

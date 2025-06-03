@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -26,5 +28,24 @@ public class AbilityTab
     public void AddAbility(Ability _ability)
     {
         abilities.Add(_ability);
+    }
+
+    /*    public List<Ability> GetAbilities()
+        {
+            return abilities.Select(tab => tab.Clone()).ToList();
+        }*/
+
+    /// <summary>
+    /// Returns a read-only variant of this AbilityTab.
+    /// </summary>
+    /// <returns></returns>
+    public AbilityTab Clone()
+    {
+        AbilityTab clone = new AbilityTab
+        {
+            tabName = this.tabName,
+            abilities = new List<Ability>(this.Abilities)
+        };
+        return clone;
     }
 }

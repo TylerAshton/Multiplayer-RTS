@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -38,7 +40,7 @@ public class AbilityManager : NetworkBehaviour
 /*    [SerializeField] protected List<Ability> abilities;*/
 
     [SerializeField] private List<AbilityTab> abilityTabs = new List<AbilityTab>();
-    public List<AbilityTab> AbilityTabs => new List<AbilityTab>(abilityTabs); // This prevents the list CONTENTS from being fucked with
+    public List<AbilityTab> AbilityTabs => GetAbilityTabs(); // This prevents the list CONTENTS from being fucked with
 
     private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();
 
@@ -84,6 +86,11 @@ public class AbilityManager : NetworkBehaviour
             }*/
             
         #endif
+    }
+
+    private List<AbilityTab> GetAbilityTabs()
+    {
+        return abilityTabs.Select(tab => tab.Clone()).ToList();
     }
 
     public void SetAbility(int _abilityIndex, Ability _ability, int tabIndex = 0)

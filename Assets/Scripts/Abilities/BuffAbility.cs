@@ -8,10 +8,22 @@ public class BuffAbility : Ability<IAbilityUser>
 {
     [SerializeField] private GameObject buffEffects;
     [SerializeField] private Effect effect;
+
+/*    public override Ability Clone()
+    {
+        throw new System.NotImplementedException();
+    }*/
+
     protected override void ActivateTyped(IAbilityUser _user)
     {
         _user.Animator.SetTrigger($"{AnimationTrigger}");
     }
+
+/*    protected override void CopySubclassTo(Ability _target)
+    {
+        base.CopyBaseTo(_target);
+        _target.buffEffects = this.buffEffects;
+    }*/
 
     protected override void DebugDrawingTyped(IAbilityUser _user)
     {
