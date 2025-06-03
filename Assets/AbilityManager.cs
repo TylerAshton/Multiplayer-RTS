@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -37,7 +38,8 @@ public class AbilityManager : NetworkBehaviour
     protected Ability currentAbility;
     protected Animator animator;
 
-/*    [SerializeField] protected List<Ability> abilities;*/
+    /*    [SerializeField] protected List<Ability> abilities;*/
+
 
     [SerializeField] private List<AbilityTab> abilityTabs = new List<AbilityTab>();
     public List<AbilityTab> AbilityTabs => GetAbilityTabs(); // This prevents the list CONTENTS from being fucked with

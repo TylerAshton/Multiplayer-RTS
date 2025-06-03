@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ using UnityEngine.UI;
 public class AbilityUIManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
+    [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
     [SerializeField] private Sprite backSprite;
     private int pageIndex = 0;
@@ -116,13 +118,45 @@ public class AbilityUIManager : MonoBehaviour
         RefreshGrid();
     }
 
+    /// <summary>
+    /// Resets the selected abilities and tabs
+    /// </summary>
+    public void ResetSelection() // TODO: The amount of repeated code here is insane
+    {
+        commmonAbilityTabs = new List<AbilityTab>();
+        RefreshTabButtons();
+        RefreshGrid();
+        
+    }
+
+    public void RefreshTabButtons()
+    {
+        // Disable all tab buttons
+        foreach (GameObject _tabButton in abilityTabButtons)
+        {
+            _tabButton.SetActive(false);
+        }
+
+        if (commmonAbilityTabs == null || commmonAbilityTabs.Count == 0)
+        {
+            return;
+        }
+
+        // Enable all tabs we have
+        for (int i = 0; i < commmonAbilityTabs.Count; i++)
+        {
+            abilityTabButtons[i].SetActive(true);
+            abilityTabButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = commmonAbilityTabs[i].tabName;
+        }
+    }
+
     public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits)
     {
         pageIndex = 0;
         //commonAbilities = GetCommonAbilities(_selectedUnits);
         commmonAbilityTabs = GetCommonAbilityTabs(_selectedUnits);
         abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
-
+        RefreshTabButtons();
         RefreshGrid();
     }
 
@@ -137,6 +171,7 @@ public class AbilityUIManager : MonoBehaviour
         commmonAbilityTabs = _abilityManager.AbilityTabs;
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
+        RefreshTabButtons();
         RefreshGrid();
     }
 
