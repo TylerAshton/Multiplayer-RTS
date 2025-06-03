@@ -9,5 +9,17 @@ using UnityEngine;
 public class AbilityTab
 {
     public string tabName = "newTab";
-    public List<Ability> abilities = new List<Ability>();
+    [SerializeField] private List<Ability> abilities = new List<Ability>();
+    public List<Ability> Abilities => new List<Ability>(abilities);
+
+
+    public void SetAbility(int _abilityIndex, Ability _ability)
+    {
+        abilities[_abilityIndex] = _ability;
+    }
+
+    public void AddAbility(Ability _ability)
+    {
+        abilities.Add(_ability);
+    }
 }

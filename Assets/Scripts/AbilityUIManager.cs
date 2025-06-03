@@ -58,7 +58,7 @@ public class AbilityUIManager : MonoBehaviour
         {
             foreach (AbilityManager _abilityManager in _abilityManagers)
             {
-                int abilityIndex = _abilityManager.AbilityTabs[tabIndex].abilities.IndexOf(_ability);
+                int abilityIndex = _abilityManager.AbilityTabs[tabIndex].Abilities.IndexOf(_ability);
                 if (abilityIndex >= 0)
                 {
                     _abilityManager.TryCastAbility(abilityIndex);
@@ -108,7 +108,7 @@ public class AbilityUIManager : MonoBehaviour
     public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
     {
         pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
-        commonAbilities = _abilityManager.AbilityTabs[tabIndex].abilities;
+        commonAbilities = _abilityManager.AbilityTabs[tabIndex].Abilities;
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
         RefreshGrid();
@@ -186,7 +186,7 @@ public class AbilityUIManager : MonoBehaviour
             return new List<Ability>();
         }
 
-        List<Ability> commonAbilities = _units[0].AbilityManager.AbilityTabs[tabIndex].abilities;
+        List<Ability> commonAbilities = _units[0].AbilityManager.AbilityTabs[tabIndex].Abilities;
 
         if (_units.Count == 1) // If there's only 1 unit no need to scan for common
         {
@@ -201,7 +201,7 @@ public class AbilityUIManager : MonoBehaviour
             // Iterate backwards to correctly remove unfound abilities while looping
             for (int x = commonAbilities.Count - 1; x >= 0; x--)
             {
-                if (!unit.AbilityManager.AbilityTabs[tabIndex].abilities.Contains(commonAbilities[x]))
+                if (!unit.AbilityManager.AbilityTabs[tabIndex].Abilities.Contains(commonAbilities[x]))
                 {
                     commonAbilities.RemoveAt(x);
                 }

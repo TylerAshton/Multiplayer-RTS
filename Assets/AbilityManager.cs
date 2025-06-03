@@ -88,23 +88,19 @@ public class AbilityManager : NetworkBehaviour
 
     public void SetAbility(int _abilityIndex, Ability _ability, int tabIndex = 0)
     {
-        abilityTabs[tabIndex].abilities[_abilityIndex] = _ability;
+        //abilityTabs[tabIndex].abilities[_abilityIndex] = _ability;
+        abilityTabs[tabIndex].SetAbility(_abilityIndex, _ability);
     }
-
-    //[Rpc(SendTo.Everyone)]
-    //public void AddAbility(Ability _ability)
-    //{
-    //    AddAbilityRpc(_ability);
-    //}
 
     public void AddAbility(Ability _ability, int tabIndex = 0)
     {
-        abilityTabs[tabIndex].abilities.Add(_ability);
+        //abilityTabs[tabIndex].Abilities.Add(_ability);
+        abilityTabs[tabIndex].AddAbility(_ability);
     }
 
     public bool CheckAbility(Ability _ability, int tabIndex = 0)
     {
-        return abilityTabs[tabIndex].abilities.Contains(_ability);
+        return abilityTabs[tabIndex].Abilities.Contains(_ability);
     }
 
 
@@ -138,12 +134,12 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        if (abilityTabs[tabIndex].abilities[_abilityIndex] == null)
+        if (abilityTabs[tabIndex].Abilities[_abilityIndex] == null)
         {
             return;
         }
 
-        currentAbility = abilityTabs[tabIndex].abilities[_abilityIndex];
+        currentAbility = abilityTabs[tabIndex].Abilities[_abilityIndex];
 
         if (!CanCastAbility(currentAbility))
         {

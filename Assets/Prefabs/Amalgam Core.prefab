@@ -10626,6 +10626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 3859389024563432009}
+  isSelectable: 1
 --- !u!114 &-8818372801074404822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10639,8 +10640,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  abilities:
-  - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+  abilityTabs:
+  - tabName: Main
+    abilities:
+    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
 --- !u!95 &379041836462067280
 Animator:
   serializedVersion: 7
@@ -10677,6 +10680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 5
+  isImmune: 0
   animator: {fileID: 379041836462067280}
   deathAnimationLength: 0.1
   test: 0
