@@ -2536,7 +2536,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6512302321430887414}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
-        m_MethodName: ToggleUI
+        m_MethodName: AttemptToggleUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2977,35 +2977,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106029957742807712, guid: 4a30b368acec69f40b740c624ed926a3, type: 3}
       propertyPath: m_LocalPosition.x

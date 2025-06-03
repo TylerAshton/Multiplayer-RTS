@@ -108,11 +108,21 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     }
 
+    public void AttemptToggleUI()
+    {
+        if (uiManager.inShopZone && networkObject.IsOwner)
+        {
+            ToggleUI();
+        }
+    }
+
+
     public void ToggleUI()
     {
-        if (uiManager.inShopZone)
+        Shop playerShop = gameObject.GetComponentInChildren<Shop>();
+        foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
         {
-            uiManager.currentShop.gameObject.SetActive(uiManager.currentShop.isActiveAndEnabled);
+            child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
         }
     }
 

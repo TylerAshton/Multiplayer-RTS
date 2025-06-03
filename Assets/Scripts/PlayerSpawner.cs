@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class CharacterSetArgs
 {
-    public CharacterSetArgs(ulong _ID) { ID = _ID; }
+    public CharacterSetArgs(ulong _ID, PlayerManager.ChampionTypes _type) { ID = _ID; type = _type; }
 
     public ulong ID;
+    public PlayerManager.ChampionTypes type;
 
 }
 
@@ -42,11 +43,11 @@ public class PlayerSpawner : NetworkBehaviour
 
     public EventHandler<CharacterSetArgs> onCharacterSet;
 
-    private void raiseCharacterSet(ulong _ID)
+    private void raiseCharacterSet(ulong _ID, PlayerManager.ChampionTypes _type)
     {
         if (onCharacterSet != null)
         {
-            onCharacterSet(this, new CharacterSetArgs(_ID));
+            onCharacterSet(this, new CharacterSetArgs(_ID, _type));
         }
     }
 
@@ -70,13 +71,21 @@ public class PlayerSpawner : NetworkBehaviour
         ChangeChampionRpc(NetworkManager.Singleton.LocalClientId, convertIndextoType(_PrefabID));
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Everyone)]
     public void ChangeChampionRpc(ulong _ID, PlayerManager.ChampionTypes type)
     {
+        int index;
         PlayerManager.Instance.setChampionType(_ID, type);
-        Debug.Log(_ID);
-        Debug.Log(PlayerManager.Instance.getChampionType(_ID));
-        raiseCharacterSet(_ID);
+        if (type == PlayerManager.ChampionTypes.Cleric)
+        {
+            index = 0;
+        }
+        else
+        {
+            index = 1;
+        }
+        PlayerManager.Instance.setPlayerGameObject(_ID, playerList[index]);
+        raiseCharacterSet(_ID, type);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -98,7 +107,7 @@ public class PlayerSpawner : NetworkBehaviour
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
 
-        coopPlayerManager.AddPlayer(clientId, playerList[prefabId]);
+        playerManager.setPlayerGameObject(clientId, playerList[prefabId]);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -115,8 +124,8 @@ public class PlayerSpawner : NetworkBehaviour
         else
         {
             newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[0]);
-            coopPlayerManager.AddPlayer(clientId, playerList[0]);
-            ChangeChampionRpc(clientId, PlayerManager.ChampionTypes.Knight);
+            playerManager.setPlayerGameObject(clientId, playerList[0]);
+            ChangeChampionRpc(clientId, PlayerManager.ChampionTypes.Cleric);
         }
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();

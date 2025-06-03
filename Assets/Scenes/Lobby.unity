@@ -1162,8 +1162,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 378165267}
-  - component: {fileID: 378165266}
   - component: {fileID: 378165265}
+  - component: {fileID: 378165266}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   GlobalObjectIdHash: 3803363548
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
-  Ownership: 1
+  Ownership: 8
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1209,6 +1209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentShop: {fileID: 0}
   inShopZone: 0
 --- !u!4 &378165267
 Transform:

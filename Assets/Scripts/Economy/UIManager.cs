@@ -7,6 +7,8 @@ public class UIManager : NetworkBehaviour
 {
     public static UIManager Instance;
 
+    private Dictionary<PlayerManager.ChampionTypes, Shop> IDtoUI = new Dictionary<PlayerManager.ChampionTypes, Shop>();
+
     public Shop currentShop;
 
     public bool inShopZone;
@@ -16,6 +18,7 @@ public class UIManager : NetworkBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -23,15 +26,32 @@ public class UIManager : NetworkBehaviour
         }
     }
 
+    //[Rpc(SendTo.Everyone)]
+    private void setUI(PlayerManager.ChampionTypes _type, Shop _ShopObject)
+    {
+        try
+        {
+            IDtoUI.Add(_type, _ShopObject);
+        }
+        catch (ArgumentException)
+        {
+            IDtoUI.Remove(_type);
+            IDtoUI.Add(_type, _ShopObject);
+        }
+    }
+
+
     public void SetShopType(object sender, CharacterSetArgs args)
     {
-        if (PlayerManager.Instance.getChampionType(args.ID) == PlayerManager.ChampionTypes.Knight)
+        if (args.type == PlayerManager.ChampionTypes.Knight)
         {
-            currentShop = PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<KnightShop>();
+            //currentShop = PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<KnightShop>();
+            setUI(args.type, PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<KnightShop>());
         }
-        else if (PlayerManager.Instance.getChampionType(args.ID) == PlayerManager.ChampionTypes.Cleric)
+        else if (args.type == PlayerManager.ChampionTypes.Cleric)
         {
-            currentShop = PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<ClericShop>();
+            //currentShop = PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<ClericShop>();
+            setUI(args.type, PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<ClericShop>());
         }
     }
 }
