@@ -10,7 +10,8 @@ public class AbilityUIManager : MonoBehaviour
     [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
     [SerializeField] private Sprite backSprite;
-    [SerializeField] private int pageNumber = 0;
+    private int pageIndex = 0;
+    private int tabIndex = 0;
     private List<Ability> commonAbilities;
     private List<AbilityManager> abilityManagers;
 
@@ -57,7 +58,7 @@ public class AbilityUIManager : MonoBehaviour
         {
             foreach (AbilityManager _abilityManager in _abilityManagers)
             {
-                int abilityIndex = _abilityManager.Abilities.IndexOf(_ability);
+                int abilityIndex = _abilityManager.AbilityTabs[tabIndex].abilities.IndexOf(_ability);
                 if (abilityIndex >= 0)
                 {
                     _abilityManager.TryCastAbility(abilityIndex);
@@ -74,7 +75,7 @@ public class AbilityUIManager : MonoBehaviour
         cellImage.enabled = true;
         cellButton.interactable = true;
 
-        cellImage.sprite = (_pageIndex > pageNumber) ? forwardSprite: backSprite;
+        cellImage.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
 
         cellButton.onClick.RemoveAllListeners();
 
@@ -86,14 +87,14 @@ public class AbilityUIManager : MonoBehaviour
 
     public void SetPage(int _newPageIndex)
     {
-        pageNumber = _newPageIndex;
+        pageIndex = _newPageIndex;
 
         RefreshGrid();
     }
 
     public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits)
     {
-        pageNumber = 0;
+        pageIndex = 0;
         commonAbilities = GetCommonAbilities(_selectedUnits);
         abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
 
@@ -106,8 +107,8 @@ public class AbilityUIManager : MonoBehaviour
     /// <param name="_abilityManager"></param>
     public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
     {
-        pageNumber = 0; // TODO: Unsure about setting it to zero straight up?
-        commonAbilities = _abilityManager.Abilities;
+        pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
+        commonAbilities = _abilityManager.AbilityTabs[tabIndex].abilities;
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
         RefreshGrid();
@@ -117,7 +118,7 @@ public class AbilityUIManager : MonoBehaviour
     {
         ResetAbilityGrid();
 
-        if (pageNumber == 2)
+        if (pageIndex == 2)
         {
             Debug.Log("f");
         }
@@ -128,9 +129,9 @@ public class AbilityUIManager : MonoBehaviour
         // pageNumber is 2, then we have 3 + 2 = 5 skipped abilities, as 3 cell is used for nav button.
         int skippedAbilities = 0;
 
-        if (pageNumber > 0)
+        if (pageIndex > 0)
         {
-            skippedAbilities = 3 + (pageNumber - 1) * (abilityCells.Count - 2);
+            skippedAbilities = 3 + (pageIndex - 1) * (abilityCells.Count - 2);
         }
 
         Queue<Ability> abilitiesInPage = 
@@ -138,14 +139,14 @@ public class AbilityUIManager : MonoBehaviour
 
         int abilitiesRemaining = abilitiesInPage.Count;
 
-        for (int cellIndex = 0; cellIndex <= Mathf.Min(abilityCells.Count, abilitiesRemaining); cellIndex++)
+        for (int cellIndex = 0; cellIndex < Mathf.Min(abilityCells.Count, abilitiesRemaining); cellIndex++)
         {
             switch (cellIndex)
             {
                 case 0:
-                    if (pageNumber > 0)
+                    if (pageIndex > 0)
                     {
-                        SetPageCell(abilityCells[cellIndex], pageNumber - 1);
+                        SetPageCell(abilityCells[cellIndex], pageIndex - 1);
                     }
                     else
                     {
@@ -161,7 +162,7 @@ public class AbilityUIManager : MonoBehaviour
                 case 3:
                     if (abilitiesInPage.Count > 1)
                     {
-                        SetPageCell(abilityCells[cellIndex], pageNumber + 1);
+                        SetPageCell(abilityCells[cellIndex], pageIndex + 1);
                     }
                     else
                     {
@@ -185,7 +186,7 @@ public class AbilityUIManager : MonoBehaviour
             return new List<Ability>();
         }
 
-        List<Ability> commonAbilities = _units[0].AbilityManager.Abilities;
+        List<Ability> commonAbilities = _units[0].AbilityManager.AbilityTabs[tabIndex].abilities;
 
         if (_units.Count == 1) // If there's only 1 unit no need to scan for common
         {
@@ -200,7 +201,7 @@ public class AbilityUIManager : MonoBehaviour
             // Iterate backwards to correctly remove unfound abilities while looping
             for (int x = commonAbilities.Count - 1; x >= 0; x--)
             {
-                if (!unit.AbilityManager.Abilities.Contains(commonAbilities[x]))
+                if (!unit.AbilityManager.AbilityTabs[tabIndex].abilities.Contains(commonAbilities[x]))
                 {
                     commonAbilities.RemoveAt(x);
                 }

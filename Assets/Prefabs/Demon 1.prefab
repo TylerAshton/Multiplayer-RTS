@@ -1394,6 +1394,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   abilities:
   - {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
+  abilityTabs:
+  - tabName: Main
+    abilities:
+    - {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
 --- !u!114 &-8325889620801518248
 MonoBehaviour:
   m_ObjectHideFlags: 0

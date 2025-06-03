@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.ValidationSuite;
 using UnityEngine;
 
 [System.Serializable]
@@ -34,8 +35,10 @@ public class AbilityManager : NetworkBehaviour
     protected Ability currentAbility;
     protected Animator animator;
 
-    [SerializeField] protected List<Ability> abilities;
-    public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
+/*    [SerializeField] protected List<Ability> abilities;*/
+
+    [SerializeField] private List<AbilityTab> abilityTabs = new List<AbilityTab>();
+    public List<AbilityTab> AbilityTabs => new List<AbilityTab>(abilityTabs); // This prevents the list CONTENTS from being fucked with
 
     private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();
 
@@ -83,9 +86,9 @@ public class AbilityManager : NetworkBehaviour
         #endif
     }
 
-    public void SetAbility(int _index, Ability _ability)
+    public void SetAbility(int _abilityIndex, Ability _ability, int tabIndex = 0)
     {
-        abilities[_index] = _ability;
+        abilityTabs[tabIndex].abilities[_abilityIndex] = _ability;
     }
 
     //[Rpc(SendTo.Everyone)]
@@ -94,14 +97,14 @@ public class AbilityManager : NetworkBehaviour
     //    AddAbilityRpc(_ability);
     //}
 
-    public void AddAbility(Ability _ability)
+    public void AddAbility(Ability _ability, int tabIndex = 0)
     {
-        abilities.Add(_ability);
+        abilityTabs[tabIndex].abilities.Add(_ability);
     }
 
-    public bool CheckAbility(Ability _ability)
+    public bool CheckAbility(Ability _ability, int tabIndex = 0)
     {
-        return abilities.Contains(_ability);
+        return abilityTabs[tabIndex].abilities.Contains(_ability);
     }
 
 
@@ -127,7 +130,7 @@ public class AbilityManager : NetworkBehaviour
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>
-    public void TryCastAbility(int _abilityIndex)
+    public void TryCastAbility(int _abilityIndex, int tabIndex = 0)
     {
         if (!IsServer)
         {
@@ -135,12 +138,12 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        if (abilities[_abilityIndex] == null)
+        if (abilityTabs[tabIndex].abilities[_abilityIndex] == null)
         {
             return;
         }
 
-        currentAbility = abilities[_abilityIndex];
+        currentAbility = abilityTabs[tabIndex].abilities[_abilityIndex];
 
         if (!CanCastAbility(currentAbility))
         {
