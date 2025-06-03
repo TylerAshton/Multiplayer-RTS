@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class Shop : MonoBehaviour
+public class Shop : MonoBehaviour
 {
     protected virtual void Awake()
     {

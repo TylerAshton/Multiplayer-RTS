@@ -50,11 +50,13 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     [SerializeField] private Ability primaryAbility;
 
     private UIManager uiManager;
+    private PlayerManager playerManager;
 
     void Start()
     {
         manager = RelayManager.Instance;
         uiManager = UIManager.Instance;
+        playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody>();
         //manager.CreatePlayerServerRpc();
 
@@ -106,9 +108,12 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     }
 
-    public void UIToggle()
+    public void ToggleUI()
     {
-        uiManager.ToggleUI();
+        if (uiManager.inShopZone)
+        {
+            uiManager.currentShop.gameObject.SetActive(uiManager.currentShop.isActiveAndEnabled);
+        }
     }
 
     /// <summary>
