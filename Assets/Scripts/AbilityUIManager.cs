@@ -137,11 +137,11 @@ public class AbilityUIManager : MonoBehaviour
         Queue<Ability> abilitiesInPage = 
         new Queue<Ability>(commonAbilities.GetRange(skippedAbilities, commonAbilities.Count - skippedAbilities));
 
-        int abilitiesRemaining = abilitiesInPage.Count;
+        //int abilitiesRemaining = abilitiesInPage.Count;
 
-        for (int cellIndex = 0; cellIndex < Mathf.Min(abilityCells.Count, abilitiesRemaining); cellIndex++)
+        for (int cellIndex = 0; cellIndex < abilityCells.Count && abilitiesInPage.Count > 0; cellIndex++)
         {
-            switch (cellIndex)
+            switch (cellIndex) // TODO this is hard coed for 4 cells perhaps just do a case for first and last then add a default for the rest?
             {
                 case 0:
                     if (pageIndex > 0)
