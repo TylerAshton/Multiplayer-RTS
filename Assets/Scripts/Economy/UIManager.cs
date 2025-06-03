@@ -8,6 +8,7 @@ public class UIManager : NetworkBehaviour
     public static UIManager Instance;
 
     private Dictionary<PlayerManager.ChampionTypes, Shop> IDtoUI = new Dictionary<PlayerManager.ChampionTypes, Shop>();
+    private Dictionary<ulong, bool> PlayerInShop = new Dictionary<ulong, bool>();
 
     public Shop currentShop;
 
@@ -26,7 +27,30 @@ public class UIManager : NetworkBehaviour
         }
     }
 
-    //[Rpc(SendTo.Everyone)]
+    public bool getPlayerInShop(ulong _ID)
+    {
+        return PlayerInShop[_ID];
+    }
+
+    public void setPlayerInShop(ulong _ID, bool _InShop)
+    {
+        setPlayerInShopRpc(_ID, _InShop);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void setPlayerInShopRpc(ulong _ID, bool _InShop)
+    {
+        try
+        {
+            PlayerInShop.Add(_ID, _InShop);
+        }
+        catch (ArgumentException)
+        {
+            PlayerInShop.Remove(_ID);
+            PlayerInShop.Add(_ID, _InShop);
+        }
+    }
+
     private void setUI(PlayerManager.ChampionTypes _type, Shop _ShopObject)
     {
         try

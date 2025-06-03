@@ -30,7 +30,6 @@ public class PointManager : NetworkBehaviour
 
     private void Start()
     {
-        Debug.Log($"THIS IS YOUR ID : {NetworkManager.Singleton.LocalClientId}");
         playerPoints[0] = 0;
         playerPoints[1] = 0;
         playerPoints[2] = 0;
@@ -70,16 +69,15 @@ public class PointManager : NetworkBehaviour
             {
                 if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.AMALGAM)
                 {
-                    AddPoints(0, 100);
+                    AddPoints(0, 300);
                 }
                 else if (point.GetComponent<CapturePoint>().owner == CapturePoint.owners.CHAMPION)
                 {
-                    AddPoints(1, 100);
-                    AddPoints(2, 100);
+                    AddPoints(1, 300);
+                    AddPoints(2, 300);
                 }
             }
-            Debug.Log($"{playerPoints[0]},{playerPoints[1]},{playerPoints[2]}");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(3f);
             StartCoroutine(generatePoints());
         }
     }

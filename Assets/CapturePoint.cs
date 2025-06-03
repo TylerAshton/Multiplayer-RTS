@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -36,6 +38,17 @@ public class CapturePoint : NetworkBehaviour
         bonfireObj.transform.position = this.transform.position + offset;
     }
 
+    private void CheckChampion(GameObject player, bool inShop)
+    {
+        for (int i = 1; i <= PlayerManager.Instance.getPlayerCount(); i++)
+        {
+            if (PlayerManager.Instance.getPlayerGameObject((ulong)i) == player)
+            {
+                UIManager.Instance.setPlayerInShop((ulong)i, true);
+            }
+        }
+    }
+
     void Update()
     {
         champs = 0;
@@ -46,6 +59,7 @@ public class CapturePoint : NetworkBehaviour
         {
             if (unit.collider.transform.tag == "Champion")
             {
+                CheckChampion(unit.collider.transform.gameObject, true);
                 champs++;
             }
             else if (unit.collider.transform.tag == "Amalgam")

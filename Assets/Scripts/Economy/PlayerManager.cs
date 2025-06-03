@@ -29,6 +29,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public int getPlayerCount()
+    {
+        return IDtoGameObject.Count;
+    }
+
     public ChampionTypes getChampionType(ulong _ID)
     {
         return IDtoChampion[_ID];

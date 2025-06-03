@@ -52,6 +52,8 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     private UIManager uiManager;
     private PlayerManager playerManager;
 
+    [SerializeField] private TextMeshProUGUI points;
+
     void Start()
     {
         manager = RelayManager.Instance;
@@ -161,6 +163,12 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     {
         if (!IsOwner) { return; }
         RotatePlayer();
+        updatePointsUI();
+    }
+
+    private void updatePointsUI()
+    {
+        points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
 
     /// <summary>

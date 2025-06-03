@@ -14,6 +14,7 @@ public class Shop : MonoBehaviour
     protected ulong ID;
 
     [SerializeField] protected TextMeshProUGUI points;
+    [SerializeField] protected TextMeshProUGUI itemCostText;
 
     protected virtual void Awake()
     {
