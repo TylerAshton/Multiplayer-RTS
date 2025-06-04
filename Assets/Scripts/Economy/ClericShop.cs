@@ -97,12 +97,6 @@ class ClericShop : Shop
                 itemCostText.text = string.Empty;
                 break;
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            
-            this.GetComponentInParent<AnimatedChampion>().ToggleUI();
-        }
     }
 }
 

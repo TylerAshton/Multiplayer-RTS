@@ -66,6 +66,10 @@ public class CapturePoint : NetworkBehaviour
             {
                 amalgs++;
             }
+            else
+            {
+
+            }
         }
         if (champs >= minChamps && amalgs == 0)
         {

@@ -12,8 +12,6 @@ class KnightShop : Shop
 
     private void Update()
     {
-        points.text = PointManager.Instance.GetPoints(ID).ToString();
-
         moveInput.x = Input.mousePosition.x - (Screen.width / 2f);
         moveInput.y = Input.mousePosition.y - (Screen.height / 2f);
         moveInput.Normalize();
@@ -41,21 +39,33 @@ class KnightShop : Shop
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        switch (selectedOption)
         {
-            switch (selectedOption)
-            {
-                case 0:
-                    if (PointManager.Instance.GetPoints(ID) >= 500)
+            case 0:
+                itemCostText.text = "-500";
+                if (PointManager.Instance.GetPoints(ID) >= 500)
+                {
+                    itemCostText.color = Color.green;
+                    if (Input.GetMouseButtonDown(0))
                     {
                         this.GetComponentInParent<Health>().Heal(999);
                         PointManager.Instance.RemovePoints(ID, 500);
+                        this.GetComponentInParent<AnimatedChampion>().ToggleUI();
                     }
-                    break;
-                case 1:
-                    if (PointManager.Instance.GetPoints(ID) >= 3000)
+                }
+                else
+                {
+                    itemCostText.color = Color.red;
+                }
+                break;
+            case 1:
+                itemCostText.text = "-3000";
+                if (PointManager.Instance.GetPoints(ID) >= 3000)
+                {
+                    itemCostText.color = Color.green;
+                    if (!this.GetComponentInParent<ChampionAbilityManager>().CheckAbility(abilities[selectedOption - 1]))
                     {
-                        if (!this.GetComponentInParent<ChampionAbilityManager>().CheckAbility(abilities[selectedOption - 1]))
+                        if (Input.GetMouseButtonDown(0))
                         {
                             Ability selectedAbility = null;
 
@@ -74,11 +84,18 @@ class KnightShop : Shop
 
                             this.GetComponentInParent<ChampionAbilityManager>().AddAbility(selectedAbility);
                             PointManager.Instance.RemovePoints(ID, 3000);
+                            this.GetComponentInParent<AnimatedChampion>().ToggleUI();
                         }
                     }
-                    break;
-            }
-            this.GetComponentInParent<AnimatedChampion>().ToggleUI();
+                }
+                else
+                {
+                    itemCostText.color = Color.red;
+                }
+                break;
+            default:
+                itemCostText.text = string.Empty;
+                break;
         }
     }
 }

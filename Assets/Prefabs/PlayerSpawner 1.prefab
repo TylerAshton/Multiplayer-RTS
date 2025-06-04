@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2445613441502838638
+--- !u!1 &4580012525080391500
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1044799777404819532}
-  - component: {fileID: 3332557674005857752}
-  - component: {fileID: 885333497884250568}
+  - component: {fileID: 1563212197580216548}
+  - component: {fileID: 7300796340958616510}
+  - component: {fileID: 6363549527435569601}
   m_Layer: 0
-  m_Name: UIManagaer
+  m_Name: PlayerSpawner 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1044799777404819532
+--- !u!4 &1563212197580216548
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2445613441502838638}
+  m_GameObject: {fileID: 4580012525080391500}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,22 +33,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3332557674005857752
+--- !u!114 &7300796340958616510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2445613441502838638}
+  m_GameObject: {fileID: 4580012525080391500}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2887489648
-  InScenePlacedSourceGlobalObjectIdHash: 1447527999
+  GlobalObjectIdHash: 2586372304
+  InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
-  Ownership: 8
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -58,32 +58,24 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &885333497884250568
+--- !u!114 &6363549527435569601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2445613441502838638}
+  m_GameObject: {fileID: 4580012525080391500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 797c381afabf4d34ab806b29b0d127ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e76ba8c4e3ed244eacb39cc152a73cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  champUI: {fileID: 0}
-  clericShop: {fileID: 0}
-  knightShop: {fileID: 0}
-  inShopZone: 0
-  moveInput: {x: 0, y: 0}
-  optionsCleric:
-  - {fileID: 0}
-  - {fileID: 0}
-  optionsKnight:
-  - {fileID: 0}
-  - {fileID: 0}
-  options: []
-  normalColour: {r: 0, g: 0.4016366, b: 1, a: 1}
-  highlightedColour: {r: 0.8114557, g: 0, b: 1, a: 1}
-  abilitesCleric: []
-  abilitesKnight: []
+  playerList:
+  - {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
+  - {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
+  CoopPlayerPrefab: {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
+  RTSPlayer: {fileID: 669737588030258381, guid: 0365449728674734fbecbf9a31abe724, type: 3}
+  CoopPlayerPrefabList:
+  - {fileID: 2434894007857547855, guid: bcab214d3a2d22241b3aa33ca1c8ae29, type: 3}
+  - {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}

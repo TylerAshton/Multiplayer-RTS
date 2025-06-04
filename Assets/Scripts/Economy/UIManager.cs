@@ -12,6 +12,8 @@ public class UIManager : NetworkBehaviour
 
     public Shop currentShop;
 
+    private NetworkObject networkObject;
+
     public bool inShopZone;
 
     private void Awake()
@@ -25,6 +27,12 @@ public class UIManager : NetworkBehaviour
         {
             Destroy(this);
         }
+    }
+
+    private void Start()
+    {
+        networkObject = GetComponent<NetworkObject>();
+        Debug.Log(networkObject.NetworkObjectId);
     }
 
     public bool getPlayerInShop(ulong _ID)
@@ -67,6 +75,7 @@ public class UIManager : NetworkBehaviour
 
     public void SetShopType(object sender, CharacterSetArgs args)
     {
+        Debug.Log(args.type);
         if (args.type == PlayerManager.ChampionTypes.Knight)
         {
             //currentShop = PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<KnightShop>();
@@ -77,5 +86,6 @@ public class UIManager : NetworkBehaviour
             //currentShop = PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<ClericShop>();
             setUI(args.type, PlayerManager.Instance.getPlayerGameObject(args.ID).GetComponentInChildren<ClericShop>());
         }
+        Debug.Log(args.type);
     }
 }

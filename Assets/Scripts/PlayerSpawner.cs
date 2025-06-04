@@ -125,7 +125,7 @@ public class PlayerSpawner : NetworkBehaviour
         {
             newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[0]);
             playerManager.setPlayerGameObject(clientId, playerList[0]);
-            ChangeChampionRpc(clientId, PlayerManager.ChampionTypes.Cleric);
+            //ChangeChampionRpc(clientId, PlayerManager.ChampionTypes.Cleric);
         }
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
