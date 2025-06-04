@@ -725,7 +725,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 722904323}
         m_TargetAssemblyTypeName: PlayerSpawner, Assembly-CSharp
         m_MethodName: changePrefab
         m_Mode: 3
@@ -1474,7 +1474,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 722904323}
         m_TargetAssemblyTypeName: PlayerSpawner, Assembly-CSharp
         m_MethodName: changePrefab
         m_Mode: 3
@@ -2155,6 +2155,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719642093}
   m_CullTransparentMesh: 1
+--- !u!114 &722904323 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6363549527435569601, guid: 720b532224d33de4ca4de3ad05d3d600, type: 3}
+  m_PrefabInstance: {fileID: 1538752494}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e76ba8c4e3ed244eacb39cc152a73cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &795975636
 GameObject:
   m_ObjectHideFlags: 0

@@ -91,7 +91,7 @@ class ClericShop : Shop
                 {
                     itemCostText.color = Color.red;
                 }
-                    break;
+                break;
             default:
                 itemCostText.text = string.Empty;
                 break;

@@ -120,6 +120,7 @@ public class CapturePoint : NetworkBehaviour
         if (other.CompareTag("Champion"))
         {
             other.gameObject.GetComponent<AnimatedChampion>().inShop = false;
+            other.gameObject.GetComponent<AnimatedChampion>().CloseShopUI();
             champs--;
         }
         else if (other.CompareTag("Amalgam"))

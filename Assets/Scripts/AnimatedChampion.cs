@@ -62,7 +62,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         uiManager = UIManager.Instance;
         playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody>();
-        //manager.CreatePlayerServerRpc();
 
         if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
         {
@@ -99,7 +98,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         {
             cameraSpawner.Init();
             playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
-            //cameraSpawner.SpawnedCamera.transform.SetParent(transform);
             if (!TryGetComponent<PlayerInput>(out playerInput))
             {
                 Debug.LogError("CharacterController is required for AnimatedChampion");
@@ -117,6 +115,16 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         if (inShop && networkObject.IsOwner)
         {
             ToggleUI();
+        }
+    }
+
+    public void CloseShopUI()
+    {
+        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
+        playerShop.enabled = false;
+        foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
+        {
+            child.gameObject.SetActive(false);
         }
     }
 
@@ -170,6 +178,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     private void updatePointsUI()
     {
+        Debug.Log(points.text);
         points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
 
@@ -202,8 +211,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     {
         abilityManager.TryCastAbility(_AbilityIndex);
     }
-
-    
 
     /// <summary>
     /// This calls all of the Movement based Server-Rpcs
