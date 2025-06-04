@@ -19,6 +19,12 @@ public class UnitManager : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        /*GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
+        abilityUIManager = AbilityPanel.GetComponentInChildren<AbilityUIManager>();*/
+    }
+
+    public void Init()
+    {
         GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
         abilityUIManager = AbilityPanel.GetComponentInChildren<AbilityUIManager>();
     }
