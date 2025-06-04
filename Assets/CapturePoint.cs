@@ -22,6 +22,9 @@ public class CapturePoint : NetworkBehaviour
         CONTESTED
     }
 
+    private List<GameObject> Champions = new List<GameObject>();
+    private List<GameObject> PriorChampions = new List<GameObject>();
+
     private Material[] materials;
 
     [SerializeField] GameObject circle;
@@ -44,7 +47,7 @@ public class CapturePoint : NetworkBehaviour
         {
             if (PlayerManager.Instance.getPlayerGameObject((ulong)i) == player)
             {
-                UIManager.Instance.setPlayerInShop((ulong)i, true);
+                UIManager.Instance.setPlayerInShop((ulong)i, inShop);
             }
         }
     }
@@ -59,8 +62,9 @@ public class CapturePoint : NetworkBehaviour
         {
             if (unit.collider.transform.tag == "Champion")
             {
-                CheckChampion(unit.collider.transform.gameObject, true);
+                //CheckChampion(unit.collider.transform.gameObject, true);
                 champs++;
+                Champions.Add(unit.collider.transform.gameObject);
             }
             else if (unit.collider.transform.tag == "Amalgam")
             {
@@ -71,6 +75,34 @@ public class CapturePoint : NetworkBehaviour
 
             }
         }
+
+        foreach (GameObject go in Champions)
+        {
+            Debug.Log(go.name);
+        }
+
+        for (int i = 0; i < PriorChampions.Count; i++)
+        {
+            if (Champions.Count > 0)
+            {
+                if (PriorChampions.Contains(Champions[i]))
+                {
+                    CheckChampion(Champions[i], true);
+                }
+                else
+                {
+                    CheckChampion(Champions[i], false);
+                }
+            }
+            else
+            {
+                CheckChampion(PriorChampions[i], false);
+            }
+        }
+
+        PriorChampions = new List<GameObject>(Champions);
+        Champions.Clear();
+
         if (champs >= minChamps && amalgs == 0)
         {
             owner = owners.CHAMPION;

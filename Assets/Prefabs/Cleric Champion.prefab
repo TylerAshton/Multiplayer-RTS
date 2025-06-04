@@ -3159,6 +3159,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1770477014136216472}
     m_Modifications:
+    - target: {fileID: 54637626139250960, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 531546823377360208, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -3194,6 +3198,10 @@ PrefabInstance:
     - target: {fileID: 1585415372762662218, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700470283754730645, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3689581820145366390, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_Pivot.x
@@ -3279,6 +3287,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cleric Shop UI
       objectReference: {fileID: 0}
+    - target: {fileID: 5685279325936207913, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6250346294641880146, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672416446820895284, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7428385193701931226, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: points
       value: 
@@ -3288,8 +3308,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2822466643855324551}
     - target: {fileID: 7482039084824313045, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482039084824313045, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8992038694446053173, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
