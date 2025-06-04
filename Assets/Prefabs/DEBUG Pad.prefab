@@ -271,6 +271,16 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4e475a7004e5a0541ad426a26e793a48, type: 2}
     - {fileID: 11400000, guid: 59101f4679d21574b9020afb29ce9522, type: 2}
     - {fileID: 11400000, guid: d805d8b421d77d74ab9041fddb94f5d0, type: 2}
+  - tabName: Duo
+    abilities:
+    - {fileID: 11400000, guid: d805d8b421d77d74ab9041fddb94f5d0, type: 2}
+    - {fileID: 11400000, guid: 59101f4679d21574b9020afb29ce9522, type: 2}
+    - {fileID: 11400000, guid: 4e475a7004e5a0541ad426a26e793a48, type: 2}
+    - {fileID: 11400000, guid: 45359c14d4fae6943bacb13202b3f3b8, type: 2}
+    - {fileID: 11400000, guid: 210f3808e4b245a4eb79049b9d465d7e, type: 2}
+    - {fileID: 11400000, guid: 1784e034798a97c4ba19c9d45795f2bb, type: 2}
+    - {fileID: 11400000, guid: 81735795af1971346a5220ff697a843b, type: 2}
+    - {fileID: 11400000, guid: c0008e4df8400724c9ecf82f7d7865bb, type: 2}
 --- !u!95 &7750733840084467600
 Animator:
   serializedVersion: 7

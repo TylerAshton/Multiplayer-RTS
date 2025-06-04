@@ -114,7 +114,7 @@ public class AbilityUIManager : MonoBehaviour
         }
 
         tabIndex = _newTabIndex;
-        // Reset page index to zero when changing tabs
+        pageIndex = 0;
         RefreshGrid();
     }
 
@@ -178,7 +178,7 @@ public class AbilityUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Recalculates the ability grid based on the current page index and the common abilities of selected units.
+    /// Recalculates the ability grid based on the current page and tab index and the common abilities of selected units.
     /// </summary>
     private void RefreshGrid()
     {
@@ -299,7 +299,7 @@ public class AbilityUIManager : MonoBehaviour
             return new List<Ability>();
         }
 
-        List<Ability> commonAbilities = _units[0].AbilityManager.AbilityTabs[tabIndex].Abilities;
+        List<Ability> commonAbilities = _units[0].AbilityManager.AbilityTabs[_tabIndex].Abilities;
 
         if (_units.Count == 1) // If there's only 1 unit no need to scan for common
         {
@@ -314,7 +314,7 @@ public class AbilityUIManager : MonoBehaviour
             // Iterate backwards to correctly remove unfound abilities while looping
             for (int x = commonAbilities.Count - 1; x >= 0; x--)
             {
-                if (!unit.AbilityManager.AbilityTabs[tabIndex].Abilities.Contains(commonAbilities[x]))
+                if (!unit.AbilityManager.AbilityTabs[_tabIndex].Abilities.Contains(commonAbilities[x]))
                 {
                     commonAbilities.RemoveAt(x);
                 }
