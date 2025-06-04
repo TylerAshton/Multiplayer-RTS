@@ -123,6 +123,8 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     public void ResetSelection() // TODO: The amount of repeated code here is insane
     {
+        pageIndex = 0;
+        tabIndex = 0;
         commmonAbilityTabs = new List<AbilityTab>();
         RefreshTabButtons();
         RefreshGrid();
