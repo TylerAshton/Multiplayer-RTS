@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6924199076545172511}
   - component: {fileID: 7638822680781091495}
   - component: {fileID: 6342540273694048179}
+  - component: {fileID: 6928855407951923183}
   m_Layer: 8
   m_Name: Capture
   m_TagString: PointAwarder
@@ -102,6 +103,27 @@ MonoBehaviour:
   shopOwner: 0
   amalgamObjs: []
   championObjs: []
+--- !u!135 &6928855407951923183
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462886220653058648}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3173700271377119470
 GameObject:
   m_ObjectHideFlags: 0

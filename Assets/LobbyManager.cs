@@ -98,7 +98,6 @@ public class LobbyManager : NetworkBehaviour
         {
             Debug.Log("inactive");
         }
-        Debug.Log($"{IsServer} {IsClient} {IsHost}");
         if (!IsHost)
         {
             return;

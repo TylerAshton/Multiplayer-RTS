@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6379738131321908218}
   - component: {fileID: 2049940645491390714}
-  - component: {fileID: 7074281468462496007}
   - component: {fileID: 4250464395275903125}
   m_Layer: 0
   m_Name: PlayerManagers
@@ -46,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2382348476
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 464353514
+  InScenePlacedSourceGlobalObjectIdHash: 2224128218
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -59,19 +58,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &7074281468462496007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1958582203746680843}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24e587d2f76728240936268e40bc78b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4250464395275903125
 MonoBehaviour:
   m_ObjectHideFlags: 0

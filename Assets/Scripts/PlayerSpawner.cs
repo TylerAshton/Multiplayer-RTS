@@ -32,7 +32,6 @@ public class PlayerSpawner : NetworkBehaviour
         uimanager = UIManager.Instance;
         coopPlayerManager = CoopPlayerManager.Instance;
         playerManager = PlayerManager.Instance;
-        onCharacterSet += uimanager.SetShopType;
     }
 
     public override void OnNetworkSpawn()
@@ -85,7 +84,7 @@ public class PlayerSpawner : NetworkBehaviour
             index = 1;
         }
         PlayerManager.Instance.setPlayerGameObject(_ID, playerList[index]);
-        raiseCharacterSet(_ID, type);
+        //raiseCharacterSet(_ID, type);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -125,7 +124,7 @@ public class PlayerSpawner : NetworkBehaviour
         {
             newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[0]);
             playerManager.setPlayerGameObject(clientId, playerList[0]);
-            //ChangeChampionRpc(clientId, PlayerManager.ChampionTypes.Cleric);
+            ChangeChampionRpc(clientId, PlayerManager.ChampionTypes.Cleric);
         }
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();

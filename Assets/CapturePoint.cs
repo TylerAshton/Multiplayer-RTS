@@ -34,11 +34,17 @@ public class CapturePoint : NetworkBehaviour
 
     public owners owner = owners.NEUTRAL;
 
+    private NetworkObject networkObj;
+
     private void Awake()
     {
         circle.transform.localScale = new Vector3(r, 1, r);
         circle.transform.position = this.transform.position + offset;
         bonfireObj.transform.position = this.transform.position + offset;
+        SphereCollider trigger = GetComponent<SphereCollider>();
+        trigger.radius = r;
+        trigger.center += offset;
+        networkObj = GetComponent<NetworkObject>();
     }
 
     private void CheckChampion(GameObject player, bool inShop)
@@ -54,55 +60,6 @@ public class CapturePoint : NetworkBehaviour
 
     void Update()
     {
-        champs = 0;
-        amalgs = 0;
-        RaycastHit[] units = Physics.SphereCastAll(this.transform.position + offset, r, Vector3.forward, 0, mask);
-
-        foreach (RaycastHit unit in units)
-        {
-            if (unit.collider.transform.tag == "Champion")
-            {
-                //CheckChampion(unit.collider.transform.gameObject, true);
-                champs++;
-                Champions.Add(unit.collider.transform.gameObject);
-            }
-            else if (unit.collider.transform.tag == "Amalgam")
-            {
-                amalgs++;
-            }
-            else
-            {
-
-            }
-        }
-
-        foreach (GameObject go in Champions)
-        {
-            Debug.Log(go.name);
-        }
-
-        for (int i = 0; i < PriorChampions.Count; i++)
-        {
-            if (Champions.Count > 0)
-            {
-                if (PriorChampions.Contains(Champions[i]))
-                {
-                    CheckChampion(Champions[i], true);
-                }
-                else
-                {
-                    CheckChampion(Champions[i], false);
-                }
-            }
-            else
-            {
-                CheckChampion(PriorChampions[i], false);
-            }
-        }
-
-        PriorChampions = new List<GameObject>(Champions);
-        Champions.Clear();
-
         if (champs >= minChamps && amalgs == 0)
         {
             owner = owners.CHAMPION;
@@ -145,9 +102,77 @@ public class CapturePoint : NetworkBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnTriggerEnter(Collider other)
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(this.transform.position + offset, r);
+        if (other.CompareTag("Champion"))
+        {
+            other.gameObject.GetComponent<AnimatedChampion>().inShop = true;
+            champs++;
+        }
+        else if (other.CompareTag("Amalgam"))
+        {
+            amalgs++;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Champion"))
+        {
+            other.gameObject.GetComponent<AnimatedChampion>().inShop = false;
+            champs--;
+        }
+        else if (other.CompareTag("Amalgam"))
+        {
+            amalgs--;
+        }
     }
 }
+
+//RaycastHit[] units = Physics.SphereCastAll(this.transform.position + offset, r, Vector3.forward, 0, mask);
+
+//foreach (RaycastHit unit in units)
+//{
+//    Debug.Log(unit.collider.transform.name);
+//    if (unit.collider.transform.tag == "Champion")
+//    {
+//        //CheckChampion(unit.collider.transform.gameObject, true);
+//        champs++;
+//        Champions.Add(unit.collider.transform.gameObject);
+//    }
+//    else if (unit.collider.transform.tag == "Amalgam")
+//    {
+//        amalgs++;
+//    }
+//    else
+//    {
+
+//    }
+//}
+
+////foreach (GameObject go in Champions)
+////{
+////    Debug.Log(go.name);
+////}
+
+//for (int i = 0; i < PriorChampions.Count; i++)
+//{
+//    if (Champions.Count > 0)
+//    {
+//        if (PriorChampions.Contains(Champions[i]))
+//        {
+//            CheckChampion(Champions[i], true);
+//        }
+//        else
+//        {
+//            CheckChampion(Champions[i], false);
+//        }
+//    }
+//    else
+//    {
+//        CheckChampion(PriorChampions[i], false);
+//    }
+//}
+
+//PriorChampions = new List<GameObject>(Champions);
+//Champions.Clear();

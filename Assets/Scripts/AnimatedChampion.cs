@@ -54,6 +54,8 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     [SerializeField] private TextMeshProUGUI points;
 
+    public bool inShop = false;
+
     void Start()
     {
         manager = RelayManager.Instance;
@@ -112,7 +114,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     public void AttemptToggleUI()
     {
-        if (uiManager.inShopZone && networkObject.IsOwner)
+        if (inShop && networkObject.IsOwner)
         {
             ToggleUI();
         }
