@@ -21,7 +21,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     private Vector3 worldPosition; // the position of the mouse relative to the world origin
     public Vector3 WorldPosition => worldPosition;
 
-    public Animator Animator => animator;
+    public NetCodeAnimationManager NAnimator => nAnimator;
 
     public Transform Transform => transform;
 
@@ -39,7 +39,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
-    private Animator animator;
+    private NetCodeAnimationManager nAnimator;
     private AbilityManager abilityManager;
     private CharacterController characterController;
     private PlayerInput playerInput;
@@ -68,7 +68,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
             Debug.LogError("Network object is required for cameraMovement");
         }
 
-        if (!TryGetComponent<Animator>(out animator))
+        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
         {
             Debug.LogError("Animator is required for AnimatedChampion");
         }
@@ -264,10 +264,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
-            animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), 0f, smoothSpeed * Time.deltaTime));
-            animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), 0f, smoothSpeed * Time.deltaTime));
-            animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), 0f, smoothSpeed * Time.deltaTime));
-            animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), 0f, smoothSpeed * Time.deltaTime));
+            nAnimator.SetFloat("MoveX", Mathf.Lerp(nAnimator.GetFloat("MoveX"), 0f, smoothSpeed * Time.deltaTime));
+            nAnimator.SetFloat("MoveY", Mathf.Lerp(nAnimator.GetFloat("MoveY"), 0f, smoothSpeed * Time.deltaTime));
+            nAnimator.SetFloat("SpeedX", Mathf.Lerp(nAnimator.GetFloat("SpeedX"), 0f, smoothSpeed * Time.deltaTime));
+            nAnimator.SetFloat("SpeedY", Mathf.Lerp(nAnimator.GetFloat("SpeedY"), 0f, smoothSpeed * Time.deltaTime));
             return;
         }
 
@@ -280,10 +280,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         Vector3 localVelocity = transform.InverseTransformDirection(velocity);
 
         // Smoothly update animation parameters
-        animator.SetFloat("MoveX", Mathf.Lerp(animator.GetFloat("MoveX"), relativeX, smoothSpeed * Time.deltaTime));
-        animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, smoothSpeed * Time.deltaTime));
-        animator.SetFloat("SpeedX", Mathf.Lerp(animator.GetFloat("SpeedX"), Mathf.Abs(localVelocity.x), smoothSpeed * Time.deltaTime));
-        animator.SetFloat("SpeedY", Mathf.Lerp(animator.GetFloat("SpeedY"), Mathf.Abs(localVelocity.z), smoothSpeed * Time.deltaTime));
+        nAnimator.SetFloat("MoveX", Mathf.Lerp(nAnimator.GetFloat("MoveX"), relativeX, smoothSpeed * Time.deltaTime));
+        nAnimator.SetFloat("MoveY", Mathf.Lerp(nAnimator.GetFloat("MoveY"), relativeZ, smoothSpeed * Time.deltaTime));
+        nAnimator.SetFloat("SpeedX", Mathf.Lerp(nAnimator.GetFloat("SpeedX"), Mathf.Abs(localVelocity.x), smoothSpeed * Time.deltaTime));
+        nAnimator.SetFloat("SpeedY", Mathf.Lerp(nAnimator.GetFloat("SpeedY"), Mathf.Abs(localVelocity.z), smoothSpeed * Time.deltaTime));
     }
 
 
