@@ -106,20 +106,12 @@ public class CapturePoint : NetworkBehaviour
     {
         if (other.CompareTag("Champion"))
         {
-            setShopTrue(other.gameObject);
+            other.gameObject.GetComponent<AnimatedChampion>().inShop = true;
             champs++;
         }
         else if (other.CompareTag("Amalgam"))
         {
             amalgs++;
-        }
-    }
-
-    private void setShopTrue(GameObject go)
-    {
-        if (owner == owners.CHAMPION)
-        {
-            go.GetComponent<AnimatedChampion>().inShop = true;
         }
     }
 
