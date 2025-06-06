@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.ShaderGraph.Drawing;
 using UnityEngine;
 
 public class CharacterSetArgs
