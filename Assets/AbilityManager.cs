@@ -137,6 +137,18 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
+        if (_abilityIndex < 0)
+        {
+            Debug.LogError("Ability index cannot be negative: " + _abilityIndex);
+            return;
+        }
+
+        if (abilities.Count <= _abilityIndex)
+        {
+            Debug.LogError("Ability index out of range: " + _abilityIndex);
+            return;
+        }
+
         if (abilities[_abilityIndex] == null)
         {
             return;
