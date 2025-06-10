@@ -58,7 +58,7 @@ public class CapturePoint : NetworkBehaviour
         }
     }
 
-    void Update()
+    void CheckOwner()
     {
         if (champs >= minChamps && amalgs == 0)
         {
@@ -72,6 +72,11 @@ public class CapturePoint : NetworkBehaviour
         {
             owner = owners.CONTESTED;
         }
+    }
+
+    void Update()
+    {
+        CheckOwner();
 
         if (owner == owners.AMALGAM)
         {
@@ -106,8 +111,12 @@ public class CapturePoint : NetworkBehaviour
     {
         if (other.CompareTag("Champion"))
         {
-            other.gameObject.GetComponent<AnimatedChampion>().inShop = true;
             champs++;
+            CheckOwner();
+            if (owner == owners.CHAMPION)
+            {
+                other.gameObject.GetComponent<AnimatedChampion>().inShop = true;
+            }            
         }
         else if (other.CompareTag("Amalgam"))
         {
