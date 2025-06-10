@@ -145,7 +145,7 @@ public class AbilityManager : NetworkBehaviour
 
         if (abilities.Count <= _abilityIndex)
         {
-            Debug.LogError("Ability index out of range: " + _abilityIndex);
+            Debug.LogWarning("Ability index out of range: " + _abilityIndex);
             return;
         }
 
