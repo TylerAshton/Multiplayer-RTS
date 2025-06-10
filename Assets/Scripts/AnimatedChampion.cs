@@ -327,7 +327,9 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     {
         RaycastHit hit;
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(castPoint, out hit))
+
+        LayerMask environmentMask = LayerMask.GetMask("Environment");
+        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask))
         {
             worldPosition = hit.point;
         };
