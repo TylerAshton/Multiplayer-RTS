@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class ChampionAbilityManager : AbilityManager
@@ -45,12 +46,17 @@ public class ChampionAbilityManager : AbilityManager
     public override void AddAbility(Ability _ability)
     {
         base.AddAbility(_ability);
-        UIAbilityManager.UpdateGridWithAbilityManager(this);
+        UpdateGridRpc();
     }
-
     public override void SetAbility(int _index, Ability _ability)
     {
         base.SetAbility(_index, _ability);
+        UpdateGridRpc();
+    }
+
+    [Rpc(SendTo.Owner)]
+    private void UpdateGridRpc()
+    {
         UIAbilityManager.UpdateGridWithAbilityManager(this);
     }
 }

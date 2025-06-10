@@ -85,20 +85,36 @@ public class AbilityManager : NetworkBehaviour
 
     public virtual void SetAbility(int _index, Ability _ability)
     {
-        abilities[_index] = _ability;
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set an ability");
+            return;
+        }
+        SetAbilityRpc(_index, _ability.AbilityID);
     }
 
-    //[Rpc(SendTo.Everyone)]
-    //public void AddAbility(Ability _ability)
-    //{
-    //    AddAbilityRpc(_ability);
-    //}
+    [Rpc(SendTo.Everyone)]
+    private void SetAbilityRpc(int _index, string _abilityID)
+    {
+        abilities[_index] = AbilityRegistry.GetAbility(_abilityID);
+    }
 
     public virtual void AddAbility(Ability _ability)
     {
-        abilities.Add(_ability);
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to add an ability");
+            return;
+        }
+        AddAbilityRpc(_ability.AbilityID);
 
         // TODO: Harrison please update abilityGrid
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void AddAbilityRpc(string _abilityID)
+    {
+        abilities.Add(AbilityRegistry.GetAbility(_abilityID));
     }
 
     public bool CheckAbility(Ability _ability)
