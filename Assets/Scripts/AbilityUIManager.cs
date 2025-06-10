@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class AbilityUIManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
+    private bool isChampionUI = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    internal void Init(bool _isChampionUI)
     {
-        //ResetAbilityGrid();
+        isChampionUI = _isChampionUI;
     }
 
     /// <summary>
@@ -41,7 +41,8 @@ public class AbilityUIManager : MonoBehaviour
         Button cellButton = _cell.GetComponent<Button>();
 
         cellImage.enabled = true;
-        cellButton.interactable = true;
+
+        if (!isChampionUI) cellButton.interactable = true;
 
         cellImage.sprite = _ability.Icon;
 
@@ -132,4 +133,6 @@ public class AbilityUIManager : MonoBehaviour
 
         return commonAbilities;
     }
+
+    
 }
