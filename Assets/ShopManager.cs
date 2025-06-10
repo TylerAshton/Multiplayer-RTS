@@ -54,11 +54,5 @@ public class ShopManager : MonoBehaviour
                 }
             }
         }
-
-        if (shopOwner == shopOwners.CHAMPION)
-        {
-            UIManager.Instance.inShopZone = true;
-            //Debug.LogWarning("Tyler reenable me when you work on shopManager");
-        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -44,19 +45,23 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     private CharacterController characterController;
     private PlayerInput playerInput;
 
-
     private Vector3 velocity; // used for gravity shit
 
     [SerializeField] private Ability primaryAbility;
 
     private UIManager uiManager;
+    private PlayerManager playerManager;
+
+    [SerializeField] private TextMeshProUGUI points;
+
+    public bool inShop = false;
 
     void Start()
     {
         manager = RelayManager.Instance;
         uiManager = UIManager.Instance;
+        playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody>();
-        //manager.CreatePlayerServerRpc();
 
         if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
         {
@@ -93,7 +98,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         {
             cameraSpawner.Init();
             playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
-            //cameraSpawner.SpawnedCamera.transform.SetParent(transform);
             if (!TryGetComponent<PlayerInput>(out playerInput))
             {
                 Debug.LogError("CharacterController is required for AnimatedChampion");
@@ -106,10 +110,34 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     }
 
-    public void UIToggle()
+    public void AttemptToggleUI()
     {
-        uiManager.ToggleUI();
+        if (inShop && networkObject.IsOwner)
+        {
+            ToggleUI();
+        }
     }
+
+    public void CloseShopUI()
+    {
+        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
+        playerShop.enabled = false;
+        foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
+
+    public void ToggleUI()
+    {
+        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
+        playerShop.enabled = !playerShop.enabled;
+        foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
+        {
+            child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
+        }
+    }
+
 
     /// <summary>
     /// This Server-Rpc attempts to move the camera towards the players current location
@@ -145,6 +173,13 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     {
         if (!IsOwner) { return; }
         RotatePlayer();
+        updatePointsUI();
+    }
+
+    private void updatePointsUI()
+    {
+        Debug.Log(points.text);
+        points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
 
     /// <summary>
@@ -176,8 +211,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     {
         abilityManager.TryCastAbility(_AbilityIndex);
     }
-
-    
 
     /// <summary>
     /// This calls all of the Movement based Server-Rpcs
@@ -294,7 +327,9 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     {
         RaycastHit hit;
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(castPoint, out hit))
+
+        LayerMask environmentMask = LayerMask.GetMask("Environment");
+        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask))
         {
             worldPosition = hit.point;
         };

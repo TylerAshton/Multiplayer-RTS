@@ -11,6 +11,6 @@ public class DEBUGGIMMEPOINT : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PointManager.Instance.AddPoints(0, 1);
+        //PointManager.Instance.AddPoints(0, 1);
     }
 }

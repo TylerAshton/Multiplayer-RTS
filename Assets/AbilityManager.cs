@@ -95,10 +95,38 @@ public class AbilityManager : NetworkBehaviour
         return abilityTabs.Select(tab => tab.Clone()).ToList();
     }
 
-    public void SetAbility(int _abilityIndex, Ability _ability, int tabIndex = 0)
+    public virtual void SetAbility(int _index, Ability _ability, int tabIndex)
     {
-        //abilityTabs[tabIndex].abilities[_abilityIndex] = _ability;
-        abilityTabs[tabIndex].SetAbility(_abilityIndex, _ability);
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set an ability");
+            return;
+        }
+        SetAbilityRpc(_index, _ability.AbilityID, tabIndex);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetAbilityRpc(int _index, string _abilityID, int tabIndex)
+    {
+        abilityTabs[tabIndex].SetAbility(_index, abilityID);
+    }
+
+    public virtual void AddAbility(Ability _ability)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to add an ability");
+            return;
+        }
+        AddAbilityRpc(_ability.AbilityID);
+
+        // TODO: Harrison please update abilityGrid
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void AddAbilityRpc(string _abilityID)
+    {
+        abilities.Add(AbilityRegistry.GetAbility(_abilityID));
     }
 
     public void AddAbility(Ability _ability, int tabIndex = 0)
@@ -143,7 +171,29 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        if (abilityTabs[tabIndex].Abilities[_abilityIndex] == null)
+        if (tabIndex < 0)
+        {
+            Debug.LogError("Tab index cannot be negative: " + tabIndex);
+        }
+
+        if (_abilityIndex < 0)
+        {
+            Debug.LogError("Ability index cannot be negative: " + _abilityIndex);
+            return;
+        }
+
+        if (abilityTabs.Count <= tabIndex)
+        {
+            Debug.LogError("Tab index out of range: " +tabIndex);
+        }
+
+        if (abilityTabs[tabIndex].Abilities.Count <= _abilityIndex)
+        {
+            Debug.LogWarning("Ability index out of range: " + _abilityIndex);
+            return;
+        }
+
+        if (abilities[_abilityIndex] == null)
         {
             return;
         }

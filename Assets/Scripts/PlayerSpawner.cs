@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+public class CharacterSetArgs
+{
+    public CharacterSetArgs(ulong _ID, PlayerManager.ChampionTypes _type) { ID = _ID; type = _type; }
+
+    public ulong ID;
+    public PlayerManager.ChampionTypes type;
+
+}
+
 public class PlayerSpawner : NetworkBehaviour
 {
     [SerializeField] List<GameObject> playerList; // THIS IS THE ACTUAL PREFABS USED IN GAME
@@ -13,13 +22,15 @@ public class PlayerSpawner : NetworkBehaviour
     private int prefabNumber;
     private Vector3 tempPosition = new(0, 0, 0);
 
-    CoopPlayerManager playerManager;
+    CoopPlayerManager coopPlayerManager;
     UIManager uimanager;
+    PlayerManager playerManager;
 
     private void Awake()
     {
-        playerManager = CoopPlayerManager.Instance;
         uimanager = UIManager.Instance;
+        coopPlayerManager = CoopPlayerManager.Instance;
+        playerManager = PlayerManager.Instance;
     }
 
     public override void OnNetworkSpawn()
@@ -27,30 +38,56 @@ public class PlayerSpawner : NetworkBehaviour
         SpawnPlayerServerRpc();
     }
 
-    public void changePrefab(int prefabId)
+
+    public EventHandler<CharacterSetArgs> onCharacterSet;
+
+    private void raiseCharacterSet(ulong _ID, PlayerManager.ChampionTypes _type)
     {
-        //tempPosition = await getClientTransform(NetworkManager.Singleton.LocalClientId);
+        if (onCharacterSet != null)
+        {
+            onCharacterSet(this, new CharacterSetArgs(_ID, _type));
+        }
+    }
+
+    
+    private PlayerManager.ChampionTypes convertIndextoType(int _Index)
+    {
+        if (_Index == 0)
+        {
+            return PlayerManager.ChampionTypes.Cleric;
+        }
+        else
+        {
+            return PlayerManager.ChampionTypes.Knight;
+        }
+    }
+
+    public void changePrefab(int _PrefabID)
+    {
         DespawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, prefabId);
-        AddShopRpc(NetworkManager.Singleton.LocalClientId, prefabId);
+        SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId, _PrefabID);
+        ChangeChampionRpc(NetworkManager.Singleton.LocalClientId, convertIndextoType(_PrefabID));
     }
 
-    [Rpc(SendTo.Server)]
-    public void AddShopRpc(ulong _ID, int _Prefab)
+    [Rpc(SendTo.Everyone)]
+    public void ChangeChampionRpc(ulong _ID, PlayerManager.ChampionTypes type)
     {
-        uimanager.AddtoShop(_ID, _Prefab);
+        int index;
+        PlayerManager.Instance.setChampionType(_ID, type);
+        if (type == PlayerManager.ChampionTypes.Cleric)
+        {
+            index = 0;
+        }
+        else
+        {
+            index = 1;
+        }
+        PlayerManager.Instance.setPlayerGameObject(_ID, playerList[index]);
+        //raiseCharacterSet(_ID, type);
     }
-
-    //private Vector3 getClientTransform(ulong clientId)
-    //{
-    //    NetworkObject tempPlayer = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-    //    tempPosition = tempPlayer.transform.position;
-    //    return tempPosition;
-    //}
 
     [ServerRpc(RequireOwnership = false)]
     private void DespawnPlayerServerRpc(ulong clientId)
-
     {
         NetworkObject tempPlayer = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
         tempPosition = tempPlayer.transform.position;
@@ -60,7 +97,6 @@ public class PlayerSpawner : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SpawnPlayerServerRpc(ulong clientId, int prefabId)
     {
-        Debug.Log(prefabId);
         GameObject newPlayer;
 
         newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[prefabId]);
@@ -69,8 +105,7 @@ public class PlayerSpawner : NetworkBehaviour
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
 
-        playerManager.AddPlayer(clientId, playerList[prefabId]);
-        Debug.Log(clientId);
+        playerManager.setPlayerGameObject(clientId, playerList[prefabId]);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -83,36 +118,16 @@ public class PlayerSpawner : NetworkBehaviour
         if (clientId == 0)
         {
             newPlayer = (GameObject)Instantiate(RTSPlayer);
-            AddShopRpc(clientId, -1);
         }
         else
         {
             newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[0]);
-            playerManager.AddPlayer(clientId, playerList[0]);
-            AddShopRpc(clientId, 0);
+            playerManager.setPlayerGameObject(clientId, playerList[0]);
+            ChangeChampionRpc(clientId, PlayerManager.ChampionTypes.Cleric);
         }
 
         NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
         newPlayer.SetActive(true);
         netObj.SpawnAsPlayerObject(clientId, true);
-    }
-
-    //[ServerRpc(RequireOwnership = false)]
-    //private void SpawnPlayerServerRpc(ulong clientId, int prefabId, Vector3 position)
-    //{
-    //    Debug.Log(prefabId);
-    //    GameObject newPlayer;
-
-    //    newPlayer = (GameObject)Instantiate(CoopPlayerPrefabList[prefabId]);
-
-    //    NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
-    //    newPlayer.SetActive(true);
-    //    netObj.SpawnAsPlayerObject(clientId, true);
-    //    playerManager.AddPlayer(clientId, playerList[prefabId]);
-    //}
-
-    private void setPlayerPrefabGlobal(ulong _ID, GameObject _Prefab)
-    {
-        playerManager.AddPlayer(_ID, _Prefab);
     }
 }

@@ -82,7 +82,7 @@ public class LobbyManager : NetworkBehaviour
 
             else // COOP
             {
-                newPlayer = (GameObject)Instantiate(CoopPlayerManager.Instance.playerPrefabs[id], ChampionSpawnPos.position, Quaternion.identity);
+                newPlayer = (GameObject)Instantiate(PlayerManager.Instance.getPlayerGameObject(id), ChampionSpawnPos.position, Quaternion.identity);
             }
 
             NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();
@@ -98,7 +98,6 @@ public class LobbyManager : NetworkBehaviour
         {
             Debug.Log("inactive");
         }
-        Debug.Log($"{IsServer} {IsClient} {IsHost}");
         if (!IsHost)
         {
             return;

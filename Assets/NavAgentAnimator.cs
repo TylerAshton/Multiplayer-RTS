@@ -22,8 +22,6 @@ public class NavAgentAnimator : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        Debug.Log(agent.velocity);
-
         Vector3 movementNormalized = agent.velocity.normalized;
 
         UpdateAnimationParamsServerRpc(movementNormalized, agent.velocity);
