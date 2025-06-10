@@ -95,44 +95,38 @@ public class AbilityManager : NetworkBehaviour
         return abilityTabs.Select(tab => tab.Clone()).ToList();
     }
 
-    public virtual void SetAbility(int _index, Ability _ability, int tabIndex)
+    public virtual void SetAbility(int _index, Ability _ability, int _tabIndex)
     {
         if (!IsServer)
         {
             Debug.LogError("Client attempted to set an ability");
             return;
         }
-        SetAbilityRpc(_index, _ability.AbilityID, tabIndex);
+        SetAbilityRpc(_index, _ability.AbilityID, _tabIndex);
     }
 
     [Rpc(SendTo.Everyone)]
-    private void SetAbilityRpc(int _index, string _abilityID, int tabIndex)
+    private void SetAbilityRpc(int _abilityIndex, string _abilityID, int tabIndex)
     {
-        abilityTabs[tabIndex].SetAbility(_index, abilityID);
+        abilityTabs[tabIndex].SetAbility(_abilityIndex, AbilityRegistry.GetAbility(_abilityID));
     }
 
-    public virtual void AddAbility(Ability _ability)
+    public virtual void AddAbility(Ability _ability, int _tabIndex)
     {
         if (!IsServer)
         {
             Debug.LogError("Client attempted to add an ability");
             return;
         }
-        AddAbilityRpc(_ability.AbilityID);
+        AddAbilityRpc(_ability.AbilityID, _tabIndex);
 
         // TODO: Harrison please update abilityGrid
     }
 
     [Rpc(SendTo.Everyone)]
-    private void AddAbilityRpc(string _abilityID)
+    private void AddAbilityRpc(string _abilityID, int _tabIndex)
     {
-        abilities.Add(AbilityRegistry.GetAbility(_abilityID));
-    }
-
-    public void AddAbility(Ability _ability, int tabIndex = 0)
-    {
-        //abilityTabs[tabIndex].Abilities.Add(_ability);
-        abilityTabs[tabIndex].AddAbility(_ability);
+        abilityTabs[_tabIndex].AddAbility(AbilityRegistry.GetAbility(_abilityID));
     }
 
     public bool CheckAbility(Ability _ability, int tabIndex = 0)
@@ -174,7 +168,16 @@ public class AbilityManager : NetworkBehaviour
         if (tabIndex < 0)
         {
             Debug.LogError("Tab index cannot be negative: " + tabIndex);
+            return;
         }
+
+        if (abilityTabs.Count <= tabIndex || abilityTabs[tabIndex] == null)
+        {
+            Debug.LogError("Tab index out of range or doesn't exist: " +tabIndex);
+            return;
+        }
+
+        AbilityTab selectedTab = abilityTabs[tabIndex];
 
         if (_abilityIndex < 0)
         {
@@ -182,23 +185,13 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        if (abilityTabs.Count <= tabIndex)
+        if (selectedTab.Abilities.Count <= _abilityIndex || selectedTab.Abilities[_abilityIndex] == null)
         {
-            Debug.LogError("Tab index out of range: " +tabIndex);
-        }
-
-        if (abilityTabs[tabIndex].Abilities.Count <= _abilityIndex)
-        {
-            Debug.LogWarning("Ability index out of range: " + _abilityIndex);
+            Debug.LogError("Ability index out of range: " + _abilityIndex);
             return;
         }
 
-        if (abilities[_abilityIndex] == null)
-        {
-            return;
-        }
-
-        currentAbility = abilityTabs[tabIndex].Abilities[_abilityIndex];
+        currentAbility = selectedTab.Abilities[_abilityIndex];
 
         if (!CanCastAbility(currentAbility))
         {

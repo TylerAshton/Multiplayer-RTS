@@ -81,7 +81,7 @@ class KnightShop : Shop
 
                             // THIS CODE WAS ALSO WORKED ON BY HARRISON ON MY ACCOUNT, THIS IS HERE TO GIVE CREDIT DESPITE WHAT GITBLAME MIGHT REFLECT. SIGNED : TALINNETT
 
-                            this.GetComponentInParent<ChampionAbilityManager>().AddAbility(selectedAbility);
+                            //this.GetComponentInParent<ChampionAbilityManager>().AddAbility(selectedAbility); OVERRIDE ME IN MAIN
                             PointManager.Instance.RemovePoints(ID, 3000);
                             this.GetComponentInParent<AnimatedChampion>().ToggleUI();
                         }
