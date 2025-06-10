@@ -82,6 +82,8 @@ public class CapturePoint : NetworkBehaviour
             _go.GetComponent<AnimatedChampion>().inShop = false;
             _go.GetComponent<AnimatedChampion>().CloseShopUI();
         }
+
+        Debug.Log(owner);
     }
 
     void Update()
@@ -133,11 +135,7 @@ public class CapturePoint : NetworkBehaviour
         if (other.CompareTag("Champion"))
         {
             champs++;
-            CheckOwner(other.gameObject);
-            if (owner == owners.CHAMPION)
-            {
-                other.gameObject.GetComponent<AnimatedChampion>().inShop = true;
-            }            
+            CheckOwner(other.gameObject);          
         }
         else if (other.CompareTag("Amalgam"))
         {
