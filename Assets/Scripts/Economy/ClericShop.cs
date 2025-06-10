@@ -9,6 +9,40 @@ class ClericShop : Shop
         ID = NetworkManager.Singleton.LocalClientId;
     }
 
+    [Rpc(SendTo.Server)]
+    private void PurchaseOption1Rpc(ulong _clientID)
+    {
+        this.GetComponentInParent<Health>().Heal(999);
+        PointManager.Instance.RemovePoints(_clientID, 500);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void PurchaseOption2Rpc(ulong _clientID, int _selectedOptionIndex) // TODO: This is botched af
+    {
+        Ability selectedAbility = null;
+
+        foreach (Ability _ability in abilities)
+        {
+            if (_ability.AbilityName == options[_selectedOptionIndex].text)
+            {
+                selectedAbility = _ability;
+                break;
+            }
+        }
+
+        if (selectedAbility == null)
+        {
+            Debug.LogError($"Ability missmatch: {options[_selectedOptionIndex].text}");
+        }
+
+        // TODO: Add return statement if selectedAbility == null
+
+        // THIS CODE WAS ALSO WORKED ON BY HARRISON ON MY ACCOUNT, THIS IS HERE TO GIVE CREDIT DESPITE WHAT GITBLAME MIGHT REFLECT. SIGNED : TALINNETT
+
+        this.GetComponentInParent<ChampionAbilityManager>().AddAbility(selectedAbility);
+        PointManager.Instance.RemovePoints(_clientID, 3000);
+    }
+
     private void Update()
     {
         moveInput.x = Input.mousePosition.x - (Screen.width / 2f);
@@ -47,8 +81,7 @@ class ClericShop : Shop
                     itemCostText.color = Color.green;
                     if (Input.GetMouseButtonDown(0))
                     {
-                        this.GetComponentInParent<Health>().Heal(999);
-                        PointManager.Instance.RemovePoints(ID, 500);
+                        PurchaseOption1Rpc(ID);
                         this.GetComponentInParent<AnimatedChampion>().ToggleUI();
                     }
                 }
@@ -66,23 +99,7 @@ class ClericShop : Shop
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
-                            Ability selectedAbility = null;
-
-                            foreach (Ability _ability in abilities)
-                            {
-                                if (_ability.AbilityName == options[selectedOption].text)
-                                {
-                                    selectedAbility = _ability;
-                                    break;
-                                }
-                            }
-
-                            // TODO: Add return statement if selectedAbility == null
-
-                            // THIS CODE WAS ALSO WORKED ON BY HARRISON ON MY ACCOUNT, THIS IS HERE TO GIVE CREDIT DESPITE WHAT GITBLAME MIGHT REFLECT. SIGNED : TALINNETT
-
-                            this.GetComponentInParent<ChampionAbilityManager>().AddAbility(selectedAbility);
-                            PointManager.Instance.RemovePoints(ID, 3000);
+                            PurchaseOption2Rpc(ID, selectedOption);
                             this.GetComponentInParent<AnimatedChampion>().ToggleUI();
                         }
                     }
