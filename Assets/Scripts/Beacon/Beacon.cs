@@ -1,16 +1,26 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class Beacon : MonoBehaviour
+public class Beacon : EditorWindow
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    private VisualTreeAsset m_VisualTreeAsset = default;
+
+    [MenuItem("Window/UI Toolkit/Beacon")]
+    public static void ShowExample()
     {
-        
+        Beacon wnd = GetWindow<Beacon>();
+        wnd.titleContent = new GUIContent("Beacon");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CreateGUI()
     {
-        
+        // Each editor window contains a root VisualElement object
+        VisualElement root = rootVisualElement;
+
+        // Instantiate UXML
+        VisualElement labelFromUXML = m_VisualTreeAsset.Instantiate();
+        root.Add(labelFromUXML);
     }
 }

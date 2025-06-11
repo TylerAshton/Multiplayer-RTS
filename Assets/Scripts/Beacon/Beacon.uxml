@@ -1,0 +1,17 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement name="HomePage" style="flex-grow: 1; display: none;">
+        <engine:Button text="Create new Ability" />
+    </engine:VisualElement>
+    <engine:VisualElement name="AbilityEditor" style="flex-grow: 1; visibility: hidden; display: none;" />
+    <engine:Label text="Ability Name&#10;" style="-unity-text-align: upper-center;" />
+    <engine:DropdownField label="Ability Type" choices="AOE,Buff,Construct,Debug,Melee,Melee" />
+    <engine:VisualElement name="SharedParams" style="flex-grow: 1;">
+        <engine:TextField label="ID" placeholder-text="filler text" value="new ID" />
+        <engine:TextField label="Name" placeholder-text="filler text" value="new Ability" />
+        <engine:FloatField label="Cast Time" value="2" />
+        <engine:EnumField label="Cast Position" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" />
+        <engine:TextField label="Animation Trigger" placeholder-text="filler text" value="new Trigger" />
+        <engine:FloatField label="Cost" value="0" />
+        <engine:FloatField label="Cooldown" value="1" />
+    </engine:VisualElement>
+</engine:UXML>
