@@ -60,6 +60,7 @@ public class CapturePoint : NetworkBehaviour
 
     void CheckOwner()
     {
+        if (!IsHost) { return; }
         if (champs >= minChamps && amalgs == 0)
         {
             owner = owners.CHAMPION;
@@ -76,39 +77,57 @@ public class CapturePoint : NetworkBehaviour
 
     void Update()
     {
+        if (!IsHost) { return; }
         CheckOwner();
 
         if (owner == owners.AMALGAM)
         {
-            bonfire.enableEmission = true;
-            bonfire.startColor = Color.red;
-            circle.GetComponent<MeshRenderer>().material.color = Color.red;
-            shop.shopOwner = ShopManager.shopOwners.AMALGAM;
+            TurnOnBonfiresRpc(true, Color.red, ShopManager.shopOwners.AMALGAM);
+            //bonfire.enableEmission = true;
+            //bonfire.startColor = Color.red;
+            //circle.GetComponent<MeshRenderer>().material.color = Color.red;
+            //shop.shopOwner = ShopManager.shopOwners.AMALGAM;
         }
         else if (owner == owners.CHAMPION)
         {
-            bonfire.enableEmission = true;
-            bonfire.startColor = Color.blue;
-            circle.GetComponent<MeshRenderer>().material.color = Color.blue;
-            shop.shopOwner = ShopManager.shopOwners.CHAMPION;
+            TurnOnBonfiresRpc(true, Color.blue, ShopManager.shopOwners.CHAMPION);
+            //bonfire.enableEmission = true;
+            //bonfire.startColor = Color.blue;
+            //circle.GetComponent<MeshRenderer>().material.color = Color.blue;
+            //shop.shopOwner = ShopManager.shopOwners.CHAMPION;
         }
         else if (owner == owners.CONTESTED)
         {
-            bonfire.enableEmission = true;
-            bonfire.startColor = Color.green;
-            circle.GetComponent<MeshRenderer>().material.color = Color.green;
-            shop.shopOwner = ShopManager.shopOwners.NONE;
+            TurnOnBonfiresRpc(true, Color.green, ShopManager.shopOwners.NONE);
+            //bonfire.enableEmission = true;
+            //bonfire.startColor = Color.green;
+            //circle.GetComponent<MeshRenderer>().material.color = Color.green;
+            //shop.shopOwner = ShopManager.shopOwners.NONE;
         }
         else
         {
-            bonfire.enableEmission = false;
-            circle.GetComponent<MeshRenderer>().material.color = Color.grey;
-            shop.shopOwner = ShopManager.shopOwners.NONE;
+            TurnOnBonfiresRpc(false, Color.black, ShopManager.shopOwners.NONE);
+            //bonfire.enableEmission = false;
+            //circle.GetComponent<MeshRenderer>().material.color = Color.grey;
+            //shop.shopOwner = ShopManager.shopOwners.NONE;
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void TurnOnBonfiresRpc(bool _state, Color _color, ShopManager.shopOwners _shopOwner)
+    {
+        if (_state)
+        {
+            bonfire.startColor = _color;
+        }
+        bonfire.enableEmission = _state;
+        circle.GetComponent<MeshRenderer>().material.color = _color;
+        shop.shopOwner = _shopOwner;
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsHost) { return; }
         if (other.CompareTag("Champion"))
         {
             champs++;
@@ -126,11 +145,13 @@ public class CapturePoint : NetworkBehaviour
 
     void RemoveAmalgsOnDeath()
     {
+        if (!IsHost) { return; }
         amalgs--;
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (!IsHost) { return; }
         if (other.CompareTag("Champion"))
         {
             other.gameObject.GetComponent<AnimatedChampion>().inShop = false;
