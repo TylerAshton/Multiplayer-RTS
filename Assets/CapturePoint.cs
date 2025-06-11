@@ -141,7 +141,15 @@ public class CapturePoint : NetworkBehaviour
         {
             CheckOwner(other.gameObject);
             amalgs++;
+            other.gameObject.GetComponent<Health>().OnDeath -= RemoveAmalgsOnDeath;
+            other.gameObject.GetComponent<Health>().OnDeath += RemoveAmalgsOnDeath;
+            //targetHealth.OnDeath += ClearTarget;
         }
+    }
+
+    void RemoveAmalgsOnDeath()
+    {
+        amalgs--;
     }
 
     private void OnTriggerExit(Collider other)
@@ -154,7 +162,9 @@ public class CapturePoint : NetworkBehaviour
         }
         else if (other.CompareTag("Amalgam"))
         {
+            other.gameObject.GetComponent<Health>().OnDeath -= RemoveAmalgsOnDeath;
             amalgs--;
+            //targetHealth.OnDeath -= ClearTarget;
         }
     }
 }
