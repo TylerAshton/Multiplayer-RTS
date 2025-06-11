@@ -119,9 +119,9 @@ public class CapturePoint : NetworkBehaviour
         if (_state)
         {
             bonfire.startColor = _color;
+            circle.GetComponent<MeshRenderer>().material.color = _color;
         }
         bonfire.enableEmission = _state;
-        circle.GetComponent<MeshRenderer>().material.color = _color;
         shop.shopOwner = _shopOwner;
     }
 
