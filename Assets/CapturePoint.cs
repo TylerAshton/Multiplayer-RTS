@@ -58,7 +58,7 @@ public class CapturePoint : NetworkBehaviour
         }
     }
 
-    void CheckOwner(GameObject _go)
+    void CheckOwner()
     {
         if (champs >= minChamps && amalgs == 0)
         {
@@ -72,34 +72,11 @@ public class CapturePoint : NetworkBehaviour
         {
             owner = owners.CONTESTED;
         }
-
-        if (owner == owners.CHAMPION)
-        {
-            _go.GetComponent<AnimatedChampion>().inShop = true;
-        }
-        else
-        {
-            _go.GetComponent<AnimatedChampion>().inShop = false;
-            _go.GetComponent<AnimatedChampion>().CloseShopUI();
-        }
-
-        Debug.Log(owner);
     }
 
     void Update()
     {
-        if (champs >= minChamps && amalgs == 0)
-        {
-            owner = owners.CHAMPION;
-        }
-        else if (amalgs >= minAmalgs && champs == 0)
-        {
-            owner = owners.AMALGAM;
-        }
-        else if (champs > 0 && amalgs > 0)
-        {
-            owner = owners.CONTESTED;
-        }
+        CheckOwner();
 
         if (owner == owners.AMALGAM)
         {
@@ -135,12 +112,12 @@ public class CapturePoint : NetworkBehaviour
         if (other.CompareTag("Champion"))
         {
             champs++;
-            CheckOwner(other.gameObject);          
+            CheckOwner();          
         }
         else if (other.CompareTag("Amalgam"))
         {
-            CheckOwner(other.gameObject);
             amalgs++;
+            CheckOwner();
             other.gameObject.GetComponent<Health>().OnDeath -= RemoveAmalgsOnDeath;
             other.gameObject.GetComponent<Health>().OnDeath += RemoveAmalgsOnDeath;
             //targetHealth.OnDeath += ClearTarget;
