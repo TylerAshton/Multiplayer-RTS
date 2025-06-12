@@ -47,15 +47,17 @@ public class CapturePoint : NetworkBehaviour
         networkObj = GetComponent<NetworkObject>();
     }
 
-    private void CheckChampion(GameObject player, bool inShop)
+    private ulong CheckChampion(GameObject player)
     {
+        if (!IsHost) { return 99; }
         for (int i = 1; i <= PlayerManager.Instance.getPlayerCount(); i++)
         {
-            if (PlayerManager.Instance.getPlayerGameObject((ulong)i) == player)
+            if (NetworkManager.Singleton.ConnectedClients[(ulong)i].PlayerObject.gameObject == player)
             {
-                UIManager.Instance.setPlayerInShop((ulong)i, inShop);
+                return (ulong)i;
             }
         }
+        return 99;
     }
 
     void CheckOwner()
@@ -82,7 +84,7 @@ public class CapturePoint : NetworkBehaviour
 
         if (owner == owners.AMALGAM)
         {
-            TurnOnBonfiresRpc(true, Color.red, ShopManager.shopOwners.AMALGAM);
+            TurnOnBonfiresRpc(true, Color.red, 1);
             //bonfire.enableEmission = true;
             //bonfire.startColor = Color.red;
             //circle.GetComponent<MeshRenderer>().material.color = Color.red;
@@ -90,7 +92,7 @@ public class CapturePoint : NetworkBehaviour
         }
         else if (owner == owners.CHAMPION)
         {
-            TurnOnBonfiresRpc(true, Color.blue, ShopManager.shopOwners.CHAMPION);
+            TurnOnBonfiresRpc(true, Color.blue, 2);
             //bonfire.enableEmission = true;
             //bonfire.startColor = Color.blue;
             //circle.GetComponent<MeshRenderer>().material.color = Color.blue;
@@ -98,7 +100,7 @@ public class CapturePoint : NetworkBehaviour
         }
         else if (owner == owners.CONTESTED)
         {
-            TurnOnBonfiresRpc(true, Color.green, ShopManager.shopOwners.NONE);
+            TurnOnBonfiresRpc(true, Color.green, 0);
             //bonfire.enableEmission = true;
             //bonfire.startColor = Color.green;
             //circle.GetComponent<MeshRenderer>().material.color = Color.green;
@@ -106,7 +108,7 @@ public class CapturePoint : NetworkBehaviour
         }
         else
         {
-            TurnOnBonfiresRpc(false, Color.black, ShopManager.shopOwners.NONE);
+            TurnOnBonfiresRpc(false, Color.black, 0);
             //bonfire.enableEmission = false;
             //circle.GetComponent<MeshRenderer>().material.color = Color.grey;
             //shop.shopOwner = ShopManager.shopOwners.NONE;
@@ -114,7 +116,7 @@ public class CapturePoint : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void TurnOnBonfiresRpc(bool _state, Color _color, ShopManager.shopOwners _shopOwner)
+    void TurnOnBonfiresRpc(bool _state, Color _color, int _shopOwner)
     {
         if (_state)
         {
@@ -122,7 +124,7 @@ public class CapturePoint : NetworkBehaviour
             circle.GetComponent<MeshRenderer>().material.color = _color;
         }
         bonfire.enableEmission = _state;
-        shop.shopOwner = _shopOwner;
+        shop.shopOwner = (ShopManager.shopOwners)_shopOwner;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -134,7 +136,7 @@ public class CapturePoint : NetworkBehaviour
             CheckOwner();
             if (owner == owners.CHAMPION)
             {
-                CheckChampion(other.gameObject, true);
+                setShopStateRpc(CheckChampion(other.gameObject), true);
             }
         }
         else if (other.CompareTag("Amalgam"))
@@ -145,6 +147,12 @@ public class CapturePoint : NetworkBehaviour
             other.gameObject.GetComponent<Health>().OnDeath += RemoveAmalgsOnDeath;
             //targetHealth.OnDeath += ClearTarget;
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void setShopStateRpc(ulong _ID, bool _state)
+    {
+        NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.gameObject.GetComponent<AnimatedChampion>().inShop = _state;
     }
 
     void RemoveAmalgsOnDeath()
@@ -158,8 +166,8 @@ public class CapturePoint : NetworkBehaviour
         if (!IsHost) { return; }
         if (other.CompareTag("Champion"))
         {
-            CheckChampion(other.gameObject, false);
-            other.gameObject.GetComponent<AnimatedChampion>().CloseShopUI();
+            setShopStateRpc(CheckChampion(other.gameObject), false);
+            ffsRpc(CheckChampion(other.gameObject));
             champs--;
         }
         else if (other.CompareTag("Amalgam"))
@@ -169,6 +177,13 @@ public class CapturePoint : NetworkBehaviour
             //targetHealth.OnDeath -= ClearTarget;
         }
     }
+
+    [Rpc(SendTo.Everyone)]
+    void ffsRpc(ulong _ID)
+    {
+        NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.GetComponent<AnimatedChampion>().CloseShopUI();
+    }
+
 }
 
 //RaycastHit[] units = Physics.SphereCastAll(this.transform.position + offset, r, Vector3.forward, 0, mask);

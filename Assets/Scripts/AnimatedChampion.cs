@@ -120,6 +120,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     public void CloseShopUI()
     {
+        Debug.Log("Closing Shop");
         Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
         playerShop.enabled = false;
         foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
