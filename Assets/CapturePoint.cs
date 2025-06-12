@@ -167,7 +167,7 @@ public class CapturePoint : NetworkBehaviour
         if (other.CompareTag("Champion"))
         {
             setShopStateRpc(CheckChampion(other.gameObject), false);
-            ffsRpc(CheckChampion(other.gameObject));
+            CloseShopRpc(CheckChampion(other.gameObject));
             champs--;
         }
         else if (other.CompareTag("Amalgam"))
@@ -179,7 +179,7 @@ public class CapturePoint : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void ffsRpc(ulong _ID)
+    void CloseShopRpc(ulong _ID)
     {
         NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.GetComponent<AnimatedChampion>().CloseShopUI();
     }
