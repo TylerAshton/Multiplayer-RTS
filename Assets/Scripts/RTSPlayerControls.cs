@@ -104,8 +104,10 @@ public class RTSPlayerControls : MonoBehaviour
 
 
         worldPosition = new Vector3(0, 0, 0);
+
+        LayerMask environmentMask = LayerMask.GetMask("Environment");
         Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
-        if (Physics.Raycast(r, out RaycastHit hit))
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
         {
             worldPosition = hit.point;
         }
