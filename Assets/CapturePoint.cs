@@ -48,9 +48,27 @@ public class CapturePoint : NetworkBehaviour
         //networkObj = GetComponent<NetworkObject>();
     }
 
+    /// <summary>
+    /// Returns the ID of the champion if the player is a champion, otherwise returns 99.
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     private ulong CheckChampion(GameObject player)
     {
         if (!IsHost) { return 99; }
+
+        if (player == null)
+        {
+            Debug.LogError("object is null in CheckChampion");
+            return 99;
+        }
+
+        if (player.tag != "Champion")
+        {
+            Debug.LogError($"{player.name} is not tagged as champion");
+            return 99;
+        }
+
         for (int i = 1; i <= PlayerManager.Instance.getPlayerCount(); i++)
         {
             if (NetworkManager.Singleton.ConnectedClients[(ulong)i].PlayerObject.gameObject == player)
@@ -58,6 +76,8 @@ public class CapturePoint : NetworkBehaviour
                 return (ulong)i;
             }
         }
+
+        Debug.LogError($"{player.name} is not a champion");
         return 99;
     }
 
@@ -136,9 +156,13 @@ public class CapturePoint : NetworkBehaviour
         }
 
         CheckOwner();
-        if (owner == owners.CHAMPION)
+        if (owner == owners.CHAMPION) // TODO: Delete this? as CheckOwner does this already
         {
-            setShopStateRpc(CheckChampion(other.gameObject), true);
+            if (other.CompareTag("Champion"))
+            {
+                setShopStateRpc(CheckChampion(other.gameObject), true);
+            }
+            //setShopStateRpc(CheckChampion(other.gameObject), true);
         }
         else
         {
@@ -154,7 +178,7 @@ public class CapturePoint : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void setShopStateRpc(ulong _ID, bool _state)
+    void setShopStateRpc(ulong _ID, bool _state) // HERE
     {
         NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.gameObject.GetComponent<AnimatedChampion>().inShop = _state;
     }
