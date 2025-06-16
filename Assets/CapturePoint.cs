@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
@@ -25,6 +26,7 @@ public class CapturePoint : NetworkBehaviour
 
     private List<GameObject> Champions = new List<GameObject>();
     private List<GameObject> PriorChampions = new List<GameObject>();
+    private Dictionary<GameObject, Action> amalgamDeathHandlers = new();
 
     private Material[] materials;
 
@@ -150,8 +152,9 @@ public class CapturePoint : NetworkBehaviour
         {
             AddAmalgRpc(other.GetComponent<NetworkObject>());
             GameObject localAmalg = other.gameObject;
-            other.gameObject.GetComponent<Health>().OnDeath -= () => RemoveAmalgsOnDeath(localAmalg);
-            other.gameObject.GetComponent<Health>().OnDeath += () => RemoveAmalgsOnDeath(localAmalg);
+            SubscribeAmalgsOnDeath(localAmalg);
+            /*            other.gameObject.GetComponent<Health>().OnDeath -= () => RemoveAmalgsOnDeath(localAmalg);
+                        other.gameObject.GetComponent<Health>().OnDeath += () => RemoveAmalgsOnDeath(localAmalg);*/
             //targetHealth.OnDeath += ClearTarget;
         }
 
@@ -240,6 +243,64 @@ public class CapturePoint : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Subscribes local amalgam's death event to remove itself from the capture point when it dies.
+    /// </summary>
+    /// <param name="_localAmalg"></param>
+    private void SubscribeAmalgsOnDeath(GameObject _localAmalg)
+    {
+        if (!IsHost)
+        { 
+            Debug.LogWarning("SubscribeAmalgsOnDeath called on non-host client, ignoring.");
+            return; 
+        }
+        if (_localAmalg == null)
+        {
+            Debug.LogError("Local Amalgam is null in SubscribeAmalgsOnDeath");
+            return; 
+        }
+
+        Health _localAmalgHealth = _localAmalg.GetComponent<Health>();
+
+        // If not already subscribed
+        if (!amalgamDeathHandlers.ContainsKey(_localAmalg))
+        {
+            Action handler = () => RemoveAmalgsOnDeath(_localAmalg);
+            _localAmalgHealth.OnDeath += handler;
+            amalgamDeathHandlers[_localAmalg] = handler;
+        }
+    }
+
+    /// <summary>
+    /// Unsubscribes the lcal amalgam's death event from removing itself from the capture point when it dies.
+    /// </summary>
+    /// <param name="_localAmalg"></param>
+    private void UnsubscribeAmalgsOnDeath(GameObject _localAmalg)
+    {
+        if (!IsHost)
+        {
+            Debug.LogWarning("UnsubscribeAmalgsOnDeath called on non-host client, ignoring.");
+            return;
+        }
+        if (_localAmalg == null)
+        {
+            Debug.LogError("Local Amalgam is null in UnsubscribeAmalgsOnDeath");
+            return;
+        }
+
+        // Unsubscribes from the death event then removes it from the dictionary
+        if (amalgamDeathHandlers.TryGetValue(_localAmalg, out var handler))
+        {
+            Health _localAmalgHealth = _localAmalg.GetComponent<Health>();
+            _localAmalgHealth.OnDeath -= handler;
+            amalgamDeathHandlers.Remove(_localAmalg);
+        }
+        else
+        {
+            Debug.LogError($"No death handler found for {_localAmalg.name} in UnsubscribeAmalgsOnDeath");
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (!IsHost) { return; }
@@ -252,8 +313,9 @@ public class CapturePoint : NetworkBehaviour
         else if (other.CompareTag("Amalgam"))
         {
             GameObject localAmalg = other.gameObject;
-            other.gameObject.GetComponent<Health>().OnDeath -= () => RemoveAmalgsOnDeath(localAmalg);
+            UnsubscribeAmalgsOnDeath(localAmalg);
             RemoveAmalgRpc(other.GetComponent<NetworkObject>());
+            /*other.gameObject.GetComponent<Health>().OnDeath -= () => RemoveAmalgsOnDeath(localAmalg);*/
             //targetHealth.OnDeath -= ClearTarget;
         }
 
