@@ -33,6 +33,8 @@ public class AbilityManager : NetworkBehaviour
     protected Ability currentAbility;
     protected Animator animator;
 
+    private Coroutine lockCastingCoroutine = null;
+
     /*    [SerializeField] protected List<Ability> abilities;*/
 
 
@@ -186,18 +188,24 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        currentAbility = selectedTab.Abilities[_abilityIndex];
+        Ability selectedAbility = selectedTab.Abilities[_abilityIndex];
 
-        if (!CanCastAbility(currentAbility))
+
+        if (!CanCastAbility(selectedAbility))
         {
             Debug.LogWarning("Cannot cast ability due to checks failing");
             return;
         }
 
+        currentAbility = selectedAbility;
         StartCooldown(currentAbility);
         PointManager.Instance.RemovePoints(ownerClientId, currentAbility.AbilityCost);
         currentAbility.Activate(abilityUser);
-        StartCoroutine(LockCastingUntil(currentAbility.CastTime));
+        if (lockCastingCoroutine != null)
+        {
+            StopCoroutine(lockCastingCoroutine);
+        }
+        lockCastingCoroutine = StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
 
     /// <summary>
