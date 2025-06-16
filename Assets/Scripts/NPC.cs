@@ -14,12 +14,12 @@ public class NPC : Unit, IAbilityUser
     private Transform target;
     public Transform Target => target;
     private Health targetHealth;
-    private Animator animator;
+    private NetCodeAnimationManager nAnimator;
 
     Collider colliderComp;
     public Health TargetHealth => targetHealth;
 
-    public Animator Animator => animator;
+    public NetCodeAnimationManager NAnimator => nAnimator;
 
     public Transform Transform => transform;
 
@@ -39,9 +39,9 @@ public class NPC : Unit, IAbilityUser
             return;
         }
 
-        if (!TryGetComponent<Animator>(out animator))
+        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
         {
-            Debug.LogError("Animator is required for NPC");
+            Debug.LogError("NetCodeAnimationManager is required for NPC");
         }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Building : Unit, IAbilityUser
 {
-    public Animator Animator => throw new System.NotImplementedException();
+    public NetCodeAnimationManager NAnimator => throw new System.NotImplementedException();
 
     public Transform Transform => transform;
 

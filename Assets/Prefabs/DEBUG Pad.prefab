@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 428394598585228709}
   - component: {fileID: -8378991676466092027}
   m_Layer: 0
-  m_Name: ConstructionPad
+  m_Name: DEBUG Pad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,7 +179,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 7fb9703cb4516544483a93b59d94222d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3156460849
+  GlobalObjectIdHash: 225315078
   InScenePlacedSourceGlobalObjectIdHash: 3156460849
   DeferredDespawnTick: 0
   Ownership: 1
@@ -260,12 +260,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  abilities:
-  - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
   abilityTabs:
   - tabName: Main
     abilities:
-    - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+    - {fileID: 11400000, guid: c0008e4df8400724c9ecf82f7d7865bb, type: 2}
+    - {fileID: 11400000, guid: 81735795af1971346a5220ff697a843b, type: 2}
+    - {fileID: 11400000, guid: 1784e034798a97c4ba19c9d45795f2bb, type: 2}
+    - {fileID: 11400000, guid: 210f3808e4b245a4eb79049b9d465d7e, type: 2}
+    - {fileID: 11400000, guid: 45359c14d4fae6943bacb13202b3f3b8, type: 2}
+    - {fileID: 11400000, guid: 4e475a7004e5a0541ad426a26e793a48, type: 2}
+    - {fileID: 11400000, guid: 59101f4679d21574b9020afb29ce9522, type: 2}
+    - {fileID: 11400000, guid: d805d8b421d77d74ab9041fddb94f5d0, type: 2}
+  - tabName: Duo
+    abilities:
+    - {fileID: 11400000, guid: d805d8b421d77d74ab9041fddb94f5d0, type: 2}
+    - {fileID: 11400000, guid: 59101f4679d21574b9020afb29ce9522, type: 2}
+    - {fileID: 11400000, guid: 4e475a7004e5a0541ad426a26e793a48, type: 2}
+    - {fileID: 11400000, guid: 45359c14d4fae6943bacb13202b3f3b8, type: 2}
+    - {fileID: 11400000, guid: 210f3808e4b245a4eb79049b9d465d7e, type: 2}
+    - {fileID: 11400000, guid: 1784e034798a97c4ba19c9d45795f2bb, type: 2}
+    - {fileID: 11400000, guid: 81735795af1971346a5220ff697a843b, type: 2}
+    - {fileID: 11400000, guid: c0008e4df8400724c9ecf82f7d7865bb, type: 2}
 --- !u!95 &7750733840084467600
 Animator:
   serializedVersion: 7
@@ -302,8 +317,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 7489209139734554470}
-  isSelectable: 0
-  territoryOwned: 0
+  isSelectable: 1
+  territoryOwned: 1
 --- !u!114 &-8378991676466092027
 MonoBehaviour:
   m_ObjectHideFlags: 0
