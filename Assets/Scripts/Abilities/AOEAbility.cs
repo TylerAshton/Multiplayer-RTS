@@ -9,7 +9,7 @@ public class AOEAbility : Ability<IAbilityUser>
     [SerializeField] GameObject effect;
     protected override void ActivateTyped(IAbilityUser _user)
     {
-        _user.Animator.SetTrigger($"{AnimationTrigger}");
+        _user.NAnimator.SetTrigger($"{AnimationTrigger}");
     }
 
     protected override void DebugDrawingTyped(IAbilityUser _user)

@@ -20,7 +20,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
 
     ConstructionPad IConstructionPad.ConstructionPad => this;
 
-    public Animator Animator => throw new System.NotImplementedException();
+    public NetCodeAnimationManager NAnimator => throw new System.NotImplementedException();
 
     public Transform Transform => transform;
 

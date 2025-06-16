@@ -39,7 +39,7 @@ class KnightShop : Shop
 
         // THIS CODE WAS ALSO WORKED ON BY HARRISON ON MY ACCOUNT, THIS IS HERE TO GIVE CREDIT DESPITE WHAT GITBLAME MIGHT REFLECT. SIGNED : TALINNETT
 
-        this.GetComponentInParent<ChampionAbilityManager>().AddAbility(selectedAbility);
+        this.GetComponentInParent<ChampionAbilityManager>().AddAbility(selectedAbility, 0);
         PointManager.Instance.RemovePoints(_clientID, 3000);
         
     }

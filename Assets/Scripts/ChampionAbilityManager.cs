@@ -43,14 +43,14 @@ public class ChampionAbilityManager : AbilityManager
         UIAbilityManager.UpdateGridWithAbilityManager(this);
     }
 
-    public override void AddAbility(Ability _ability)
+    public override void AddAbility(Ability _ability, int _tabIndex)
     {
-        base.AddAbility(_ability);
+        base.AddAbility(_ability, _tabIndex);
         UpdateGridRpc();
     }
-    public override void SetAbility(int _index, Ability _ability)
+    public override void SetAbility(int _index, Ability _ability, int _tabIndex)
     {
-        base.SetAbility(_index, _ability);
+        base.SetAbility(_index, _ability, _tabIndex);
         UpdateGridRpc();
     }
 

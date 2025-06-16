@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,24 @@ using UnityEngine.UI;
 public class AbilityUIManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
+    [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
+    [SerializeField] private Sprite forwardSprite;
+    [SerializeField] private Sprite backSprite;
+    private int pageIndex = 0;
+    private int tabIndex = 0;
+    private List<AbilityTab> commonAbilityTabs;
+    private List<Ability> commonAbilities
+    {   
+        get  
+        {
+            if (commonAbilityTabs == null || commonAbilityTabs.Count == 0)
+            {
+                return new List<Ability>();
+            }
+            return commonAbilityTabs[tabIndex].Abilities;
+        }
+    }
+    private List<AbilityManager> abilityManagers;
     private bool isChampionUI = false;
 
     internal void Init(bool _isChampionUI)
@@ -53,29 +72,95 @@ public class AbilityUIManager : MonoBehaviour
         {
             foreach (AbilityManager _abilityManager in _abilityManagers)
             {
-                int abilityIndex = _abilityManager.Abilities.IndexOf(_ability);
+                int abilityIndex = _abilityManager.AbilityTabs[tabIndex].Abilities.IndexOf(_ability);
                 if (abilityIndex >= 0)
                 {
                     _abilityManager.TryCastAbility(abilityIndex);
                 }
             }
         });
-
-
     }
 
-    public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits) // TODO: Quite dry between these two updategrid functions
+    private void SetPageCell(GameObject _cell, int _pageIndex)
     {
-        ResetAbilityGrid();
-        List<Ability> commonAbilities = GetCommonAbilities(_selectedUnits);
-        List<AbilityManager> abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
-        int cellIndex = 0;
+        Image cellImage = _cell.GetComponent<Image>();
+        Button cellButton = _cell.GetComponent<Button>();
 
-        for (int i = 0; i < commonAbilities.Count; i++)
+        cellImage.enabled = true;
+        cellButton.interactable = true;
+
+        cellImage.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
+
+        cellButton.onClick.RemoveAllListeners();
+
+        cellButton.onClick.AddListener(() =>
         {
-            SetAbilityCell(commonAbilities[i], abilityCells[cellIndex], abilityManagers);
-            cellIndex++;
+            this.SetPage(_pageIndex);
+        });
+    }
+
+    public void SetPage(int _newPageIndex)
+    {
+        pageIndex = _newPageIndex;
+
+        RefreshGrid();
+    }
+
+    public void SetTab(int _newTabIndex)
+    {
+        if (_newTabIndex < 0)
+        {
+            Debug.LogError("Tab index cannot be negative.");
+            return;
         }
+
+        tabIndex = _newTabIndex;
+        pageIndex = 0;
+        RefreshGrid();
+    }
+
+    /// <summary>
+    /// Resets the selected abilities and tabs
+    /// </summary>
+    public void ResetSelection() // TODO: The amount of repeated code here is insane
+    {
+        pageIndex = 0;
+        tabIndex = 0;
+        commonAbilityTabs = new List<AbilityTab>();
+        RefreshTabButtons();
+        RefreshGrid();
+        
+    }
+
+    public void RefreshTabButtons()
+    {
+        // Disable all tab buttons
+        foreach (GameObject _tabButton in abilityTabButtons)
+        {
+            _tabButton.SetActive(false);
+        }
+
+        if (commonAbilityTabs == null || commonAbilityTabs.Count == 0)
+        {
+            return;
+        }
+
+        // Enable all tabs we have
+        for (int i = 0; i < commonAbilityTabs.Count; i++)
+        {
+            abilityTabButtons[i].SetActive(true);
+            abilityTabButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = commonAbilityTabs[i].tabName;
+        }
+    }
+
+    public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits)
+    {
+        pageIndex = 0;
+        //commonAbilities = GetCommonAbilities(_selectedUnits);
+        commonAbilityTabs = GetCommonAbilityTabs(_selectedUnits);
+        abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
+        RefreshTabButtons();
+        RefreshGrid();
     }
 
     /// <summary>
@@ -84,16 +169,130 @@ public class AbilityUIManager : MonoBehaviour
     /// <param name="_abilityManager"></param>
     public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
     {
-        ResetAbilityGrid();
-        List<AbilityManager> abilityManagers = new List<AbilityManager>() { _abilityManager };
-        int cellIndex = 0;
+        pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
+        //commonAbilities = _abilityManager.AbilityTabs[tabIndex].Abilities;
+        commonAbilityTabs = _abilityManager.AbilityTabs;
+        abilityManagers = new List<AbilityManager>() { _abilityManager };
 
-        for (int i = 0; i < _abilityManager.Abilities.Count; i++)
+        RefreshTabButtons();
+        RefreshGrid();
+    }
+
+    /// <summary>
+    /// Recalculates the ability grid based on the current page and tab index and the common abilities of selected units.
+    /// </summary>
+    private void RefreshGrid()
+    {
+        ResetAbilityGrid();
+
+        // Calculate how many abilities have already been shown on previous pages.
+        // pageNumber is 0, then we have no skipped abilities.
+        // pageNumber is 1, then we have 3 + 0 = 3 skipped abilities, as 1 cell is used for nav buttons.
+        // pageNumber is 2, then we have 3 + 2 = 5 skipped abilities, as 3 cells are used for nav button.
+        int skippedAbilities = 0;
+
+        if (pageIndex > 0)
         {
-            SetAbilityCell(_abilityManager.Abilities[i], abilityCells[cellIndex], abilityManagers);
-            cellIndex++;
+            skippedAbilities = 3 + (pageIndex - 1) * (abilityCells.Count - 2);
         }
 
+        Queue<Ability> abilitiesInPage = 
+        new Queue<Ability>(commonAbilities.GetRange(skippedAbilities, commonAbilities.Count - skippedAbilities));
+
+        //int abilitiesRemaining = abilitiesInPage.Count;
+
+        for (int cellIndex = 0; cellIndex < abilityCells.Count && abilitiesInPage.Count > 0; cellIndex++)
+        {
+            switch (cellIndex) // TODO this is hard coed for 4 cells perhaps just do a case for first and last then add a default for the rest?
+            {
+                case 0:
+                    if (pageIndex > 0)
+                    {
+                        SetPageCell(abilityCells[cellIndex], pageIndex - 1);
+                    }
+                    else
+                    {
+                        SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    }
+                    break;
+                case 1:
+                    SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    break;
+                case 2:
+                    SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    break;
+                case 3:
+                    if (abilitiesInPage.Count > 1)
+                    {
+                        SetPageCell(abilityCells[cellIndex], pageIndex + 1);
+                    }
+                    else
+                    {
+                        SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
+                    }
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns a list of ability tabs that are common across the parsed list of units by running through each tab and checking for common abilities.
+    /// </summary>
+    /// <param name="_units"></param>
+    /// <returns></returns>
+    private List<AbilityTab> GetCommonAbilityTabs(List<SelectableObject> _units)
+    {
+        if (_units == null || _units.Count == 0)
+        {
+            Debug.LogError("Cannot get common ability tabs from an empty or null unit list.");
+            return new List<AbilityTab>();
+        }
+        List<AbilityTab> outputCommonAbilityTabs = _units[0].AbilityManager.AbilityTabs;
+
+        if (_units.Count == 1) // If there's only 1 unit no need to scan for common
+        {
+            return outputCommonAbilityTabs;
+        }
+
+        // Eliminate uncommon tabs in all other units to our list of commonAbilityTabs
+        for (int i = 1; i < _units.Count; i++)
+        {
+            SelectableObject unit = _units[i];
+
+            // Iterate backwards to correctly remove unfound ability tabs while looping
+            for (int x = outputCommonAbilityTabs.Count - 1; x >= 0; x--)
+            {
+                // Check 0: Check if it exists
+
+                if (unit.AbilityManager.AbilityTabs.Count - 1 < x)
+                {
+                    outputCommonAbilityTabs.RemoveAt(x);
+                    continue;
+                }
+
+                // Check 1: Check for name match
+
+                if (unit.AbilityManager.AbilityTabs[x].tabName != outputCommonAbilityTabs[x].tabName)
+                {
+                    outputCommonAbilityTabs.RemoveAt(x);
+                    continue;
+                }
+
+                // Check 2: Check for common abilities in the tab
+
+                outputCommonAbilityTabs[x].OverrideList(GetCommonAbilities(_units, x));
+
+                // Check 3: If the tab has no abilities left, remove it
+
+                if (outputCommonAbilityTabs[x].Abilities.Count == 0)
+                {
+                    outputCommonAbilityTabs.RemoveAt(x);
+                    continue;
+                }
+            }
+        }
+
+        return outputCommonAbilityTabs;
     }
 
     /// <summary>
@@ -101,7 +300,7 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     /// <param name="_units"></param>
     /// <returns></returns>
-    private List<Ability> GetCommonAbilities(List<SelectableObject> _units)
+    private List<Ability> GetCommonAbilities(List<SelectableObject> _units, int _tabIndex = 0)
     {
         if (_units == null || _units.Count == 0)
         {
@@ -109,7 +308,7 @@ public class AbilityUIManager : MonoBehaviour
             return new List<Ability>();
         }
 
-        List<Ability> commonAbilities = _units[0].AbilityManager.Abilities;
+        List<Ability> commonAbilities = _units[0].AbilityManager.AbilityTabs[_tabIndex].Abilities;
 
         if (_units.Count == 1) // If there's only 1 unit no need to scan for common
         {
@@ -124,7 +323,7 @@ public class AbilityUIManager : MonoBehaviour
             // Iterate backwards to correctly remove unfound abilities while looping
             for (int x = commonAbilities.Count - 1; x >= 0; x--)
             {
-                if (!unit.AbilityManager.Abilities.Contains(commonAbilities[x]))
+                if (!unit.AbilityManager.AbilityTabs[_tabIndex].Abilities.Contains(commonAbilities[x]))
                 {
                     commonAbilities.RemoveAt(x);
                 }
