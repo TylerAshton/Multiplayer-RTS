@@ -75,7 +75,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
         {
-            Debug.LogError("Animator is required for AnimatedChampion");
+            Debug.LogError("NetCodeAnimationManager is required for AnimatedChampion");
         }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
