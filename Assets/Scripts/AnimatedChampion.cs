@@ -194,11 +194,21 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         CastAbilityServerRpc(0);
     }
 
+    /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
     public void UseSecondaryAbility(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
 
         if (!context.performed) return;
+
+        if (abilityManager.AbilityTabs[0].Abilities.Count < 2)
+        {
+            Debug.LogWarning("No secondary ability available.");
+            return;
+        }
 
         CastAbilityServerRpc(1);
     }
