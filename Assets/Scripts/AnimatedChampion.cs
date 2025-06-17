@@ -204,7 +204,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         if (!context.performed) return;
 
-        if (abilityManager.AbilityTabs[0].AbilityReferences.Count < 2)
+        if (abilityManager.AbilityTabs[0].Abilities.Count < 2)
         {
             Debug.LogWarning("No secondary ability available.");
             return;

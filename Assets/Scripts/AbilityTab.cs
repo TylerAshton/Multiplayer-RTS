@@ -12,25 +12,20 @@ using UnityEngine;
 public class AbilityTab
 {
     public string tabName = "newTab";
-    [SerializeField] private List<AbilityReference> abilityReferences = new List<AbilityReference>();
-    public List<AbilityReference> AbilityReferences => new List<AbilityReference>(abilityReferences);
+    [SerializeField] private List<Ability> abilities = new List<Ability>();
+    public List<Ability> Abilities => new List<Ability>(abilities);
 
-    // TEST
-    public List<Ability> TESTAB = new List<Ability>();
-
-    // TODO: This is being called a lot, cache the result maybe?
-    public List<Ability> Abilities => abilityReferences.Select(ar => ar.ability).ToList(); // Fancy LINQ to get a list of abilities from the references
 
 
     public void SetAbility(int _abilityIndex, Ability _ability)
     {
-        if (_abilityIndex < 0 || _abilityIndex >= abilityReferences.Count)
+        if (_abilityIndex < 0 || _abilityIndex >= abilities.Count)
         {
-            Debug.LogError($"Invalid ability index: {_abilityIndex}. Must be between 0 and {abilityReferences.Count - 1}.");
+            Debug.LogError($"Invalid ability index: {_abilityIndex}. Must be between 0 and {abilities.Count - 1}.");
             return;
         }
 
-        abilityReferences[_abilityIndex].ability = _ability;
+        abilities[_abilityIndex] = _ability;
     }
 
     public void OverrideList(List<Ability> _abilities)
@@ -40,16 +35,13 @@ public class AbilityTab
             Debug.LogError("Cannot override with an empty or null list of abilities.");
             return;
         }
-        List<AbilityReference> refs = _abilities.Select(a => new AbilityReference { ability = a }).ToList();
 
-
-        abilityReferences = new List<AbilityReference>(refs);
+        abilities = new List<Ability>(_abilities);
     }
 
     public void AddAbility(Ability _ability)
     {
-        AbilityReference abilityReference = new AbilityReference { ability = _ability };
-        abilityReferences.Add(abilityReference);
+        abilities.Add(_ability);
     }
 
     /// <summary>
@@ -61,7 +53,7 @@ public class AbilityTab
         AbilityTab clone = new AbilityTab
         {
             tabName = this.tabName,
-            abilityReferences = new List<AbilityReference>(this.AbilityReferences)
+            abilities = new List<Ability>(this.abilities)
         };
         return clone;
     }
