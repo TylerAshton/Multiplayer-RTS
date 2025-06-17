@@ -50,7 +50,7 @@ namespace Editor
         {
             Type abilityType = GetAbilityType(_abilityTypeName);
 
-            UnityEditor.PopupWindow.Show(
+            UnityEditor.PopupWindow.Show( // MOUSE NULL
                 new Rect(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), Vector2.zero),
                 new AbilityNamePopup(CreateNewAbilityOfType, abilityType, property)
             );
