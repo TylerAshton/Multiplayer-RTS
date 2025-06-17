@@ -4,8 +4,39 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+public struct InputPayload : INetworkSerializable
+{
+    public int tick;
+    public Vector3 inputVector;
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref tick);
+        serializer.SerializeValue(ref inputVector);
+    }
+}
+
+public struct StatePayload : INetworkSerializable
+{
+    public int tick;
+    public Vector3 postition;
+    public Quaternion rotation;
+    public Vector3 velocity;
+    public Vector3 angularVelocity;
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref tick);
+        serializer.SerializeValue(ref postition);
+        serializer.SerializeValue(ref rotation);
+        serializer.SerializeValue(ref velocity);
+        serializer.SerializeValue(ref angularVelocity);
+    }
+}
+
+
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
+public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 {
     [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
     [SerializeField] private float acceleration = 10f;
@@ -55,6 +86,34 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     [SerializeField] private TextMeshProUGUI points;
 
     public bool inShop = false;
+
+
+    // Netcode General Variables
+    NetworkTimer timer;
+    const float k_serverTickRate = 60f;
+    const int k_bufferSize = 1024;
+
+    // Netcode Client Specific Variables
+    CircularBuffer<StatePayload> clientStateBuffer;
+    CircularBuffer<InputPayload> clientInputBuffer;
+    StatePayload lastServerState;
+    StatePayload lastProcessedState;
+
+    // Netcode Server Specific Variables
+    CircularBuffer<StatePayload> serverStateBuffer;
+    Queue<InputPayload> serverInputQueue;
+
+
+    private void Awake()
+    {
+        timer = new NetworkTimer(k_serverTickRate);
+        clientStateBuffer = new CircularBuffer<StatePayload>(k_bufferSize);
+        clientInputBuffer = new CircularBuffer<InputPayload>(k_bufferSize);
+
+        serverStateBuffer = new CircularBuffer<StatePayload>(k_bufferSize);
+        serverInputQueue = new Queue<InputPayload>();
+    }
+
 
     void Start()
     {
@@ -154,8 +213,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     // Update is called once per frame
     void Update()
     {
-        ServerUpdate();
-        OwnerUpdate();
+        timer.Update(Time.deltaTime);
+
+        //ServerUpdate();
+        //OwnerUpdate();
     }
 
     /// <summary>
