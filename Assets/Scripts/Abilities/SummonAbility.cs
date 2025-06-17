@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Summon Ability", menuName = "Abilities/Summon")]
@@ -43,5 +44,25 @@ public class SummonAbility : Ability<IAbilityUser>
     protected override void OnUseTyped(IAbilityUser _user)
     {
         throw new System.NotImplementedException();
+    }
+
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldSpawnee = _so.FindProperty("spawnee");
+        fieldSpawnee.objectReferenceValue = EditorGUILayout.ObjectField("Spawnee Prefab", fieldSpawnee.objectReferenceValue, typeof(GameObject), false);
+
+        SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");
+        fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
+
+        SerializedProperty fieldMaxDispersion = _so.FindProperty("maxDispersion");
+        fieldMaxDispersion.floatValue = EditorGUILayout.FloatField("Max Dispersion", fieldMaxDispersion.floatValue);
+
+        SerializedProperty fieldMinDisperstion = _so.FindProperty("minDisperstion");
+        fieldMinDisperstion.floatValue = EditorGUILayout.FloatField("Min Dispersion", fieldMinDisperstion.floatValue);
+
+        SerializedProperty fieldOffset = _so.FindProperty("offset");
+        EditorGUILayout.PropertyField(fieldOffset, new GUIContent("Offset"));
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IceBolt
   m_EditorClassIdentifier: 
   abilityID: iceBolt
-  abilityName: 
+  abilityName: Ice Bolt
   castTime: 1
   castPositionName: 1
   animationTrigger: ProjectileAttack

@@ -260,12 +260,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  abilities:
-  - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
   abilityTabs:
   - tabName: Main
-    abilities:
-    - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+    abilityReferences:
+    - ability: {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+    TESTAB: []
 --- !u!95 &7750733840084467600
 Animator:
   serializedVersion: 7

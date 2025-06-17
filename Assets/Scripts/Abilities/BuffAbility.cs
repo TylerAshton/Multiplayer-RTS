@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Buff Ability", menuName = "Abilities/Buff")]
@@ -37,5 +38,16 @@ public class BuffAbility : Ability<IAbilityUser>
         buffVfx.GetComponent<NetworkObject>().Spawn();
         buffVfx.GetComponent<NetworkParent>().SetParent(castPositionTransform);
         _user.EffectManager.AddEffect(effect);
+    }
+
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldBuffEffects = _so.FindProperty("buffEffects");
+        fieldBuffEffects.objectReferenceValue = EditorGUILayout.ObjectField("Buff Effects Prefab", fieldBuffEffects.objectReferenceValue, typeof(GameObject), false);
+        
+        SerializedProperty fieldEffect = _so.FindProperty("effect");
+        fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect", fieldEffect.objectReferenceValue, typeof(Effect), false);
     }
 }

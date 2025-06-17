@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
@@ -24,5 +25,13 @@ public class ProjectileAbility : Ability<IAbilityUser>
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(_user.Transform.forward);
         spawnedProjectile.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
+    }
+
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
+        fieldProjectilePrefab.objectReferenceValue = EditorGUILayout.ObjectField("Projectile Prefab", fieldProjectilePrefab.objectReferenceValue, typeof(GameObject), false);
     }
 }

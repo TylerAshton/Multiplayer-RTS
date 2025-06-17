@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Channelled Projection Ability", menuName = "Abilities/Channelled Projection")]
@@ -24,5 +25,13 @@ public class ChannelledProjection : Ability<IAbilityUser>
         newEffect.GetComponent<NetworkObject>().Spawn();
         newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
         newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
+    }
+
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldEffect = _so.FindProperty("effect");
+        fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect Prefab", fieldEffect.objectReferenceValue, typeof(GameObject), false);
     }
 }

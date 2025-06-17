@@ -10642,8 +10642,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
   - tabName: Main
-    abilities:
-    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    abilityReferences:
+    - ability: {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    TESTAB: []
 --- !u!95 &379041836462067280
 Animator:
   serializedVersion: 7

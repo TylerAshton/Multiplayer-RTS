@@ -54,30 +54,30 @@ public abstract class Ability : ScriptableObject
     /// <summary>
     /// Used by the AbilityEditorWindow to draw the inspector for abilities.
     /// </summary>
-    /// <param name="so"></param>
-    public virtual void DrawInspector(SerializedObject so)
+    /// <param name="_so"></param>
+    public virtual void DrawInspector(SerializedObject _so)
     {
-        SerializedProperty fieldID = so.FindProperty("abilityID");
+        SerializedProperty fieldID = _so.FindProperty("abilityID");
         fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
         if (fieldID.stringValue == "")
         {
             EditorGUILayout.HelpBox("Ability ID Can't be null", MessageType.Error);
         }
 
-        SerializedProperty fieldName = so.FindProperty("abilityName");
+        SerializedProperty fieldName = _so.FindProperty("abilityName");
         fieldName.stringValue = EditorGUILayout.TextField("Name", fieldName.stringValue);
 
-        SerializedProperty fieldAnimationTrigger = so.FindProperty("animationTrigger");
+        SerializedProperty fieldAnimationTrigger = _so.FindProperty("animationTrigger");
         fieldAnimationTrigger.stringValue = EditorGUILayout.TextField("Animation Trigger", fieldAnimationTrigger.stringValue); // TODO: Remove?
                                                                                                                                //EditorGUILayout.HelpBox("Honestly don't animationTrigger touch this without a dev.", MessageType.Warning);
 
-        SerializedProperty fieldCastTime = so.FindProperty("castTime");
+        SerializedProperty fieldCastTime = _so.FindProperty("castTime");
         fieldCastTime.floatValue = EditorGUILayout.Slider("Cast Time", fieldCastTime.floatValue, 0, 10);
 
-        SerializedProperty fieldCooldown = so.FindProperty("cooldown");
+        SerializedProperty fieldCooldown = _so.FindProperty("cooldown");
         fieldCooldown.floatValue = EditorGUILayout.Slider("Cooldown", fieldCooldown.floatValue, 0, 60);
 
-        SerializedProperty fieldAbilityCost = so.FindProperty("abilityCost");
+        SerializedProperty fieldAbilityCost = _so.FindProperty("abilityCost");
         fieldAbilityCost.intValue = EditorGUILayout.IntField("Ability Cost", fieldAbilityCost.intValue);
 
         if (fieldAbilityCost.intValue < 0)
@@ -87,10 +87,10 @@ public abstract class Ability : ScriptableObject
 
 
 
-        SerializedProperty fieldCastPos = so.FindProperty("castPositionName");
+        SerializedProperty fieldCastPos = _so.FindProperty("castPositionName");
         fieldCastPos.enumValueIndex = EditorGUILayout.Popup("Cast Position", fieldCastPos.enumValueIndex, fieldCastPos.enumDisplayNames);
 
-        SerializedProperty fieldIcon = so.FindProperty("icon");
+        SerializedProperty fieldIcon = _so.FindProperty("icon");
         fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Ability Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
     }
 /*
