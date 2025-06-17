@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New AOE Ability", menuName = "Abilities/AOE")]
-public class AOEAbility : Ability<IAbilityUser>
+[CreateAssetMenu(fileName = "New Channelled Projection Ability", menuName = "Abilities/Channelled Projection")]
+public class ChannelledProjection : Ability<IAbilityUser>
 {
     [SerializeField] GameObject effect;
     protected override void ActivateTyped(IAbilityUser _user)

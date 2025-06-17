@@ -25,7 +25,7 @@ namespace Editor
                 GenericMenu menu = new GenericMenu();
 
                 // Add ability types here - replace with your own subclasses
-                menu.AddItem(new GUIContent("AOE Ability"), false, () => CreateNewAbilityOfType($"{typeof(AOEAbility).FullName}", property));
+                menu.AddItem(new GUIContent("Channelled Projection Ability"), false, () => CreateNewAbilityOfType($"{typeof(ChannelledProjection).FullName}", property));
                 menu.AddItem(new GUIContent("Buff Ability"), false, () => CreateNewAbilityOfType($"{typeof(BuffAbility).FullName}", property));
                 menu.AddItem(new GUIContent("Construct Ability"), false, () => CreateNewAbilityOfType($"{typeof(Construct).FullName}", property));
                 menu.AddItem(new GUIContent("Melee Ability"), false, () => CreateNewAbilityOfType($"{typeof(MeleeAbility).FullName}", property));
