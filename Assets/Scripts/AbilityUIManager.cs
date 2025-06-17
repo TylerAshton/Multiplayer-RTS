@@ -14,16 +14,16 @@ public class AbilityUIManager : MonoBehaviour
     [SerializeField] private Sprite backSprite;
     private int pageIndex = 0;
     private int tabIndex = 0;
-    private List<AbilityTab> commmonAbilityTabs;
+    private List<AbilityTab> commonAbilityTabs;
     private List<Ability> commonAbilities
     {   
         get  
         {
-            if (commmonAbilityTabs == null || commmonAbilityTabs.Count == 0)
+            if (commonAbilityTabs == null || commonAbilityTabs.Count == 0)
             {
                 return new List<Ability>();
             }
-            return commmonAbilityTabs[tabIndex].Abilities;
+            return commonAbilityTabs[tabIndex].Abilities;
         }
     }
     private List<AbilityManager> abilityManagers;
@@ -126,7 +126,7 @@ public class AbilityUIManager : MonoBehaviour
     {
         pageIndex = 0;
         tabIndex = 0;
-        commmonAbilityTabs = new List<AbilityTab>();
+        commonAbilityTabs = new List<AbilityTab>();
         RefreshTabButtons();
         RefreshGrid();
         
@@ -140,16 +140,16 @@ public class AbilityUIManager : MonoBehaviour
             _tabButton.SetActive(false);
         }
 
-        if (commmonAbilityTabs == null || commmonAbilityTabs.Count == 0)
+        if (commonAbilityTabs == null || commonAbilityTabs.Count == 0)
         {
             return;
         }
 
         // Enable all tabs we have
-        for (int i = 0; i < commmonAbilityTabs.Count; i++)
+        for (int i = 0; i < commonAbilityTabs.Count; i++)
         {
             abilityTabButtons[i].SetActive(true);
-            abilityTabButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = commmonAbilityTabs[i].tabName;
+            abilityTabButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = commonAbilityTabs[i].tabName;
         }
     }
 
@@ -157,7 +157,7 @@ public class AbilityUIManager : MonoBehaviour
     {
         pageIndex = 0;
         //commonAbilities = GetCommonAbilities(_selectedUnits);
-        commmonAbilityTabs = GetCommonAbilityTabs(_selectedUnits);
+        commonAbilityTabs = GetCommonAbilityTabs(_selectedUnits);
         abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
         RefreshTabButtons();
         RefreshGrid();
@@ -171,7 +171,7 @@ public class AbilityUIManager : MonoBehaviour
     {
         pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
         //commonAbilities = _abilityManager.AbilityTabs[tabIndex].Abilities;
-        commmonAbilityTabs = _abilityManager.AbilityTabs;
+        commonAbilityTabs = _abilityManager.AbilityTabs;
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
         RefreshTabButtons();
@@ -247,11 +247,11 @@ public class AbilityUIManager : MonoBehaviour
             Debug.LogError("Cannot get common ability tabs from an empty or null unit list.");
             return new List<AbilityTab>();
         }
-        List<AbilityTab> commonAbilityTabs = _units[0].AbilityManager.AbilityTabs;
+        List<AbilityTab> outputCommonAbilityTabs = _units[0].AbilityManager.AbilityTabs;
 
         if (_units.Count == 1) // If there's only 1 unit no need to scan for common
         {
-            return commonAbilityTabs;
+            return outputCommonAbilityTabs;
         }
 
         // Eliminate uncommon tabs in all other units to our list of commonAbilityTabs
@@ -260,31 +260,39 @@ public class AbilityUIManager : MonoBehaviour
             SelectableObject unit = _units[i];
 
             // Iterate backwards to correctly remove unfound ability tabs while looping
-            for (int x = commonAbilityTabs.Count - 1; x >= 0; x--)
+            for (int x = outputCommonAbilityTabs.Count - 1; x >= 0; x--)
             {
+                // Check 0: Check if it exists
+
+                if (unit.AbilityManager.AbilityTabs.Count - 1 < x)
+                {
+                    outputCommonAbilityTabs.RemoveAt(x);
+                    continue;
+                }
+
                 // Check 1: Check for name match
 
-                if (unit.AbilityManager.AbilityTabs[x].tabName != commonAbilityTabs[x].tabName)
+                if (unit.AbilityManager.AbilityTabs[x].tabName != outputCommonAbilityTabs[x].tabName)
                 {
-                    commonAbilityTabs.RemoveAt(x);
+                    outputCommonAbilityTabs.RemoveAt(x);
                     continue;
                 }
 
                 // Check 2: Check for common abilities in the tab
 
-                commonAbilityTabs[x].OverrideList(GetCommonAbilities(_units, x));
+                outputCommonAbilityTabs[x].OverrideList(GetCommonAbilities(_units, x));
 
                 // Check 3: If the tab has no abilities left, remove it
 
-                if (commonAbilityTabs[x].Abilities.Count == 0)
+                if (outputCommonAbilityTabs[x].Abilities.Count == 0)
                 {
-                    commonAbilityTabs.RemoveAt(x);
+                    outputCommonAbilityTabs.RemoveAt(x);
                     continue;
                 }
             }
         }
 
-        return commonAbilityTabs;
+        return outputCommonAbilityTabs;
     }
 
     /// <summary>

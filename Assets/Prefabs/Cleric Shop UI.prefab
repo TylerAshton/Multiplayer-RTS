@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a510f66534d2e554086ce524967e8614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   moveInput: {x: 0, y: 0}
   options:
   - {fileID: 1295263058634956919}

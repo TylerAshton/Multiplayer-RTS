@@ -1,12 +1,7 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager.ValidationSuite;
 using UnityEngine;
 
 [System.Serializable]
@@ -37,6 +32,8 @@ public class AbilityManager : NetworkBehaviour
 
     protected Ability currentAbility;
     protected Animator animator;
+
+    private Coroutine lockCastingCoroutine = null;
 
     /*    [SerializeField] protected List<Ability> abilities;*/
 
@@ -191,18 +188,24 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        currentAbility = selectedTab.Abilities[_abilityIndex];
+        Ability selectedAbility = selectedTab.Abilities[_abilityIndex];
 
-        if (!CanCastAbility(currentAbility))
+
+        if (!CanCastAbility(selectedAbility))
         {
             Debug.LogWarning("Cannot cast ability due to checks failing");
             return;
         }
 
+        currentAbility = selectedAbility;
         StartCooldown(currentAbility);
         PointManager.Instance.RemovePoints(ownerClientId, currentAbility.AbilityCost);
         currentAbility.Activate(abilityUser);
-        StartCoroutine(LockCastingUntil(currentAbility.CastTime));
+        if (lockCastingCoroutine != null)
+        {
+            StopCoroutine(lockCastingCoroutine);
+        }
+        lockCastingCoroutine = StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
 
     /// <summary>

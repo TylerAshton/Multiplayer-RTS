@@ -75,7 +75,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
         {
-            Debug.LogError("Animator is required for AnimatedChampion");
+            Debug.LogError("NetCodeAnimationManager is required for AnimatedChampion");
         }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
@@ -120,6 +120,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     public void CloseShopUI()
     {
+        Debug.Log("Closing Shop");
         Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
         playerShop.enabled = false;
         foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
@@ -193,11 +194,21 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         CastAbilityServerRpc(0);
     }
 
+    /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
     public void UseSecondaryAbility(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
 
         if (!context.performed) return;
+
+        if (abilityManager.AbilityTabs[0].Abilities.Count < 2)
+        {
+            Debug.LogWarning("No secondary ability available.");
+            return;
+        }
 
         CastAbilityServerRpc(1);
     }

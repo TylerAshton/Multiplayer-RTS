@@ -16811,7 +16811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &360006852
 Transform:
   m_ObjectHideFlags: 0
@@ -22362,6 +22362,10 @@ PrefabInstance:
     - target: {fileID: 7708722605112869330, guid: f67ca1318b051394eaa2bce8c88c7a71, type: 3}
       propertyPath: m_Name
       value: DEBUG Pad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: f67ca1318b051394eaa2bce8c88c7a71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40448,6 +40452,10 @@ PrefabInstance:
     - target: {fileID: 7708722605112869330, guid: f67ca1318b051394eaa2bce8c88c7a71, type: 3}
       propertyPath: m_Name
       value: DEBUG Pad (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7708722605112869330, guid: f67ca1318b051394eaa2bce8c88c7a71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8014679277335582758, guid: f67ca1318b051394eaa2bce8c88c7a71, type: 3}
       propertyPath: abilityTabs.Array.data[1].abilities.Array.size

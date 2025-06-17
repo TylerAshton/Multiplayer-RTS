@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+public class Shop : NetworkBehaviour
 {
     public Vector2 moveInput;
     public TextMeshProUGUI[] options;

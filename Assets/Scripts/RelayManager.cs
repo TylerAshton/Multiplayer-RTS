@@ -63,6 +63,9 @@ public class RelayManager : NetworkBehaviour
     {
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
         string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
+        GUIUtility.systemCopyBuffer = joinCode;
+
         codeText.text = "Code: " + joinCode;
 
         var relayServerData = allocation.ToRelayServerData("dtls");
