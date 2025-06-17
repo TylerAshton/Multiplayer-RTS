@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EldritchBlast
   m_EditorClassIdentifier: 
   abilityID: eldritchBlast
+  abilityName: 
   castTime: 1
   castPositionName: 1
   animationTrigger: EldritchBlast

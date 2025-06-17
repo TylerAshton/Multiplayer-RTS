@@ -44,7 +44,7 @@ namespace Editor
             {
                 if (GUI.Button(editButtonRect, "Edit"))
                 {
-
+                    AbilityEditorWindow.Open((Ability)property.objectReferenceValue);
                 }
             }
 
