@@ -19279,13 +19279,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerList:
-  - {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
-  - {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
-  CoopPlayerPrefab: {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
+  - {fileID: 2434894007857547855, guid: b0846b59f96488b478d35e09f34e2b31, type: 3}
+  - {fileID: 8393315380538558816, guid: 7e4ddbf6db2c5124b8aaa76a7e33f6c8, type: 3}
+  CoopPlayerPrefab: {fileID: 2434894007857547855, guid: bcab214d3a2d22241b3aa33ca1c8ae29, type: 3}
   RTSPlayer: {fileID: 669737588030258381, guid: 0365449728674734fbecbf9a31abe724, type: 3}
   CoopPlayerPrefabList:
-  - {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
   - {fileID: 2434894007857547855, guid: bcab214d3a2d22241b3aa33ca1c8ae29, type: 3}
+  - {fileID: 8393315380538558816, guid: 91fb52ddc03473140af57c4eac15eedc, type: 3}
 --- !u!114 &463821283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19302,7 +19302,7 @@ MonoBehaviour:
   AmalgamSpawnPos: {fileID: 410958470}
   AmalgamPlayer: {fileID: 8786565032581669084, guid: 519052f1c6e5ebd4b8a5901d8f4f893f, type: 3}
   ChampionSpawnPos: {fileID: 1107714647}
-  ChampionPlayer: {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
+  ChampionPlayer: {fileID: 2434894007857547855, guid: b0846b59f96488b478d35e09f34e2b31, type: 3}
   DEBUGForceChampion: 0
 --- !u!114 &463821284
 MonoBehaviour:

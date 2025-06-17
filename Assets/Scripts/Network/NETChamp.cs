@@ -103,6 +103,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     CircularBuffer<StatePayload> serverStateBuffer;
     Queue<InputPayload> serverInputQueue;
 
+    [SerializeField] InputReader input;
 
     private void Awake()
     {
@@ -221,13 +222,105 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     private void FixedUpdate()
     {
-        Move();
-        RotatePlayer();
-        updatePointsUI();
+        //Move();
+        //RotatePlayer();
+        //updatePointsUI();
+
+        while (timer.ShouldTick())
+        {
+            HandleClientTick();
+            HandleServerTick();
+        }
+    }
+
+    void HandleServerTick()
+    {
+        var bufferIndex = -1;
+        while (serverInputQueue.Count > 0)
+        {
+            InputPayload inputPayload = serverInputQueue.Dequeue();
+
+            bufferIndex = inputPayload.tick % k_bufferSize;
+
+            StatePayload statePayload = SimulateMovement(inputPayload);
+            serverStateBuffer.Add(statePayload, bufferIndex);
+        }
+
+        if (bufferIndex == -1) { return; }
+        SendToClientRpc(serverStateBuffer.Get(bufferIndex));
+    }
+
+    StatePayload SimulateMovement(InputPayload inputPayload)
+    {
+        Physics.simulationMode = SimulationMode.Script;
+
+        Move(inputPayload.inputVector);
+        Physics.Simulate(Time.fixedDeltaTime);
+        Physics.simulationMode = SimulationMode.FixedUpdate;
+
+        return new StatePayload()
+        {
+            tick = inputPayload.tick,
+            postition = transform.position,
+            rotation = transform.rotation,
+            velocity = rb.linearVelocity,
+            angularVelocity = rb.angularVelocity
+        };
+    }
+
+
+    [Rpc(SendTo.NotServer)]
+    void SendToClientRpc(StatePayload statePayload)
+    {
+        if (!IsOwner) { return; }
+        lastServerState = statePayload;
+    }
+
+    void HandleClientTick()
+    {
+        if (!IsClient) {  return; }
+
+        var currentTick = timer.CurrentTick;
+        var bufferIndex = currentTick % k_bufferSize;
+
+        InputPayload inputPayload = new InputPayload()
+        {
+            tick = currentTick,
+            inputVector = input.Move //<------------ Look Here!
+        };
+
+        clientInputBuffer.Add(inputPayload, bufferIndex);
+        SendToServerRpc(inputPayload);
+
+        StatePayload statePayload = ProcessMovement(inputPayload);
+        clientStateBuffer.Add(statePayload, bufferIndex);
+        
+        // HandleServerRecconciliation();
+    }
+
+    [Rpc(SendTo.Server)]
+    void SendToServerRpc(InputPayload input)
+    {
+        serverInputQueue.Enqueue(input);
+    }
+
+    StatePayload ProcessMovement(InputPayload input)
+    {
+        Move(input.inputVector);
+
+        return new StatePayload()
+        {
+            tick = input.tick,
+            postition = transform.position,
+            rotation = transform.rotation,
+            velocity = rb.linearVelocity,
+            angularVelocity = rb.angularVelocity
+        };
     }
 
     private void updatePointsUI()
     {
+        if (!IsOwner) {  return; }
         Debug.Log(points.text);
         points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
@@ -275,8 +368,9 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// <summary>
     /// This calls all of the Movement based Server-Rpcs
     /// </summary>
-    void Move()
+    void Move(Vector2 inputVector)
     {
+        if (!IsOwner) {  return; }
         ChampionMove(movementVector);
         SetAnimationParams(movementVector);
     }
@@ -374,6 +468,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// </summary>
     public void RotatePlayer()
     {
+        if (!IsOwner) {  return; }
         RaycastHit hit;
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
 
