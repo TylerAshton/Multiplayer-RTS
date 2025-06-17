@@ -15,6 +15,9 @@ public class AbilityTab
     [SerializeField] private List<AbilityReference> abilityReferences = new List<AbilityReference>();
     public List<AbilityReference> AbilityReferences => new List<AbilityReference>(abilityReferences);
 
+    // TEST
+    public List<Ability> TESTAB = new List<Ability>();
+
     // TODO: This is being called a lot, cache the result maybe?
     public List<Ability> Abilities => abilityReferences.Select(ar => ar.ability).ToList(); // Fancy LINQ to get a list of abilities from the references
 
