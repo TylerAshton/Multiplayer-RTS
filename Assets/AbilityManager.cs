@@ -128,7 +128,14 @@ public class AbilityManager : NetworkBehaviour
 
     public bool CheckAbility(Ability _ability, int tabIndex = 0)
     {
+        if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid ability index: {tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return false;
+        }
+
         return abilityTabs[tabIndex].Abilities.Contains(_ability);
+
     }
 
 

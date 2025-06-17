@@ -13,7 +13,7 @@ public class PropertyDrawerTest : PropertyDrawer
     private VisualElement ContentPanel;
     private Label CaretLabel;
     private bool IsExpanded = true;
-    private override VisualElement CreatePropertyGUI(SerializedProperty Property)
+    public override VisualElement CreatePropertyGUI(SerializedProperty Property)
     {
         VisualElement inspector = new();
         inspector.AddToClassList("panel");
@@ -66,7 +66,8 @@ public class PropertyDrawerTest : PropertyDrawer
         shootConfigBox.name = "shoot-config-box";
 
         shootConfigBox.Add(BuildObjectField(rootElement, property));
-        Button deleteButton = new Button(() => DeleteSO(property));
+        Button deleteButton = new Button();
+        //Button deleteButton = new Button(() => DeleteSO(property));
         deleteButton.text = "Delete";
         deleteButton.AddToClassList("danger");
         deleteButton.AddToClassList("align-right");
@@ -113,18 +114,22 @@ public class PropertyDrawerTest : PropertyDrawer
         isHitscanToggle.BindProperty(isHitscan);
         shootConfigBox.Add(isHitscanToggle); // TODO: 12:48
 
+        return null;
+
     }
 
-    private async object DeleteSO(SerializedProperty property)
+/*    private async object DeleteSO(SerializedProperty property)
     {
         string path = AssetDatabase.GetAssetPath(property.objectReferenceInstanceIDValue);
         property.objectReferenceValue = null;
         property.serializedObject.ApplyModifiedProperties();
 
         // If we don't defer this then we do a null vs null check in OnEditorGUI and need to rebuild the whole
-        await Task.Delay(100);
+        //await Task.Delay(100);
         AssetDatabase.DeleteAsset(path);
-    }
+
+        
+    }*/
 
     /// <summary>
     /// What we're showing if we don't have a serlizedObject selected

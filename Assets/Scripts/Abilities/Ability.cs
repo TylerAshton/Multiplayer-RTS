@@ -4,6 +4,7 @@ using UnityEngine;
 /// This is a generic class which lets C# be happy with storing and polymorphing 
 /// all kinds of abilities
 /// </summary>
+[System.Serializable]
 public abstract class Ability : ScriptableObject
 {
     [SerializeField] private string abilityID = string.Empty;
