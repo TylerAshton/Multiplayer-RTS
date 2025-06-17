@@ -23,6 +23,7 @@ namespace Editor
             if (GUI.Button(buttonRect, "Create New"))
             {
                 GenericMenu menu = new GenericMenu();
+                Vector2 cachedMousePos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
 
                 // Add ability types here - replace with your own subclasses
                 /*menu.AddItem(new GUIContent("Channelled Projection Ability"), false, () => CreateNewAbilityOfType($"{typeof(ChannelledProjection).FullName}", property));
@@ -50,8 +51,15 @@ namespace Editor
         {
             Type abilityType = GetAbilityType(_abilityTypeName);
 
-            UnityEditor.PopupWindow.Show( // MOUSE NULL
-                new Rect(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), Vector2.zero),
+/*            // Center of the main Unity window
+            Vector2 windowSize = new Vector2(250, 60); // Adjust to thy needs
+            Vector2 centerScreen = new Vector2(
+                Screen.currentResolution.width / 2f - windowSize.x / 2f,
+                Screen.currentResolution.height / 2f - windowSize.y / 2f
+            );*/
+
+            UnityEditor.PopupWindow.Show(
+                new Rect(new Vector2(100, 100), new Vector2(250, 100)),
                 new AbilityNamePopup(CreateNewAbilityOfType, abilityType, property)
             );
         }
@@ -65,7 +73,7 @@ namespace Editor
         {
             // Calculating path for new ability asseet
             string folderPath = "Assets/Resources/Abilities";
-            string assetName = $"New {abilityTypeName}.asset";
+            string assetName = $"{abilityTypeName}.asset";
             string fullPath = $"{folderPath}/{assetName}";
 
 /*            // Create instance by type name
