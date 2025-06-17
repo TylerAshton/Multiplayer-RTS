@@ -219,21 +219,9 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         //OwnerUpdate();
     }
 
-    /// <summary>
-    /// Runs all update logic for the server
-    /// </summary>
-    private void ServerUpdate()
+    private void FixedUpdate()
     {
-        if (!IsServer) { return; }
-        MoveServerAuth();
-    }
-
-    /// <summary>
-    /// Runs all update logic for the client who owns the champion
-    /// </summary>
-    private void OwnerUpdate()
-    {
-        if (!IsOwner) { return; }
+        Move();
         RotatePlayer();
         updatePointsUI();
     }
@@ -287,13 +275,8 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// <summary>
     /// This calls all of the Movement based Server-Rpcs
     /// </summary>
-    void MoveServerAuth()
+    void Move()
     {
-        if (!IsServer)
-        {
-            Debug.LogError("Client attempted to move the player!");
-            return;
-        }
         ChampionMove(movementVector);
         SetAnimationParams(movementVector);
     }
@@ -305,12 +288,6 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// <param name="serverRpcParams"></param>
     private void ChampionMove(Vector3 movementVector)
     {
-        if (!IsServer)
-        {
-            Debug.LogError("Client attempted to move the player!");
-            return;
-        }
-
         Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
 
         Vector3 targetVelocity = move * moveSpeed;

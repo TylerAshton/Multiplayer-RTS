@@ -745,11 +745,11 @@ GameObject:
   - component: {fileID: 1770477014136216472}
   - component: {fileID: 3779843464443528873}
   - component: {fileID: 3116548148007658348}
-  - component: {fileID: 6204940461610679389}
   - component: {fileID: 2885188943381047520}
   - component: {fileID: 7055258072633900359}
+  - component: {fileID: 672660732429774245}
+  - component: {fileID: 2559127314798066637}
   - component: {fileID: 6245597217510480515}
-  - component: {fileID: 3585590050127319289}
   - component: {fileID: -7219205608655039362}
   - component: {fileID: -7655420320514313834}
   - component: {fileID: 515333486455282324}
@@ -818,7 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4222950
+  GlobalObjectIdHash: 3365181280
   InScenePlacedSourceGlobalObjectIdHash: 2710956934
   DeferredDespawnTick: 0
   Ownership: 1
@@ -831,27 +831,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6204940461610679389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2434894007857547855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f6ee540b6bbd0c46aea78556b68c82a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 7
-  acceleration: 30
-  deceleration: 40
-  smoothSpeed: 15
-  gravity: -9.81
-  primaryAbility: {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
-  points: {fileID: 7670626761221738459}
-  inShop: 0
 --- !u!114 &2885188943381047520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,7 +858,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6204940461610679389}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: CheckMove
         m_Mode: 0
@@ -899,7 +878,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/XInputControllerWindows/rightStick,/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6204940461610679389}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: UsePrimaryAbility
         m_Mode: 0
@@ -983,7 +962,7 @@ MonoBehaviour:
     m_ActionName: 'UI/Esc[/Keyboard/escape]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6204940461610679389}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: UseSecondaryAbility
         m_Mode: 0
@@ -999,7 +978,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack2[/Keyboard/2]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6204940461610679389}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: AttemptToggleUI
         m_Mode: 1
@@ -1033,7 +1012,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 3779843464443528873}
---- !u!114 &6245597217510480515
+--- !u!114 &672660732429774245
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1042,13 +1021,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2434894007857547855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bde8fdd28c0ed940a0e04340e652b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-  cameraSpawnOffset: {x: 0, y: 10, z: -10}
-  isChampion: 1
---- !u!114 &3585590050127319289
+  ShowTopMostFoldoutHeaderGroup: 1
+  moveSpeed: 4
+  acceleration: 10
+  deceleration: 15
+  smoothSpeed: 10
+  gravity: -9.81
+  primaryAbility: {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
+  points: {fileID: 7670626761221738459}
+  inShop: 0
+--- !u!114 &2559127314798066637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1057,7 +1042,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2434894007857547855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: b791e4b52c758a042a1d2b0d699f6669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
@@ -1084,6 +1069,21 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &6245597217510480515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
+  cameraSpawnOffset: {x: 0, y: 10, z: -10}
+  isChampion: 1
 --- !u!136 &-7219205608655039362
 CapsuleCollider:
   m_ObjectHideFlags: 0
