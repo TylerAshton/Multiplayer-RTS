@@ -1396,8 +1396,8 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Main
     abilityReferences:
-    - ability: {fileID: 11400000, guid: c91d4a6222748c241b8deac219921d03, type: 2}
-    - ability: {fileID: 11400000, guid: 4fb3d9071d8fcf74db4f0d421dbd60fd, type: 2}
+    - ability: {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
+    - ability: {fileID: 11400000, guid: 8f6185c9b6630f8459df81f380317c32, type: 2}
     TESTAB:
     - {fileID: 0}
 --- !u!114 &-8325889620801518248

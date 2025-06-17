@@ -14,25 +14,19 @@ namespace Editor
         {
             EditorGUI.BeginProperty(position, label, property);
 
+            // Dimensions and Rects
             float lineHeight = EditorGUIUtility.singleLineHeight;
+            Rect buttonRect = new Rect(position.x + position.width - 75, position.y, 80, lineHeight);
             Rect fieldRect = new Rect(position.x, position.y, position.width - 80, lineHeight);
-            Rect buttonRect = new Rect(position.x + position.width - 75, position.y, 75, lineHeight);
+            Rect editButtonRect = new Rect(position.x, position.y + lineHeight + 2, position.width, lineHeight);
 
             EditorGUI.PropertyField(fieldRect, property, label);
 
             if (GUI.Button(buttonRect, "Create New"))
             {
                 GenericMenu menu = new GenericMenu();
-                Vector2 cachedMousePos = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
 
-                // Add ability types here - replace with your own subclasses
-                /*menu.AddItem(new GUIContent("Channelled Projection Ability"), false, () => CreateNewAbilityOfType($"{typeof(ChannelledProjection).FullName}", property));
-                menu.AddItem(new GUIContent("Buff Ability"), false, () => CreateNewAbilityOfType($"{typeof(BuffAbility).FullName}", property));
-                menu.AddItem(new GUIContent("Construct Ability"), false, () => CreateNewAbilityOfType($"{typeof(Construct).FullName}", property));
-                menu.AddItem(new GUIContent("Melee Ability"), false, () => CreateNewAbilityOfType($"{typeof(MeleeAbility).FullName}", property));
-                menu.AddItem(new GUIContent("Projectile Ability"), false, () => CreateNewAbilityOfType($"{typeof(ProjectileAbility).FullName}", property));
-                menu.AddItem(new GUIContent("Summon Ability"), false, () => CreateNewAbilityOfType($"{typeof(SummonAbility).FullName}", property));
-                menu.AddItem(new GUIContent("DEBUG Ability"), false, () => CreateNewAbilityOfType($"{typeof(DebugAbility).FullName}", property));*/
+                // All ability options
                 menu.AddItem(new GUIContent("Channelled Projection Ability"), false, () => ShowNamingWindow($"{typeof(ChannelledProjection).FullName}", property));
                 menu.AddItem(new GUIContent("Buff Ability"), false, () => ShowNamingWindow($"{typeof(BuffAbility).FullName}", property));
                 menu.AddItem(new GUIContent("Construct Ability"), false, () => ShowNamingWindow($"{typeof(Construct).FullName}", property));
@@ -43,6 +37,17 @@ namespace Editor
 
                 menu.ShowAsContext();
             }
+
+            /*EditorGUI.LabelField(editButtonRect, "hi");*/
+
+            if (property.objectReferenceValue != null)
+            {
+                if (GUI.Button(editButtonRect, "Edit"))
+                {
+
+                }
+            }
+
 
             EditorGUI.EndProperty();
         }
@@ -76,17 +81,7 @@ namespace Editor
             string assetName = $"{abilityTypeName}.asset";
             string fullPath = $"{folderPath}/{assetName}";
 
-/*            // Create instance by type name
-            var type = GetAbilityType(abilityTypeName);
-
-            if (type == null)
-            {
-                Debug.LogError("abilityTypeName wasn't valid");
-                return;
-            }*/
-
             // Create asset
-
             ScriptableObject newAbility = ScriptableObject.CreateInstance(_abilityType);
 
             // Save the asset to the specified path
