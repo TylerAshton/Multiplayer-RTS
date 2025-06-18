@@ -225,6 +225,8 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     {
         //RotatePlayer();
         //updatePointsUI();
+
+        if (!IsOwner) { return; }
         while (timer.ShouldTick())
         {
             HandleClientTick();
@@ -242,11 +244,15 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
             bufferIndex = inputPayload.tick % k_bufferSize;
 
             StatePayload statePayload = SimulateMovement(inputPayload);
+            //SetAnimationParams(inputPayload.inputVector, statePayload.velocity);
             serverStateBuffer.Add(statePayload, bufferIndex);
+            
         }
 
         if (bufferIndex == -1) { return; }
         SendToClientRpc(serverStateBuffer.Get(bufferIndex));
+        //SetAnimationParams(serverStateBuffer.Get(bufferIndex).postition);
+
     }
 
     StatePayload SimulateMovement(InputPayload inputPayload)
@@ -254,6 +260,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         Physics.simulationMode = SimulationMode.Script;
 
         Move(inputPayload.inputVector);
+        
         Physics.Simulate(Time.fixedDeltaTime);
         Physics.simulationMode = SimulationMode.FixedUpdate;
 
@@ -292,7 +299,9 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
         StatePayload statePayload = ProcessMovement(inputPayload);
         clientStateBuffer.Add(statePayload, bufferIndex);
+
         
+
         // HandleServerRecconciliation();
     }
 
@@ -367,7 +376,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// </summary>
     void Move(Vector2 inputVector)
     {
-        if (!IsOwner) {  return; }
+        //if (!IsOwner) {  return; }
         Vector3 newMovementVector = new Vector3();
         newMovementVector.x = inputVector.x;
         newMovementVector.y = 0;
@@ -435,6 +444,8 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// 
     private void SetAnimationParams(Vector3 _movementInput)
     {
+        Debug.Log($"Vel{velocity}");
+
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
             nAnimator.SetFloat("MoveX", Mathf.Lerp(nAnimator.GetFloat("MoveX"), 0f, smoothSpeed * Time.deltaTime));
