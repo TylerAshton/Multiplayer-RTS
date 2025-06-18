@@ -16,13 +16,15 @@ public struct InputPayload : INetworkSerializable
     }
 }
 
+/// <summary>
+/// Representation of the current transformation state within a specific tick
+/// </summary>
 public struct StatePayload : INetworkSerializable
 {
     public int tick;
     public Vector3 postition;
     public Quaternion rotation;
     public Vector3 velocity;
-    public Vector3 angularVelocity;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
@@ -30,7 +32,6 @@ public struct StatePayload : INetworkSerializable
         serializer.SerializeValue(ref postition);
         serializer.SerializeValue(ref rotation);
         serializer.SerializeValue(ref velocity);
-        serializer.SerializeValue(ref angularVelocity);
     }
 }
 
@@ -162,7 +163,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
             {
                 Debug.LogError("CharacterController is required for AnimatedChampion");
             }
-            playerInput.enabled = true;
+            input.Enable();
 
         }
 
@@ -222,10 +223,8 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     private void FixedUpdate()
     {
-        //Move();
         //RotatePlayer();
         //updatePointsUI();
-
         while (timer.ShouldTick())
         {
             HandleClientTick();
@@ -263,8 +262,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
             tick = inputPayload.tick,
             postition = transform.position,
             rotation = transform.rotation,
-            velocity = rb.linearVelocity,
-            angularVelocity = rb.angularVelocity
+            velocity = characterController.velocity
         };
     }
 
@@ -278,7 +276,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     void HandleClientTick()
     {
-        if (!IsClient) {  return; }
+        if (!IsClient ) {  return; }
 
         var currentTick = timer.CurrentTick;
         var bufferIndex = currentTick % k_bufferSize;
@@ -313,8 +311,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
             tick = input.tick,
             postition = transform.position,
             rotation = transform.rotation,
-            velocity = rb.linearVelocity,
-            angularVelocity = rb.angularVelocity
+            velocity = characterController.velocity
         };
     }
 
@@ -371,8 +368,14 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     void Move(Vector2 inputVector)
     {
         if (!IsOwner) {  return; }
+        Vector3 newMovementVector = new Vector3();
+        newMovementVector.x = inputVector.x;
+        newMovementVector.y = 0;
+        newMovementVector.z = inputVector.y;
+        movementVector = newMovementVector;
         ChampionMove(movementVector);
         SetAnimationParams(movementVector);
+        RotatePlayer();
     }
 
     /// <summary>
@@ -409,21 +412,21 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// The unity input system uses this function to capture the input for the player movement
     /// </summary>
     /// <param name="context"></param>
-    public void CheckMove(InputAction.CallbackContext context)
-    {
-        Vector3 newMovementVector = new Vector3();
-        newMovementVector.x = context.ReadValue<Vector2>().x;
-        newMovementVector.y = 0;
-        newMovementVector.z = context.ReadValue<Vector2>().y;
+    //public void CheckMove(InputAction.CallbackContext context)
+    //{
+    //    Vector3 newMovementVector = new Vector3();
+    //    newMovementVector.x = context.ReadValue<Vector2>().x;
+    //    newMovementVector.y = 0;
+    //    newMovementVector.z = context.ReadValue<Vector2>().y;
+    //    movementVector = newMovementVector;
+    //    //SetMoveInputServerRpc(newMovementVector);
+    //}
 
-        SetMoveInputServerRpc(newMovementVector);
-    }
-
-    [ServerRpc]
-    private void SetMoveInputServerRpc(Vector3 _newMovementVector)
-    {
-        movementVector = _newMovementVector;
-    }
+    //[ServerRpc]
+    //private void SetMoveInputServerRpc(Vector3 _newMovementVector)
+    //{
+    //    movementVector = _newMovementVector;
+    //}
 
     /// <summary>
     /// Updates the animator controller with the movement vector relative to the rotation
@@ -432,12 +435,6 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// 
     private void SetAnimationParams(Vector3 _movementInput)
     {
-        if (!IsServer)
-        {
-            Debug.LogError("Client attempted to update the animations!");
-            return;
-        }
-
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
             nAnimator.SetFloat("MoveX", Mathf.Lerp(nAnimator.GetFloat("MoveX"), 0f, smoothSpeed * Time.deltaTime));
@@ -477,20 +474,19 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         {
             worldPosition = hit.point;
         };
-
-        RotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
+        this.transform.LookAt(new Vector3(worldPosition.x, this.transform.position.y, worldPosition.z));
     }
 
 
-    /// <summary>
-    /// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    [ServerRpc(RequireOwnership = false)]
-    private void RotationServerRpc(float x, float y, float z)
-    {
-        this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
-    }
+    ///// <summary>
+    ///// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
+    ///// </summary>
+    ///// <param name="x"></param>
+    ///// <param name="y"></param>
+    ///// <param name="z"></param>
+    //[ServerRpc(RequireOwnership = false)]
+    //private void RotationServerRpc(float x, float y, float z)
+    //{
+        
+    //}
 }
