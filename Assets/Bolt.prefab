@@ -133,7 +133,7 @@ MonoBehaviour:
   friendlyTag: Champion
   layerMask:
     serializedVersion: 2
-    m_Bits: 896
+    m_Bits: 640
   deathVFX: {fileID: 0}
   lifeTime: 5
 --- !u!135 &6882503118890853894

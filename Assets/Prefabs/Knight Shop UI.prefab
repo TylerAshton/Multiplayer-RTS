@@ -690,6 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a6f141ba36b7c4f8ee7e8f8acd981f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   moveInput: {x: 0, y: 0}
   options:
   - {fileID: 9220960394045635626}

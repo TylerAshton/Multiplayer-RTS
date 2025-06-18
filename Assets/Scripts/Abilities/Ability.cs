@@ -48,4 +48,23 @@ public abstract class Ability : ScriptableObject
     /// </summary>
     /// <param name="_user"></param>
     public abstract void DebugDrawing(IAbilityUser _user);
+/*
+    public abstract Ability Clone();
+
+    /// <summary>
+    /// Protected copier to copy the ability's properties to another ability instance.
+    /// </summary>
+    /// <param name="_target"></param>
+    protected void CopyBaseTo(Ability _target)
+    {
+        _target.abilityID = this.abilityID;
+        _target.castTime = this.castTime;
+        _target.castPositionName = this.castPositionName;
+        _target.animationTrigger = this.animationTrigger;
+        _target.icon = this.icon;
+        _target.abilityCost = this.abilityCost;
+        _target.cooldown = this.cooldown;
+    }
+
+    protected abstract void CopySubclassTo(Ability _target);*/
 }

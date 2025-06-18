@@ -2,7 +2,6 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.ProBuilder.AutoUnwrapSettings;
 public class Health : NetworkBehaviour
 {
     [SerializeField] private float hitPoints;
@@ -106,6 +105,12 @@ public class Health : NetworkBehaviour
     /// <param name="_damage"></param>
     public void Damage(float _damage)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Damage can only be applied on the server");
+            return;
+        }
+
         if (isImmune)
         {
             return;
@@ -135,6 +140,11 @@ public class Health : NetworkBehaviour
     /// <param name="_health"></param>
     public void Heal(float _health)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Healing can only be applied on the server!");
+            return;
+        }
         hitPoints += _health;
 
         UpdateHealthBarClientRpc(hitPoints);
@@ -151,6 +161,12 @@ public class Health : NetworkBehaviour
     /// </summary>
     public void DestroyObject()
     {
+        if (!IsServer)
+        {
+            Debug.LogError("DestroyObject can only be called by the server!");
+            return;
+        }
+
         if (isDying == true)
         {
             return;
@@ -185,7 +201,12 @@ public class Health : NetworkBehaviour
     /// </summary>
     private void Die()
     {
-        if(TryGetComponent<NetworkObject>(out var _networkObject))
+        if (!IsServer)
+        {
+            Debug.LogError("Objects can only be destroyed by the server");
+            return;
+        }
+        if (TryGetComponent<NetworkObject>(out var _networkObject))
         {
             if (_networkObject.IsSpawned == false)
             {

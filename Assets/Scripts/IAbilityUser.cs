@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IAbilityUser
 {
-    Animator Animator { get; }
+    NetCodeAnimationManager NAnimator { get; }
     Transform Transform { get; }
     IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions { get; }
     EffectManager EffectManager { get; }

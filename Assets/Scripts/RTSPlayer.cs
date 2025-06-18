@@ -28,11 +28,12 @@ public class RTSPlayer : NetworkBehaviour
 
         networkObject = GetComponent<NetworkObject>();
 
-        if (networkObject.IsOwner)
+        if (networkObject.IsOwner) // TODO: Refactor with try get comps
         {
             rtsPlayerControls = GetComponent<RTSPlayerControls>();
             rtsPlayerControls.Init();
             unitManager = GetComponent<UnitManager>();
+            UnitManager.Init();
             playerInput = GetComponent<PlayerInput>();
             playerInput.enabled = true;
         }

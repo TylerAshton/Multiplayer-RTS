@@ -20,7 +20,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
 
     ConstructionPad IConstructionPad.ConstructionPad => this;
 
-    public Animator Animator => throw new System.NotImplementedException();
+    public NetCodeAnimationManager NAnimator => throw new System.NotImplementedException();
 
     public Transform Transform => transform;
 
@@ -62,11 +62,17 @@ public class ConstructionPad : SelectableObject, IConstructionPad
 
         if (shouldDisplay())
         {
-            ShowBuildPad();
+            if (!IsSelectable)
+            {
+                ShowBuildPad();
+            }
         }
         else
         {
-            HideBuildPad();
+            if (IsSelectable)
+            {
+                HideBuildPad();
+            }
         }
     }
 
@@ -93,7 +99,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     /// Returns true if the construction pad should be visible and selectable
     /// </summary>
     /// <returns></returns>
-    private bool shouldDisplay() // WTF is this
+    private bool shouldDisplay() // TODO: WTF is this
     {
         if (territoryOwned && occupiedBuilding == null)
         {

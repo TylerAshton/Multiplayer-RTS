@@ -134,7 +134,7 @@ MonoBehaviour:
   friendlyTag: Amalgam
   layerMask:
     serializedVersion: 2
-    m_Bits: 896
+    m_Bits: 640
   deathVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
   lifeTime: 5
 --- !u!135 &-1178682786779891301

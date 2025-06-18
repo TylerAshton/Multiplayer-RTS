@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Linq;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -34,8 +33,13 @@ public class AbilityManager : NetworkBehaviour
     protected Ability currentAbility;
     protected Animator animator;
 
-    [SerializeField] protected List<Ability> abilities;
-    public List<Ability> Abilities => new List<Ability>(abilities); // This prevents the list CONTENTS from being fucked with
+    private Coroutine lockCastingCoroutine = null;
+
+    /*    [SerializeField] protected List<Ability> abilities;*/
+
+
+    [SerializeField] private List<AbilityTab> abilityTabs = new List<AbilityTab>();
+    public List<AbilityTab> AbilityTabs => GetAbilityTabs(); // This prevents the list CONTENTS from being fucked with
 
     private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();
 
@@ -83,27 +87,48 @@ public class AbilityManager : NetworkBehaviour
         #endif
     }
 
-    public virtual void SetAbility(int _index, Ability _ability)
+    private List<AbilityTab> GetAbilityTabs()
     {
-        abilities[_index] = _ability;
+        return abilityTabs.Select(tab => tab.Clone()).ToList();
     }
 
-    //[Rpc(SendTo.Everyone)]
-    //public void AddAbility(Ability _ability)
-    //{
-    //    AddAbilityRpc(_ability);
-    //}
-
-    public virtual void AddAbility(Ability _ability)
+    public virtual void SetAbility(int _index, Ability _ability, int _tabIndex)
     {
-        abilities.Add(_ability);
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set an ability");
+            return;
+        }
+        SetAbilityRpc(_index, _ability.AbilityID, _tabIndex);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetAbilityRpc(int _abilityIndex, string _abilityID, int tabIndex)
+    {
+        abilityTabs[tabIndex].SetAbility(_abilityIndex, AbilityRegistry.GetAbility(_abilityID));
+    }
+
+    public virtual void AddAbility(Ability _ability, int _tabIndex)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to add an ability");
+            return;
+        }
+        AddAbilityRpc(_ability.AbilityID, _tabIndex);
 
         // TODO: Harrison please update abilityGrid
     }
 
-    public bool CheckAbility(Ability _ability)
+    [Rpc(SendTo.Everyone)]
+    private void AddAbilityRpc(string _abilityID, int _tabIndex)
     {
-        return abilities.Contains(_ability);
+        abilityTabs[_tabIndex].AddAbility(AbilityRegistry.GetAbility(_abilityID));
+    }
+
+    public bool CheckAbility(Ability _ability, int tabIndex = 0)
+    {
+        return abilityTabs[tabIndex].Abilities.Contains(_ability);
     }
 
 
@@ -129,7 +154,7 @@ public class AbilityManager : NetworkBehaviour
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>
-    public void TryCastAbility(int _abilityIndex)
+    public void TryCastAbility(int _abilityIndex, int tabIndex = 0)
     {
         if (!IsServer)
         {
@@ -137,23 +162,50 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        if (abilities[_abilityIndex] == null)
+        if (tabIndex < 0)
         {
+            Debug.LogError("Tab index cannot be negative: " + tabIndex);
             return;
         }
 
-        currentAbility = abilities[_abilityIndex];
+        if (abilityTabs.Count <= tabIndex || abilityTabs[tabIndex] == null)
+        {
+            Debug.LogError("Tab index out of range or doesn't exist: " +tabIndex);
+            return;
+        }
 
-        if (!CanCastAbility(currentAbility))
+        AbilityTab selectedTab = abilityTabs[tabIndex];
+
+        if (_abilityIndex < 0)
+        {
+            Debug.LogError("Ability index cannot be negative: " + _abilityIndex);
+            return;
+        }
+
+        if (selectedTab.Abilities.Count <= _abilityIndex || selectedTab.Abilities[_abilityIndex] == null)
+        {
+            Debug.LogError("Ability index out of range: " + _abilityIndex);
+            return;
+        }
+
+        Ability selectedAbility = selectedTab.Abilities[_abilityIndex];
+
+
+        if (!CanCastAbility(selectedAbility))
         {
             Debug.LogWarning("Cannot cast ability due to checks failing");
             return;
         }
 
+        currentAbility = selectedAbility;
         StartCooldown(currentAbility);
         PointManager.Instance.RemovePoints(ownerClientId, currentAbility.AbilityCost);
         currentAbility.Activate(abilityUser);
-        StartCoroutine(LockCastingUntil(currentAbility.CastTime));
+        if (lockCastingCoroutine != null)
+        {
+            StopCoroutine(lockCastingCoroutine);
+        }
+        lockCastingCoroutine = StartCoroutine(LockCastingUntil(currentAbility.CastTime));
     }
 
     /// <summary>
