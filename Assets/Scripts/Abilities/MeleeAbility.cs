@@ -80,7 +80,11 @@ public class MeleeAbility : Ability<IAbilityUser>
         fieldRange.floatValue = EditorGUILayout.Slider("Range", fieldRange.floatValue, 0, 10);
 
         SerializedProperty fieldDamage = _so.FindProperty("damage");
-        fieldDamage.floatValue = EditorGUILayout.Slider("Damage", fieldDamage.floatValue, 0, 10);
+        fieldDamage.floatValue = EditorGUILayout.FloatField("Damage", fieldDamage.floatValue);
+        if (fieldDamage.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
+        }
 
         SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
         fieldHitEffect.objectReferenceValue = EditorGUILayout.ObjectField("Hit Effect Prefab", fieldHitEffect.objectReferenceValue, typeof(GameObject), false);
