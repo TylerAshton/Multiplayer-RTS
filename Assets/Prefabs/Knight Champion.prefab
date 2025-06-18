@@ -2617,7 +2617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  hitPoints: 100
+  hitPoints: 125
   isImmune: 0
   animator: {fileID: 8215767443926878751}
   deathAnimationLength: 1
