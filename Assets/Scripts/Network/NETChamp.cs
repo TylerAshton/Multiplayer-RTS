@@ -110,7 +110,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     [Header("Netcode Server")]
     CircularBuffer<StatePayload> serverStateBuffer;
     Queue<InputPayload> serverInputQueue;
-    private float reconciliationThreshold = 10f;
+    private float reconciliationThreshold = 50f;
 
     [Header("Netcode Debug")]
     [SerializeField] GameObject serverCube;
@@ -317,9 +317,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
         clientStateBuffer.Add(statePayload, bufferIndex);
 
-        
-
-        // HandleServerReconciliation();
+        HandleServerReconciliation();
     }
 
     bool ShouldReconcile()
@@ -355,6 +353,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         if (positionError > reconciliationThreshold)
         {
             ReconcileState(rewindState);
+            reconciliationCooldown.Start();
         }
 
         lastProcessedState = lastServerState;
