@@ -656,9 +656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d9db9626104da59357651088226725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PresetAsset: {fileID: 0}
+  m_PresetAsset: {fileID: 11400000, guid: a5779b7424bf64b41936286dbba561bc, type: 2}
   m_PresetReference:
-    rid: 892159555612705038
+    rid: -2
   m_Scenario:
     rid: -2
   m_IsScenarioSettingsFolded: 0
@@ -668,16 +668,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 892159555612705038
-      type: {class: NetworkSimulatorPreset, ns: Unity.Multiplayer.Tools.NetworkSimulator.Runtime, asm: Unity.Multiplayer.Tools.NetworkSimulator.Runtime}
-      data:
-        <Name>k__BackingField: 'Mobile 5G [''20]'
-        <Description>k__BackingField: In many places, expect this to be 'as good
-          as' or 'better than' home broadband.
-        <PacketDelayMs>k__BackingField: 30
-        <PacketJitterMs>k__BackingField: 20
-        <PacketLossInterval>k__BackingField: 0
-        <PacketLossPercent>k__BackingField: 4
 --- !u!1 &248766485
 GameObject:
   m_ObjectHideFlags: 0

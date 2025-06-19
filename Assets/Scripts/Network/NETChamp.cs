@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -8,11 +9,18 @@ using UnityEngine.InputSystem;
 public struct InputPayload : INetworkSerializable
 {
     public int tick;
+    public DateTime timestamp;
+    public ulong networkObjectId;
     public Vector3 inputVector;
+    public Vector3 position;
+
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref tick);
+        serializer.SerializeValue(ref timestamp);
+        serializer.SerializeValue(ref networkObjectId);
         serializer.SerializeValue(ref inputVector);
+        serializer.SerializeValue(ref position);
     }
 }
 
@@ -22,6 +30,7 @@ public struct InputPayload : INetworkSerializable
 public struct StatePayload : INetworkSerializable
 {
     public int tick;
+    public ulong networkObjectId;
     public Vector3 postition;
     public Quaternion rotation;
     public Vector3 velocity;
@@ -29,6 +38,7 @@ public struct StatePayload : INetworkSerializable
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref tick);
+        serializer.SerializeValue(ref networkObjectId);
         serializer.SerializeValue(ref postition);
         serializer.SerializeValue(ref rotation);
         serializer.SerializeValue(ref velocity);
@@ -90,14 +100,18 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     [SerializeField] InputReader input;
 
+    ClientNetworkTransform clientNetworkTransform;
 
     // Netcode General Variables
     [Header("Netcode")]
-    NetworkTimer timer;
+    NetworkTimer networkTimer;
     const float k_serverTickRate = 60f;
     const int k_bufferSize = 1024;
+    [SerializeField] CountdownTimer reconciliationTimer;
     [SerializeField] float reconciliationCooldownTime = 1f;
-    [SerializeField] CountdownTimer reconciliationCooldown;
+    [SerializeField] private float reconciliationThreshold = 50f;
+    [SerializeField] float extrapolationLimit = 0.5f; // 1f = 1000 Milliseconds therefore 0.5f = 500 milliseconds
+    [SerializeField] float extrapolationMultiplier = 1.2f;
 
     // Netcode Client Specific Variables
     [Header("Netcode Client")]
@@ -110,23 +124,54 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     [Header("Netcode Server")]
     CircularBuffer<StatePayload> serverStateBuffer;
     Queue<InputPayload> serverInputQueue;
-    private float reconciliationThreshold = 50f;
+    
 
     [Header("Netcode Debug")]
     [SerializeField] GameObject serverCube;
     [SerializeField] GameObject clientCube;
 
+    StatePayload extrapolationState;
+    CountdownTimer extrapolationTimer;
 
     private void Awake()
     {
-        timer = new NetworkTimer(k_serverTickRate);
+        clientNetworkTransform = GetComponent<ClientNetworkTransform>();
+
+        networkTimer = new NetworkTimer(k_serverTickRate);
         clientStateBuffer = new CircularBuffer<StatePayload>(k_bufferSize);
         clientInputBuffer = new CircularBuffer<InputPayload>(k_bufferSize);
 
         serverStateBuffer = new CircularBuffer<StatePayload>(k_bufferSize);
         serverInputQueue = new Queue<InputPayload>();
 
-        reconciliationCooldown = new CountdownTimer(reconciliationCooldownTime);
+        reconciliationTimer = new CountdownTimer(reconciliationCooldownTime);
+        extrapolationTimer = new CountdownTimer(extrapolationLimit);  // Replacing "extrapolationLimit" with "0" would disable extrapolation
+
+        reconciliationTimer.OnTimerStart += () =>
+        {
+            extrapolationTimer.Stop();
+        };
+
+        extrapolationTimer.OnTimerStart += () =>
+        {
+            reconciliationTimer.Stop();
+            SwitchAuthorityMode(AuthorityMode.Server);
+        };
+
+        extrapolationTimer.OnTimerStop += () =>
+        {
+            extrapolationState = default;
+            SwitchAuthorityMode(AuthorityMode.Client);
+        };
+    }
+
+    void SwitchAuthorityMode(AuthorityMode mode)
+    {
+        clientNetworkTransform.Auth = mode; // The server should take control when the client is severely lagging and stop syncing position
+        bool shouldSync = mode == AuthorityMode.Client;
+        clientNetworkTransform.SyncPositionX = shouldSync;
+        clientNetworkTransform.SyncPositionY = shouldSync;
+        clientNetworkTransform.SyncPositionZ = shouldSync;
     }
 
 
@@ -228,8 +273,10 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     // Update is called once per frame
     void Update()
     {
-        timer.Update(Time.deltaTime);
-        reconciliationCooldown.Tick(Time.deltaTime);
+        networkTimer.Update(Time.deltaTime);
+        reconciliationTimer.Tick(Time.deltaTime);
+        extrapolationTimer.Tick(Time.deltaTime);
+        Extrapolate();
         //ServerUpdate();
         //OwnerUpdate();
     }
@@ -238,20 +285,22 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     {
         //RotatePlayer();
         //updatePointsUI();
-        while (timer.ShouldTick())
+        while (networkTimer.ShouldTick())
         {
             HandleClientTick();
             HandleServerTick();
         }
+        Extrapolate();
     }
 
     void HandleServerTick()
     {
         if (!IsServer) { return; }
         var bufferIndex = -1;
+        InputPayload inputPayload = default;
         while (serverInputQueue.Count > 0)
         {
-            InputPayload inputPayload = serverInputQueue.Dequeue();
+            inputPayload = serverInputQueue.Dequeue();
 
             bufferIndex = inputPayload.tick % k_bufferSize;
 
@@ -266,8 +315,43 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
         if (bufferIndex == -1) { return; }
         SendToClientRpc(serverStateBuffer.Get(bufferIndex));
+        HandleExtrapolation(serverStateBuffer.Get(bufferIndex), CalculateLatencyInMillis(inputPayload));
         //SetAnimationParams(serverStateBuffer.Get(bufferIndex).postition);
 
+    }
+
+    void Extrapolate()
+    {
+        if (IsServer && extrapolationTimer.IsRunning)
+        {
+            transform.position += new Vector3(extrapolationState.postition.x, 0f, extrapolationState.postition.z);
+        }
+    }
+
+    void HandleExtrapolation(StatePayload latest, float latency)
+    {
+        if (ShouldExtrapolate(latency)) // if acceptable ammount of latency
+        {
+            if (extrapolationState.postition != default)
+            {
+                latest = extrapolationState;
+            }
+
+            var posAdjustment = latest.velocity * (1 + latency * extrapolationMultiplier);
+            extrapolationState.postition = posAdjustment;
+            extrapolationState.rotation = latest.rotation;
+            extrapolationState.velocity = latest.velocity;
+            extrapolationTimer.Start();
+        }
+        else
+        {
+            extrapolationTimer.Stop();
+        }
+    }
+
+    private bool ShouldExtrapolate(float latency)
+    {
+        return latency < extrapolationLimit && latency > Time.fixedDeltaTime;
     }
 
     //StatePayload SimulateMovement(InputPayload inputPayload)
@@ -275,7 +359,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     //    Physics.simulationMode = SimulationMode.Script;
 
     //    Move(inputPayload.inputVector);
-        
+
     //    Physics.Simulate(Time.fixedDeltaTime);
     //    Physics.simulationMode = SimulationMode.FixedUpdate;
 
@@ -288,6 +372,10 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     //    };
     //}
 
+    static float CalculateLatencyInMillis(InputPayload inputPayload)
+    {
+        return (DateTime.Now - inputPayload.timestamp).Milliseconds / 1000f; // Returns seconds so divide by 1000 to get milliseconds
+    }
 
     [Rpc(SendTo.NotServer)]
     void SendToClientRpc(StatePayload statePayload)
@@ -300,13 +388,16 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     {
         if (!IsClient || !IsOwner) {  return; }
 
-        var currentTick = timer.CurrentTick;
+        var currentTick = networkTimer.CurrentTick;
         var bufferIndex = currentTick % k_bufferSize;
 
         InputPayload inputPayload = new InputPayload()
         {
             tick = currentTick,
-            inputVector = input.Move //<------------ Look Here!
+            timestamp = DateTime.Now,
+            networkObjectId = NetworkObjectId,
+            inputVector = input.Move, //<------------ Look Here!
+            position = transform.position
         };
 
         clientInputBuffer.Add(inputPayload, bufferIndex);
@@ -333,7 +424,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         {
             isLastStateUndefinedOrDifferent = false;
         }
-            return isNewServerState && isLastStateUndefinedOrDifferent && !reconciliationCooldown.IsRunning;
+            return isNewServerState && isLastStateUndefinedOrDifferent && !reconciliationTimer.IsRunning && !extrapolationTimer.IsRunning;
     }
 
     void HandleServerReconciliation()
@@ -353,7 +444,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         if (positionError > reconciliationThreshold)
         {
             ReconcileState(rewindState);
-            reconciliationCooldown.Start();
+            reconciliationTimer.Start();
         }
 
         lastProcessedState = lastServerState;
@@ -371,7 +462,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
         int tickToReplay = lastServerState.tick;
 
-        while (tickToReplay < timer.CurrentTick)
+        while (tickToReplay < networkTimer.CurrentTick)
         {
             int bufferIndex = tickToReplay % k_bufferSize;
             StatePayload statePayload = ProcessMovement(clientInputBuffer.Get(bufferIndex));
@@ -393,6 +484,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         return new StatePayload()
         {
             tick = input.tick,
+            networkObjectId = input.networkObjectId,
             postition = transform.position,
             rotation = transform.rotation,
             velocity = characterController.velocity
@@ -519,7 +611,6 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// 
     private void SetAnimationParams(Vector3 _movementInput)
     {
-        Debug.Log($"Vel{velocity}");
 
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
