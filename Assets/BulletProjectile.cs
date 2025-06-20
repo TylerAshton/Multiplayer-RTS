@@ -21,6 +21,9 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private Vector3 posLastFrame;
     private Vector3[] corners = new Vector3[8];
 
+    private float bulletVFXScale = 1f;
+    private float deathVFXScale = 1f;
+
     private Faction faction = Faction.None;
     public Faction Faction { get => faction; set => faction = value; }
 
@@ -79,7 +82,9 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         damage = _projectileStats.Damage;
         lifeTime = _projectileStats.LifeTime;
         bulletVFX = _projectileStats.BulletVFX;
+        bulletVFXScale = _projectileStats.BulletVFXScale;
         deathVFX = _projectileStats.DeathVFX;
+        deathVFXScale = _projectileStats.DeathVFXScale;
 
         SpawmBulletVFXRpc();
     }
@@ -94,9 +99,16 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             Debug.LogError("Attempted to spawn bullet vfx when it's null!");
             return;
         }
+
+        if (bulletVFXScale >= 0)
+        {
+            Debug.LogError($"Bullet VFX Scale can't be zero or negative: {bulletVFXScale}");
+            return;
+        }
         else
         {
             GameObject spawnedVfx = Instantiate(bulletVFX, transform);
+            spawnedVfx.transform.localScale *= bulletVFXScale;
         }
     }
 
@@ -276,7 +288,14 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             return;
         }
 
+        if (deathVFXScale >= 0)
+        {
+            Debug.LogError($"Death VFX Scale can't be zero or negative: {deathVFXScale}");
+            return;
+        }
+
         GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
+        spawnedVfx.transform.localScale *= deathVFXScale;
 
     }
 }

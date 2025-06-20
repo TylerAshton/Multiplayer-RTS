@@ -16,8 +16,13 @@ public class ProjectileStats : ScriptableObject
 
     [SerializeField] private GameObject bulletVFX;
     public GameObject BulletVFX => bulletVFX;
+    [SerializeField] float bulletVFXScale = 1f;
+    public float BulletVFXScale => bulletVFXScale;
+
     [SerializeField] private GameObject deathVFX;
     public GameObject DeathVFX => deathVFX;
+    [SerializeField] float deathVFXScale = 1f;
+    public float DeathVFXScale => deathVFXScale;
 
 
     /// <summary>
@@ -56,9 +61,21 @@ public class ProjectileStats : ScriptableObject
             return false;
         }
 
+        if (this.bulletVFXScale >= 0)
+        {
+            Debug.LogError($"{this.name} has a zero or negative bullet vfx scale: {this.bulletVFXScale}");
+            return false;
+        }
+
         if (this.DeathVFX == null)
         {
             Debug.LogError($"{this.name} has no DeathVFX assigned.");
+            return false;
+        }
+
+        if (this.deathVFXScale >= 0)
+        {
+            Debug.LogError($"{this.name} has a zero or negative death vfx scale: {this.deathVFXScale}");
             return false;
         }
 
