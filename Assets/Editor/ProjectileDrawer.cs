@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace Editor.ProjectileEditor
+namespace Editor
 {
     [CustomPropertyDrawer(typeof(ProjectileStats))]
     public class ProjectileDrawer : PropertyDrawer
@@ -31,7 +31,7 @@ namespace Editor.ProjectileEditor
             {
                 if (GUI.Button(editButtonRect, "Edit"))
                 {
-                    //ProjectileEditorWindow.Open((ProjectileStats)property.objectReferenceValue);
+                    ProjectileEditorWindow.Open((ProjectileStats)property.objectReferenceValue);
                 }
             }
 
@@ -39,13 +39,13 @@ namespace Editor.ProjectileEditor
             EditorGUI.EndProperty();
         }
 
-/*        private void ShowNamingWindow(SerializedProperty property)
+        private void ShowNamingWindow(SerializedProperty property)
         {
-            UnityEditor.PopupWindow.Show(
+/*            UnityEditor.PopupWindow.Show(
                 new Rect(new Vector2(100, 100), new Vector2(250, 100)),
                 new ProjectileNamePopup(CreateNewProjectile, property)
-            );
-        }*/
+            );*/
+        }
 
         /// <summary>
         /// Creates a new ability of the specified type and assigns it to the property.

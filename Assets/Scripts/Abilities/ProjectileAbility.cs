@@ -8,6 +8,7 @@ using UnityEngine.ProBuilder;
 public class ProjectileAbility : Ability<IAbilityUser>
 {
     [SerializeField] private GameObject projectile;
+    [SerializeField] private ProjectileStats projectileStats;
     protected override void ActivateTyped(IAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
@@ -30,6 +31,9 @@ public class ProjectileAbility : Ability<IAbilityUser>
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
+
+        SerializedProperty fieldProjectileStats = _so.FindProperty("projectileStats");
+        EditorGUILayout.PropertyField(fieldProjectileStats);
 
         SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
         fieldProjectilePrefab.objectReferenceValue = EditorGUILayout.ObjectField("Projectile Prefab", fieldProjectilePrefab.objectReferenceValue, typeof(GameObject), false);
