@@ -7,8 +7,7 @@ using UnityEngine.ProBuilder;
 [CreateAssetMenu(fileName = "New Projectile Ability", menuName = "Abilities/Projectile")]
 public class ProjectileAbility : Ability<IAbilityUser>
 {
-    [SerializeField] private ProjectileStats projectileStats;
-
+    [SerializeField] private GameObject projectile;
     protected override void ActivateTyped(IAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
@@ -22,11 +21,9 @@ public class ProjectileAbility : Ability<IAbilityUser>
     protected override void OnUseTyped(IAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
-        GameObject spawnedProjectile = Instantiate(GetProjectileBlueprint(), castPositionTransform.position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
+        GameObject spawnedProjectile = Instantiate(projectile, castPositionTransform.position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
-        BulletProjectile bulletProjectile = spawnedProjectile.GetComponent<BulletProjectile>();
-        bulletProjectile.ApplyProjectileStats(projectileStats);
-        bulletProjectile.LaunchProjectile(_user.Transform.forward);
+        spawnedProjectile.GetComponent<BulletProjectile>().LaunchProjectile(_user.Transform.forward);
         spawnedProjectile.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 
@@ -36,11 +33,5 @@ public class ProjectileAbility : Ability<IAbilityUser>
 
         SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
         fieldProjectilePrefab.objectReferenceValue = EditorGUILayout.ObjectField("Projectile Prefab", fieldProjectilePrefab.objectReferenceValue, typeof(GameObject), false);
-    }
-
-    private GameObject GetProjectileBlueprint()
-    {
-        GameObject projectile = Resources.Load<GameObject>("Blueprints/BulletProjectile");
-        return projectile;
     }
 }
