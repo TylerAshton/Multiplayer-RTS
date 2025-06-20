@@ -11,6 +11,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject deathVFX;
+    private GameObject bulletVFX;
     [SerializeField] private float lifeTime = 5f;
     private float destroyAtTime = Mathf.Infinity;
     NetworkObject networkObject;
@@ -53,6 +54,50 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         }
 
         CalculateCorners();
+    }
+
+    /// <summary>
+    /// Applies the projectile stats to the bullet, this is used to set the stats of the bullet when it is instantiated
+    /// </summary>
+    /// <param name="_projectileStats"></param>
+    public void ApplyProjectileStats(ProjectileStats _projectileStats)
+    {
+        if (_projectileStats == null)
+        {
+            Debug.LogError("ProjectileStats is null");
+            return;
+        }
+
+        if (!_projectileStats.IsValid())
+        {
+            Debug.LogError("ProjectileStats is not valid, check the console for more information");
+            return;
+        }
+
+        detectionRange = _projectileStats.DetectionRange;
+        speed = _projectileStats.Speed;
+        damage = _projectileStats.Damage;
+        lifeTime = _projectileStats.LifeTime;
+        bulletVFX = _projectileStats.BulletVFX;
+        deathVFX = _projectileStats.DeathVFX;
+
+        SpawmBulletVFXRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawmBulletVFXRpc()
+    {
+        // TODO: Check if VFX is in networked prefab pool,
+
+        if (bulletVFX == null)
+        {
+            Debug.LogError("Attempted to spawn bullet vfx when it's null!");
+            return;
+        }
+        else
+        {
+            GameObject spawnedVfx = Instantiate(bulletVFX, transform);
+        }
     }
 
     /// <summary>
@@ -221,7 +266,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     {
         Debug.Log("Killing bullet");
         if (deathVFX)
-        {
+        { // TODO: Check if VFX is in networked prefab pool,
             GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
             spawnedVfx.GetComponent<NetworkObject>().Spawn();
         }
