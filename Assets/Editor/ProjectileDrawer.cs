@@ -70,11 +70,5 @@ namespace Editor
             property.objectReferenceValue = newProjectile;
             property.serializedObject.ApplyModifiedProperties();
         }
-
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight * 2 + 2;
-        }
     }
 }
