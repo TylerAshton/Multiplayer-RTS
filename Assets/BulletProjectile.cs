@@ -8,9 +8,9 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [SerializeField] private float detectionRange = 0.1f;
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
-    [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject deathVFX;
+    private GameObject bulletVFX;
     [SerializeField] private float lifeTime = 5f;
     private float destroyAtTime = Mathf.Infinity;
     NetworkObject networkObject;
@@ -26,10 +26,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private void Awake()
     {
 
-        if (friendlyTag == "")
+/*        if (faction == Faction.None)
         {
-            Debug.LogError("Tag isn't assigned");
-        }
+            Debug.LogError("Faction isn't assigned");
+        }*/
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
@@ -53,6 +53,33 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         }
 
         CalculateCorners();
+    }
+
+    /// <summary>
+    /// Applies the projectile stats to the bullet, this is used to set the stats of the bullet when it is instantiated
+    /// </summary>
+    /// <param name="_projectileStats"></param>
+    public void ApplyProjectileStats(ProjectileStats _projectileStats)
+    {               
+        if (_projectileStats == null)
+        {
+            Debug.LogError("ProjectileStats is null");
+            return;
+        }
+
+        if (!_projectileStats.IsValid())
+        {
+            Debug.LogError("ProjectileStats is not valid, check the console for more information");
+            return;
+        }
+
+        detectionRange = _projectileStats.DetectionRange;
+        speed = _projectileStats.Speed;
+        damage = _projectileStats.Damage;
+        lifeTime = _projectileStats.LifeTime;
+        bulletVFX = _projectileStats.BulletVFX;
+        deathVFX = _projectileStats.DeathVFX;
+
     }
 
     /// <summary>
