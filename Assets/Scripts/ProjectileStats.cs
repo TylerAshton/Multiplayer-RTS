@@ -61,7 +61,7 @@ public class ProjectileStats : ScriptableObject
             return false;
         }
 
-        if (this.bulletVFXScale >= 0)
+        if (this.bulletVFXScale <= 0)
         {
             Debug.LogError($"{this.name} has a zero or negative bullet vfx scale: {this.bulletVFXScale}");
             return false;
@@ -73,7 +73,7 @@ public class ProjectileStats : ScriptableObject
             return false;
         }
 
-        if (this.deathVFXScale >= 0)
+        if (this.deathVFXScale <= 0)
         {
             Debug.LogError($"{this.name} has a zero or negative death vfx scale: {this.deathVFXScale}");
             return false;
@@ -119,12 +119,18 @@ public class ProjectileStats : ScriptableObject
             EditorGUILayout.HelpBox("Bullet VFX must be assigned!", MessageType.Error);
         }
 
+        SerializedProperty fieldBulletVFXScale = so.FindProperty("bulletVFXScale");
+        fieldBulletVFXScale.floatValue = EditorGUILayout.Slider("Bullet VFX Scale", fieldBulletVFXScale.floatValue, 0, 10);
+
         SerializedProperty fieldDeathVFX = so.FindProperty("deathVFX");
         fieldDeathVFX.objectReferenceValue = EditorGUILayout.ObjectField("Death VFX", fieldDeathVFX.objectReferenceValue, typeof(GameObject), false);
         if (fieldDeathVFX.objectReferenceValue == null)
         {
             EditorGUILayout.HelpBox("Bullet VFX must be assigned!", MessageType.Error);
         }
+
+        SerializedProperty fieldDeathVFXScale = so.FindProperty("deathVFXScale");
+        fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, 0, 10);
 
     }
 }
