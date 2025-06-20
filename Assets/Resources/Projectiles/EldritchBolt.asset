@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cffe88dae6799a94a8b7ecae488eb09f, type: 3}
-  m_Name: Ice
+  m_Name: EldritchBolt
   m_EditorClassIdentifier: 
   detectionRange: 0.1
-  speed: 15
+  speed: 10
   damage: 1
-  lifeTime: 1
-  bulletVFX: {fileID: 100006, guid: 09a9233e871e63a4ca33f8cb6f46cf1c, type: 3}
-  bulletVFXScale: 0.3
-  deathVFX: {fileID: 100004, guid: a538c26b827a66e45a17c1f359fbd88b, type: 3}
-  deathVFXScale: 0.3
+  lifeTime: 5
+  bulletVFX: {fileID: 6724729905619074114, guid: cbeaa1f61e376d64c90ae58b34459d71, type: 3}
+  bulletVFXScale: 1
+  deathVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
+  deathVFXScale: 1
