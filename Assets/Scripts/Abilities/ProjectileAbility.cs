@@ -7,8 +7,8 @@ using UnityEngine.ProBuilder;
 [CreateAssetMenu(fileName = "New Projectile Ability", menuName = "Abilities/Projectile")]
 public class ProjectileAbility : Ability<IAbilityUser>
 {
+    [SerializeField] private GameObject projectile;
     [SerializeField] private ProjectileStats projectileStats;
-
     protected override void ActivateTyped(IAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
@@ -34,13 +34,16 @@ public class ProjectileAbility : Ability<IAbilityUser>
     {
         base.DrawInspector(_so);
 
+        SerializedProperty fieldProjectileStats = _so.FindProperty("projectileStats");
+        EditorGUILayout.PropertyField(fieldProjectileStats);
+
         SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
         fieldProjectilePrefab.objectReferenceValue = EditorGUILayout.ObjectField("Projectile Prefab", fieldProjectilePrefab.objectReferenceValue, typeof(GameObject), false);
     }
 
     private GameObject GetProjectileBlueprint()
     {
-        GameObject projectile = Resources.Load<GameObject>("Blueprints/BulletProjectile");
+        GameObject projectile = Resources.Load<GameObject>("Blueprints/BPBullet");
         return projectile;
     }
 }

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace Editor
+namespace Editor.ProjectileEditor
 {
     public class ProjectileNamePopup : PopupWindowContent
     {

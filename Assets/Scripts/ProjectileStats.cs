@@ -2,6 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Projectile Stats", menuName = "Stats/Projectile")]
 public class ProjectileStats : ScriptableObject
 {
     [SerializeField] private float detectionRange = 0.1f;

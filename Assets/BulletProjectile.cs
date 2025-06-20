@@ -8,6 +8,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [SerializeField] private float detectionRange = 0.1f;
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
+    [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject deathVFX;
     private GameObject bulletVFX;
@@ -26,10 +27,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private void Awake()
     {
 
-/*        if (faction == Faction.None)
+        if (friendlyTag == "")
         {
-            Debug.LogError("Faction isn't assigned");
-        }*/
+            Debug.LogError("Tag isn't assigned");
+        }
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
@@ -60,7 +61,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     /// </summary>
     /// <param name="_projectileStats"></param>
     public void ApplyProjectileStats(ProjectileStats _projectileStats)
-    {               
+    {
         if (_projectileStats == null)
         {
             Debug.LogError("ProjectileStats is null");
@@ -80,6 +81,23 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         bulletVFX = _projectileStats.BulletVFX;
         deathVFX = _projectileStats.DeathVFX;
 
+        SpawmBulletVFXRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawmBulletVFXRpc()
+    {
+        // TODO: Check if VFX is in networked prefab pool,
+
+        if (bulletVFX == null)
+        {
+            Debug.LogError("Attempted to spawn bullet vfx when it's null!");
+            return;
+        }
+        else
+        {
+            GameObject spawnedVfx = Instantiate(bulletVFX, transform);
+        }
     }
 
     /// <summary>
@@ -246,12 +264,19 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     public void DestroyObject()
     {
-        Debug.Log("Killing bullet");
-        if (deathVFX)
-        {
-            GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
-            spawnedVfx.GetComponent<NetworkObject>().Spawn();
-        }
+        SpawnDeathVFX();
         networkObject.Despawn();
+    }
+
+    private void SpawnDeathVFX()
+    {
+        if (deathVFX == null)
+        {
+            Debug.LogError($"Death VFX undefined in {this.name}!");
+            return;
+        }
+
+        GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
+
     }
 }

@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace Editor
+namespace Editor.ProjectileEditor
 {
     [CustomPropertyDrawer(typeof(ProjectileStats))]
     public class ProjectileDrawer : PropertyDrawer
