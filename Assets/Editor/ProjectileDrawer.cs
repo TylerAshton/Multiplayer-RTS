@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace Editor
+namespace Editor.ProjectileEditor
 {
     [CustomPropertyDrawer(typeof(ProjectileStats))]
     public class ProjectileDrawer : PropertyDrawer
@@ -21,7 +21,7 @@ namespace Editor
 
             if (GUI.Button(buttonRect, "Create New"))
             {
-                //ShowNamingWindow(property);
+                ShowNamingWindow(property);
                     
             }
 
@@ -41,10 +41,10 @@ namespace Editor
 
         private void ShowNamingWindow(SerializedProperty property)
         {
-/*            UnityEditor.PopupWindow.Show(
+            UnityEditor.PopupWindow.Show(
                 new Rect(new Vector2(100, 100), new Vector2(250, 100)),
                 new ProjectileNamePopup(CreateNewProjectile, property)
-            );*/
+            );
         }
 
         /// <summary>

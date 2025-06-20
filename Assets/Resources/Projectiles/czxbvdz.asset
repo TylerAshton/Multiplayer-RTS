@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cffe88dae6799a94a8b7ecae488eb09f, type: 3}
-  m_Name: New Projectile Stats
+  m_Name: czxbvdz
   m_EditorClassIdentifier: 
   detectionRange: 0.1
   speed: 10
   damage: 1
   lifeTime: 5
-  bulletVFX: {fileID: 6724729905619074114, guid: cbeaa1f61e376d64c90ae58b34459d71, type: 3}
-  deathVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
+  bulletVFX: {fileID: 0}
+  deathVFX: {fileID: 0}
