@@ -16,5 +16,5 @@ MonoBehaviour:
   speed: 10
   damage: 1
   lifeTime: 5
-  bulletVFX: {fileID: 6724729905619074114, guid: cbeaa1f61e376d64c90ae58b34459d71, type: 3}
-  deathVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
+  bulletVFX: {fileID: 100006, guid: 09a9233e871e63a4ca33f8cb6f46cf1c, type: 3}
+  deathVFX: {fileID: 100004, guid: a538c26b827a66e45a17c1f359fbd88b, type: 3}

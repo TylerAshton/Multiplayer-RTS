@@ -264,12 +264,19 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     public void DestroyObject()
     {
-        Debug.Log("Killing bullet");
-        if (deathVFX)
-        { // TODO: Check if VFX is in networked prefab pool,
-            GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
-            spawnedVfx.GetComponent<NetworkObject>().Spawn();
-        }
+        SpawnDeathVFX();
         networkObject.Despawn();
+    }
+
+    private void SpawnDeathVFX()
+    {
+        if (deathVFX == null)
+        {
+            Debug.LogError($"Death VFX undefined in {this.name}!");
+            return;
+        }
+
+        GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
+
     }
 }
