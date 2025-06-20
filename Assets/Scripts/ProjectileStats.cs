@@ -78,6 +78,7 @@ public class ProjectileStats : ScriptableObject
             Debug.LogError($"{this.name} has a zero or negative death vfx scale: {this.deathVFXScale}");
             return false;
         }
+        
 
         return true;
     }
@@ -131,6 +132,6 @@ public class ProjectileStats : ScriptableObject
 
         SerializedProperty fieldDeathVFXScale = so.FindProperty("deathVFXScale");
         fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, 0, 10);
-
+        EditorGUILayout.HelpBox("VFX Scaling works on some effects better than others due to how some authors make VFX.", MessageType.Warning);
     }
 }

@@ -37,9 +37,9 @@ public class ProjectileAbility : Ability<IAbilityUser>
         SerializedProperty fieldProjectileStats = _so.FindProperty("projectileStats");
         EditorGUILayout.PropertyField(fieldProjectileStats);
 
-        SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
+        /*SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
         fieldProjectilePrefab.objectReferenceValue = EditorGUILayout.ObjectField("Projectile Prefab", fieldProjectilePrefab.objectReferenceValue, typeof(GameObject), false);
-    }
+*/    }
 
     private GameObject GetProjectileBlueprint()
     {
