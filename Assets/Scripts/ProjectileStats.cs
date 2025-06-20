@@ -1,0 +1,112 @@
+using System;
+using UnityEditor;
+using UnityEngine;
+
+public class ProjectileStats : ScriptableObject
+{
+    [SerializeField] private float detectionRange = 0.1f;
+    public float DetectionRange => detectionRange;
+    [SerializeField] private float speed = 10f;
+    public float Speed => speed;
+    [SerializeField] private float damage = 1f;
+    public float Damage => damage;
+    [SerializeField] private float lifeTime = 5f;
+    public float LifeTime => lifeTime;
+
+    [SerializeField] private GameObject bulletVFX;
+    public GameObject BulletVFX => bulletVFX;
+    [SerializeField] private GameObject deathVFX;
+    public GameObject DeathVFX => deathVFX;
+
+
+    /// <summary>
+    /// Validation function for the projectile stats as it got way too long to be used in ApplyProjectileStats
+    /// </summary>
+    /// <returns></returns>
+    public bool IsValid()
+    {
+        if (this.DetectionRange <= 0)
+        {
+            Debug.LogError($"{this.name} DetectionRange is zero or negative: {this.DetectionRange}");
+            return false;
+        }
+
+        if (this.Speed <= 0)
+        {
+            Debug.LogError($"{this.name} speed is zero or negative: {this.Speed}");
+            return false;
+        }
+
+        if (this.Damage <= 0)
+        {
+            Debug.LogError($"{this.name} damage is zero or negative: {this.Damage}");
+            return false;
+        }
+
+        if (this.LifeTime <= 0)
+        {
+            Debug.LogError($"{this.name} life time is zero or negative: {this.LifeTime}");
+            return false;
+        }
+
+        if (this.BulletVFX == null)
+        {
+            Debug.LogError($"{this.name} has no BulletVFX assigned");
+            return false;
+        }
+
+        if (this.DeathVFX == null)
+        {
+            Debug.LogError($"{this.name} has no DeathVFX assigned.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void DrawInspector(SerializedObject so)
+    {
+        SerializedProperty fieldDetectionRange = so.FindProperty("detectionRange");
+        fieldDetectionRange.floatValue = EditorGUILayout.FloatField("Detection Range", fieldDetectionRange.floatValue);
+        if (fieldDetectionRange.floatValue <= 0)
+        {
+            EditorGUILayout.HelpBox("Detection Range must be greater than 0!", MessageType.Error);
+        }
+
+        SerializedProperty fieldSpeed = so.FindProperty("speed");
+        fieldSpeed.floatValue = EditorGUILayout.FloatField("Speed", fieldSpeed.floatValue);
+        if (fieldSpeed.floatValue <= 0)
+        {
+            EditorGUILayout.HelpBox("Speed must be greater than 0!", MessageType.Error);
+        }
+
+        SerializedProperty fieldDamage = so.FindProperty("damage");
+        fieldDamage.floatValue = EditorGUILayout.FloatField("Damage", fieldDamage.floatValue);
+        if (fieldDamage.floatValue <= 0)
+        {
+            EditorGUILayout.HelpBox("Damage must be greater than 0!", MessageType.Error);
+        }
+
+        SerializedProperty fieldLifeTime = so.FindProperty("lifeTime");
+        fieldLifeTime.floatValue = EditorGUILayout.FloatField("Life Time", fieldLifeTime.floatValue);
+        if (fieldLifeTime.floatValue <= 0)
+        {
+            EditorGUILayout.HelpBox("Life Time must be greater than 0!", MessageType.Error);
+        }
+
+        SerializedProperty fieldBulletVFX = so.FindProperty("bulletVFX");
+        fieldBulletVFX.objectReferenceValue = EditorGUILayout.ObjectField("Bullet VFX", fieldBulletVFX.objectReferenceValue, typeof(GameObject), false);
+        if (fieldBulletVFX.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Bullet VFX must be assigned!", MessageType.Error);
+        }
+
+        SerializedProperty fieldDeathVFX = so.FindProperty("deathVFX");
+        fieldDeathVFX.objectReferenceValue = EditorGUILayout.ObjectField("Death VFX", fieldDeathVFX.objectReferenceValue, typeof(GameObject), false);
+        if (fieldDeathVFX.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Bullet VFX must be assigned!", MessageType.Error);
+        }
+
+    }
+}
