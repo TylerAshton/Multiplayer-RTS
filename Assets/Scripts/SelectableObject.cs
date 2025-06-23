@@ -18,7 +18,6 @@ public class SelectableObject : NetworkBehaviour, IFaction
     private MeshRenderer selectionRenderer;
     protected RTSPlayer rts_Player;
     
-    protected NetworkObject networkObject;
     [SerializeField] private bool isSelectable = true;
     public bool IsSelectable => isSelectable;
 
@@ -32,10 +31,6 @@ public class SelectableObject : NetworkBehaviour, IFaction
             Debug.LogError("Unit selection indicator is missing");
         }
 
-        if (!TryGetComponent<NetworkObject>(out networkObject))
-        {
-            Debug.LogError("Network object is required for Unit");
-        }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
             Debug.LogError("AbilityManager is required for Unit");
@@ -119,6 +114,17 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// <param name="_newTask"></param>
     public void ImposeNewTask(Task _newTask)
     {
+        if (_newTask == null)
+        {
+            Debug.LogError("Attempted to impose a new task that is null");
+            return;
+        }
+
+        if (currentTask != null)
+        {
+            CancelCurrentTask();
+        }
+
         taskQueue.Clear();
         SetCurrentTask(_newTask);
     }
@@ -188,6 +194,12 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// </summary>
     public virtual void ShowSelectionIndicator()
     {
+        if (selectionIndiator == null)
+        {
+            Debug.LogError("Selection indicator is null!");
+            return;
+        }
+
         selectionIndiator.SetActive(true);
     }
 
@@ -196,6 +208,11 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// </summary>
     public virtual void HideSelectionIndicator()
     {
+        if (selectionIndiator == null)
+        {
+            Debug.LogError("Selection indicator is null!");
+            return;
+        }
         selectionIndiator.SetActive(false);
     }
 
@@ -205,6 +222,11 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// <param name="_color"></param>
     public void SetSelectionColor(Color _color)
     {
+        if (selectionIndiator == null)
+        {
+            Debug.LogError("Selection indicator is null!");
+            return;
+        }
         selectionRenderer.material.color = _color;
     }
 
