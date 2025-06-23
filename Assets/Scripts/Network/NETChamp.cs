@@ -277,6 +277,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         reconciliationTimer.Tick(Time.deltaTime);
         extrapolationTimer.Tick(Time.deltaTime);
         Extrapolate();
+        updatePointsUI();
         //ServerUpdate();
         //OwnerUpdate();
     }

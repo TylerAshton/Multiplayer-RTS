@@ -998,6 +998,10 @@ MonoBehaviour:
   points: {fileID: 7670626761221738459}
   inShop: 0
   input: {fileID: 11400000, guid: 09ebcdee6a382ca46ad9465574c9f854, type: 2}
+  reconciliationCooldownTime: 1
+  reconciliationThreshold: 50
+  extrapolationLimit: 0.5
+  extrapolationMultiplier: 1.2
   serverCube: {fileID: 2914916941526577892}
   clientCube: {fileID: 7667291981074508183}
 --- !u!114 &2559127314798066637
@@ -1406,7 +1410,7 @@ GameObject:
   - component: {fileID: 7443084785224539136}
   - component: {fileID: 7369309885730349301}
   - component: {fileID: 4971775810072576770}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: server
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2614,7 +2618,7 @@ GameObject:
   - component: {fileID: 2853316291414537120}
   - component: {fileID: 8800600701491176567}
   - component: {fileID: 3547045205789741926}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: client
   m_TagString: Untagged
   m_Icon: {fileID: 0}

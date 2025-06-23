@@ -43,7 +43,7 @@ public class NetCodeAnimationManager : NetworkBehaviour
     {
         if (!IsServer)
         {
-            Debug.LogError("Client attempted to set animation floats");
+            //Debug.LogError("Client attempted to set animation floats");
             return;
         }
         animator.SetFloat(param, value);
