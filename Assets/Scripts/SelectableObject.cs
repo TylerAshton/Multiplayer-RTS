@@ -83,8 +83,7 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// When the current task is completed exit the task. 
     /// Exit the task and start the next task if there is one in the queue
     /// </summary>
-    /// <param name="_completedTask"></param>
-    private void OnTaskComplete(Task _completedTask)
+    private void OnCurrentTaskComplete()
     {
         if (TryStartNextTask())
         {
@@ -141,7 +140,7 @@ public class SelectableObject : NetworkBehaviour, IFaction
         }
 
         currentTask.Exit();
-        currentTask.OnTaskCompleted -= OnTaskComplete;
+        currentTask.OnTaskCompleted -= OnCurrentTaskComplete;
         currentTask = null;
     }
 
@@ -151,6 +150,12 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// <param name="_newTask"></param>
     public void QueueNewTask(Task _newTask)
     {
+        if (_newTask == null)
+        {
+            Debug.LogError("Attempted to queue a new task that is null");
+            return;
+        }
+
         taskQueue.Enqueue(_newTask);
     }
 
@@ -172,7 +177,7 @@ public class SelectableObject : NetworkBehaviour, IFaction
         }
 
         currentTask = _task;
-        currentTask.OnTaskCompleted += OnTaskComplete;
+        currentTask.OnTaskCompleted += OnCurrentTaskComplete;
         currentTask.Start();
     }
 
