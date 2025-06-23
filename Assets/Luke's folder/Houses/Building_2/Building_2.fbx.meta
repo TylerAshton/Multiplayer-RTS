@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d462f8543004eb64ea3eef9c2099678a
+guid: ebc29ac6f12be9e479c35aeb48a8df51
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.006
-    second: {fileID: 2100000, guid: ebe9dbbb8299ae24ebb00f31bf6bef1e, type: 2}
+      name: lambert14
+    second: {fileID: 2100000, guid: 5b28a2eea3b4c9042b73f386f29e607a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -21,6 +21,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -40,7 +42,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
