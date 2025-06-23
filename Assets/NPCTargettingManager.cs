@@ -2,7 +2,10 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class AutoAttackController : NetworkBehaviour
+/// <summary>
+/// Assists NPCs in finding and targeting Champions within a specified range.
+/// </summary>
+public class NPCTargettingManager : NetworkBehaviour
 {
     [SerializeField] private float detectionRange;
     [SerializeField] private float forgivenessRange;
@@ -22,12 +25,6 @@ public class AutoAttackController : NetworkBehaviour
         }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,15 +33,12 @@ public class AutoAttackController : NetworkBehaviour
             return;
         }
 
-        TryAttackTarget();
         TryForgiveTarget();
 
         if (!npc.Target)
         {
             ScanForTarget();
         }
-
-        
     }
 
     private void TryForgiveTarget()
@@ -60,27 +54,6 @@ public class AutoAttackController : NetworkBehaviour
         {
             npc.SetTarget(null);
         }
-    }
-
-    private void TryAttackTarget()
-    {
-        if (!npc.Target)
-        {
-            return;
-        }
-        
-        if (!CanAttackTarget())
-        {
-            return;
-        }
-
-        abilityManager.TryCastAbility(0);
-
-    }
-
-    private bool CanAttackTarget() // TODO MAKE ME
-    {
-        return true;
     }
 
     private void OnDrawGizmos()

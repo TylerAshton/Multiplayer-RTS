@@ -1304,6 +1304,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 1015896299060538320}
   isSelectable: 1
+  npcBehaviour: {fileID: 11400000, guid: 081cb1d49c40ef54583188fa3403281f, type: 2}
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0

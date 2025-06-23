@@ -14,23 +14,22 @@ public class NPC : Unit, IAbilityUser
     private Transform target;
     public Transform Target => target;
     private Health targetHealth;
-    private NetCodeAnimationManager nAnimator;
-
-    Collider colliderComp;
     public Health TargetHealth => targetHealth;
-
+    private NetCodeAnimationManager nAnimator;
     public NetCodeAnimationManager NAnimator => nAnimator;
 
-    public Transform Transform => transform;
-
     private AbilityPositionManager abilityPositionManager;
-
     public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
+
+    private Collider colliderComp;
+
+    [SerializeField] private NPCBehaviour npcBehaviour;
 
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
-
+    public Transform Transform => transform;
     public IFaction IFaction => this;
+
 
     protected override void Awake()
     {
@@ -55,7 +54,11 @@ public class NPC : Unit, IAbilityUser
         {
             Debug.LogError("Collider is required for NPC");
         }
-
+        if (npcBehaviour == null)
+        {
+            Debug.LogError("NPCBehaviour is not assigned. Please assign it in the inspector.");
+        }
+        
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
     }
@@ -68,6 +71,7 @@ public class NPC : Unit, IAbilityUser
         if (!NetworkManager.Singleton.IsServer) return;
 
         agent.updateRotation = false;
+        npcBehaviour.Init(this);
     }
 
     // Update is called once per frame
@@ -77,7 +81,7 @@ public class NPC : Unit, IAbilityUser
 
         if (!IsServer) return;
 
-        UpdateRotation();
+        npcBehaviour.Update(this, Time.deltaTime);
     }
 
     /// <summary>
@@ -94,24 +98,7 @@ public class NPC : Unit, IAbilityUser
     }
 
 
-    private void UpdateRotation()
-    {
-        if (!IsServer)
-        {
-            Debug.LogError("Client attempted to update rotation for NPC");
-            return;
-        }
-
-        if (target != null)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), Time.deltaTime);
-        }
-
-        else if (agent.velocity.magnitude > 0.1f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.velocity.normalized), Time.deltaTime);
-        }       
-    }
+    
 
     /// <summary>
     /// Sets the nav agent's destination to the give position
@@ -126,20 +113,6 @@ public class NPC : Unit, IAbilityUser
         }
 
         agent.SetDestination(_worldPosition);
-    }
-
-    /// <summary>
-    /// Fires the pojectile towards the target's position
-    /// </summary>
-    public void Shoot()
-    {
-        if (!IsServer)
-        {
-            Debug.LogError("Client attempted to shoot for NPC");
-            return;
-        }
-
-        abilityManager.TryCastAbility(0);
     }
 
     /// <summary>
@@ -168,6 +141,8 @@ public class NPC : Unit, IAbilityUser
             return;
         }
 
+        npcBehaviour.OnSetTarget(this);
+
         if (_targetGameObject.TryGetComponent<Health>(out Health health))
         {
             targetHealth = health;
@@ -189,5 +164,7 @@ public class NPC : Unit, IAbilityUser
         targetHealth.OnDeath -= ClearTarget;
         targetHealth = null;
         target = null;
+
+        npcBehaviour.OnClearTarget(this);
     }
 }
