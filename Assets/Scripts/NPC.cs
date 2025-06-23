@@ -67,7 +67,7 @@ public class NPC : Unit, IAbilityUser
 
         if (!NetworkManager.Singleton.IsServer) return;
 
-        agent.updateRotation = false; // I'M IN CHARGE NOW BITCH
+        agent.updateRotation = false;
     }
 
     // Update is called once per frame
@@ -96,6 +96,12 @@ public class NPC : Unit, IAbilityUser
 
     private void UpdateRotation()
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to update rotation for NPC");
+            return;
+        }
+
         if (target != null)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), Time.deltaTime);
@@ -113,6 +119,12 @@ public class NPC : Unit, IAbilityUser
     /// <param name="_worldPosition"></param>
     public void SetDestination(Vector3 _worldPosition)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set destination for NPC");
+            return;
+        }
+
         agent.SetDestination(_worldPosition);
     }
 
@@ -121,6 +133,12 @@ public class NPC : Unit, IAbilityUser
     /// </summary>
     public void Shoot()
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to shoot for NPC");
+            return;
+        }
+
         abilityManager.TryCastAbility(0);
     }
 
@@ -130,10 +148,21 @@ public class NPC : Unit, IAbilityUser
     /// <param name="_targetGameObject"></param>
     public void SetTarget(GameObject _targetGameObject)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set target for NPC");
+            return;
+        }
+
         if (_targetGameObject == null)
         {
-            targetHealth.OnDeath -= ClearTarget;
-            targetHealth = null;
+            // Reset tagetHealth if the we already have a target
+            if (targetHealth != null)
+            {
+                targetHealth.OnDeath -= ClearTarget;
+                targetHealth = null;
+            }
+            
             target = null;
 
             return;
