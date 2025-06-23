@@ -69,6 +69,12 @@ public class NPCTargettingManager : NetworkBehaviour
     /// </summary>
     public void ScanForTarget()
     {
+        // Only run if the NPC does not have a target
+        if (npc.Target)
+        {
+            return; 
+        }
+
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange, unitLayer);
 
         foreach (Collider collider in hits)

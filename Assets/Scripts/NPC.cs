@@ -141,19 +141,21 @@ public class NPC : Unit, IAbilityUser
             return;
         }
 
-        npcBehaviour.OnSetTarget(this);
-
         if (_targetGameObject.TryGetComponent<Health>(out Health health))
         {
             targetHealth = health;
             target = _targetGameObject.transform;
             targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
             targetHealth.OnDeath += ClearTarget;
+
+            npcBehaviour.OnSetTarget(this);
         }
         else
         {
             Debug.LogWarning($"{_targetGameObject.name} does not have a Health component.");
         }
+
+        
     }
 
     /// <summary>
