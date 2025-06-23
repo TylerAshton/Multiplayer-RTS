@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Projectile Stats", menuName = "Stats/Projectile")]
 public class ProjectileStats : ScriptableObject
 {
+    [SerializeField] private string iD;
+    public string ID => iD;
     [SerializeField] private float detectionRange = 0.1f;
     public float DetectionRange => detectionRange;
     [SerializeField] private float speed = 10f;
@@ -25,12 +27,19 @@ public class ProjectileStats : ScriptableObject
     public float DeathVFXScale => deathVFXScale;
 
 
+
     /// <summary>
     /// Validation function for the projectile stats as it got way too long to be used in ApplyProjectileStats
     /// </summary>
     /// <returns></returns>
     public bool IsValid()
     {
+        if (this.ID == null || this.ID.Trim().Length == 0)
+        {
+            Debug.LogError($"{this.name} has no ID assigned or ID is empty.");
+            return false;
+        }
+
         if (this.DetectionRange <= 0)
         {
             Debug.LogError($"{this.name} DetectionRange is zero or negative: {this.DetectionRange}");
@@ -85,6 +94,13 @@ public class ProjectileStats : ScriptableObject
 
     public void DrawInspector(SerializedObject so)
     {
+        SerializedProperty fieldID = so.FindProperty("iD");
+        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
+        if (string.IsNullOrWhiteSpace(fieldID.stringValue))
+        {
+            EditorGUILayout.HelpBox("ID must be assigned and cannot be empty!", MessageType.Error);
+        }
+
         SerializedProperty fieldDetectionRange = so.FindProperty("detectionRange");
         fieldDetectionRange.floatValue = EditorGUILayout.FloatField("Detection Range", fieldDetectionRange.floatValue);
         if (fieldDetectionRange.floatValue <= 0)

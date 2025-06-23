@@ -63,8 +63,12 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     /// Applies the projectile stats to the bullet, this is used to set the stats of the bullet when it is instantiated
     /// </summary>
     /// <param name="_projectileStats"></param>
-    public void ApplyProjectileStats(ProjectileStats _projectileStats)
+    /// 
+    [Rpc(SendTo.Everyone)]
+    public void ApplyProjectileStatsRpc(string _projectileStatsID)
     {
+        ProjectileStats _projectileStats = ProjectileStatsRegistry.GetProjectileStat(_projectileStatsID);
+
         if (_projectileStats == null)
         {
             Debug.LogError("ProjectileStats is null");
@@ -77,6 +81,8 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             return;
         }
 
+
+
         detectionRange = _projectileStats.DetectionRange;
         speed = _projectileStats.Speed;
         damage = _projectileStats.Damage;
@@ -87,6 +93,11 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         deathVFXScale = _projectileStats.DeathVFXScale;
 
         SpawmBulletVFXRpc();
+    }
+
+    public void ApplyProjectileStatsWithID(string _projectileStatsID)
+    {
+        ApplyProjectileStatsRpc(_projectileStatsID);
     }
 
     [Rpc(SendTo.Everyone)]

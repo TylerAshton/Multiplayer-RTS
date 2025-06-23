@@ -30,9 +30,9 @@ public class AbilityTab
 
     public void OverrideList(List<Ability> _abilities)
     {
-        if (_abilities == null || _abilities.Count == 0)
+        if (_abilities == null)
         {
-            Debug.LogError("Cannot override with an empty or null list of abilities.");
+            Debug.LogError("Cannot override with a null list of abilities.");
             return;
         }
 
