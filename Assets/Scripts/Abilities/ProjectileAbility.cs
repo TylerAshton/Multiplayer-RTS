@@ -11,7 +11,14 @@ public class ProjectileAbility : Ability<IAbilityUser>
     [SerializeField] private ProjectileStats projectileStats;
     protected override void ActivateTyped(IAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+        if (!string.IsNullOrEmpty(AnimationTrigger))
+        {
+            _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+        }
+        else
+        {
+            OnUseTyped(_user); // TODO: None animator abilities should be streamlined
+        }
     }
 
     protected override void DebugDrawingTyped(IAbilityUser _user)
