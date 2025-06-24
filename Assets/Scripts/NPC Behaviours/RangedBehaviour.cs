@@ -3,41 +3,28 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New RangedBehaviour", menuName = "NPCBehaviours/RangedBehaviour", order = 1)]
 public class RangedBehaviour : NPCBehaviour
 {
-    public override void Init(NPC _npc)
+    public override void Init(Unit _unit)
     {
-        if (!_npc.IsServer)
+        base.Init(_unit);
+
+        if (!npc.IsServer)
         {
             Debug.LogError("Client attempted to initialize NPC behaviour");
             return;
         }
     }
-    public override void Update(NPC _npc, float deltaTime)
+    public override void Tick()
     {
-        if (!_npc.IsServer)
+        base.Tick();
+
+        if (!npc.IsServer)
         {
             Debug.LogError("Client attempted to Update NPC behaviour");
             return;
         }
 
-        UpdateRotation(_npc);
-        TryAttackTarget(_npc);
-    }
-    public override void OnSetTarget(NPC _npc)
-    {
-        if (!_npc.IsServer)
-        {
-            Debug.LogError("Client attempted to run OnSetTarget for NPC");
-            return;
-        }
-    }
-
-    public override void OnClearTarget(NPC _npc)
-    {
-        if (!_npc.IsServer)
-        {
-            Debug.LogError("Client attempted to run OnClearTarget for NPC");
-            return;
-        }
+        UpdateRotation(npc);
+        TryAttackTarget(npc);
     }
 
     private void TryAttackTarget(NPC _npc)

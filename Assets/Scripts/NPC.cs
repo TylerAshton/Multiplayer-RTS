@@ -23,8 +23,6 @@ public class NPC : Unit, IAbilityUser
 
     private Collider colliderComp;
 
-    [SerializeField] private NPCBehaviour npcBehaviour;
-
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
     public Transform Transform => transform;
@@ -54,10 +52,7 @@ public class NPC : Unit, IAbilityUser
         {
             Debug.LogError("Collider is required for NPC");
         }
-        if (npcBehaviour == null)
-        {
-            Debug.LogError("NPCBehaviour is not assigned. Please assign it in the inspector.");
-        }
+        
         
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
@@ -71,7 +66,6 @@ public class NPC : Unit, IAbilityUser
         if (!NetworkManager.Singleton.IsServer) return;
 
         agent.updateRotation = false;
-        npcBehaviour.Init(this);
     }
 
     // Update is called once per frame
@@ -80,8 +74,6 @@ public class NPC : Unit, IAbilityUser
         base.Update();
 
         if (!IsServer) return;
-
-        npcBehaviour.Update(this, Time.deltaTime);
     }
 
     /// <summary>
@@ -147,8 +139,6 @@ public class NPC : Unit, IAbilityUser
             target = _targetGameObject.transform;
             targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
             targetHealth.OnDeath += ClearTarget;
-
-            npcBehaviour.OnSetTarget(this);
         }
         else
         {
@@ -166,7 +156,5 @@ public class NPC : Unit, IAbilityUser
         targetHealth.OnDeath -= ClearTarget;
         targetHealth = null;
         target = null;
-
-        npcBehaviour.OnClearTarget(this);
     }
 }
