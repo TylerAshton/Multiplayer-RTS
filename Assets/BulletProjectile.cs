@@ -287,11 +287,12 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     public void DestroyObject()
     {
-        SpawnDeathVFX();
+        SpawnDeathVFXRpc();
         networkObject.Despawn();
     }
 
-    private void SpawnDeathVFX()
+    [Rpc(SendTo.Everyone)]
+    private void SpawnDeathVFXRpc()
     {
         if (deathVFX == null)
         {
