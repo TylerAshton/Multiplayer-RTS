@@ -1,16 +1,24 @@
 using UnityEngine;
 
-public class EmplacementBehaviour : MonoBehaviour
+public class EmplacementBehaviour : UnitBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private NPCTargettingManager targettingManager;
+    public override void Init(Unit _unit)
     {
-        
+        base.Init(_unit);
+
+        if (!TryGetComponent<NPCTargettingManager>(out targettingManager))
+        {
+            Debug.LogError($"{nameof(NPCTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            return;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Tick()
     {
-        
+        if (targettingManager.CurrentTarget != null)
+        {
+            unit.AbilityManager.TryCastAbility(0);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,16 +14,27 @@ public class NPCTargettingManager : NetworkBehaviour
     private NPC npc;
     private AbilityManager abilityManager;
 
+    private Transform currentTarget;
+    public Transform CurrentTarget => currentTarget;
+    private Health targetHealth;
+    public Health TargetHealth => targetHealth;
+
+
     private void Awake()
     {
         if (!TryGetComponent<NPC>(out npc))
         {
-            Debug.LogError("NPC is required for AutoAttackController");
+            Debug.LogError($"{nameof(NPC)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            return;
         }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
-            Debug.LogError("abilityManager is required for AutoAttackController");
+            Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            return;
         }
+
+
+
     }
 
     // Update is called once per frame
@@ -35,24 +47,24 @@ public class NPCTargettingManager : NetworkBehaviour
 
         TryForgiveTarget();
 
-        if (!npc.Target)
+        if (!currentTarget)
         {
-            ScanForTarget();
+            TryScanForTarget();
         }
     }
 
     private void TryForgiveTarget()
     {
-        if (!npc.Target)
+        if (!currentTarget)
         {
             return;
         }
 
-        float targetDistance = Vector3.Distance(npc.Target.position, npc.transform.position);
+        float targetDistance = Vector3.Distance(currentTarget.position, npc.transform.position);
 
         if (targetDistance > forgivenessRange)
         {
-            npc.SetTarget(null);
+            SetTarget(null);
         }
     }
 
@@ -67,10 +79,10 @@ public class NPCTargettingManager : NetworkBehaviour
     /// Attempts to find Champion within the detectionRange and sets it as the 
     /// Target before entering the AttackState should one exist within range
     /// </summary>
-    public void ScanForTarget()
+    public void TryScanForTarget()
     {
         // Only run if the NPC does not have a target
-        if (npc.Target)
+        if (currentTarget)
         {
             return; 
         }
@@ -88,8 +100,59 @@ public class NPCTargettingManager : NetworkBehaviour
                         continue;
                     }
                 }
-                npc.SetTarget(collider.gameObject);
+                SetTarget(collider.gameObject);
             }
         }
+    }
+
+    /// <summary>
+    /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
+    /// </summary>
+    /// <param name="_targetGameObject"></param>
+    public void SetTarget(GameObject _targetGameObject)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set target for NPC");
+            return;
+        }
+
+        if (_targetGameObject == null)
+        {
+            // Reset tagetHealth if the we already have a target
+            if (targetHealth != null)
+            {
+                targetHealth.OnDeath -= ClearTarget;
+                targetHealth = null;
+            }
+
+            currentTarget = null;
+
+            return;
+        }
+
+        if (_targetGameObject.TryGetComponent<Health>(out Health health))
+        {
+            targetHealth = health;
+            currentTarget = _targetGameObject.transform;
+            targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
+            targetHealth.OnDeath += ClearTarget;
+        }
+        else
+        {
+            Debug.LogWarning($"{_targetGameObject.name} does not have a Health component.");
+        }
+
+
+    }
+
+    /// <summary>
+    /// Unsubscribes from the target's OnDeath event and clears all target variables
+    /// </summary>
+    private void ClearTarget()
+    {
+        targetHealth.OnDeath -= ClearTarget;
+        targetHealth = null;
+        currentTarget = null;
     }
 }

@@ -11,8 +11,7 @@ public class NPC : Unit, IAbilityUser
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
-    private Transform target;
-    public Transform Target => target;
+
     private Health targetHealth;
     public Health TargetHealth => targetHealth;
     private NetCodeAnimationManager nAnimator;
@@ -103,7 +102,7 @@ public class NPC : Unit, IAbilityUser
         agent.SetDestination(_worldPosition);
     }
 
-    /// <summary>
+/*    /// <summary>
     /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
     /// </summary>
     /// <param name="_targetGameObject"></param>
@@ -142,9 +141,9 @@ public class NPC : Unit, IAbilityUser
         }
 
         
-    }
+    }*/
 
-    /// <summary>
+/*    /// <summary>
     /// Unsubscribes from the target's OnDeath event and clears all target variables
     /// </summary>
     private void ClearTarget()
@@ -152,5 +151,5 @@ public class NPC : Unit, IAbilityUser
         targetHealth.OnDeath -= ClearTarget;
         targetHealth = null;
         target = null;
-    }
+    }*/
 }

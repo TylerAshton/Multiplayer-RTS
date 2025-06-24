@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New RangedBehaviour", menuName = "NPCBehaviours/RangedBehaviour", order = 1)]
 public class RangedBehaviour : NPCBehaviour
 {
+    private NPCTargettingManager targettingManager;
     public override void Init(Unit _unit)
     {
         base.Init(_unit);
@@ -10,6 +11,11 @@ public class RangedBehaviour : NPCBehaviour
         if (!npc.IsServer)
         {
             Debug.LogError("Client attempted to initialize NPC behaviour");
+            return;
+        }
+        if (!TryGetComponent<NPCTargettingManager>(out targettingManager))
+        {
+            Debug.LogError($"{nameof(NPCTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
     }
@@ -29,7 +35,7 @@ public class RangedBehaviour : NPCBehaviour
 
     private void TryAttackTarget(NPC _npc)
     {
-        if (!_npc.Target)
+        if (!targettingManager.CurrentTarget)
         {
             return;
         }
@@ -47,9 +53,9 @@ public class RangedBehaviour : NPCBehaviour
             return;
         }
 
-        if (_npc.Target != null)
+        if (targettingManager.CurrentTarget != null)
         {
-            _npc.Transform.rotation = Quaternion.Lerp(_npc.Transform.rotation, Quaternion.LookRotation(_npc.Target.position - _npc.Transform.position), Time.deltaTime);
+            _npc.Transform.rotation = Quaternion.Lerp(_npc.Transform.rotation, Quaternion.LookRotation(targettingManager.CurrentTarget.position - _npc.Transform.position), Time.deltaTime);
         }
 
         else if (_npc.Agent.velocity.magnitude > 0.1f)
