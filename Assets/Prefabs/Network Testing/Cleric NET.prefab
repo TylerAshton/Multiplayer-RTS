@@ -1001,7 +1001,7 @@ MonoBehaviour:
   reconciliationCooldownTime: 1
   reconciliationThreshold: 50
   extrapolationLimit: 0.5
-  extrapolationMultiplier: 1.2
+  extrapolationMultiplier: 1
   serverCube: {fileID: 2914916941526577892}
   clientCube: {fileID: 7667291981074508183}
 --- !u!114 &2559127314798066637
@@ -1427,7 +1427,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1770477014136216472}
@@ -2635,7 +2635,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1770477014136216472}

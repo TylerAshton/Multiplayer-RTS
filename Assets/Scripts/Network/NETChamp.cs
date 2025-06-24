@@ -31,7 +31,7 @@ public struct StatePayload : INetworkSerializable
 {
     public int tick;
     public ulong networkObjectId;
-    public Vector3 postition;
+    public Vector3 position;
     public Quaternion rotation;
     public Vector3 velocity;
 
@@ -39,7 +39,7 @@ public struct StatePayload : INetworkSerializable
     {
         serializer.SerializeValue(ref tick);
         serializer.SerializeValue(ref networkObjectId);
-        serializer.SerializeValue(ref postition);
+        serializer.SerializeValue(ref position);
         serializer.SerializeValue(ref rotation);
         serializer.SerializeValue(ref velocity);
     }
@@ -109,7 +109,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     const int k_bufferSize = 1024;
     [SerializeField] CountdownTimer reconciliationTimer;
     [SerializeField] float reconciliationCooldownTime = 1f;
-    [SerializeField] private float reconciliationThreshold = 50f;
+    [SerializeField] private float reconciliationThreshold = 50f; // Used to be 50f
     [SerializeField] float extrapolationLimit = 0.5f; // 1f = 1000 Milliseconds therefore 0.5f = 500 milliseconds
     [SerializeField] float extrapolationMultiplier = 1.2f;
 
@@ -276,7 +276,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         networkTimer.Update(Time.deltaTime);
         reconciliationTimer.Tick(Time.deltaTime);
         extrapolationTimer.Tick(Time.deltaTime);
-        Extrapolate();
+        //Extrapolate();
         updatePointsUI();
         //ServerUpdate();
         //OwnerUpdate();
@@ -308,7 +308,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
             //StatePayload statePayload = SimulateMovement(inputPayload);
             StatePayload statePayload = ProcessMovement(inputPayload);
 
-            serverCube.transform.position = new (statePayload.postition.x, statePayload.postition.y + 5, statePayload.postition.z);
+            serverCube.transform.position = new (statePayload.position.x, statePayload.position.y + 5, statePayload.position.z);
             
             serverStateBuffer.Add(statePayload, bufferIndex);
             
@@ -325,7 +325,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     {
         if (IsServer && extrapolationTimer.IsRunning)
         {
-            transform.position += new Vector3(extrapolationState.postition.x, 0f, extrapolationState.postition.z);
+            transform.position += new Vector3(extrapolationState.position.x, 0f, extrapolationState.position.z);
         }
     }
 
@@ -333,13 +333,14 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     {
         if (ShouldExtrapolate(latency)) // if acceptable ammount of latency
         {
-            if (extrapolationState.postition != default)
+            if (extrapolationState.position != default)
             {
                 latest = extrapolationState;
             }
 
-            var posAdjustment = latest.velocity * (1 + latency * extrapolationMultiplier);
-            extrapolationState.postition = posAdjustment;
+            //var posAdjustment = latest.velocity * (1 + latency * extrapolationMultiplier);
+            //extrapolationState.postition = posAdjustment;
+            extrapolationState.position = latest.position;
             extrapolationState.rotation = latest.rotation;
             extrapolationState.velocity = latest.velocity;
             extrapolationTimer.Start();
@@ -405,7 +406,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         SendToServerRpc(inputPayload);
         StatePayload statePayload = ProcessMovement(inputPayload);
 
-        clientCube.transform.position = new(statePayload.postition.x, statePayload.postition.y + 5, statePayload.postition.z);
+        clientCube.transform.position = new(statePayload.position.x, statePayload.position.y + 5, statePayload.position.z);
 
         clientStateBuffer.Add(statePayload, bufferIndex);
 
@@ -425,7 +426,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         {
             isLastStateUndefinedOrDifferent = false;
         }
-            return isNewServerState && isLastStateUndefinedOrDifferent && !reconciliationTimer.IsRunning && !extrapolationTimer.IsRunning;
+        return isNewServerState && isLastStateUndefinedOrDifferent && !reconciliationTimer.IsRunning && !extrapolationTimer.IsRunning;
     }
 
     void HandleServerReconciliation()
@@ -440,7 +441,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         if (bufferIndex - 1 < 0) { return; } // Not enough info to reconcile
 
         rewindState = IsHost ? serverStateBuffer.Get(bufferIndex - 1) : lastServerState;  // Due to host having 0 latency between rpc we can directly grab the last state if its the host.
-        positionError = Vector3.Distance(rewindState.postition, clientStateBuffer.Get(bufferIndex).postition);
+        positionError = Vector3.Distance(rewindState.position, clientStateBuffer.Get(bufferIndex).position);
 
         if (positionError > reconciliationThreshold)
         {
@@ -453,7 +454,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     void ReconcileState(StatePayload rewindState)
     {
-        transform.position = rewindState.postition;
+        transform.position = rewindState.position;
         transform.rotation = rewindState.rotation;
         characterController.velocity.Set(rewindState.velocity.x, rewindState.velocity.y, rewindState.velocity.z);
 
@@ -486,7 +487,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         {
             tick = input.tick,
             networkObjectId = input.networkObjectId,
-            postition = transform.position,
+            position = transform.position,
             rotation = transform.rotation,
             velocity = characterController.velocity
         };
