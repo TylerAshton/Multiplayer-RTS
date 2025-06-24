@@ -58,6 +58,11 @@ public class CameraSpawner : MonoBehaviour
                 camera.enabled = false;
             }
 
+            if (camera.CompareTag("Minimap Cam"))
+            {
+                camera.enabled = true;
+            }
+
             Camera.main.tag = "Untagged";
             spawnedCameraComponent.tag = "MainCamera";
             spawnedCameraComponent.enabled = true;
