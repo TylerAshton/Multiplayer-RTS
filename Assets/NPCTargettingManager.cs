@@ -11,7 +11,7 @@ public class NPCTargettingManager : NetworkBehaviour
     [SerializeField] private float detectionRange;
     [SerializeField] private float forgivenessRange;
     [SerializeField] private LayerMask unitLayer;
-    private NPC npc;
+    private Unit unit;
     private AbilityManager abilityManager;
 
     private Transform currentTarget;
@@ -22,9 +22,9 @@ public class NPCTargettingManager : NetworkBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<NPC>(out npc))
+        if (!TryGetComponent<Unit>(out unit))
         {
-            Debug.LogError($"{nameof(NPC)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            Debug.LogError($"{nameof(Unit)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
@@ -60,7 +60,7 @@ public class NPCTargettingManager : NetworkBehaviour
             return;
         }
 
-        float targetDistance = Vector3.Distance(currentTarget.position, npc.transform.position);
+        float targetDistance = Vector3.Distance(currentTarget.position, unit.transform.position);
 
         if (targetDistance > forgivenessRange)
         {
