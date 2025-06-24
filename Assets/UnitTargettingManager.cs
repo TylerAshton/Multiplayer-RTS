@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Assists NPCs in finding and targeting Champions within a specified range.
 /// </summary>
-public class NPCTargettingManager : NetworkBehaviour
+public class UnitTargettingManager : NetworkBehaviour
 {
     [SerializeField] private float detectionRange;
     [SerializeField] private float forgivenessRange;

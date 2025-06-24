@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class EmplacementBehaviour : UnitBehaviour
 {
-    private NPCTargettingManager targettingManager;
+    private UnitTargettingManager targettingManager;
     public override void Init(Unit _unit)
     {
         base.Init(_unit);
 
-        if (!TryGetComponent<NPCTargettingManager>(out targettingManager))
+        if (!TryGetComponent<UnitTargettingManager>(out targettingManager))
         {
-            Debug.LogError($"{nameof(NPCTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            Debug.LogError($"{nameof(UnitTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
     }

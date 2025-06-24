@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New RangedBehaviour", menuName = "NPCBehaviours/RangedBehaviour", order = 1)]
 public class RangedBehaviour : NPCBehaviour
 {
-    private NPCTargettingManager targettingManager;
+    private UnitTargettingManager targettingManager;
     public override void Init(Unit _unit)
     {
         base.Init(_unit);
@@ -13,9 +13,9 @@ public class RangedBehaviour : NPCBehaviour
             Debug.LogError("Client attempted to initialize NPC behaviour");
             return;
         }
-        if (!TryGetComponent<NPCTargettingManager>(out targettingManager))
+        if (!TryGetComponent<UnitTargettingManager>(out targettingManager))
         {
-            Debug.LogError($"{nameof(NPCTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            Debug.LogError($"{nameof(UnitTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
     }
