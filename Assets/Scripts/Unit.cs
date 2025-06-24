@@ -22,6 +22,11 @@ public class Unit : SelectableObject, IDestructible
     {
         base.Start();
 
+        if (!IsServer)
+        {
+            return;
+        }
+
         if (TryGetComponent<UnitBehaviour>(out unitBehaviour))
         {
             unitBehaviour.Init(this);
@@ -33,6 +38,11 @@ public class Unit : SelectableObject, IDestructible
     protected override void Update()
     {
         base.Update();
+
+        if (!IsServer)
+        {
+            return;
+        }
 
         if (unitBehaviour != null)
         {

@@ -225,6 +225,13 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         {
             if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
             {
+                if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
+                {
+                    if (faction.Faction == this.faction)
+                    {
+                        continue;
+                    }
+                }
                 TryDamage(hit.collider);
 
                 AOEHitDetection(hit.collider);
