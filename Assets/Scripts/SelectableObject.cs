@@ -24,16 +24,23 @@ public class SelectableObject : NetworkBehaviour, IFaction
     protected Faction faction = Faction.Amalgam;
     Faction IFaction.Faction { get => faction; set => faction = value; }
 
+    private AbilityPositionManager abilityPositionManager;
+    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
+
     protected virtual void Awake()
     {
         if (selectionIndiator == null)
         {
-            Debug.LogError("Unit selection indicator is missing");
+            Debug.LogError($"Unit selection indicator is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
-            Debug.LogError("AbilityManager is required for Unit");
+            Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();

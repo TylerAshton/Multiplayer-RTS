@@ -18,8 +18,7 @@ public class NPC : Unit, IAbilityUser
     private NetCodeAnimationManager nAnimator;
     public NetCodeAnimationManager NAnimator => nAnimator;
 
-    private AbilityPositionManager abilityPositionManager;
-    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
+
 
     private Collider colliderComp;
 
@@ -44,10 +43,7 @@ public class NPC : Unit, IAbilityUser
         {
             Debug.LogError("AbilityManager is required for NPC");
         }
-        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
-        {
-            Debug.LogError("AbilityPositionManager is required for NPC");
-        }
+        
         if (!TryGetComponent<Collider>(out colliderComp))
         {
             Debug.LogError("Collider is required for NPC");
