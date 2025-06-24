@@ -14,23 +14,22 @@ public class NPC : Unit, IAbilityUser
     private Transform target;
     public Transform Target => target;
     private Health targetHealth;
-    private NetCodeAnimationManager nAnimator;
-
-    Collider colliderComp;
     public Health TargetHealth => targetHealth;
-
+    private NetCodeAnimationManager nAnimator;
     public NetCodeAnimationManager NAnimator => nAnimator;
 
-    public Transform Transform => transform;
-
     private AbilityPositionManager abilityPositionManager;
-
     public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
+
+    private Collider colliderComp;
+
+    [SerializeField] private NPCBehaviour npcBehaviour;
 
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
-
+    public Transform Transform => transform;
     public IFaction IFaction => this;
+
 
     protected override void Awake()
     {
@@ -55,7 +54,11 @@ public class NPC : Unit, IAbilityUser
         {
             Debug.LogError("Collider is required for NPC");
         }
-
+        if (npcBehaviour == null)
+        {
+            Debug.LogError("NPCBehaviour is not assigned. Please assign it in the inspector.");
+        }
+        
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
     }
@@ -67,7 +70,8 @@ public class NPC : Unit, IAbilityUser
 
         if (!NetworkManager.Singleton.IsServer) return;
 
-        agent.updateRotation = false; // I'M IN CHARGE NOW BITCH
+        agent.updateRotation = false;
+        npcBehaviour.Init(this);
     }
 
     // Update is called once per frame
@@ -77,7 +81,7 @@ public class NPC : Unit, IAbilityUser
 
         if (!IsServer) return;
 
-        UpdateRotation();
+        npcBehaviour.Update(this, Time.deltaTime);
     }
 
     /// <summary>
@@ -94,18 +98,7 @@ public class NPC : Unit, IAbilityUser
     }
 
 
-    private void UpdateRotation()
-    {
-        if (target != null)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), Time.deltaTime);
-        }
-
-        else if (agent.velocity.magnitude > 0.1f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.velocity.normalized), Time.deltaTime);
-        }       
-    }
+    
 
     /// <summary>
     /// Sets the nav agent's destination to the give position
@@ -113,15 +106,13 @@ public class NPC : Unit, IAbilityUser
     /// <param name="_worldPosition"></param>
     public void SetDestination(Vector3 _worldPosition)
     {
-        agent.SetDestination(_worldPosition);
-    }
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set destination for NPC");
+            return;
+        }
 
-    /// <summary>
-    /// Fires the pojectile towards the target's position
-    /// </summary>
-    public void Shoot()
-    {
-        abilityManager.TryCastAbility(0);
+        agent.SetDestination(_worldPosition);
     }
 
     /// <summary>
@@ -130,10 +121,21 @@ public class NPC : Unit, IAbilityUser
     /// <param name="_targetGameObject"></param>
     public void SetTarget(GameObject _targetGameObject)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set target for NPC");
+            return;
+        }
+
         if (_targetGameObject == null)
         {
-            targetHealth.OnDeath -= ClearTarget;
-            targetHealth = null;
+            // Reset tagetHealth if the we already have a target
+            if (targetHealth != null)
+            {
+                targetHealth.OnDeath -= ClearTarget;
+                targetHealth = null;
+            }
+            
             target = null;
 
             return;
@@ -145,11 +147,15 @@ public class NPC : Unit, IAbilityUser
             target = _targetGameObject.transform;
             targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
             targetHealth.OnDeath += ClearTarget;
+
+            npcBehaviour.OnSetTarget(this);
         }
         else
         {
             Debug.LogWarning($"{_targetGameObject.name} does not have a Health component.");
         }
+
+        
     }
 
     /// <summary>
@@ -160,5 +166,7 @@ public class NPC : Unit, IAbilityUser
         targetHealth.OnDeath -= ClearTarget;
         targetHealth = null;
         target = null;
+
+        npcBehaviour.OnClearTarget(this);
     }
 }

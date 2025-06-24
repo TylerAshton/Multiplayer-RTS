@@ -7,6 +7,11 @@ public class ProjectileStats : ScriptableObject
 {
     [SerializeField] private string iD;
     public string ID => iD;
+    // Consts for field sliers and validation
+    private const int minAOERadius = 1;
+    private const int maxAOERadius = 20;
+    private const int minVFXRadius = 0;
+    private const int maxVFXRadius = 10;
     [SerializeField] private float detectionRange = 0.1f;
     public float DetectionRange => detectionRange;
     [SerializeField] private float speed = 10f;
@@ -25,6 +30,11 @@ public class ProjectileStats : ScriptableObject
     public GameObject DeathVFX => deathVFX;
     [SerializeField] float deathVFXScale = 1f;
     public float DeathVFXScale => deathVFXScale;
+
+    [SerializeField] private bool isAOE = false;
+    public bool IsAOE => isAOE;
+    [SerializeField] private float aoeRadius = 1f;
+    public float AOERadius => aoeRadius;
 
 
 
@@ -87,7 +97,16 @@ public class ProjectileStats : ScriptableObject
             Debug.LogError($"{this.name} has a zero or negative death vfx scale: {this.deathVFXScale}");
             return false;
         }
-        
+
+        if (this.isAOE)
+        {
+            if (this.aoeRadius <= 0)
+            {
+                Debug.LogError($"{this.name} has a zero or negative AOE radius: {this.aoeRadius}");
+                return false;
+            }
+        }
+
 
         return true;
     }
@@ -129,6 +148,18 @@ public class ProjectileStats : ScriptableObject
             EditorGUILayout.HelpBox("Life Time must be greater than 0!", MessageType.Error);
         }
 
+        SerializedProperty fieldIsAOE = so.FindProperty("isAOE");
+        fieldIsAOE.boolValue = EditorGUILayout.Toggle("Is AOE", fieldIsAOE.boolValue);
+        if (fieldIsAOE.boolValue)
+        {
+            SerializedProperty fieldAOERadius = so.FindProperty("aoeRadius");
+            fieldAOERadius.floatValue = EditorGUILayout.Slider("AOE Radius", fieldAOERadius.floatValue, minAOERadius, maxAOERadius);
+            if (fieldAOERadius.floatValue <= 0)
+            {
+                EditorGUILayout.HelpBox("AOE Radius must be greater than 0!", MessageType.Error);
+            }
+        }
+
         SerializedProperty fieldBulletVFX = so.FindProperty("bulletVFX");
         fieldBulletVFX.objectReferenceValue = EditorGUILayout.ObjectField("Bullet VFX", fieldBulletVFX.objectReferenceValue, typeof(GameObject), false);
         if (fieldBulletVFX.objectReferenceValue == null)
@@ -137,7 +168,7 @@ public class ProjectileStats : ScriptableObject
         }
 
         SerializedProperty fieldBulletVFXScale = so.FindProperty("bulletVFXScale");
-        fieldBulletVFXScale.floatValue = EditorGUILayout.Slider("Bullet VFX Scale", fieldBulletVFXScale.floatValue, 0, 10);
+        fieldBulletVFXScale.floatValue = EditorGUILayout.Slider("Bullet VFX Scale", fieldBulletVFXScale.floatValue, minVFXRadius, maxVFXRadius);
 
         SerializedProperty fieldDeathVFX = so.FindProperty("deathVFX");
         fieldDeathVFX.objectReferenceValue = EditorGUILayout.ObjectField("Death VFX", fieldDeathVFX.objectReferenceValue, typeof(GameObject), false);
@@ -147,7 +178,7 @@ public class ProjectileStats : ScriptableObject
         }
 
         SerializedProperty fieldDeathVFXScale = so.FindProperty("deathVFXScale");
-        fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, 0, 10);
+        fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, minVFXRadius, maxVFXRadius);
         EditorGUILayout.HelpBox("VFX Scaling works on some effects better than others due to how some authors make VFX.", MessageType.Warning);
     }
 #endif
