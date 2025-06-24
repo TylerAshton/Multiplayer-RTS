@@ -11,6 +11,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [SerializeField] string friendlyTag;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject deathVFX;
+    private GameObject bulletVFX;
     [SerializeField] private float lifeTime = 5f;
     private float destroyAtTime = Mathf.Infinity;
     NetworkObject networkObject;
@@ -19,6 +20,9 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 posLastFrame;
     private Vector3[] corners = new Vector3[8];
+
+    private float bulletVFXScale = 1f;
+    private float deathVFXScale = 1f;
 
     private Faction faction = Faction.None;
     public Faction Faction { get => faction; set => faction = value; }
@@ -53,6 +57,70 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         }
 
         CalculateCorners();
+    }
+
+    /// <summary>
+    /// Applies the projectile stats to the bullet, this is used to set the stats of the bullet when it is instantiated
+    /// </summary>
+    /// <param name="_projectileStats"></param>
+    /// 
+    [Rpc(SendTo.Everyone)]
+    public void ApplyProjectileStatsRpc(string _projectileStatsID)
+    {
+        ProjectileStats _projectileStats = ProjectileStatsRegistry.GetProjectileStat(_projectileStatsID);
+
+        if (_projectileStats == null)
+        {
+            Debug.LogError("ProjectileStats is null");
+            return;
+        }
+
+        if (!_projectileStats.IsValid())
+        {
+            Debug.LogError("ProjectileStats is not valid, check the console for more information");
+            return;
+        }
+
+
+
+        detectionRange = _projectileStats.DetectionRange;
+        speed = _projectileStats.Speed;
+        damage = _projectileStats.Damage;
+        lifeTime = _projectileStats.LifeTime;
+        bulletVFX = _projectileStats.BulletVFX;
+        bulletVFXScale = _projectileStats.BulletVFXScale;
+        deathVFX = _projectileStats.DeathVFX;
+        deathVFXScale = _projectileStats.DeathVFXScale;
+
+        SpawmBulletVFXRpc();
+    }
+
+    public void ApplyProjectileStatsWithID(string _projectileStatsID)
+    {
+        ApplyProjectileStatsRpc(_projectileStatsID);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawmBulletVFXRpc()
+    {
+        // TODO: Check if VFX is in networked prefab pool,
+
+        if (bulletVFX == null)
+        {
+            Debug.LogError("Attempted to spawn bullet vfx when it's null!");
+            return;
+        }
+
+        if (bulletVFXScale <= 0)
+        {
+            Debug.LogError($"Bullet VFX Scale can't be zero or negative: {bulletVFXScale}");
+            return;
+        }
+        else
+        {
+            GameObject spawnedVfx = Instantiate(bulletVFX, transform);
+            spawnedVfx.transform.localScale *= bulletVFXScale;
+        }
     }
 
     /// <summary>
@@ -219,12 +287,27 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     public void DestroyObject()
     {
-        Debug.Log("Killing bullet");
-        if (deathVFX)
-        {
-            GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
-            spawnedVfx.GetComponent<NetworkObject>().Spawn();
-        }
+        SpawnDeathVFXRpc();
         networkObject.Despawn();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SpawnDeathVFXRpc()
+    {
+        if (deathVFX == null)
+        {
+            Debug.LogError($"Death VFX undefined in {this.name}!");
+            return;
+        }
+
+        if (deathVFXScale <= 0)
+        {
+            Debug.LogError($"Death VFX Scale can't be zero or negative: {deathVFXScale}");
+            return;
+        }
+
+        GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
+        spawnedVfx.transform.localScale *= deathVFXScale;
+
     }
 }

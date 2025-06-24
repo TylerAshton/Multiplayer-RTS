@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EldritchBlast
   m_EditorClassIdentifier: 
   abilityID: eldritchBlast
+  abilityName: 
   castTime: 1
   castPositionName: 1
   animationTrigger: EldritchBlast
@@ -20,3 +21,4 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 1
   projectile: {fileID: 4460309666732685197, guid: bc41bdd5399d26748a73664e564b6b1a, type: 3}
+  projectileStats: {fileID: 11400000, guid: 678001f397f83ba4eafaae4d147f354b, type: 2}

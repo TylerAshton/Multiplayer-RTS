@@ -21,7 +21,7 @@ public static class AbilityRegistry
         }
         if (_abilityID == null || _abilityID == string.Empty)
         {
-            Debug.LogError($"Ability ID {_abilityID} is null or empty.");
+            Debug.LogError($"Ability ID of {_ability.name} | {_abilityID} is null or empty.");
             return;
         }
 

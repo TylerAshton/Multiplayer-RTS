@@ -1,9 +1,11 @@
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
 /// This is a generic class which lets C# be happy with storing and polymorphing 
 /// all kinds of abilities
 /// </summary>
+[System.Serializable]
 public abstract class Ability : ScriptableObject
 {
     [SerializeField] private string abilityID = string.Empty;
@@ -48,23 +50,50 @@ public abstract class Ability : ScriptableObject
     /// </summary>
     /// <param name="_user"></param>
     public abstract void DebugDrawing(IAbilityUser _user);
-/*
-    public abstract Ability Clone();
 
     /// <summary>
-    /// Protected copier to copy the ability's properties to another ability instance.
+    /// Used by the AbilityEditorWindow to draw the inspector for abilities.
     /// </summary>
-    /// <param name="_target"></param>
-    protected void CopyBaseTo(Ability _target)
+    /// <param name="_so"></param>
+    /// 
+#if UNITY_EDITOR // Will crash if this is not wrapped in UNITY_EDITOR
+    public virtual void DrawInspector(SerializedObject _so)
     {
-        _target.abilityID = this.abilityID;
-        _target.castTime = this.castTime;
-        _target.castPositionName = this.castPositionName;
-        _target.animationTrigger = this.animationTrigger;
-        _target.icon = this.icon;
-        _target.abilityCost = this.abilityCost;
-        _target.cooldown = this.cooldown;
-    }
+        SerializedProperty fieldID = _so.FindProperty("abilityID");
+        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
+        if (fieldID.stringValue == "")
+        {
+            EditorGUILayout.HelpBox("Ability ID Can't be null", MessageType.Error);
+        }
 
-    protected abstract void CopySubclassTo(Ability _target);*/
+        SerializedProperty fieldName = _so.FindProperty("abilityName");
+        fieldName.stringValue = EditorGUILayout.TextField("Name", fieldName.stringValue);
+
+        SerializedProperty fieldAnimationTrigger = _so.FindProperty("animationTrigger");
+        fieldAnimationTrigger.stringValue = EditorGUILayout.TextField("Animation Trigger", fieldAnimationTrigger.stringValue); // TODO: Remove?
+                                                                                                                               //EditorGUILayout.HelpBox("Honestly don't animationTrigger touch this without a dev.", MessageType.Warning);
+
+        SerializedProperty fieldCastTime = _so.FindProperty("castTime");
+        fieldCastTime.floatValue = EditorGUILayout.Slider("Cast Time", fieldCastTime.floatValue, 0, 10);
+
+        SerializedProperty fieldCooldown = _so.FindProperty("cooldown");
+        fieldCooldown.floatValue = EditorGUILayout.Slider("Cooldown", fieldCooldown.floatValue, 0, 60);
+
+        SerializedProperty fieldAbilityCost = _so.FindProperty("abilityCost");
+        fieldAbilityCost.intValue = EditorGUILayout.IntField("Ability Cost", fieldAbilityCost.intValue);
+
+        if (fieldAbilityCost.intValue < 0)
+        {
+            EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
+        }
+
+
+
+        SerializedProperty fieldCastPos = _so.FindProperty("castPositionName");
+        fieldCastPos.enumValueIndex = EditorGUILayout.Popup("Cast Position", fieldCastPos.enumValueIndex, fieldCastPos.enumDisplayNames);
+
+        SerializedProperty fieldIcon = _so.FindProperty("icon");
+        fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Ability Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
+    }
+#endif
 }

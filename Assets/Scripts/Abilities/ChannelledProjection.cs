@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New AOE Ability", menuName = "Abilities/AOE")]
-public class AOEAbility : Ability<IAbilityUser>
+[CreateAssetMenu(fileName = "New Channelled Projection Ability", menuName = "Abilities/Channelled Projection")]
+public class ChannelledProjection : Ability<IAbilityUser>
 {
     [SerializeField] GameObject effect;
     protected override void ActivateTyped(IAbilityUser _user)
@@ -25,4 +26,14 @@ public class AOEAbility : Ability<IAbilityUser>
         newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
         newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
+
+#if UNITY_EDITOR
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldEffect = _so.FindProperty("effect");
+        fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect Prefab", fieldEffect.objectReferenceValue, typeof(GameObject), false);
+    }
+#endif
 }

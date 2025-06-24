@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Melee Ability", menuName = "Abilities/Melee")]
@@ -68,4 +69,26 @@ public class MeleeAbility : Ability<IAbilityUser>
         }
     }
 
+#if UNITY_EDITOR
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldAngleDegrees = _so.FindProperty("angleDegrees");
+        fieldAngleDegrees.floatValue = EditorGUILayout.Slider("Angle Degrees", fieldAngleDegrees.floatValue, 0, 360);
+
+        SerializedProperty fieldRange = _so.FindProperty("range");
+        fieldRange.floatValue = EditorGUILayout.Slider("Range", fieldRange.floatValue, 0, 10);
+
+        SerializedProperty fieldDamage = _so.FindProperty("damage");
+        fieldDamage.floatValue = EditorGUILayout.FloatField("Damage", fieldDamage.floatValue);
+        if (fieldDamage.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
+        }
+
+        SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
+        fieldHitEffect.objectReferenceValue = EditorGUILayout.ObjectField("Hit Effect Prefab", fieldHitEffect.objectReferenceValue, typeof(GameObject), false);
+    }
+#endif
 }

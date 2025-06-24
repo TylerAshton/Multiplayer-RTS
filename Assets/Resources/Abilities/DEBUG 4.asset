@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DEBUG 4
   m_EditorClassIdentifier: 
   abilityID: Debug 4
+  abilityName: 
   castTime: 1
   castPositionName: 0
   animationTrigger: 
