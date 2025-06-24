@@ -91,7 +91,7 @@ public class ProjectileStats : ScriptableObject
 
         return true;
     }
-
+#if UNITY_EDITOR
     public void DrawInspector(SerializedObject so)
     {
         SerializedProperty fieldID = so.FindProperty("iD");
@@ -150,4 +150,5 @@ public class ProjectileStats : ScriptableObject
         fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, 0, 10);
         EditorGUILayout.HelpBox("VFX Scaling works on some effects better than others due to how some authors make VFX.", MessageType.Warning);
     }
+#endif
 }

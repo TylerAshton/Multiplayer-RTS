@@ -45,7 +45,7 @@ public class SummonAbility : Ability<IAbilityUser>
     {
         throw new System.NotImplementedException();
     }
-
+#if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
@@ -65,4 +65,5 @@ public class SummonAbility : Ability<IAbilityUser>
         SerializedProperty fieldOffset = _so.FindProperty("offset");
         EditorGUILayout.PropertyField(fieldOffset, new GUIContent("Offset"));
     }
+#endif
 }

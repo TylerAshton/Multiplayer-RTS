@@ -39,7 +39,7 @@ public class BuffAbility : Ability<IAbilityUser>
         buffVfx.GetComponent<NetworkParent>().SetParent(castPositionTransform);
         _user.EffectManager.AddEffect(effect);
     }
-
+#if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
@@ -50,4 +50,5 @@ public class BuffAbility : Ability<IAbilityUser>
         SerializedProperty fieldEffect = _so.FindProperty("effect");
         fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect", fieldEffect.objectReferenceValue, typeof(Effect), false);
     }
+#endif
 }

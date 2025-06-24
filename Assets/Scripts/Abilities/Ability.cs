@@ -55,6 +55,8 @@ public abstract class Ability : ScriptableObject
     /// Used by the AbilityEditorWindow to draw the inspector for abilities.
     /// </summary>
     /// <param name="_so"></param>
+    /// 
+#if UNITY_EDITOR // Will crash if this is not wrapped in UNITY_EDITOR
     public virtual void DrawInspector(SerializedObject _so)
     {
         SerializedProperty fieldID = _so.FindProperty("abilityID");
@@ -93,23 +95,5 @@ public abstract class Ability : ScriptableObject
         SerializedProperty fieldIcon = _so.FindProperty("icon");
         fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Ability Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
     }
-/*
-    public abstract Ability Clone();
-
-    /// <summary>
-    /// Protected copier to copy the ability's properties to another ability instance.
-    /// </summary>
-    /// <param name="_target"></param>
-    protected void CopyBaseTo(Ability _target)
-    {
-        _target.abilityID = this.abilityID;
-        _target.castTime = this.castTime;
-        _target.castPositionName = this.castPositionName;
-        _target.animationTrigger = this.animationTrigger;
-        _target.icon = this.icon;
-        _target.abilityCost = this.abilityCost;
-        _target.cooldown = this.cooldown;
-    }
-
-    protected abstract void CopySubclassTo(Ability _target);*/
+#endif
 }

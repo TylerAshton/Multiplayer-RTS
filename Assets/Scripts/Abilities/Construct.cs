@@ -35,6 +35,7 @@ public class Construct : Ability<IConstructionPad>
         
     }
 
+#if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
@@ -45,4 +46,5 @@ public class Construct : Ability<IConstructionPad>
         SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");
         fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
     }
+#endif
 }

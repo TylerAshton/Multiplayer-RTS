@@ -30,6 +30,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
         spawnedProjectile.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 
+#if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
@@ -40,6 +41,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
         /*SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
         fieldProjectilePrefab.objectReferenceValue = EditorGUILayout.ObjectField("Projectile Prefab", fieldProjectilePrefab.objectReferenceValue, typeof(GameObject), false);
 */    }
+#endif
 
     private GameObject GetProjectileBlueprint()
     {

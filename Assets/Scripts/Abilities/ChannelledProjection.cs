@@ -27,6 +27,7 @@ public class ChannelledProjection : Ability<IAbilityUser>
         newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 
+#if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
@@ -34,4 +35,5 @@ public class ChannelledProjection : Ability<IAbilityUser>
         SerializedProperty fieldEffect = _so.FindProperty("effect");
         fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect Prefab", fieldEffect.objectReferenceValue, typeof(GameObject), false);
     }
+#endif
 }

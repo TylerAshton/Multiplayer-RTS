@@ -69,6 +69,7 @@ public class MeleeAbility : Ability<IAbilityUser>
         }
     }
 
+#if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
@@ -89,4 +90,5 @@ public class MeleeAbility : Ability<IAbilityUser>
         SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
         fieldHitEffect.objectReferenceValue = EditorGUILayout.ObjectField("Hit Effect Prefab", fieldHitEffect.objectReferenceValue, typeof(GameObject), false);
     }
+#endif
 }
