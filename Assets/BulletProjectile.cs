@@ -157,6 +157,17 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         SetDirectionClientRpc(moveDirection);
     }
 
+    public void LaunchProjectileAtTarget(Vector3 _targetPos)
+    {
+        Vector3 direction = _targetPos - transform.position;
+
+        direction = direction.normalized;
+
+        direction.y = 0f;
+
+        LaunchProjectile(direction);
+    }
+
     [ClientRpc]
     private void SetDirectionClientRpc(Vector3 _direction)
     {

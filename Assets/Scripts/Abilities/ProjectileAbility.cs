@@ -33,7 +33,16 @@ public class ProjectileAbility : Ability<IAbilityUser>
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         BulletProjectile bulletProjectile = spawnedProjectile.GetComponent<BulletProjectile>();
         bulletProjectile.ApplyProjectileStatsWithID(projectileStats.ID);
-        bulletProjectile.LaunchProjectile(_user.Transform.forward);
+
+        if (_user.CastTarget != null) // TODO: I might make this mandatory in the future once we add aim assist later to players
+        {
+            bulletProjectile.LaunchProjectileAtTarget(_user.CastTarget.position);
+        }
+        else
+        {
+            bulletProjectile.LaunchProjectile(_user.Transform.forward);
+        }
+
         spawnedProjectile.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 
