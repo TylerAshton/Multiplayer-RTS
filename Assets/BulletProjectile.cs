@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
@@ -26,9 +28,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private float deathVFXScale = 1f;
     private bool isAOE = false;
     private float aoeRadius = 1f;
-
+    private int penetration = 0;
     private Faction faction = Faction.None;
     public Faction Faction { get => faction; set => faction = value; }
+    private List<GameObject> hitTagets = new List<GameObject>();
 
     private void Awake()
     {
@@ -96,6 +99,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         deathVFXScale = _projectileStats.DeathVFXScale;
         isAOE = _projectileStats.IsAOE;
         aoeRadius = _projectileStats.AOERadius;
+        penetration = _projectileStats.Penetration;
 
         SpawmBulletVFXRpc();
     }
@@ -236,6 +240,12 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         {
             if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
             {
+                // If we've hit this before leave it.
+                if (hitTagets.Contains(hit.collider.gameObject))
+                {
+                    continue;
+                }
+
                 if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
                 {
                     if (faction.Faction == this.faction)
@@ -246,7 +256,18 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
                 TryDamage(hit.collider);
 
                 AOEHitDetection(hit.collider);
-                StartDespawn();
+
+                if (penetration > 0)
+                {
+                    penetration--;
+                    hitTagets.Add(hit.collider.gameObject);
+                    SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
+                }
+                else
+                {
+                    StartDespawn();
+                }
+                    
                 return;
             }
         }

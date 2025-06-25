@@ -36,6 +36,9 @@ public class ProjectileStats : ScriptableObject
     [SerializeField] private float aoeRadius = 1f;
     public float AOERadius => aoeRadius;
 
+    [SerializeField] private int penetration = 0;
+    public int Penetration => penetration;
+
 
 
     /// <summary>
@@ -107,6 +110,12 @@ public class ProjectileStats : ScriptableObject
             }
         }
 
+        if (this.penetration < 0)
+        {
+            Debug.LogError($"{this.name} has a negative penetration: {this.penetration}");
+            return false;
+        }
+
 
         return true;
     }
@@ -158,6 +167,13 @@ public class ProjectileStats : ScriptableObject
             {
                 EditorGUILayout.HelpBox("AOE Radius must be greater than 0!", MessageType.Error);
             }
+        }
+
+        SerializedProperty fieldPenetration = so.FindProperty("penetration");
+        fieldPenetration.intValue = EditorGUILayout.IntField("Penetration Amount", fieldPenetration.intValue);
+        if (fieldPenetration.intValue < 0)
+        {
+            EditorGUILayout.HelpBox("Penetration Amount must be 0 or greater!", MessageType.Error);
         }
 
         SerializedProperty fieldBulletVFX = so.FindProperty("bulletVFX");

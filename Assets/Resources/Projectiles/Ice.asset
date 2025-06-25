@@ -23,3 +23,4 @@ MonoBehaviour:
   deathVFXScale: 0.00001
   isAOE: 1
   aoeRadius: 3
+  penetration: 2
