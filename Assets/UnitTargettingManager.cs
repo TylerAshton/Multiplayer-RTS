@@ -14,10 +14,7 @@ public class UnitTargettingManager : NetworkBehaviour
     private Unit unit;
     private AbilityManager abilityManager;
 
-    private Transform currentTarget;
-    public Transform CurrentTarget => currentTarget;
-    private Health targetHealth;
-    public Health TargetHealth => targetHealth;
+    private IAbilityUser abilityUser;
 
 
     private void Awake()
@@ -32,9 +29,11 @@ public class UnitTargettingManager : NetworkBehaviour
             Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
-
-
-
+        if (!TryGetComponent<IAbilityUser>(out abilityUser))
+        {
+            Debug.LogError($"{nameof(IAbilityUser)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            return;
+        }
     }
 
     // Update is called once per frame
@@ -47,7 +46,7 @@ public class UnitTargettingManager : NetworkBehaviour
 
         TryForgiveTarget();
 
-        if (!currentTarget)
+        if (!abilityUser.CastTarget)
         {
             TryScanForTarget();
         }
@@ -55,16 +54,16 @@ public class UnitTargettingManager : NetworkBehaviour
 
     private void TryForgiveTarget()
     {
-        if (!currentTarget)
+        if (!abilityUser.CastTarget)
         {
             return;
         }
 
-        float targetDistance = Vector3.Distance(currentTarget.position, unit.transform.position);
+        float targetDistance = Vector3.Distance(abilityUser.CastTarget.position, unit.transform.position);
 
         if (targetDistance > forgivenessRange)
         {
-            SetTarget(null);
+            abilityUser.ClearTarget();
         }
     }
 
@@ -82,7 +81,7 @@ public class UnitTargettingManager : NetworkBehaviour
     public void TryScanForTarget()
     {
         // Only run if the NPC does not have a target
-        if (currentTarget)
+        if (abilityUser.CastTarget)
         {
             return; 
         }
@@ -100,59 +99,11 @@ public class UnitTargettingManager : NetworkBehaviour
                         continue;
                     }
                 }
-                SetTarget(collider.gameObject);
+                abilityUser.SetTarget(collider.transform);
             }
         }
-    }
-
-    /// <summary>
-    /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
-    /// </summary>
-    /// <param name="_targetGameObject"></param>
-    public void SetTarget(GameObject _targetGameObject)
-    {
-        if (!IsServer)
-        {
-            Debug.LogError("Client attempted to set target for NPC");
-            return;
-        }
-
-        if (_targetGameObject == null)
-        {
-            // Reset tagetHealth if the we already have a target
-            if (targetHealth != null)
-            {
-                targetHealth.OnDeath -= ClearTarget;
-                targetHealth = null;
-            }
-
-            currentTarget = null;
-
-            return;
-        }
-
-        if (_targetGameObject.TryGetComponent<Health>(out Health health))
-        {
-            targetHealth = health;
-            currentTarget = _targetGameObject.transform;
-            targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
-            targetHealth.OnDeath += ClearTarget;
-        }
-        else
-        {
-            Debug.LogWarning($"{_targetGameObject.name} does not have a Health component.");
-        }
-
-
-    }
-
-    /// <summary>
-    /// Unsubscribes from the target's OnDeath event and clears all target variables
-    /// </summary>
-    private void ClearTarget()
-    {
-        targetHealth.OnDeath -= ClearTarget;
-        targetHealth = null;
-        currentTarget = null;
     }
 }
+
+    
+

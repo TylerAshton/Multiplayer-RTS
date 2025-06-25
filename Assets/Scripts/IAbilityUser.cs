@@ -7,6 +7,9 @@ public interface IAbilityUser
     Transform Transform { get; }
     IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions { get; }
     EffectManager EffectManager { get; }
+    Transform CastTarget { get; }
+    public void SetTarget(Transform castTarget);
+    public void ClearTarget();
 
     IFaction IFaction { get; }
 }
