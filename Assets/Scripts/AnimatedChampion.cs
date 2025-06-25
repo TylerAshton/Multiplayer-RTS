@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
+public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction
 {
     [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
     [SerializeField] private float acceleration = 10f;

@@ -7,14 +7,19 @@ using System.Collections.Generic;
 /// NPCs are mobile units which use the nav mesh.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class NPC : Unit
+public class NPC : Unit, ICharacterAbilityUser
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
 
     private Collider colliderComp;
+    private NetCodeAnimationManager nAnimator;
+    public NetCodeAnimationManager NAnimator => throw new System.NotImplementedException();
 
-    
+
+    public EffectManager EffectManager => throw new System.NotImplementedException();
+
+
     protected override void Awake()
     {
         if (!NetworkManager.Singleton.IsServer)

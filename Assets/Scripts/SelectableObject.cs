@@ -29,15 +29,10 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
 
     private Transform castTarget;
     public Transform CastTarget => castTarget;
+    public Transform Transform => transform;
 
-    private NetCodeAnimationManager nAnimator;
-    public NetCodeAnimationManager NAnimator => throw new System.NotImplementedException();
+    public IFaction IFaction => this;
 
-    public Transform Transform => throw new System.NotImplementedException();
-
-    public EffectManager EffectManager => throw new System.NotImplementedException();
-
-    public IFaction IFaction => throw new System.NotImplementedException();
 
     private Health castTargetHealth;
 
@@ -55,10 +50,6 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
         if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
         {
             Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
-        }
-        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
-        {
-            Debug.LogError($"{nameof(NetCodeAnimationManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
