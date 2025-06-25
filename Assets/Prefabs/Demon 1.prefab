@@ -1150,6 +1150,7 @@ GameObject:
   - component: {fileID: 7400058795964908341}
   - component: {fileID: 4108056335739031360}
   - component: {fileID: 4352039317983900972}
+  - component: {fileID: 4076452208090559733}
   m_Layer: 7
   m_Name: Demon 1
   m_TagString: Amalgam
@@ -1484,6 +1485,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4076452208090559733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab3487c8c3ae88499c5e7916ebb44f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsList: []
 --- !u!1 &2453397364068737160
 GameObject:
   m_ObjectHideFlags: 0
