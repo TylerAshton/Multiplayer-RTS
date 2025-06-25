@@ -4,7 +4,7 @@ using UnityEngine;
 public class StatModifyer : ScriptableObject
 {
     [SerializeField] private StatType statType;
-    public StatType StatType => StatType;
+    public StatType StatType => statType;
 
     [SerializeField] private float value;
     public float Value => value;    
