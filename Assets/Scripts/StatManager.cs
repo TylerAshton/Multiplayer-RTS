@@ -56,11 +56,11 @@ public class StatManager : MonoBehaviour
 
     public void AddStatModifyer(StatModifyer _statModifyer)
     {
-        if (_statModifyer == null)
+/*        if (_statModifyer == null)
         {
             Debug.LogError($"{nameof(_statModifyer)} cannot be null in {nameof(AddStatModifyer)}!");
             return;
-        }
+        }*/
 
         statModifyers.Add(_statModifyer);
 
@@ -69,15 +69,15 @@ public class StatManager : MonoBehaviour
 
     public void RemoveStatModifyer(StatModifyer _statModifyer)
     {
-        if (_statModifyer == null)
+/*        if (_statModifyer == null)
         {
             Debug.LogError($"{nameof(_statModifyer)} cannot be null in {nameof(RemoveStatModifyer)}!");
             return;
-        }
+        }*/
 
         if (!statModifyers.Contains(_statModifyer))
         {
-            Debug.LogError($"{nameof(_statModifyer)} : {_statModifyer.name} doesn't exist in {nameof(statModifyers)} in gameobject {gameObject.name}");
+            Debug.LogError($"{nameof(_statModifyer)} doesn't exist in {nameof(statModifyers)} in gameobject {gameObject.name}");
             return;
         }
 

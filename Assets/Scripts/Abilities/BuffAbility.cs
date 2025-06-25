@@ -8,6 +8,7 @@ using UnityEngine;
 public class BuffAbility : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private GameObject buffEffects;
+    [SerializeField] private float slowAmount;
     [SerializeField] private Effect effect;
 
 /*    public override Ability Clone()
@@ -18,6 +19,13 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
+        List<StatModifyer> statModifyers = new List<StatModifyer>();
+        statModifyers.Add(statModifyer);
+
+        Effect newEffect = new Effect(CastTime, statModifyers); 
+        
+        _user.EffectManager.AddEffect(newEffect);
     }
 
 /*    protected override void CopySubclassTo(Ability _target)
