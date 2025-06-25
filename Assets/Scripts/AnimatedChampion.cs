@@ -38,7 +38,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public IFaction IFaction => this;
 
-    public Transform CastTarget => throw new System.NotImplementedException();
+    private Transform castTarget;
+    public Transform CastTarget => castTarget;
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
