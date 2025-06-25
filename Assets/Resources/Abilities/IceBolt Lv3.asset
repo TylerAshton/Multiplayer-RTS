@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e12e273157d5740bf167ce234674c9, type: 3}
   m_Name: IceBolt Lv3
   m_EditorClassIdentifier: 
-  abilityID: 
+  abilityID: IceBolt3
   abilityName: IceBolt Lv3
   castTime: 1
   castPositionName: 0
