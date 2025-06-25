@@ -11,7 +11,7 @@ public abstract class UnitBehaviour : MonoBehaviour
     /// Called to initialize the UnitBehaviour with a Unit.
     /// </summary>
     /// <param name="_unit"></param>
-    public virtual void Init(Unit _unit)
+    public virtual void Init()
     {
         if (unit != null)
         {
@@ -19,12 +19,11 @@ public abstract class UnitBehaviour : MonoBehaviour
             return;
         }
 
-        if (_unit == null)
+        if (!TryGetComponent<Unit>(out unit))
         {
-            Debug.LogError("_unit cannot be null");
+            Debug.LogError($"{nameof(Unit)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
-        unit = _unit;
     }
 
     /// <summary>

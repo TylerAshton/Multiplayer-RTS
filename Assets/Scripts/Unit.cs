@@ -26,7 +26,7 @@ public class Unit : SelectableObject, IDestructible
 
         if (TryGetComponent<UnitBehaviour>(out unitBehaviour))
         {
-            unitBehaviour.Init(this);
+            unitBehaviour.Init();
         }
     }
 

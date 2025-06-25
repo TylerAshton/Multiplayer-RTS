@@ -5,9 +5,9 @@ public class RangedBehaviour : NPCBehaviour
 {
     private UnitTargettingManager targettingManager;
     private IAbilityUser abilityUser;
-    public override void Init(Unit _unit)
+    public override void Init()
     {
-        base.Init(_unit);
+        base.Init();
 
         if (!npc.IsServer)
         {

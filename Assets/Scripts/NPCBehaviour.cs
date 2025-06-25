@@ -3,19 +3,20 @@ using UnityEngine;
 public class NPCBehaviour : UnitBehaviour
 {
     protected NPC npc;
-    public override void Init(Unit _unit)
+    public override void Init()
     {
-        base.Init(_unit);
+        base.Init();
 
-        if (_unit == null)
+
+        if (!TryGetComponent<Unit>(out unit))
         {
-            //Debug.LogError("_unit cannot be null"); We'd get error anyway
+            //Debug.LogError($"{nameof(Unit)} is required for {GetType().Name} on gameobject: {gameObject.name}") We'd get error anyway
             return;
         }
 
-        if (!(_unit is NPC _npc))
+        if (!(unit is NPC _npc))
         {
-            Debug.LogError("Unit is not an NPC. Cannot initialize NPCBehaviour.");
+            Debug.LogError($"{nameof(Unit)} is not an {nameof(NPC)}. Cannot initialize {GetType().Name} on gameobject: {gameObject.name}.");
             return;
         }
 
