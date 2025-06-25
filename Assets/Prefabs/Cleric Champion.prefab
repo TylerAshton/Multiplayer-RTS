@@ -849,7 +849,7 @@ MonoBehaviour:
   deceleration: 40
   smoothSpeed: 15
   gravity: -9.81
-  primaryAbility: {fileID: 11400000, guid: 0443e4caf07da2640a5a6c8927879642, type: 2}
+  primaryAbility: {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
   points: {fileID: 7670626761221738459}
   inShop: 0
 --- !u!114 &2885188943381047520
