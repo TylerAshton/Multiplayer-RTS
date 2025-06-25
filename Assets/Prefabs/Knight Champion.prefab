@@ -2921,7 +2921,7 @@ MonoBehaviour:
   - statType: 0
     value: 1
   - statType: 1
-    value: 4
+    value: 7
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0
