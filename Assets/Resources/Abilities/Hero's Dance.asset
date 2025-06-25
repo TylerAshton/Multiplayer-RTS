@@ -21,4 +21,7 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 0
   buffEffects: {fileID: 7155335147208632822, guid: d12255bed4198eb4a8e05e9653396c99, type: 3}
-  effect: {fileID: 11400000, guid: dc4f84b18f4d7de44b38562b02868be9, type: 2}
+  effect:
+    duration: 5
+    statModifyers:
+    - {fileID: 11400000, guid: 469163db3c35d154193c41b94d204af4, type: 2}

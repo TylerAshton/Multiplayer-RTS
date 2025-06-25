@@ -42,10 +42,10 @@ public class EffectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach(Effect _effect in activeEffects)
+/*        foreach(Effect _effect in activeEffects)
         {
             _effect.OnUpdate(this);
-        }
+        }*/
     }
 
     public void AddEffect(Effect _effect)
@@ -56,7 +56,7 @@ public class EffectManager : MonoBehaviour
             statManager.AddStatModifyer(_statModifyer);
         }
 
-        _effect.OnStart(this);
+        //_effect.OnStart(this);
         StartCoroutine(EffectTimer(_effect, _effect.Duration));
 
     }
@@ -67,7 +67,7 @@ public class EffectManager : MonoBehaviour
         {
             statManager.RemoveStatModifyer(_statModifyer);
         }
-        _effect.OnEnd(this);
+        //_effect.OnEnd(this);
         activeEffects.Remove(_effect);
     }
 
