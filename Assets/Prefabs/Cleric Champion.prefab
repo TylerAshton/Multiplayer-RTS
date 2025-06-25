@@ -757,6 +757,7 @@ GameObject:
   - component: {fileID: 9122862085660864469}
   - component: {fileID: 2436520570790276548}
   - component: {fileID: -4420682171599434401}
+  - component: {fileID: 8123420037731375351}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -1216,6 +1217,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &8123420037731375351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab3487c8c3ae88499c5e7916ebb44f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsList:
+  - statType: 1
+    value: 7
+  - statType: 0
+    value: 1
+  - statType: 2
+    value: 1
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0

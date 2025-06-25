@@ -11,16 +11,25 @@ public class EffectManager : MonoBehaviour
 
     private Health health;
     public Health Health => health;
+    private StatManager statManager;
+    public StatManager StatManager => statManager;
 
     private void Awake()
     {
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
-            Debug.LogError("AbilityManager is required for EffectManager");
+            Debug.LogError($"{nameof(AbilityManager)} is required for {nameof(EffectManager)} in gameObject {gameObject.name}");
+            return;
         }
         if (!TryGetComponent<Health>(out health))
         {
-            Debug.LogError("Health is required for EffectManager");
+            Debug.LogError($"{nameof(Health)} is required for {nameof(EffectManager)} in gameObject {gameObject.name}");
+            return;
+        }
+        if (!TryGetComponent<StatManager>(out statManager))
+        {
+            Debug.LogError($"{nameof(StatManager)} is required for {nameof(EffectManager)} in gameObject {gameObject.name}");
+            return;
         }
     }
 
@@ -42,6 +51,11 @@ public class EffectManager : MonoBehaviour
     public void AddEffect(Effect _effect)
     {
         activeEffects.Add(_effect);
+        foreach(StatModifyer _statModifyer in _effect.StatModifyers)
+        {
+            statManager.AddStatModifyer(_statModifyer);
+        }
+
         _effect.OnStart(this);
         StartCoroutine(EffectTimer(_effect, _effect.Duration));
 
@@ -49,6 +63,10 @@ public class EffectManager : MonoBehaviour
 
     public void EndEffect(Effect _effect)
     {
+        foreach (StatModifyer _statModifyer in _effect.StatModifyers)
+        {
+            statManager.RemoveStatModifyer(_statModifyer);
+        }
         _effect.OnEnd(this);
         activeEffects.Remove(_effect);
     }

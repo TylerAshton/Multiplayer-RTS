@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Animator))]
 public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction
 {
-    [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
+    //[SerializeField] private float moveSpeed = 4f; //movement speed multiplier REDACTED DUE TO STAT-MANAGER
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 15f;
     [SerializeField] private float smoothSpeed = 10f;
@@ -58,6 +58,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private TextMeshProUGUI points;
 
     public bool inShop = false;
+    private StatManager statManager;
 
     void Start()
     {
@@ -96,6 +97,11 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         {
             Debug.LogError($"{nameof(CharacterController)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
+        if (!TryGetComponent<StatManager>(out statManager))
+        {
+            Debug.LogError($"{nameof(StatManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+
 
         if (networkObject.IsOwner)
         {
@@ -255,7 +261,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
 
-        Vector3 targetVelocity = move * moveSpeed;
+        Vector3 targetVelocity = move * statManager.CurrentStats[StatType.MoveSpeed];
 
         float lerpSpeed = (movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
 
