@@ -139,11 +139,7 @@ public class AbilityManager : NetworkBehaviour
     }
 
 
-    public void SetAttackSpeed(float _attackSpeed)
-    {
-        AttackSpeed = _attackSpeed;
-        animator.SetFloat("AttackSpeed", _attackSpeed);
-    }
+    
 
     /// <summary>
     /// Called when the ability animation reaches the frame when the attack part of the ability should be cast. 

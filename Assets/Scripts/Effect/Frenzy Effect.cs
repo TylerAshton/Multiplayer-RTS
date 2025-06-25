@@ -8,12 +8,12 @@ public class FrenzyEffect : Effect
     
     public override void OnEnd(EffectManager _effectManager)
     {
-        _effectManager.AbilityManager.SetAttackSpeed(1);
+        //_effectManager.AbilityManager.SetAttackSpeed(1);
     }
 
     public override void OnStart(EffectManager _effectManager)
     {
-        _effectManager.AbilityManager.SetAttackSpeed(attackSpeed);
+        //_effectManager.AbilityManager.SetAttackSpeed(attackSpeed);
     }
 
     public override void OnUpdate(EffectManager _effectManager)

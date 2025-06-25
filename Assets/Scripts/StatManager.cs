@@ -24,17 +24,34 @@ public class StatManager : MonoBehaviour
     private Dictionary<StatType, float> baseStats = new();
     private Dictionary<StatType , float> currentStats = new();
     private List<StatModifyer> statModifyers = new List<StatModifyer>();
+    private Animator animator;
 
     public IReadOnlyDictionary<StatType, float> CurrentStats => currentStats;
 
+    private void Awake()
+    {
+        if (!TryGetComponent<Animator>(out animator))
+        {
+            Debug.LogError($"{nameof(Animator)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+        }
 
-    private void OnValidate()
+
+    }
+
+    private void Start()
     {
         baseStats.Clear();
         foreach (var entry in baseStatsList)
         {
             baseStats[entry.statType] = entry.value;
         }
+
+        RecalculateCurrentStats();
+    }
+
+    public void SetAttackSpeed(float _attackSpeed)
+    {
+        animator.SetFloat("AttackSpeed", _attackSpeed);
     }
 
     public void AddStatModifyer(StatModifyer _statModifyer)
@@ -96,6 +113,11 @@ public class StatManager : MonoBehaviour
 
             // Save
             currentStats[_modifier.StatType] = newStat;
+
+            if (_modifier.StatType == StatType.AttackSpeed) // TODO: We'll have to optimise this later
+            {
+                SetAttackSpeed(newStat);
+            }
         }
     }
     
