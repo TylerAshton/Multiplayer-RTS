@@ -94,9 +94,14 @@ public class StatManager : MonoBehaviour
         // Reset and copy base stats
         currentStats.Clear();
         
-        foreach (var stat in baseStats)
+        foreach (var _stat in baseStats)
         {
-            currentStats[stat.Key] = stat.Value;
+            currentStats[_stat.Key] = _stat.Value;
+
+            if (_stat.Key == StatType.AttackSpeed) // TODO: We'll have to optimise this later
+            {
+                SetAttackSpeed(_stat.Value);
+            }
         }
 
         foreach (var _modifier in statModifyers)
