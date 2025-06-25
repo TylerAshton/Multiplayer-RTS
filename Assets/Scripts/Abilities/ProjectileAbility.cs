@@ -11,13 +11,13 @@ public class ProjectileAbility : Ability<IAbilityUser>
     [SerializeField] private ProjectileStats projectileStats;
     protected override void ActivateTyped(IAbilityUser _user)
     {
-        if (!string.IsNullOrEmpty(AnimationTrigger))
+        if (_user is ICharacterAbilityUser _characterAbilityUser)
         {
-            _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+            _characterAbilityUser.NAnimator.SetTrigger($"{AnimationTrigger}");
         }
         else
         {
-            OnUseTyped(_user); // TODO: None animator abilities should be streamlined
+            OnUseTyped(_user);
         }
     }
 

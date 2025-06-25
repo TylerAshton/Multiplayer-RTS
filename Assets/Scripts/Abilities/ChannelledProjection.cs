@@ -5,20 +5,20 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Channelled Projection Ability", menuName = "Abilities/Channelled Projection")]
-public class ChannelledProjection : Ability<IAbilityUser>
+public class ChannelledProjection : Ability<ICharacterAbilityUser>
 {
     [SerializeField] GameObject effect;
-    protected override void ActivateTyped(IAbilityUser _user)
+    protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
     }
 
-    protected override void DebugDrawingTyped(IAbilityUser _user)
+    protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
     {
         
     }
 
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         GameObject newEffect = Instantiate(effect, castPositionTransform);

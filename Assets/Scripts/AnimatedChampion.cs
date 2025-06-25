@@ -67,33 +67,33 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
         {
-            Debug.LogError("Skissue");
+            Debug.LogError($"{nameof(CameraSpawner)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
-            Debug.LogError("Network object is required for cameraMovement");
+            Debug.LogError($"{nameof(NetworkObject)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
 
         if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
         {
-            Debug.LogError("NetCodeAnimationManager is required for AnimatedChampion");
-        }
-        if (!TryGetComponent<AbilityManager>(out abilityManager))
-        {
-            Debug.LogError("AbilityManager is required for AnimatedChampion");
-        }
-        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
-        {
-            Debug.LogError("AbilityPositionManager is required for AnimatedChampion");
-        }
-        if (!TryGetComponent<CharacterController>(out characterController))
-        {
-            Debug.LogError("CharacterController is required for AnimatedChampion");
+            Debug.LogError($"{nameof(NetCodeAnimationManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
         if (!TryGetComponent<EffectManager>(out effectManager))
         {
-            Debug.LogError("EffectManager is required for AnimatedChampion");
+            Debug.LogError($"{nameof(EffectManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        {
+            Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<CharacterController>(out characterController))
+        {
+            Debug.LogError($"{nameof(CharacterController)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
 
         if (networkObject.IsOwner)
@@ -102,7 +102,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
             if (!TryGetComponent<PlayerInput>(out playerInput))
             {
-                Debug.LogError("CharacterController is required for AnimatedChampion");
+                Debug.LogError($"{nameof(PlayerInput)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             }
             playerInput.enabled = true;
 

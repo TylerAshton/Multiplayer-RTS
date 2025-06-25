@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Buff Ability", menuName = "Abilities/Buff")]
-public class BuffAbility : Ability<IAbilityUser>
+public class BuffAbility : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private GameObject buffEffects;
     [SerializeField] private Effect effect;
@@ -15,7 +15,7 @@ public class BuffAbility : Ability<IAbilityUser>
         throw new System.NotImplementedException();
     }*/
 
-    protected override void ActivateTyped(IAbilityUser _user)
+    protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
     }
@@ -26,12 +26,12 @@ public class BuffAbility : Ability<IAbilityUser>
         _target.buffEffects = this.buffEffects;
     }*/
 
-    protected override void DebugDrawingTyped(IAbilityUser _user)
+    protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
     {
 
     }
 
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         GameObject buffVfx = Instantiate(buffEffects, _user.Transform);

@@ -1149,6 +1149,7 @@ GameObject:
   - component: {fileID: 3387665949539355155}
   - component: {fileID: 7400058795964908341}
   - component: {fileID: 4108056335739031360}
+  - component: {fileID: 4352039317983900972}
   m_Layer: 7
   m_Name: Demon 1
   m_TagString: Amalgam
@@ -1305,7 +1306,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 1015896299060538320}
   isSelectable: 1
-  unitBehaviour: {fileID: 0}
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1470,6 +1470,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd317351aae5f3c4798d1ead39b655c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4352039317983900972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2453397364068737160

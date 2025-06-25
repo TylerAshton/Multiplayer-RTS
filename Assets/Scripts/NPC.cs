@@ -14,10 +14,12 @@ public class NPC : Unit, ICharacterAbilityUser
 
     private Collider colliderComp;
     private NetCodeAnimationManager nAnimator;
-    public NetCodeAnimationManager NAnimator => throw new System.NotImplementedException();
+    public NetCodeAnimationManager NAnimator => nAnimator;
+    private EffectManager effectManager;
+    public EffectManager EffectManager => effectManager;
 
 
-    public EffectManager EffectManager => throw new System.NotImplementedException();
+
 
 
     protected override void Awake()
@@ -31,8 +33,16 @@ public class NPC : Unit, ICharacterAbilityUser
         {
             Debug.LogError("Collider is required for NPC");
         }
-        
-        
+        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
+        {
+            Debug.LogError($"{nameof(NetCodeAnimationManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<EffectManager>(out effectManager))
+        {
+            Debug.LogError($"{nameof(EffectManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+
+
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
     }
