@@ -4,6 +4,7 @@ using UnityEngine;
 public class RangedBehaviour : NPCBehaviour
 {
     private UnitTargettingManager targettingManager;
+    private IAbilityUser abilityUser;
     public override void Init(Unit _unit)
     {
         base.Init(_unit);
@@ -18,6 +19,13 @@ public class RangedBehaviour : NPCBehaviour
             Debug.LogError($"{nameof(UnitTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
+        if (!TryGetComponent<IAbilityUser>(out abilityUser))
+        {
+            Debug.LogError($"{nameof(IAbilityUser)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            return;
+        }
+
+
     }
     public override void Tick()
     {
@@ -35,7 +43,7 @@ public class RangedBehaviour : NPCBehaviour
 
     private void TryAttackTarget(NPC _npc)
     {
-        if (!targettingManager.CurrentTarget)
+        if (!abilityUser.CastTarget)
         {
             return;
         }
@@ -53,9 +61,9 @@ public class RangedBehaviour : NPCBehaviour
             return;
         }
 
-        if (targettingManager.CurrentTarget != null)
+        if (abilityUser.CastTarget != null)
         {
-            _npc.Transform.rotation = Quaternion.Lerp(_npc.Transform.rotation, Quaternion.LookRotation(targettingManager.CurrentTarget.position - _npc.Transform.position), Time.deltaTime);
+            _npc.Transform.rotation = Quaternion.Lerp(_npc.Transform.rotation, Quaternion.LookRotation(abilityUser.CastTarget.position - _npc.Transform.position), Time.deltaTime);
         }
 
         else if (_npc.Agent.velocity.magnitude > 0.1f)

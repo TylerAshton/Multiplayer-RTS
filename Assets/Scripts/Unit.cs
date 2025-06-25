@@ -13,9 +13,6 @@ public class Unit : SelectableObject, IDestructible
         {
             Debug.LogError("Health is required for Unit");
         }
-
-        
-
     }
 
     protected override void Start()
@@ -31,8 +28,6 @@ public class Unit : SelectableObject, IDestructible
         {
             unitBehaviour.Init(this);
         }
-
-        
     }
 
     protected override void Update()

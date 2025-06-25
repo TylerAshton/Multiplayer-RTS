@@ -38,6 +38,8 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     public IFaction IFaction => this;
 
+    public Transform CastTarget => throw new System.NotImplementedException();
+
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private NetCodeAnimationManager nAnimator;
@@ -359,5 +361,15 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     private void RotationServerRpc(float x, float y, float z)
     {
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
+    }
+
+    public void SetTarget(Transform castTarget) // TODO: this will be updated in I believe 0.7?? - H
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ClearTarget()
+    {
+        throw new System.NotImplementedException();
     }
 }

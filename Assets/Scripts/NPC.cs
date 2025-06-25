@@ -7,41 +7,19 @@ using System.Collections.Generic;
 /// NPCs are mobile units which use the nav mesh.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class NPC : Unit, IAbilityUser
+public class NPC : Unit
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
 
-    private NetCodeAnimationManager nAnimator;
-    public NetCodeAnimationManager NAnimator => nAnimator;
-
-
-
     private Collider colliderComp;
 
-    private EffectManager effectManager;
-    public EffectManager EffectManager => effectManager;
-    public Transform Transform => transform;
-    public IFaction IFaction => this;
-
-    private Transform castTarget;
-    public Transform CastTarget => castTarget;
-
-    private Health castTargetHealth;
+    
     protected override void Awake()
     {
         if (!NetworkManager.Singleton.IsServer)
         {
             return;
-        }
-
-        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
-        {
-            Debug.LogError("NetCodeAnimationManager is required for NPC");
-        }
-        if (!TryGetComponent<AbilityManager>(out abilityManager))
-        {
-            Debug.LogError("AbilityManager is required for NPC");
         }
         
         if (!TryGetComponent<Collider>(out colliderComp))
@@ -103,49 +81,7 @@ public class NPC : Unit, IAbilityUser
         agent.SetDestination(_worldPosition);
     }
 
-    /// <summary>
-    /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
-    /// </summary>
-    /// <param name="_newTarget"></param>
-    public void SetTarget(Transform _newTarget) // TODO: Move all setTarget shit to Unit
-    {
-        if (!IsServer)
-        {
-            Debug.LogError($"Client attempted to set target for {nameof(NPC)}");
-            return;
-        }
-
-        if (_newTarget == null)
-        {
-            Debug.LogError($"_newTarget cannot be null in {nameof(SetTarget)}. Use {nameof(ClearTarget)} instead if this was intentional!");
-            return;
-        }
-
-        castTarget = _newTarget;
-
-        if (_newTarget.TryGetComponent<Health>(out Health health))
-        {
-            castTargetHealth = health;
-            castTargetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
-            castTargetHealth.OnDeath += ClearTarget;
-        }
-    }
-
-    /// <summary>
-    /// Unsubscribes from the target's OnDeath event and clears all target variables
-    /// </summary>
-    public void ClearTarget()
-    {
-        if (!IsServer)
-        {
-            Debug.LogError($"Client attempted to use {nameof(ClearTarget)} for {nameof(NPC)}");
-            return;
-        }
-
-        castTargetHealth.OnDeath -= ClearTarget;
-        castTargetHealth = null;
-        castTarget = null;
-    }
+    
 
     /*    /// <summary>
         /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function

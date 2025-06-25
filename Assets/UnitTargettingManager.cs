@@ -24,14 +24,14 @@ public class UnitTargettingManager : NetworkBehaviour
             Debug.LogError($"{nameof(Unit)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
+        abilityUser = unit as IAbilityUser;
+        if (abilityUser == null)
+        {
+            Debug.LogError($"{nameof(IAbilityUser)} is required for {GetType().Name} on {gameObject.name}");
+        }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
             Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
-            return;
-        }
-        if (!TryGetComponent<IAbilityUser>(out abilityUser))
-        {
-            Debug.LogError($"{nameof(IAbilityUser)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
     }
