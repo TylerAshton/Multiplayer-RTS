@@ -49,7 +49,7 @@ public class CleaveMeleeWeapon : Weapon
             {
                 Debug.Log($"Glave hit {hit.collider.name} at {hit.point}");
 
-                // Example: Damage logic
+                // 
                 if (hit.collider.TryGetComponent(out Health health))
                 {
                     health.Damage(damage);

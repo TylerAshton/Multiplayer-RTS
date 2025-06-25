@@ -289,7 +289,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             }
         }
 
-        // Example: Damage logic
+        // Damage logic
         if (_hitCollider.TryGetComponent(out Health health))
         {
             health.Damage(damage);
