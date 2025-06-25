@@ -8,9 +8,18 @@ using UnityEngine;
 public class ChannelledProjection : Ability<ICharacterAbilityUser>
 {
     [SerializeField] GameObject effect;
+    [SerializeField] private float slowAmount;
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+
+        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
+        List<StatModifyer> statModifyers = new List<StatModifyer>();
+        statModifyers.Add(statModifyer);
+
+        Effect newEffect = new Effect(CastTime, statModifyers);
+
+        _user.EffectManager.AddEffect(newEffect);
     }
 
     protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
