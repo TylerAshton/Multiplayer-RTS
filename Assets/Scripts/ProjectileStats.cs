@@ -195,7 +195,7 @@ public class ProjectileStats : ScriptableObject
 
         SerializedProperty fieldDeathVFXScale = so.FindProperty("deathVFXScale");
         fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, minVFXRadius, maxVFXRadius);
-        EditorGUILayout.HelpBox("VFX Scaling works on some effects better than others due to how some authors make VFX.", MessageType.Warning);
+        
     }
 #endif
 }

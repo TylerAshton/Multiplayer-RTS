@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New RadialHeal Ability", menuName = "Abilities/RadialHeal")]
@@ -26,6 +27,27 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
         
 
     }
+
+#if UNITY_EDITOR
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldRadius = _so.FindProperty("radius");
+        fieldRadius.floatValue = EditorGUILayout.FloatField("Radius", fieldRadius.floatValue);
+        if (fieldRadius.floatValue <= 0)
+        {
+            EditorGUILayout.HelpBox("Radius must be greater than 0!", MessageType.Error);
+        }
+
+        SerializedProperty fieldHealing = _so.FindProperty("healAmount");
+        fieldHealing.floatValue = EditorGUILayout.FloatField("Heal Amount", fieldHealing.floatValue);
+        if (fieldHealing.floatValue <= 0)
+        {
+            EditorGUILayout.HelpBox("Heal amount must be greater than 0!", MessageType.Error);
+        }
+    }
+#endif
 
     private void HealArea(Transform _centre, ICharacterAbilityUser _user)
     {
