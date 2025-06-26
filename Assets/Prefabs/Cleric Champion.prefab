@@ -849,7 +849,7 @@ MonoBehaviour:
   deceleration: 40
   smoothSpeed: 15
   gravity: -9.81
-  primaryAbility: {fileID: 11400000, guid: faabb089d721ddb4d99bcf9c474995f1, type: 2}
+  primaryAbility: {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
   points: {fileID: 7670626761221738459}
   inShop: 0
 --- !u!114 &2885188943381047520
@@ -1120,7 +1120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  hitPoints: 100
+  hitPoints: 75
   isImmune: 0
   animator: {fileID: 3779843464443528873}
   deathAnimationLength: 1
