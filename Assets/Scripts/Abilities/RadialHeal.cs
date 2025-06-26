@@ -7,7 +7,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
 {
     [SerializeField] float radius = 1f;
     [SerializeField] float healAmount = 1f;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask = 1 << 7;
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
