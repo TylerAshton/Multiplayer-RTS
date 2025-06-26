@@ -1172,7 +1172,7 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Main
     abilities:
-    - {fileID: 11400000, guid: 6bd6c5710e131404cbdbe3ed581eb9b0, type: 2}
+    - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &9122862085660864469
 MonoBehaviour:
