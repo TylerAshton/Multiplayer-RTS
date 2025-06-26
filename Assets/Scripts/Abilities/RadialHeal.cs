@@ -33,6 +33,8 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
     {
         base.DrawInspector(_so);
 
+        EditorGUILayout.HelpBox("VFX and animations don't work here yet!", MessageType.Warning);
+
         SerializedProperty fieldRadius = _so.FindProperty("radius");
         fieldRadius.floatValue = EditorGUILayout.FloatField("Radius", fieldRadius.floatValue);
         if (fieldRadius.floatValue <= 0)
