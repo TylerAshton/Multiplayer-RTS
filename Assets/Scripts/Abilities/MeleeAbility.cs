@@ -4,19 +4,19 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Melee Ability", menuName = "Abilities/Melee")]
-public class MeleeAbility : Ability<IAbilityUser>
+public class MeleeAbility : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private float angleDegrees = 90f;
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
     [SerializeField] private GameObject hitEffect;
 
-    protected override void ActivateTyped(IAbilityUser _user)
+    protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
     }
 
-    protected override void DebugDrawingTyped(IAbilityUser _user)
+    protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
     {
         Gizmos.color = Color.yellow;
         Vector3 forward = _user.Transform.forward;
@@ -35,7 +35,7 @@ public class MeleeAbility : Ability<IAbilityUser>
     /// Function called when the animation reaches the peak of its swing
     /// </summary>
     /// <param name="_user"></param>
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
         Vector3 origin = _user.Transform.position;
         Vector3 forward = _user.Transform.forward;

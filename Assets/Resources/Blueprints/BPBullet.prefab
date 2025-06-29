@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 895509535246880742}
   - component: {fileID: 7162391976518567088}
   - component: {fileID: -1178682786779891301}
+  - component: {fileID: 402363430332132621}
   m_Layer: 0
   m_Name: BPBullet
   m_TagString: Untagged
@@ -131,9 +132,12 @@ MonoBehaviour:
   speed: 10
   damage: 1
   friendlyTag: Amalgam
-  layerMask:
+  objectsLayerMask:
     serializedVersion: 2
     m_Bits: 640
+  unitsOnlyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   deathVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
   lifeTime: 5
 --- !u!135 &-1178682786779891301
@@ -157,3 +161,15 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &402363430332132621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4460309666732685197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515d82674bedbef4dbd996b1ab3f351a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

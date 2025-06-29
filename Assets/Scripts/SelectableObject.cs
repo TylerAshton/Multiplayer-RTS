@@ -7,7 +7,7 @@ using UnityEngine.AI;
 /// SelectableObject component is an base class used for all forms of RTS units across the game.
 /// Contains logic for all common behaviours such as selection, and instructions.
 /// </summary>
-public class SelectableObject : NetworkBehaviour, IFaction
+public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
 {
     private Queue<Task> taskQueue = new();
     private Task currentTask;
@@ -18,27 +18,38 @@ public class SelectableObject : NetworkBehaviour, IFaction
     private MeshRenderer selectionRenderer;
     protected RTSPlayer rts_Player;
     
-    protected NetworkObject networkObject;
     [SerializeField] private bool isSelectable = true;
     public bool IsSelectable => isSelectable;
 
     protected Faction faction = Faction.Amalgam;
     Faction IFaction.Faction { get => faction; set => faction = value; }
 
+    private AbilityPositionManager abilityPositionManager;
+    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
+
+    private Transform castTarget;
+    public Transform CastTarget => castTarget;
+    public Transform Transform => transform;
+
+    public IFaction IFaction => this;
+
+
+    private Health castTargetHealth;
+
     protected virtual void Awake()
     {
         if (selectionIndiator == null)
         {
-            Debug.LogError("Unit selection indicator is missing");
+            Debug.LogError($"Unit selection indicator is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
-        if (!TryGetComponent<NetworkObject>(out networkObject))
-        {
-            Debug.LogError("Network object is required for Unit");
-        }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
-            Debug.LogError("AbilityManager is required for Unit");
+            Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
@@ -88,8 +99,7 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// When the current task is completed exit the task. 
     /// Exit the task and start the next task if there is one in the queue
     /// </summary>
-    /// <param name="_completedTask"></param>
-    private void OnTaskComplete(Task _completedTask)
+    private void OnCurrentTaskComplete()
     {
         if (TryStartNextTask())
         {
@@ -119,6 +129,17 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// <param name="_newTask"></param>
     public void ImposeNewTask(Task _newTask)
     {
+        if (_newTask == null)
+        {
+            Debug.LogError("Attempted to impose a new task that is null");
+            return;
+        }
+
+        if (currentTask != null)
+        {
+            CancelCurrentTask();
+        }
+
         taskQueue.Clear();
         SetCurrentTask(_newTask);
     }
@@ -135,7 +156,7 @@ public class SelectableObject : NetworkBehaviour, IFaction
         }
 
         currentTask.Exit();
-        currentTask.OnTaskCompleted -= OnTaskComplete;
+        currentTask.OnTaskCompleted -= OnCurrentTaskComplete;
         currentTask = null;
     }
 
@@ -145,6 +166,12 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// <param name="_newTask"></param>
     public void QueueNewTask(Task _newTask)
     {
+        if (_newTask == null)
+        {
+            Debug.LogError("Attempted to queue a new task that is null");
+            return;
+        }
+
         taskQueue.Enqueue(_newTask);
     }
 
@@ -166,7 +193,7 @@ public class SelectableObject : NetworkBehaviour, IFaction
         }
 
         currentTask = _task;
-        currentTask.OnTaskCompleted += OnTaskComplete;
+        currentTask.OnTaskCompleted += OnCurrentTaskComplete;
         currentTask.Start();
     }
 
@@ -188,6 +215,12 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// </summary>
     public virtual void ShowSelectionIndicator()
     {
+        if (selectionIndiator == null)
+        {
+            Debug.LogError("Selection indicator is null!");
+            return;
+        }
+
         selectionIndiator.SetActive(true);
     }
 
@@ -196,6 +229,11 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// </summary>
     public virtual void HideSelectionIndicator()
     {
+        if (selectionIndiator == null)
+        {
+            Debug.LogError("Selection indicator is null!");
+            return;
+        }
         selectionIndiator.SetActive(false);
     }
 
@@ -205,10 +243,54 @@ public class SelectableObject : NetworkBehaviour, IFaction
     /// <param name="_color"></param>
     public void SetSelectionColor(Color _color)
     {
+        if (selectionIndiator == null)
+        {
+            Debug.LogError("Selection indicator is null!");
+            return;
+        }
         selectionRenderer.material.color = _color;
     }
+    /// <summary>
+    /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
+    /// </summary>
+    /// <param name="_newTarget"></param>
+    public void SetTarget(Transform _newTarget) // TODO: Move all setTarget shit to Unit
+    {
+        if (!IsServer)
+        {
+            Debug.LogError($"Client attempted to set target for {nameof(NPC)}");
+            return;
+        }
 
-    
+        if (_newTarget == null)
+        {
+            Debug.LogError($"_newTarget cannot be null in {nameof(SetTarget)}. Use {nameof(ClearTarget)} instead if this was intentional!");
+            return;
+        }
 
-    
+        castTarget = _newTarget;
+
+        if (_newTarget.TryGetComponent<Health>(out Health health))
+        {
+            castTargetHealth = health;
+            castTargetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
+            castTargetHealth.OnDeath += ClearTarget;
+        }
+    }
+
+    /// <summary>
+    /// Unsubscribes from the target's OnDeath event and clears all target variables
+    /// </summary>
+    public void ClearTarget()
+    {
+        if (!IsServer)
+        {
+            Debug.LogError($"Client attempted to use {nameof(ClearTarget)} for {nameof(NPC)}");
+            return;
+        }
+
+        castTargetHealth.OnDeath -= ClearTarget;
+        castTargetHealth = null;
+        castTarget = null;
+    }
 }

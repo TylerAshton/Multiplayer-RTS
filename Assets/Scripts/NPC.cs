@@ -7,30 +7,20 @@ using System.Collections.Generic;
 /// NPCs are mobile units which use the nav mesh.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class NPC : Unit, IAbilityUser
+public class NPC : Unit, ICharacterAbilityUser
 {
     private NavMeshAgent agent;
     public NavMeshAgent Agent => agent;
-    private Transform target;
-    public Transform Target => target;
-    private Health targetHealth;
+
+    private Collider colliderComp;
     private NetCodeAnimationManager nAnimator;
-
-    Collider colliderComp;
-    public Health TargetHealth => targetHealth;
-
     public NetCodeAnimationManager NAnimator => nAnimator;
-
-    public Transform Transform => transform;
-
-    private AbilityPositionManager abilityPositionManager;
-
-    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
-
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
 
-    public IFaction IFaction => this;
+
+
+
 
     protected override void Awake()
     {
@@ -38,23 +28,20 @@ public class NPC : Unit, IAbilityUser
         {
             return;
         }
-
-        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
-        {
-            Debug.LogError("NetCodeAnimationManager is required for NPC");
-        }
-        if (!TryGetComponent<AbilityManager>(out abilityManager))
-        {
-            Debug.LogError("AbilityManager is required for NPC");
-        }
-        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
-        {
-            Debug.LogError("AbilityPositionManager is required for NPC");
-        }
+        
         if (!TryGetComponent<Collider>(out colliderComp))
         {
             Debug.LogError("Collider is required for NPC");
         }
+        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
+        {
+            Debug.LogError($"{nameof(NetCodeAnimationManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<EffectManager>(out effectManager))
+        {
+            Debug.LogError($"{nameof(EffectManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+
 
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
@@ -67,7 +54,7 @@ public class NPC : Unit, IAbilityUser
 
         if (!NetworkManager.Singleton.IsServer) return;
 
-        agent.updateRotation = false; // I'M IN CHARGE NOW BITCH
+        agent.updateRotation = false;
     }
 
     // Update is called once per frame
@@ -76,8 +63,6 @@ public class NPC : Unit, IAbilityUser
         base.Update();
 
         if (!IsServer) return;
-
-        UpdateRotation();
     }
 
     /// <summary>
@@ -94,18 +79,7 @@ public class NPC : Unit, IAbilityUser
     }
 
 
-    private void UpdateRotation()
-    {
-        if (target != null)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), Time.deltaTime);
-        }
-
-        else if (agent.velocity.magnitude > 0.1f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.velocity.normalized), Time.deltaTime);
-        }       
-    }
+    
 
     /// <summary>
     /// Sets the nav agent's destination to the give position
@@ -113,52 +87,65 @@ public class NPC : Unit, IAbilityUser
     /// <param name="_worldPosition"></param>
     public void SetDestination(Vector3 _worldPosition)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to set destination for NPC");
+            return;
+        }
+
         agent.SetDestination(_worldPosition);
     }
 
-    /// <summary>
-    /// Fires the pojectile towards the target's position
-    /// </summary>
-    public void Shoot()
-    {
-        abilityManager.TryCastAbility(0);
-    }
+    
 
-    /// <summary>
-    /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
-    /// </summary>
-    /// <param name="_targetGameObject"></param>
-    public void SetTarget(GameObject _targetGameObject)
-    {
-        if (_targetGameObject == null)
+    /*    /// <summary>
+        /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
+        /// </summary>
+        /// <param name="_targetGameObject"></param>
+        public void SetTarget(GameObject _targetGameObject)
+        {
+            if (!IsServer)
+            {
+                Debug.LogError("Client attempted to set target for NPC");
+                return;
+            }
+
+            if (_targetGameObject == null)
+            {
+                // Reset tagetHealth if the we already have a target
+                if (targetHealth != null)
+                {
+                    targetHealth.OnDeath -= ClearTarget;
+                    targetHealth = null;
+                }
+
+                target = null;
+
+                return;
+            }
+
+            if (_targetGameObject.TryGetComponent<Health>(out Health health))
+            {
+                targetHealth = health;
+                target = _targetGameObject.transform;
+                targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
+                targetHealth.OnDeath += ClearTarget;
+            }
+            else
+            {
+                Debug.LogWarning($"{_targetGameObject.name} does not have a Health component.");
+            }
+
+
+        }*/
+
+    /*    /// <summary>
+        /// Unsubscribes from the target's OnDeath event and clears all target variables
+        /// </summary>
+        private void ClearTarget()
         {
             targetHealth.OnDeath -= ClearTarget;
             targetHealth = null;
             target = null;
-
-            return;
-        }
-
-        if (_targetGameObject.TryGetComponent<Health>(out Health health))
-        {
-            targetHealth = health;
-            target = _targetGameObject.transform;
-            targetHealth.OnDeath -= ClearTarget;  // Ensure no duplicate subscriptions
-            targetHealth.OnDeath += ClearTarget;
-        }
-        else
-        {
-            Debug.LogWarning($"{_targetGameObject.name} does not have a Health component.");
-        }
-    }
-
-    /// <summary>
-    /// Unsubscribes from the target's OnDeath event and clears all target variables
-    /// </summary>
-    private void ClearTarget()
-    {
-        targetHealth.OnDeath -= ClearTarget;
-        targetHealth = null;
-        target = null;
-    }
+        }*/
 }

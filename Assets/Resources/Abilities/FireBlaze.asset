@@ -21,3 +21,4 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 0
   effect: {fileID: 6631761922747683013, guid: 28e2d8c08a0117841ba65ce212813fa3, type: 3}
+  slowAmount: 4

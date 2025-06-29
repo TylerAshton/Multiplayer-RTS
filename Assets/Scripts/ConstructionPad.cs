@@ -20,18 +20,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
 
     ConstructionPad IConstructionPad.ConstructionPad => this;
 
-    public NetCodeAnimationManager NAnimator => throw new System.NotImplementedException();
-
-    public Transform Transform => transform;
-
-    private AbilityPositionManager abilityPositionManager;
     [SerializeField] public bool territoryOwned = false;
-
-    public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
-
-    public EffectManager EffectManager => throw new System.NotImplementedException();
-
-    public IFaction IFaction => this;
 
     protected override void Awake()
     {
@@ -44,10 +33,6 @@ public class ConstructionPad : SelectableObject, IConstructionPad
         if (!TryGetComponent<Collider>(out collider))
         {
             Debug.LogError("Collider is required for ConstructionPad");
-        }
-        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
-        {
-            Debug.LogError("AbilityPositionManager is required for ConstructionPad"); // TODO: Make all of these use gettype
         }
     }
 
