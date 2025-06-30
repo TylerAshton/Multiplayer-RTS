@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Projectile Stats", menuName = "Stats/Projectile")]
-public class ProjectileStats : ScriptableObject
+public class ProjectileStats : BaseAbilityStat
 {
     [SerializeField] private string iD;
     public string ID => iD;
@@ -45,7 +45,7 @@ public class ProjectileStats : ScriptableObject
     /// Validation function for the projectile stats as it got way too long to be used in ApplyProjectileStats
     /// </summary>
     /// <returns></returns>
-    public bool IsValid()
+    public override bool IsValid()
     {
         if (this.ID == null || this.ID.Trim().Length == 0)
         {
@@ -120,7 +120,7 @@ public class ProjectileStats : ScriptableObject
         return true;
     }
 #if UNITY_EDITOR
-    public void DrawInspector(SerializedObject so)
+    public override void DrawInspector(SerializedObject so)
     {
         SerializedProperty fieldID = so.FindProperty("iD");
         fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);

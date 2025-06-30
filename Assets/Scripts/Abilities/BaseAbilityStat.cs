@@ -1,16 +1,11 @@
+using UnityEditor;
 using UnityEngine;
 
-public class BaseAbilityStat : ScriptableObject
+public abstract class BaseAbilityStat : ScriptableObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public abstract bool IsValid();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+#if UNITY_EDITOR
+    public abstract void DrawInspector(SerializedObject so);
+#endif
 }
