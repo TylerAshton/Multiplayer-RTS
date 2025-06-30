@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Channelled Projection Ability", menuName = "Abilities/Channelled Projection")]
 public class ChannelledProjection : Ability<ICharacterAbilityUser>
 {
-    [SerializeField] GameObject effect;
+    [SerializeField] GameObject vfxPrefab;
     [SerializeField] private float slowAmount;
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
@@ -30,7 +30,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
-        GameObject newEffect = Instantiate(effect, castPositionTransform);
+        GameObject newEffect = Instantiate(vfxPrefab, castPositionTransform);
         newEffect.GetComponent<NetworkObject>().Spawn();
         newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
         newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
@@ -41,7 +41,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldEffect = _so.FindProperty("effect");
+        SerializedProperty fieldEffect = _so.FindProperty("vfxPrefab");
         fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect Prefab", fieldEffect.objectReferenceValue, typeof(GameObject), false);
     }
 #endif
