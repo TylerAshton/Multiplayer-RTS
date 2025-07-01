@@ -50,7 +50,7 @@ public static class ProjectileStatsRegistry
     {
         projectileStats.Clear();
 
-        var all = Resources.LoadAll<ProjectileStats>("Projectiles");
+        var all = Resources.LoadAll<ProjectileStats>($"{nameof(projectileStats)}");
         foreach (var a in all)
         {
             Register(a.ID, a);

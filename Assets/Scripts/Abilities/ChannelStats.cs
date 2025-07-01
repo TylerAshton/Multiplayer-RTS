@@ -19,6 +19,8 @@ public class ChannelStats : BaseAbilityStat
     public float Duration => duration;
     public Vector3 HitboxOffset => hitboxOffset;
 
+    public override string folderName => "Projections";
+
     public override bool IsValid()
     {
         if (this.ID == null || this.ID.Trim().Length == 0)

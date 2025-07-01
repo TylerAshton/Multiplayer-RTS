@@ -39,6 +39,8 @@ public class ProjectileStats : BaseAbilityStat
     [SerializeField] private int penetration = 0;
     public int Penetration => penetration;
 
+    public override string folderName => "Projectiles";
+
 
 
     /// <summary>
