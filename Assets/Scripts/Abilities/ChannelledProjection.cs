@@ -7,8 +7,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Channelled Projection Ability", menuName = "Abilities/Channelled Projection")]
 public class ChannelledProjection : Ability<ICharacterAbilityUser>
 {
-    [SerializeField] GameObject vfxPrefab;
     [SerializeField] private float slowAmount;
+    [SerializeField] private ChannelStats channelStats;
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
@@ -29,11 +29,11 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
 
     protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
-        Transform castPositionTransform = GetCastPositionTransform(_user);
+/*        Transform castPositionTransform = GetCastPositionTransform(_user);
         GameObject newEffect = Instantiate(vfxPrefab, castPositionTransform);
         newEffect.GetComponent<NetworkObject>().Spawn();
         newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
-        newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
+        newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;*/
     }
 
 #if UNITY_EDITOR
@@ -41,8 +41,20 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldEffect = _so.FindProperty("vfxPrefab");
-        fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect Prefab", fieldEffect.objectReferenceValue, typeof(GameObject), false);
+        SerializedProperty fieldSlowAmount = _so.FindProperty("slowAmount");
+        EditorGUILayout.PropertyField(fieldSlowAmount);
+        if (fieldSlowAmount.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Slow amount must be a positive value!", MessageType.Error);
+        }
+
+        SerializedProperty fieldChannelStats = _so.FindProperty("channelStats");
+        EditorGUILayout.PropertyField(fieldChannelStats);
+
+        if (fieldChannelStats.objectReferenceValue != null)
+        {
+            DrawStat(fieldChannelStats);
+        }
     }
 #endif
 }

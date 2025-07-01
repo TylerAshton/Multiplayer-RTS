@@ -27,13 +27,13 @@ namespace Editor.ProjectileEditor
 
             /*EditorGUI.LabelField(editButtonRect, "hi");*/
 
-            if (property.objectReferenceValue != null)
+/*            if (property.objectReferenceValue != null)
             {
                 if (GUI.Button(editButtonRect, "Edit"))
                 {
                     ProjectileEditorWindow.Open((ProjectileStats)property.objectReferenceValue);
                 }
-            }
+            }*/
 
 
             EditorGUI.EndProperty();
