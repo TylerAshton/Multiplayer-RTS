@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
   sizeDelta: 0
-  hitboxType: 1
+  hitboxType: 2
   boxStartSize: {x: 1, y: 1, z: 1}
   boxEndSize: {x: 1, y: 1, z: 1}
   sphereStartRadius: 1
