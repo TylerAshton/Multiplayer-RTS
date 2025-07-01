@@ -39,7 +39,7 @@ namespace Editor.ProjectileEditor
 
             UnityEditor.PopupWindow.Show(
                 new Rect(new Vector2(100, 100), new Vector2(250, 100)),
-                new ProjectileNamePopup(CreateNewStatSO, property, statType) // TODO: Get the type from the property dynamically
+                new AbilityStatNamePopup(CreateNewStatSO, property, statType) // TODO: Get the type from the property dynamically
             );
         }
 

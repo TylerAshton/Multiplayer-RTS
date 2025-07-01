@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326c203d0d1ea6641880bbde83a826bd, type: 3}
   m_Name: xfhxghxgrh
   m_EditorClassIdentifier: 
-  iD: 
+  iD: ergeg
   vfxPrefab: {fileID: 0}
-  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxOffset: {x: 22, y: 0, z: 0}
   damagePerSecond: 1
   duration: 5
   hitboxOffset: {x: 0, y: 0, z: 0}

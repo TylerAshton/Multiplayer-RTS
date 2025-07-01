@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace Editor.ProjectileEditor
 {
-    public class ProjectileNamePopup : PopupWindowContent
+    public class AbilityStatNamePopup : PopupWindowContent
     {
-        private string abilityName = "New Projectile";
+        private string abilityName = "New Stat";
         private System.Action<string, SerializedProperty, Type> onConfirm;
         private SerializedProperty property;
         private Type type;
 
-        public ProjectileNamePopup(System.Action<string, SerializedProperty, Type> confirmCallback, SerializedProperty _property, Type _type)
+        public AbilityStatNamePopup(System.Action<string, SerializedProperty, Type> confirmCallback, SerializedProperty _property, Type _type)
         {
             onConfirm = confirmCallback;
             property = _property;
@@ -26,7 +26,7 @@ namespace Editor.ProjectileEditor
         {
             GUILayout.BeginArea(rect);
 
-            GUILayout.Label("Enter Projectile Name", EditorStyles.boldLabel);
+            GUILayout.Label($"Enter {type} Name", EditorStyles.boldLabel);
             abilityName = EditorGUILayout.TextField(abilityName);
 
             if (GUILayout.Button("Create"))
