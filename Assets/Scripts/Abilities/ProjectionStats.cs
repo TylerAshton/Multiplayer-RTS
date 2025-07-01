@@ -9,7 +9,8 @@ public class ProjectionStats : BaseAbilityStat
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
     [SerializeField] private float damagePerSecond = 1f;
     [SerializeField] private float duration = 5f;
-    [SerializeField] private Vector3 hitboxOffset = Vector3.zero;
+    [SerializeField] private HitboxStats hitboxStats;
+
     // Custom HitBox manager
 
     public string ID => iD;
@@ -17,9 +18,9 @@ public class ProjectionStats : BaseAbilityStat
     public Vector3 VFXOffset => vfxOffset;
     public float DamagePerSecond => damagePerSecond;
     public float Duration => duration;
-    public Vector3 HitboxOffset => hitboxOffset;
+    public HitboxStats HitboxStats => hitboxStats;
 
-    public override string folderName => "Projections";
+
 
     public override bool IsValid()
     {
@@ -43,9 +44,9 @@ public class ProjectionStats : BaseAbilityStat
             Debug.LogError($"{name} DamagePerSecond is zero or negative: {damagePerSecond}");
             return false;
         }
-        if (hitboxOffset == null)
+        if (hitboxStats == null)
         {
-            Debug.LogError($"{name} HitboxOffset is not assigned.");
+            Debug.LogError($"{name} HitboxStats is not assigned.");
             return false;
         }
 
@@ -89,12 +90,37 @@ public class ProjectionStats : BaseAbilityStat
             EditorGUILayout.HelpBox("Duration must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldHitboxOffset = so.FindProperty("hitboxOffset");
-        fieldHitboxOffset.vector3Value = EditorGUILayout.Vector3Field("Hitbox Offset", fieldHitboxOffset.vector3Value);
-        if (fieldHitboxOffset.vector3Value == null)
+        SerializedProperty fieldHitbox = so.FindProperty("hitboxStats");
+        EditorGUILayout.PropertyField(fieldHitbox);
+
+        if (fieldHitbox.objectReferenceValue != null)
         {
-            EditorGUILayout.HelpBox("Hitbox Offset must be assigned!", MessageType.Error);
+            DrawStat(fieldHitbox);
+            
         }
     }
+
+#if UNITY_EDITOR
+    protected void DrawStat(SerializedProperty _sp)
+    {
+        if (_sp.objectReferenceValue == null)
+        {
+            Debug.LogError($"SerializedProperty is null in {GetType().Name}. Please assign a valid SerializedProperty.");
+        }
+
+        SerializedObject statsSO = new SerializedObject(_sp.objectReferenceValue);
+        BaseAbilityStat stat = (BaseAbilityStat)_sp.objectReferenceValue;
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField($"{stat.name}", EditorStyles.boldLabel);
+
+        statsSO.Update();
+
+        stat.DrawInspector(statsSO);
+
+        statsSO.ApplyModifiedProperties();
+    }
+
+#endif
 
 }

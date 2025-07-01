@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 326c203d0d1ea6641880bbde83a826bd, type: 3}
-  m_Name: xfhxghxgrh
+  m_Script: {fileID: 11500000, guid: 9b3577e87eafc4341b3ea4ffaa443a34, type: 3}
+  m_Name: Flame Hitbox
   m_EditorClassIdentifier: 
-  iD: ergeg
-  vfxPrefab: {fileID: 0}
-  vfxOffset: {x: 22, y: 0, z: 0}
-  damagePerSecond: 1
-  duration: 5
-  hitboxOffset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}
+  sizeDelta: 0
+  hitboxType: 1
+  boxStartSize: {x: 1, y: 1, z: 1}
+  boxEndSize: {x: 1, y: 1, z: 1}
+  sphereStartRadius: 1
+  sphereEndRadius: 1
+  coneAngle: 45
