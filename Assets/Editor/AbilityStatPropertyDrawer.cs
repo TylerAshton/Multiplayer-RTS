@@ -7,8 +7,8 @@ using UnityEngine.Rendering;
 
 namespace Editor.ProjectileEditor
 {
-    [CustomPropertyDrawer(typeof(ProjectileStats))]
-    public class ProjectileDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(BaseAbilityStat), true)]
+    public class AbilityStatPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

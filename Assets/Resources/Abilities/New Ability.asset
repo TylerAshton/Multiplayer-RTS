@@ -21,4 +21,4 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 0
   projectile: {fileID: 0}
-  projectileStats: {fileID: 0}
+  projectileStats: {fileID: 11400000, guid: d3c291320b34d1d4cb40851a2bed17c9, type: 2}

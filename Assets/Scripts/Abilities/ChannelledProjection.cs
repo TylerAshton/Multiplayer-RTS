@@ -8,7 +8,7 @@ using UnityEngine;
 public class ChannelledProjection : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private float slowAmount;
-    [SerializeField] private ChannelStats channelStats;
+    [SerializeField] private ProjectionStats channelStats;
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");

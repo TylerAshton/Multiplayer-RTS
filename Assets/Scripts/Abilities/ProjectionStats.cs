@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Channel Stats", menuName = "Stats/Channel Stats")]
-public class ChannelStats : BaseAbilityStat
+public class ProjectionStats : BaseAbilityStat
 {
     [SerializeField] private string iD;
     [SerializeField] private GameObject vfxPrefab;
