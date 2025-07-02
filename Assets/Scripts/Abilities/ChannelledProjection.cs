@@ -29,11 +29,21 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
 
     protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
-/*        Transform castPositionTransform = GetCastPositionTransform(_user);
-        GameObject newEffect = Instantiate(vfxPrefab, castPositionTransform);
-        newEffect.GetComponent<NetworkObject>().Spawn();
-        newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
-        newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;*/
+        Transform castPositionTransform = GetCastPositionTransform(_user);
+        GameObject newProjection = Instantiate(GetProjectionBlueprint(), castPositionTransform.position, Quaternion.identity);
+        newProjection.GetComponent<NetworkObject>().Spawn();
+        newProjection.GetComponent<NetworkParent>().SetParent(castPositionTransform);
+        /*ProjectionManager projectionManager = newProjection.GetComponent<ProjectionManager>();
+        projectionManager.*/
+        HitboxManager hitboxManager = newProjection.GetComponent<HitboxManager>();
+        hitboxManager.ApplyHitboxStatsWithID(channelStats.HitboxStats.ID);
+        //newProjection.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
+    }
+
+    private GameObject GetProjectionBlueprint()
+    {
+        GameObject projectile = Resources.Load<GameObject>("Blueprints/BPProjection");
+        return projectile;
     }
 
 #if UNITY_EDITOR

@@ -372,7 +372,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
         if (deathVFXScale <= 0)
         {
-            Debug.LogError($"Death VFX Scale can't be zero or negative: {deathVFXScale}");
+            Debug.LogError($"Death VFX Scale can't be zero or negative: {deathVFXScale}in {this.name}");
             return;
         }
 

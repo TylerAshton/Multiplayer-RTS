@@ -15,16 +15,28 @@ public class HitboxStats : BaseAbilityStat
     [SerializeField] private float sizeDelta = 0f;
     [SerializeField] private HitboxType hitboxType = HitboxType.Box;
 
+    public Vector3 Offset => offset;
+    public float SizeDelta => sizeDelta;
+    public HitboxType HitboxType => hitboxType;
+
     // Box-specific properties
     [SerializeField] private Vector3 boxStartSize = Vector3.one;
     [SerializeField] private Vector3 boxEndSize = Vector3.one;
+
+    public Vector3 BoxStartSize => boxStartSize;
+    public Vector3 BoxEndSize => boxEndSize;
 
     // Sphere-specific properties
     [SerializeField] private float sphereStartRadius = 1f;
     [SerializeField] private float sphereEndRadius = 1f;
 
+    public float SphereStartRadius => sphereStartRadius;
+    public float SphereEndRadius => sphereEndRadius;
+
     // Cone-specific properties
     [SerializeField] private float coneAngle = 45f;
+
+    public float ConeAngle => coneAngle;
     public override void DrawInspector(SerializedObject so)
     {
         base.DrawInspector(so);
@@ -122,6 +134,11 @@ public class HitboxStats : BaseAbilityStat
 
     public override bool IsValid()
     {
-        throw new System.NotImplementedException();
+        if (sizeDelta < 0)
+        {
+            Debug.LogError($"{this.name} has a negative size delta: {sizeDelta}!");
+            return false;
+        }
+        return true;
     }
 }

@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -6,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class HitboxManager : MonoBehaviour
 {
-    private HitboxStats hitboxStats;
     public void Init(HitboxStats _hitboxStats)
     {
         if (_hitboxStats == null)
@@ -24,7 +24,7 @@ public class HitboxManager : MonoBehaviour
     [Rpc(SendTo.Everyone)]
     private void ApplyHitboxStatsRpc(string _hitboxStatsID)
     {
-/*        HitboxStats hitboxStats = ProjectileStatsRegistry.GetProjectileStat(_hitboxStatsID);
+        HitboxStats hitboxStats = AbilityStatsRegistry.GetProjectileStat<HitboxStats>(_hitboxStatsID);
 
         if (hitboxStats == null)
         {
@@ -36,23 +36,42 @@ public class HitboxManager : MonoBehaviour
         {
             Debug.LogError("ProjectileStats is not valid, check the console for more information");
             return;
-        }*/
+        }
 
+        switch (hitboxStats.HitboxType) // I think type conditionals are fine. Doing derived classes would be overkill for this.
+        {
+            case HitboxType.Sphere:
+                SpawnSphere(hitboxStats);
+                break;
+            case HitboxType.Box:
+                SpawnBox(hitboxStats);
+                break;
+            case HitboxType.Cone:
+                SpawnCone(hitboxStats);
+                break;
+            default:
+                EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
+                break;
+        }
+    }
 
-
-        /*detectionRange = _projectileStats.DetectionRange;
-        speed = _projectileStats.Speed;
-        damage = _projectileStats.Damage;
-        lifeTime = _projectileStats.LifeTime;
-        bulletVFX = _projectileStats.BulletVFX;
-        bulletVFXScale = _projectileStats.BulletVFXScale;
-        deathVFX = _projectileStats.DeathVFX;
-        deathVFXScale = _projectileStats.DeathVFXScale;
-        isAOE = _projectileStats.IsAOE;
-        aoeRadius = _projectileStats.AOERadius;
-        penetration = _projectileStats.Penetration;
-*/
-        //SpawmBulletVFXRpc();
+    private void SpawnSphere(HitboxStats _hitboxStats)
+    {
+        SphereCollider sCollider = gameObject.AddComponent<SphereCollider>();
+        sCollider.isTrigger = true;
+        sCollider.center = _hitboxStats.Offset;
+        sCollider.radius = _hitboxStats.SphereStartRadius;
+    }
+    private void SpawnBox(HitboxStats _hitboxStats)
+    {
+        BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
+        boxCollider.isTrigger = true;
+        boxCollider.center = _hitboxStats.Offset;
+        boxCollider.size = _hitboxStats.BoxStartSize;
+    }
+    private void SpawnCone(HitboxStats _hitboxStats)
+    {
+        SpawnSphere(_hitboxStats);
     }
 
     public void ApplyHitboxStatsWithID(string _hitboxStatsID)
