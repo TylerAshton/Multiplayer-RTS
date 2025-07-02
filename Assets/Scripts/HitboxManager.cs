@@ -36,6 +36,24 @@ public class HitboxManager : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        // Current Collider:
+
+        // Rotations Matris BS that alligns the transform and rotation
+        Gizmos.matrix = Matrix4x4.TRS(transform.TransformPoint(boxCollider.center), transform.rotation, Vector3.Scale(transform.lossyScale, Vector3.one));
+
+        Gizmos.DrawWireCube(Vector3.zero, boxCollider.size);
+
+        Gizmos.matrix = Matrix4x4.identity; // Reset Matrix
+
+        
+
+        // TODO: Add Sphere
+    }
+
     private IEnumerator ResizeSphere(float _targetRadius, float _duration)
     {
         float originalRadius = sphereCollider.radius;
