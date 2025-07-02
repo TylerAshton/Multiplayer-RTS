@@ -76,7 +76,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     /// <param name="_projectileStats"></param>
     /// 
     [Rpc(SendTo.Everyone)]
-    public void ApplyProjectileStatsRpc(string _projectileStatsID)
+    private void ApplyProjectileStatsRpc(string _projectileStatsID)
     {
         ProjectileStats _projectileStats = ProjectileStatsRegistry.GetProjectileStat(_projectileStatsID);
 
