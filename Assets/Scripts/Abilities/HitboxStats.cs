@@ -12,11 +12,11 @@ public enum HitboxType
 public class HitboxStats : BaseAbilityStat 
 {
     [SerializeField] private Vector3 offset = Vector3.zero;
-    [SerializeField] private float sizeDelta = 0f;
+    [SerializeField] private float sizeChangeTime = 0f;
     [SerializeField] private HitboxType hitboxType = HitboxType.Box;
 
     public Vector3 Offset => offset;
-    public float SizeDelta => sizeDelta;
+    public float SizeChangeTime => sizeChangeTime;
     public HitboxType HitboxType => hitboxType;
 
     // Box-specific properties
@@ -44,11 +44,11 @@ public class HitboxStats : BaseAbilityStat
         SerializedProperty fieldOffset = so.FindProperty("offset");
         EditorGUILayout.PropertyField(fieldOffset, new GUIContent("Offset"));
 
-        SerializedProperty fieldSizeDelta = so.FindProperty("sizeDelta");
-        EditorGUILayout.PropertyField(fieldSizeDelta, new GUIContent("Size Delta"));
-        if (sizeDelta < 0)
+        SerializedProperty fieldSizeDelta = so.FindProperty("sizeChangeTime");
+        EditorGUILayout.PropertyField(fieldSizeDelta, new GUIContent("Size Change Time"));
+        if (sizeChangeTime < 0)
         {
-            EditorGUILayout.HelpBox("Size Delta must be a positive value!", MessageType.Error);
+            EditorGUILayout.HelpBox($"{nameof(sizeChangeTime)} must be a positive value!", MessageType.Error);
         }
 
         SerializedProperty fieldHitboxType = so.FindProperty("hitboxType");
@@ -134,9 +134,9 @@ public class HitboxStats : BaseAbilityStat
 
     public override bool IsValid()
     {
-        if (sizeDelta < 0)
+        if (sizeChangeTime < 0)
         {
-            Debug.LogError($"{this.name} has a negative size delta: {sizeDelta}!");
+            Debug.LogError($"{this.name} has a negative size delta: {sizeChangeTime}!");
             return false;
         }
         return true;

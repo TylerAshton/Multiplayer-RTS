@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iD: TESTH
   offset: {x: 0, y: 0, z: 0}
-  sizeDelta: 0
-  hitboxType: 1
+  sizeChangeTime: 10
+  hitboxType: 0
   boxStartSize: {x: 5, y: 1, z: 1}
   boxEndSize: {x: 1, y: 1, z: 1}
   sphereStartRadius: 1
-  sphereEndRadius: 1
+  sphereEndRadius: 10
   coneAngle: 45

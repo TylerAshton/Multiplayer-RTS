@@ -1,4 +1,6 @@
+using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,12 +9,44 @@ using UnityEngine;
 /// </summary>
 public class HitboxManager : MonoBehaviour
 {
+    BoxCollider boxCollider;
+    SphereCollider sphereCollider;
     public void Init(HitboxStats _hitboxStats)
     {
         if (_hitboxStats == null)
         {
             Debug.LogError($"{nameof(_hitboxStats)} is null. Cannot initialize {GetType().Name} in gameobject - {gameObject.name}!.");
             return;
+        }
+
+        switch (_hitboxStats.HitboxType) // I think type conditionals are fine. Doing derived classes would be overkill for this.
+        {
+            case HitboxType.Sphere:
+                StartCoroutine(ResizeSphere(_hitboxStats.SphereEndRadius, _hitboxStats.SizeChangeTime));
+                break;
+/*            case HitboxType.Box:
+                SpawnBox(hitboxStats);
+                break;
+            case HitboxType.Cone:
+                SpawnCone(hitboxStats);
+                break;*/
+            default:
+                EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
+                break;
+        }
+    }
+
+    private IEnumerator ResizeSphere(float _targetRadius, float _duration)
+    {
+        float originalRadius = sphereCollider.radius;
+        float timeElapsed = 0f;
+        while (sphereCollider.radius != _targetRadius)
+        {
+            float newRadius = Mathf.Lerp(originalRadius, _targetRadius, timeElapsed / _duration);
+            sphereCollider.radius = newRadius;
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
         }
     }
 
@@ -53,14 +87,16 @@ public class HitboxManager : MonoBehaviour
                 EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
                 break;
         }
+
+        Init(hitboxStats);
     }
 
     private void SpawnSphere(HitboxStats _hitboxStats)
     {
-        SphereCollider sCollider = gameObject.AddComponent<SphereCollider>();
-        sCollider.isTrigger = true;
-        sCollider.center = _hitboxStats.Offset;
-        sCollider.radius = _hitboxStats.SphereStartRadius;
+        sphereCollider = gameObject.AddComponent<SphereCollider>();
+        sphereCollider.isTrigger = true;
+        sphereCollider.center = _hitboxStats.Offset;
+        sphereCollider.radius = _hitboxStats.SphereStartRadius;
     }
     private void SpawnBox(HitboxStats _hitboxStats)
     {
