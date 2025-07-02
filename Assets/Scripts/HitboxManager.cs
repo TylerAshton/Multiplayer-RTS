@@ -13,9 +13,11 @@ using static UnityEngine.UI.Image;
 /// </summary>
 public class HitboxManager : MonoBehaviour
 {
-    HitboxStats hitboxStats;
-    BoxCollider boxCollider;
-    SphereCollider sphereCollider;
+    private HitboxStats hitboxStats;
+    private BoxCollider boxCollider;
+    private SphereCollider sphereCollider;
+
+    public event Action<Collider> OnHitboxTriggerEnter;
     public void Init(HitboxStats _hitboxStats)
     {
         if (_hitboxStats == null)
@@ -65,6 +67,43 @@ public class HitboxManager : MonoBehaviour
         // TODO: Add Sphere
     }
 
+    private void OnTriggerEnter(Collider _other)
+    {
+        // Cone filter, if the collider is not within the cone ignore it
+        if (hitboxStats.HitboxType == HitboxType.Cone)
+        {
+            if (!IsWithinCone(_other)) 
+            {
+                return;
+            }
+        }
+
+        OnHitboxTriggerEnter?.Invoke(_other);
+    }
+
+    /// <summary>
+    /// Returns true if the collider is within the cone of the hitbox.
+    /// </summary>
+    /// <param name="_other"></param>
+    /// <returns></returns>
+    private bool IsWithinCone(Collider _other)
+    {
+        Vector3 contactDirection = _other.transform.position - transform.position;
+        contactDirection.y = 0;
+
+        Vector3 forwardDirection = transform.forward;
+        forwardDirection.y = 0; 
+
+        float dot = Vector3.Dot(forwardDirection.normalized, contactDirection.normalized);
+        
+        float cosAngle = Mathf.Cos(hitboxStats.ConeAngle * 0.5f * Mathf.Deg2Rad);
+
+        return dot >= cosAngle;
+    }
+
+    /// <summary>
+    /// Draws a cone gizmo for the cone collider.
+    /// </summary>
     private void DrawConeCollider()
     {
         int segments = 10;
@@ -87,6 +126,9 @@ public class HitboxManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Draws a sphere gizmo for the sphere collider.
+    /// </summary>
     private void DrawSphereCollider()
     {
         Gizmos.color = Color.yellow;
@@ -98,6 +140,9 @@ public class HitboxManager : MonoBehaviour
         Gizmos.DrawWireSphere(center, scaledRadius);
     }
 
+    /// <summary>
+    /// Draws a box gizmo for the box collider.
+    /// </summary>
     private void DrawBoxCollider()
     {
         Gizmos.color = Color.yellow;
@@ -110,6 +155,12 @@ public class HitboxManager : MonoBehaviour
         Gizmos.matrix = Matrix4x4.identity; // Reset Matrix
     }
 
+    /// <summary>
+    /// Resizes the sphere collider over a duration to the target radius.
+    /// </summary>
+    /// <param name="_targetRadius"></param>
+    /// <param name="_duration"></param>
+    /// <returns></returns>
     private IEnumerator ResizeSphere(float _targetRadius, float _duration)
     {
         float originalRadius = sphereCollider.radius;
@@ -124,6 +175,13 @@ public class HitboxManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Resizes the box collider over a duration to the target forward and width extensions.
+    /// </summary>
+    /// <param name="_targetForwardExtension"></param>
+    /// <param name="_targetWidthExtension"></param>
+    /// <param name="_duration"></param>
+    /// <returns></returns>
     private IEnumerator ResizeSquare(float _targetForwardExtension, float _targetWidthExtension, float _duration)
     {
         Vector3 boxColliderOriginalSize = boxCollider.size;
