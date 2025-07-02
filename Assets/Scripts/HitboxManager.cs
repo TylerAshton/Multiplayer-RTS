@@ -11,13 +11,15 @@ using static UnityEngine.UI.Image;
 /// <summary>
 /// This class manages hitboxes for abilities, usually projections. But should be modular enough to handle any hitbox type.
 /// </summary>
-public class HitboxManager : MonoBehaviour
+public class HitboxManager : MonoBehaviour, IFaction
 {
     private HitboxStats hitboxStats;
     private BoxCollider boxCollider;
     private SphereCollider sphereCollider;
 
     public event Action<Collider> OnHitboxTriggerStay;
+    public Faction Faction { get => faction; set => faction = value; }
+    private Faction faction = Faction.None;
     private void Init(HitboxStats _hitboxStats)
     {
         if (_hitboxStats == null)
@@ -66,6 +68,16 @@ public class HitboxManager : MonoBehaviour
 
     private void OnTriggerStay(Collider _other) // TODO: Rework the whole thing to use phyisics instead
     {
+        if (!_other.TryGetComponent<IFaction>(out IFaction _faction))
+        {
+            return;
+        }
+
+        if (_faction.Faction == faction)
+        {
+            return;
+        }
+
         // Cone filter, if the collider is not within the cone ignore it
         if (hitboxStats.HitboxType == HitboxType.Cone)
         {

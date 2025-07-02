@@ -33,11 +33,11 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
         GameObject newProjection = Instantiate(GetProjectionBlueprint(), castPositionTransform.position, Quaternion.identity);
         newProjection.GetComponent<NetworkObject>().Spawn();
         newProjection.GetComponent<NetworkParent>().SetParent(castPositionTransform);
-        /*ProjectionManager projectionManager = newProjection.GetComponent<ProjectionManager>();
-        projectionManager.*/
+        ProjectionManager projectionManager = newProjection.GetComponent<ProjectionManager>();
+        projectionManager.ApplyProjectionStatsWithID(channelStats.ID);
         HitboxManager hitboxManager = newProjection.GetComponent<HitboxManager>();
         hitboxManager.ApplyHitboxStatsWithID(channelStats.HitboxStats.ID);
-        //newProjection.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
+        newProjection.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 
     private GameObject GetProjectionBlueprint()

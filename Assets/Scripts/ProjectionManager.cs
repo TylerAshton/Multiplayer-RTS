@@ -6,14 +6,13 @@ using UnityEngine;
 /// <summary>
 /// Manages projection ability instances in the game.
 /// </summary>
-public class ProjectionManager : NetworkBehaviour, IFaction
+public class ProjectionManager : NetworkBehaviour
 {
     private ProjectionStats projectionStats;
     HitboxManager hitboxManager;
     List<Collider> hitColliders = new List<Collider>();
 
-    public Faction Faction { get => faction; set => faction = value; }
-    private Faction faction = Faction.None;
+    
 
     private void Init()
     {
@@ -32,17 +31,7 @@ public class ProjectionManager : NetworkBehaviour, IFaction
     }
 
     private void OnHit(Collider _other)
-    {
-        if (!_other.TryGetComponent<IFaction>(out IFaction _faction))
-        {
-            return;
-        }
-
-        if (_faction.Faction != faction)
-        {
-            return;
-        }
-
+    {        
         if (projectionStats.DamageOnce && hitColliders.Contains(_other))
         {
             return;
@@ -55,13 +44,10 @@ public class ProjectionManager : NetworkBehaviour, IFaction
 
         if (projectionStats.DamageOnce)
         {
-            _health.Damage(projectionStats.Damage);
             hitColliders.Add(_other);
         }
-        else
-        {
-            _health.Damage(projectionStats.Damage * Time.deltaTime);
-        }
+
+        _health.Damage(projectionStats.Damage);
     }
 
 
@@ -87,7 +73,7 @@ public class ProjectionManager : NetworkBehaviour, IFaction
         Init();
     }
 
-    public void ApplyHitboxStatsWithID(string _projectionStatsID)
+    public void ApplyProjectionStatsWithID(string _projectionStatsID)
     {
         ApplyProjectionStatsRpc(_projectionStatsID);
     }

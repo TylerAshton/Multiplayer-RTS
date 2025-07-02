@@ -47,7 +47,7 @@ public static class AbilityStatsRegistry
         }
         else
         {
-            Debug.LogError($"{output.name} - {_statID} is not a {nameof(T)}");
+            Debug.LogError($"{output.name} - {_statID} is not a {typeof(T)}. Actual Type: {output.GetType()}");
             return null;
         }
     }
