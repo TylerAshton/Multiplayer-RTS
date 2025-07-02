@@ -24,12 +24,12 @@ public class HitboxManager : MonoBehaviour
             case HitboxType.Sphere:
                 StartCoroutine(ResizeSphere(_hitboxStats.SphereEndRadius, _hitboxStats.SizeChangeTime));
                 break;
-/*            case HitboxType.Box:
-                SpawnBox(hitboxStats);
+            case HitboxType.Box:
+                StartCoroutine(ResizeSquare(_hitboxStats.BoxForwardExtension, _hitboxStats.BoxWidthExtension, _hitboxStats.SizeChangeTime));
                 break;
             case HitboxType.Cone:
-                SpawnCone(hitboxStats);
-                break;*/
+                StartCoroutine(ResizeSphere(_hitboxStats.SphereEndRadius, _hitboxStats.SizeChangeTime));
+                break;
             default:
                 EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
                 break;
@@ -46,6 +46,34 @@ public class HitboxManager : MonoBehaviour
             sphereCollider.radius = newRadius;
             timeElapsed += Time.deltaTime;
 
+            yield return null;
+        }
+    }
+
+    private IEnumerator ResizeSquare(float _targetForwardExtension, float _targetWidthExtension, float _duration)
+    {
+        Vector3 boxColliderOriginalSize = boxCollider.size;
+        Vector3 boxColliderOriginalCenter = boxCollider.center;
+        float currentForwardExtension = 0;
+        float currentWidthExtension = 0;
+        float timeElapsed = 0f;
+
+        while (currentForwardExtension != _targetForwardExtension || currentWidthExtension != _targetWidthExtension)
+        {
+            if (currentForwardExtension != _targetForwardExtension)
+            {
+                currentForwardExtension = Mathf.Lerp(0, _targetForwardExtension, timeElapsed / _duration);
+                boxCollider.size = new Vector3(boxCollider.size.x, boxCollider.size.y, boxColliderOriginalSize.z + currentForwardExtension);
+                boxCollider.center = new Vector3(boxCollider.center.x, boxCollider.center.y, boxColliderOriginalCenter.z + (currentForwardExtension / 2));
+            }
+
+            if (currentWidthExtension != _targetWidthExtension)
+            {
+                currentWidthExtension = Mathf.Lerp(0, _targetWidthExtension, timeElapsed / _duration);
+                boxCollider.size = new Vector3(boxColliderOriginalSize.x + currentWidthExtension, boxCollider.size.y, boxCollider.size.z);
+            }
+
+            timeElapsed += Time.deltaTime;
             yield return null;
         }
     }
@@ -100,7 +128,7 @@ public class HitboxManager : MonoBehaviour
     }
     private void SpawnBox(HitboxStats _hitboxStats)
     {
-        BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
+        boxCollider = gameObject.AddComponent<BoxCollider>();
         boxCollider.isTrigger = true;
         boxCollider.center = _hitboxStats.Offset;
         boxCollider.size = _hitboxStats.BoxStartSize;

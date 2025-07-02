@@ -20,11 +20,13 @@ public class HitboxStats : BaseAbilityStat
     public HitboxType HitboxType => hitboxType;
 
     // Box-specific properties
-    [SerializeField] private Vector3 boxStartSize = Vector3.one;
-    [SerializeField] private Vector3 boxEndSize = Vector3.one;
-
+    [SerializeField] private Vector3 boxStartSize = Vector3.zero;
+    [SerializeField] private float boxForwardExtension = 0;
+    [SerializeField] private float boxWidthExtension = 0;
+    
     public Vector3 BoxStartSize => boxStartSize;
-    public Vector3 BoxEndSize => boxEndSize;
+    public float BoxForwardExtension => boxForwardExtension;
+    public float BoxWidthExtension => boxWidthExtension;
 
     // Sphere-specific properties
     [SerializeField] private float sphereStartRadius = 1f;
@@ -123,13 +125,27 @@ public class HitboxStats : BaseAbilityStat
             EditorGUILayout.HelpBox("Box Start Size must be positive values!", MessageType.Error);
         }
 
+        SerializedProperty fieldBoxForwardExtension = so.FindProperty("boxForwardExtension");
+        fieldBoxForwardExtension.floatValue = EditorGUILayout.FloatField("Forward Extension", fieldBoxForwardExtension.floatValue);
+        if ((fieldBoxForwardExtension.floatValue + fieldBoxStartSize.vector3Value.z) < 0)
+        {
+            EditorGUILayout.HelpBox("Box Size can't become negative after resizing!", MessageType.Error);
+        }
 
-        SerializedProperty fieldBoxEndSize = so.FindProperty("boxEndSize");
+        SerializedProperty fieldBoxWidthExtension = so.FindProperty("boxWidthExtension");
+        fieldBoxWidthExtension.floatValue = EditorGUILayout.FloatField("Width Extension", fieldBoxWidthExtension.floatValue);
+        if ((fieldBoxWidthExtension.floatValue + fieldBoxStartSize.vector3Value.x) < 0)
+        {
+            EditorGUILayout.HelpBox("Box Size can't become negative after resizing!", MessageType.Error);
+        }
+
+
+        /*SerializedProperty fieldBoxEndSize = so.FindProperty("boxEndSize");
         EditorGUILayout.PropertyField(fieldBoxEndSize, new GUIContent("Box End Size"));
         if (fieldBoxEndSize.vector3Value.x <= 0 || fieldBoxEndSize.vector3Value.y <= 0 || fieldBoxEndSize.vector3Value.z <= 0)
         {
             EditorGUILayout.HelpBox("Box End Size must be positive values!", MessageType.Error);
-        }
+        }*/
     }
 
     public override bool IsValid()

@@ -15,9 +15,10 @@ MonoBehaviour:
   iD: TESTH
   offset: {x: 0, y: 0, z: 0}
   sizeChangeTime: 10
-  hitboxType: 0
-  boxStartSize: {x: 5, y: 1, z: 1}
-  boxEndSize: {x: 1, y: 1, z: 1}
+  hitboxType: 1
+  boxStartSize: {x: 1, y: 1, z: 1}
+  boxForwardExtension: 10
+  boxWidthExtension: 3
   sphereStartRadius: 1
   sphereEndRadius: 10
   coneAngle: 45
