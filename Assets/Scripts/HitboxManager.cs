@@ -1,14 +1,19 @@
+using System;
 using System.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEngine.Rendering.HableCurve;
+using static UnityEngine.UI.Image;
 
 /// <summary>
 /// This class manages hitboxes for abilities, usually projections. But should be modular enough to handle any hitbox type.
 /// </summary>
 public class HitboxManager : MonoBehaviour
 {
+    HitboxStats hitboxStats;
     BoxCollider boxCollider;
     SphereCollider sphereCollider;
     public void Init(HitboxStats _hitboxStats)
@@ -18,6 +23,8 @@ public class HitboxManager : MonoBehaviour
             Debug.LogError($"{nameof(_hitboxStats)} is null. Cannot initialize {GetType().Name} in gameobject - {gameObject.name}!.");
             return;
         }
+
+        hitboxStats = _hitboxStats;
 
         switch (_hitboxStats.HitboxType) // I think type conditionals are fine. Doing derived classes would be overkill for this.
         {
@@ -38,9 +45,62 @@ public class HitboxManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        switch (hitboxStats.HitboxType)
+        {
+            case HitboxType.Sphere:
+                DrawSphereCollider();
+                break;
+            case HitboxType.Box:
+                DrawBoxCollider();
+                break;
+            case HitboxType.Cone:
+                DrawConeCollider();
+                break;
+            default:
+                EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
+                break;
+        }
+
+
+        // TODO: Add Sphere
+    }
+
+    private void DrawConeCollider()
+    {
+        int segments = 10;
+        float angle = hitboxStats.ConeAngle;
+
         Gizmos.color = Color.yellow;
 
-        // Current Collider:
+        Vector3 center = transform.TransformPoint(sphereCollider.center);
+        Vector3 direction = transform.forward;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float frac = (float)i / segments;
+            float theta = Mathf.Lerp(-angle / 2f, angle / 2f, frac);
+            Quaternion rot = Quaternion.AngleAxis(theta, transform.up);
+            Vector3 dir = rot * direction;
+
+            Gizmos.DrawLine(center, center + dir * sphereCollider.radius);
+        }
+
+    }
+
+    private void DrawSphereCollider()
+    {
+        Gizmos.color = Color.yellow;
+
+        Vector3 center = transform.TransformPoint(sphereCollider.center);
+
+        float scaledRadius = sphereCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
+
+        Gizmos.DrawWireSphere(center, scaledRadius);
+    }
+
+    private void DrawBoxCollider()
+    {
+        Gizmos.color = Color.yellow;
 
         // Rotations Matris BS that alligns the transform and rotation
         Gizmos.matrix = Matrix4x4.TRS(transform.TransformPoint(boxCollider.center), transform.rotation, Vector3.Scale(transform.lossyScale, Vector3.one));
@@ -48,10 +108,6 @@ public class HitboxManager : MonoBehaviour
         Gizmos.DrawWireCube(Vector3.zero, boxCollider.size);
 
         Gizmos.matrix = Matrix4x4.identity; // Reset Matrix
-
-        
-
-        // TODO: Add Sphere
     }
 
     private IEnumerator ResizeSphere(float _targetRadius, float _duration)
