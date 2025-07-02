@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityID: IceBolt3
   abilityName: IceBolt Lv3
   castTime: 1
-  castPositionName: 0
+  castPositionName: 1
   animationTrigger: ProjectileAttack
   icon: {fileID: 21300000, guid: dcc2e75424959f04697a0ba5ea47d5f4, type: 3}
   abilityCost: 0

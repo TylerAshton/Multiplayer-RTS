@@ -264,6 +264,7 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
+    - {fileID: 11400000, guid: 6cd903247b359e1469a849c76118dfee, type: 2}
 --- !u!95 &7750733840084467600
 Animator:
   serializedVersion: 7

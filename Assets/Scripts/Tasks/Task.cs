@@ -6,7 +6,7 @@ public abstract class Task
     protected SelectableObject unit;
     protected Color stateDebugColor = Color.black;
     public Color StateDebugColor => stateDebugColor;
-    public event Action<Task> OnTaskCompleted;
+    public event Action OnTaskCompleted;
     private bool hasCompleted = false; // Used as a safeguard against completing twice
 
     public Task(SelectableObject _unit)
@@ -46,14 +46,14 @@ public abstract class Task
     {
         if (hasCompleted)
         {
-            Debug.LogError("Attempted to complete a task that is alreadey completed");
+            Debug.LogError("Attempted to complete a task that is already completed");
             return;
         }
 
         if (IsComplete())
         {
             hasCompleted = true;
-            OnTaskCompleted?.Invoke(this);
+            OnTaskCompleted?.Invoke();
         }
     }
 }

@@ -2414,6 +2414,7 @@ GameObject:
   - component: {fileID: -8172366779438765040}
   - component: {fileID: 3480903240323997627}
   - component: {fileID: 4895559508146863324}
+  - component: {fileID: 4986312761100434460}
   m_Layer: 7
   m_Name: Knight Champion
   m_TagString: Champion
@@ -2501,7 +2502,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 7
   acceleration: 30
   deceleration: 40
   smoothSpeed: 15
@@ -2905,6 +2905,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &4986312761100434460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab3487c8c3ae88499c5e7916ebb44f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsList:
+  - statType: 0
+    value: 1
+  - statType: 1
+    value: 7
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0

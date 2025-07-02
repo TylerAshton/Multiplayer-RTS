@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,7 +11,8 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
     [SerializeField] string friendlyTag;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask objectsLayerMask;
+    [SerializeField] private LayerMask unitsOnlyLayerMask;
     [SerializeField] private GameObject deathVFX;
     private GameObject bulletVFX;
     [SerializeField] private float lifeTime = 5f;
@@ -23,9 +26,13 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     private float bulletVFXScale = 1f;
     private float deathVFXScale = 1f;
-
+    private bool isAOE = false;
+    private float aoeRadius = 1f;
+    private int penetration = 0;
     private Faction faction = Faction.None;
     public Faction Faction { get => faction; set => faction = value; }
+    private List<GameObject> hitTagets = new List<GameObject>();
+    private VFXScaler vfxScaler;
 
     private void Awake()
     {
@@ -42,6 +49,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         if (!TryGetComponent<MeshRenderer>(out meshRenderer))
         {
             Debug.LogError("MeshRenderer is required for BulletProjectile");
+        }
+        if (!TryGetComponent<VFXScaler>(out vfxScaler))
+        {
+            Debug.LogError($"VFXScaler is required for BulletProjectile");
         }
 
 
@@ -91,6 +102,9 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         bulletVFXScale = _projectileStats.BulletVFXScale;
         deathVFX = _projectileStats.DeathVFX;
         deathVFXScale = _projectileStats.DeathVFXScale;
+        isAOE = _projectileStats.IsAOE;
+        aoeRadius = _projectileStats.AOERadius;
+        penetration = _projectileStats.Penetration;
 
         SpawmBulletVFXRpc();
     }
@@ -119,7 +133,8 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         else
         {
             GameObject spawnedVfx = Instantiate(bulletVFX, transform);
-            spawnedVfx.transform.localScale *= bulletVFXScale;
+            //spawnedVfx.transform.localScale *= bulletVFXScale;
+            vfxScaler.ScaleParticles(bulletVFXScale, spawnedVfx);
         }
     }
 
@@ -150,6 +165,17 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         moveDirection = _direction;
         transform.rotation = Quaternion.LookRotation(moveDirection);
         SetDirectionClientRpc(moveDirection);
+    }
+
+    public void LaunchProjectileAtTarget(Vector3 _targetPos)
+    {
+        Vector3 direction = _targetPos - transform.position;
+
+        direction = direction.normalized;
+
+        direction.y = 0f;
+
+        LaunchProjectile(direction);
     }
 
     [ClientRpc]
@@ -196,32 +222,18 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     private void OnDrawGizmos()
     {
-/*        Gizmos.color = Color.red;
-        Vector3 rayDirection = moveDirection.normalized * detectionRange;
-
-
-        Bounds bounds = meshRenderer.bounds;
-
-        float radius = Mathf.Max(bounds.extents.x, bounds.extents.z);
-
-        for (int i = 0; i < 12; i++)
+        if (isAOE)
         {
-            float angle = i * Mathf.PI * 2f / 12;
-
-            Vector3 localOffset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
-            Vector3 worldStart = transform.position + transform.rotation * localOffset;
-
-            worldStart = transform.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
-
-            Gizmos.DrawRay(worldStart, rayDirection);
-
-        }*/
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, aoeRadius);
+        }
 
     }
 
     /// <summary>
     /// Detects if we've gone through anything after our last movement by taking the current 
-    /// position and the position at the end of the last frame and performing a raycast
+    /// position and the position at the end of the last frame and performing a raycast.
+    /// ifwe hit something, we will apply damage to it, apply AOE damage and despawn the projectile.
     /// </summary>
     private void HitDetection()
     {
@@ -232,14 +244,14 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
         foreach(Vector3 corner in corners)
         {
-            if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, layerMask))
+            if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
             {
-                /*if (hit.collider.gameObject.tag == friendlyTag) // This is no longer used as we now use faction enums
+                // If we've hit this before leave it.
+                if (hitTagets.Contains(hit.collider.gameObject))
                 {
                     continue;
-                }*/
+                }
 
-                // Skip if the hit object is part of the same faction
                 if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
                 {
                     if (faction.Faction == this.faction)
@@ -247,21 +259,77 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
                         continue;
                     }
                 }
+                TryDamage(hit.collider);
 
-                // Example: Damage logic
-                if (hit.collider.TryGetComponent(out Health health))
+                AOEHitDetection(hit.collider);
+
+                if (penetration > 0)
                 {
-                    health.Damage(damage);
+                    penetration--;
+                    hitTagets.Add(hit.collider.gameObject);
+                    SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
                 }
-
-                StartDespawn();
+                else
+                {
+                    StartDespawn();
+                }
+                    
                 return;
             }
         }
 
         posLastFrame = transform.position;
+    }
 
+    /// <summary>
+    /// If collider is not a friednly and has health, will apply damage to it.
+    /// </summary>
+    /// <param name="_hitCollider"></param>
+    private void TryDamage(Collider _hitCollider)
+    {
+        if (_hitCollider.TryGetComponent<IFaction>(out IFaction faction))
+        {
+            if (faction.Faction == this.faction)
+            {
+                return;
+            }
+        }
 
+        // Damage logic
+        if (_hitCollider.TryGetComponent(out Health health))
+        {
+            health.Damage(damage);
+        }
+    }
+
+    /// <summary>
+    /// If the projectile is an AOE projectile, this will perform hit detection for all OTHER objects within the AOE radius and apply damage to them.
+    /// </summary>
+    private void AOEHitDetection(Collider _exempt)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("AOE Hit Detection can only be performed on the server");
+        }
+
+        if (!isAOE)
+        {
+            return;
+        }
+
+        // Check sphere overlap for AOE detection
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, aoeRadius, unitsOnlyLayerMask);
+
+        // Remove _exempt from hit colliders if exists
+        if (_exempt != null)
+        {
+            hitColliders = System.Array.FindAll(hitColliders, collider => collider != _exempt);
+        }
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+            TryDamage(hitCollider);
+        }
 
 
 
@@ -307,7 +375,8 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         }
 
         GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
-        spawnedVfx.transform.localScale *= deathVFXScale;
+        //spawnedVfx.transform.localScale *= deathVFXScale;
+        vfxScaler.ScaleParticles(deathVFXScale, spawnedVfx);
 
     }
 }

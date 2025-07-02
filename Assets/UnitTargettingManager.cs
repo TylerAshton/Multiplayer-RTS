@@ -1,31 +1,39 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class AutoAttackController : NetworkBehaviour
+/// <summary>
+/// Assists NPCs in finding and targeting Champions within a specified range.
+/// </summary>
+public class UnitTargettingManager : NetworkBehaviour
 {
     [SerializeField] private float detectionRange;
     [SerializeField] private float forgivenessRange;
     [SerializeField] private LayerMask unitLayer;
-    private NPC npc;
+    private Unit unit;
     private AbilityManager abilityManager;
+
+    private IAbilityUser abilityUser;
+
 
     private void Awake()
     {
-        if (!TryGetComponent<NPC>(out npc))
+        if (!TryGetComponent<Unit>(out unit))
         {
-            Debug.LogError("NPC is required for AutoAttackController");
+            Debug.LogError($"{nameof(Unit)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            return;
+        }
+        abilityUser = unit as IAbilityUser;
+        if (abilityUser == null)
+        {
+            Debug.LogError($"{nameof(IAbilityUser)} is required for {GetType().Name} on {gameObject.name}");
         }
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
-            Debug.LogError("abilityManager is required for AutoAttackController");
+            Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+            return;
         }
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -36,51 +44,27 @@ public class AutoAttackController : NetworkBehaviour
             return;
         }
 
-        TryAttackTarget();
         TryForgiveTarget();
 
-        if (!npc.Target)
+        if (!abilityUser.CastTarget)
         {
-            ScanForTarget();
+            TryScanForTarget();
         }
-
-        
     }
 
     private void TryForgiveTarget()
     {
-        if (!npc.Target)
+        if (!abilityUser.CastTarget)
         {
             return;
         }
 
-        float targetDistance = Vector3.Distance(npc.Target.position, npc.transform.position);
+        float targetDistance = Vector3.Distance(abilityUser.CastTarget.position, unit.transform.position);
 
         if (targetDistance > forgivenessRange)
         {
-            npc.SetTarget(null);
+            abilityUser.ClearTarget();
         }
-    }
-
-    private void TryAttackTarget()
-    {
-        if (!npc.Target)
-        {
-            return;
-        }
-        
-        if (!CanAttackTarget())
-        {
-            return;
-        }
-
-        abilityManager.TryCastAbility(0);
-
-    }
-
-    private bool CanAttackTarget() // TODO MAKE ME
-    {
-        return true;
     }
 
     private void OnDrawGizmos()
@@ -94,8 +78,14 @@ public class AutoAttackController : NetworkBehaviour
     /// Attempts to find Champion within the detectionRange and sets it as the 
     /// Target before entering the AttackState should one exist within range
     /// </summary>
-    public void ScanForTarget()
+    public void TryScanForTarget()
     {
+        // Only run if the NPC does not have a target
+        if (abilityUser.CastTarget)
+        {
+            return; 
+        }
+
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange, unitLayer);
 
         foreach (Collider collider in hits)
@@ -109,8 +99,11 @@ public class AutoAttackController : NetworkBehaviour
                         continue;
                     }
                 }
-                npc.SetTarget(collider.gameObject);
+                abilityUser.SetTarget(collider.transform);
             }
         }
     }
 }
+
+    
+

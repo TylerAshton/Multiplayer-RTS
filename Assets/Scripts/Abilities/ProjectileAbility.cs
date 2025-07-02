@@ -11,7 +11,14 @@ public class ProjectileAbility : Ability<IAbilityUser>
     [SerializeField] private ProjectileStats projectileStats;
     protected override void ActivateTyped(IAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+        if (_user is ICharacterAbilityUser _characterAbilityUser)
+        {
+            _characterAbilityUser.NAnimator.SetTrigger($"{AnimationTrigger}");
+        }
+        else
+        {
+            OnUseTyped(_user);
+        }
     }
 
     protected override void DebugDrawingTyped(IAbilityUser _user)
@@ -26,7 +33,16 @@ public class ProjectileAbility : Ability<IAbilityUser>
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         BulletProjectile bulletProjectile = spawnedProjectile.GetComponent<BulletProjectile>();
         bulletProjectile.ApplyProjectileStatsWithID(projectileStats.ID);
-        bulletProjectile.LaunchProjectile(_user.Transform.forward);
+
+        if (_user.CastTarget != null) // TODO: I might make this mandatory in the future once we add aim assist later to players
+        {
+            bulletProjectile.LaunchProjectileAtTarget(_user.CastTarget.position);
+        }
+        else
+        {
+            bulletProjectile.LaunchProjectile(_user.Transform.forward);
+        }
+
         spawnedProjectile.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
     }
 
