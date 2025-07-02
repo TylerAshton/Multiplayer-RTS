@@ -17,8 +17,8 @@ public class HitboxManager : MonoBehaviour
     private BoxCollider boxCollider;
     private SphereCollider sphereCollider;
 
-    public event Action<Collider> OnHitboxTriggerEnter;
-    public void Init(HitboxStats _hitboxStats)
+    public event Action<Collider> OnHitboxTriggerStay;
+    private void Init(HitboxStats _hitboxStats)
     {
         if (_hitboxStats == null)
         {
@@ -62,12 +62,9 @@ public class HitboxManager : MonoBehaviour
                 EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
                 break;
         }
-
-
-        // TODO: Add Sphere
     }
 
-    private void OnTriggerEnter(Collider _other)
+    private void OnTriggerStay(Collider _other) // TODO: Rework the whole thing to use phyisics instead
     {
         // Cone filter, if the collider is not within the cone ignore it
         if (hitboxStats.HitboxType == HitboxType.Cone)
@@ -78,7 +75,7 @@ public class HitboxManager : MonoBehaviour
             }
         }
 
-        OnHitboxTriggerEnter?.Invoke(_other);
+        OnHitboxTriggerStay?.Invoke(_other);
     }
 
     /// <summary>

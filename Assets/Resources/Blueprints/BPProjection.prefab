@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8618333596952847151}
   - component: {fileID: 4125420682586989501}
-  - component: {fileID: 8853636375093592624}
   - component: {fileID: -655507384028502565}
+  - component: {fileID: 8853636375093592624}
   - component: {fileID: -6479798000759333867}
   m_Layer: 0
   m_Name: BPProjection
@@ -47,18 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf2b9ed88f0aa44cad19aed0f7642f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8853636375093592624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7442342947753221779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04f475d594cec3444a23893da87d0166, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-655507384028502565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +72,19 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8853636375093592624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442342947753221779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f475d594cec3444a23893da87d0166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &-6479798000759333867
 MonoBehaviour:
   m_ObjectHideFlags: 0

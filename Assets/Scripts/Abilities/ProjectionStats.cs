@@ -6,14 +6,16 @@ public class ProjectionStats : BaseAbilityStat
 {
     [SerializeField] private GameObject vfxPrefab;
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
-    [SerializeField] private float damagePerSecond = 1f;
+    [SerializeField] private float damage = 1f;
+    [SerializeField] private bool damageOnce = false;
     [SerializeField] private float duration = 5f;
     [SerializeField] private HitboxStats hitboxStats;
 
     // Custom HitBox manager
     public GameObject VFXPrefab => vfxPrefab;
     public Vector3 VFXOffset => vfxOffset;
-    public float DamagePerSecond => damagePerSecond;
+    public bool DamageOnce => damageOnce;
+    public float Damage => damage;
     public float Duration => duration;
     public HitboxStats HitboxStats => hitboxStats;
 
@@ -35,9 +37,9 @@ public class ProjectionStats : BaseAbilityStat
             Debug.LogError($"{name} Duration is zero or negative: {duration}");
             return false;
         }
-        if (damagePerSecond <= 0)
+        if (damage <= 0)
         {
-            Debug.LogError($"{name} DamagePerSecond is zero or negative: {damagePerSecond}");
+            Debug.LogError($"{name} Damage is zero or negative: {damage}");
             return false;
         }
         if (hitboxStats == null)
@@ -67,12 +69,15 @@ public class ProjectionStats : BaseAbilityStat
             EditorGUILayout.HelpBox("VFX Offset must be assigned!", MessageType.Error);
         }
 
-        SerializedProperty fieldDamagePerSecond = so.FindProperty("damagePerSecond");
-        fieldDamagePerSecond.floatValue = EditorGUILayout.FloatField("Damage Per Second", fieldDamagePerSecond.floatValue);
+        SerializedProperty fieldDamagePerSecond = so.FindProperty("damage");
+        fieldDamagePerSecond.floatValue = EditorGUILayout.FloatField("Damage", fieldDamagePerSecond.floatValue);
         if (fieldDamagePerSecond.floatValue <= 0)
         {
-            EditorGUILayout.HelpBox("Damage Per Second must be greater than 0!", MessageType.Error);
+            EditorGUILayout.HelpBox("Damage must be greater than 0!", MessageType.Error);
         }
+
+        SerializedProperty serializedProperty = so.FindProperty("damageOnce");
+        serializedProperty.boolValue = EditorGUILayout.Toggle("Damage Once", serializedProperty.boolValue);
 
         SerializedProperty fieldDuration = so.FindProperty("duration");
         fieldDuration.floatValue = EditorGUILayout.FloatField("Duration", fieldDuration.floatValue);
