@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ProjectileStatsRegistry
+public static class AbilityStatsRegistry
 {
     private static Dictionary<string, BaseAbilityStat> abilityStats = new Dictionary<string, BaseAbilityStat>();
 
@@ -59,7 +59,7 @@ public static class ProjectileStatsRegistry
     {
         abilityStats.Clear();
 
-        var all = Resources.LoadAll<BaseAbilityStat>($"{nameof(abilityStats)}");
+        var all = Resources.LoadAll<BaseAbilityStat>($"ProjectileStats");
         foreach (var a in all)
         {
             Register(a.ID, a);
