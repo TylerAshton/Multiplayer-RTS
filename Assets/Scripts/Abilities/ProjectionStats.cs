@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Channel Stats", menuName = "Stats/Channel Stats")]
 public class ProjectionStats : BaseAbilityStat
 {
-    [SerializeField] private string iD;
     [SerializeField] private GameObject vfxPrefab;
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
     [SerializeField] private float damagePerSecond = 1f;
@@ -12,8 +11,6 @@ public class ProjectionStats : BaseAbilityStat
     [SerializeField] private HitboxStats hitboxStats;
 
     // Custom HitBox manager
-
-    public string ID => iD;
     public GameObject VFXPrefab => vfxPrefab;
     public Vector3 VFXOffset => vfxOffset;
     public float DamagePerSecond => damagePerSecond;
@@ -24,9 +21,8 @@ public class ProjectionStats : BaseAbilityStat
 
     public override bool IsValid()
     {
-        if (this.ID == null || this.ID.Trim().Length == 0)
+        if (base.IsValid() == false)
         {
-            Debug.LogError($"{name} has no ID assigned or ID is empty.");
             return false;
         }
         if (vfxPrefab == null)
@@ -55,12 +51,7 @@ public class ProjectionStats : BaseAbilityStat
 
     public override void DrawInspector(SerializedObject so)
     {
-        SerializedProperty fieldID = so.FindProperty("iD");
-        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
-        if (string.IsNullOrWhiteSpace(fieldID.stringValue))
-        {
-            EditorGUILayout.HelpBox("ID must be assigned and cannot be empty!", MessageType.Error);
-        }
+        base.DrawInspector(so);
 
         SerializedProperty fieldVFXPrefab = so.FindProperty("vfxPrefab");
         fieldVFXPrefab.objectReferenceValue = EditorGUILayout.ObjectField("VFX Prefab", fieldVFXPrefab.objectReferenceValue, typeof(GameObject), false);

@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Projectile Stats", menuName = "Stats/Projectile")]
 public class ProjectileStats : BaseAbilityStat
 {
-    [SerializeField] private string iD;
-    public string ID => iD;
     // Consts for field sliers and validation
     private const int minAOERadius = 1;
     private const int maxAOERadius = 20;
@@ -47,12 +45,11 @@ public class ProjectileStats : BaseAbilityStat
     /// <returns></returns>
     public override bool IsValid()
     {
-        if (this.ID == null || this.ID.Trim().Length == 0) // Use this instead of string.IsNullOrEmpty as it also checks for whitespace
+        if (base.IsValid() == false)
         {
-            Debug.LogError($"{this.name} has no ID assigned or ID is empty.");
             return false;
         }
-
+        
         if (this.DetectionRange <= 0)
         {
             Debug.LogError($"{this.name} DetectionRange is zero or negative: {this.DetectionRange}");
@@ -122,12 +119,7 @@ public class ProjectileStats : BaseAbilityStat
 #if UNITY_EDITOR
     public override void DrawInspector(SerializedObject so)
     {
-        SerializedProperty fieldID = so.FindProperty("iD");
-        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
-        if (string.IsNullOrWhiteSpace(fieldID.stringValue))
-        {
-            EditorGUILayout.HelpBox("ID must be assigned and cannot be empty!", MessageType.Error);
-        }
+        base.DrawInspector(so);
 
         SerializedProperty fieldDetectionRange = so.FindProperty("detectionRange");
         fieldDetectionRange.floatValue = EditorGUILayout.FloatField("Detection Range", fieldDetectionRange.floatValue);

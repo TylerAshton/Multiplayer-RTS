@@ -7,7 +7,7 @@ using UnityEngine.ProBuilder;
 [CreateAssetMenu(fileName = "New Projectile Ability", menuName = "Abilities/Projectile")]
 public class ProjectileAbility : Ability<IAbilityUser>
 {
-    [SerializeField] private GameObject projectile;
+    //[SerializeField] private GameObject projectile;
     [SerializeField] private ProjectileStats projectileStats;
     protected override void ActivateTyped(IAbilityUser _user)
     {

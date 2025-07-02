@@ -3,18 +3,18 @@ using UnityEngine;
 
 public static class ProjectileStatsRegistry
 {
-    private static Dictionary<string, ProjectileStats> projectileStats = new Dictionary<string, ProjectileStats>();
+    private static Dictionary<string, BaseAbilityStat> abilityStats = new Dictionary<string, BaseAbilityStat>();
 
-    public static IReadOnlyDictionary<string, ProjectileStats> ProjectileStats => projectileStats;
+    public static IReadOnlyDictionary<string, BaseAbilityStat> AbilityStats => abilityStats;
 
     /// <summary>
-    /// Adds the ProjectileStats into the Abilities dictionary
+    /// Adds the BaseAbilityStat into the Abilities dictionary
     /// </summary>
     /// <param name="_statID"></param>
     /// <param name="_stat"></param>
-    public static void Register(string _statID, ProjectileStats _stat)
+    public static void Register(string _statID, BaseAbilityStat _stat)
     {
-        if (projectileStats.ContainsKey(_statID))
+        if (abilityStats.ContainsKey(_statID))
         {
             Debug.LogError($"Attempted to register an ability ({_statID}) that is alrady registered");
             return;
@@ -25,32 +25,41 @@ public static class ProjectileStatsRegistry
             return;
         }
 
-        projectileStats.Add(_statID, _stat);
+        abilityStats.Add(_statID, _stat);
     }
 
     /// <summary>
-    /// Gets the ability from the Abilities dictionary with the parsed ID
+    /// Gets the (T)abilityStat from the AbilityStat dictionary with the parsed ID where T is the derived type of the AbilityStat
     /// </summary>
     /// <param name="_statID"></param>
     /// <returns></returns>
-    public static ProjectileStats GetProjectileStat(string _statID)
+    public static T GetProjectileStat<T>(string _statID) where T : BaseAbilityStat
     {
-        ProjectileStats output = projectileStats.TryGetValue(_statID, out ProjectileStats stat) ? stat : null;
+        BaseAbilityStat output = abilityStats.TryGetValue(_statID, out BaseAbilityStat stat) ? stat : null;
 
         if (output == null)
         {
-            Debug.LogError($"ProjectileStat ID {_statID} does not exist in the registry.");
+            Debug.LogError($"{nameof(T)} ID {_statID} does not exist in the registry.");
         }
-
-        return output;
+        if (output is T derivedForm)
+        {
+            return derivedForm;
+        }
+        else
+        {
+            Debug.LogError($"{output.name} - {_statID} is not a {nameof(T)}");
+            return null;
+        }
     }
+
+    
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoRegisterAll()
     {
-        projectileStats.Clear();
+        abilityStats.Clear();
 
-        var all = Resources.LoadAll<ProjectileStats>($"{nameof(projectileStats)}");
+        var all = Resources.LoadAll<BaseAbilityStat>($"{nameof(abilityStats)}");
         foreach (var a in all)
         {
             Register(a.ID, a);
