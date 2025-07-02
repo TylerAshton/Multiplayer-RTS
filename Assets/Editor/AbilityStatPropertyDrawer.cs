@@ -51,7 +51,7 @@ namespace Editor.ProjectileEditor
         private void CreateNewStatSO(string objectName, SerializedProperty property, Type statType)
         {
             // Calculating path for new ability asseet
-            string folderPath = $"Assets/Resources/{statType}"; // NOTE: This should be fine? Like we can't make static vars for the base class so this is the next best thing
+            string folderPath = $"Assets/Resources/AbilityStats/{statType}"; // NOTE: This should be fine? Like we can't make static vars for the base class so this is the next best thing
             string assetName = $"{objectName}.asset";
             string fullPath = $"{folderPath}/{assetName}";
 

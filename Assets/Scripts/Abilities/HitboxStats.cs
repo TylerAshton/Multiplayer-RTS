@@ -27,6 +27,8 @@ public class HitboxStats : BaseAbilityStat
     [SerializeField] private float coneAngle = 45f;
     public override void DrawInspector(SerializedObject so)
     {
+        base.DrawInspector(so);
+
         SerializedProperty fieldOffset = so.FindProperty("offset");
         EditorGUILayout.PropertyField(fieldOffset, new GUIContent("Offset"));
 

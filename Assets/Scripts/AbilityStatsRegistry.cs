@@ -59,7 +59,7 @@ public static class AbilityStatsRegistry
     {
         abilityStats.Clear();
 
-        var all = Resources.LoadAll<BaseAbilityStat>($"ProjectileStats");
+        var all = Resources.LoadAll<BaseAbilityStat>($"AbilityStats");
         foreach (var a in all)
         {
             Register(a.ID, a);
