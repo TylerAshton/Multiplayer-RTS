@@ -184,6 +184,12 @@ public class Health : NetworkBehaviour
     [ClientRpc]
     private void UpdateHealthBarClientRpc(float _currentHealth)
     {
+        if (healthSlider == null)
+        {
+            Debug.LogError($"{nameof(healthSlider)} is null in {GetType()} within gameobject {gameObject.name}! " +
+                $"This might be caused by someone setting HealthRegen to a value before the start function is called.");
+            return;
+        }
         healthSlider.value = _currentHealth; // TODO: Make a setter
     }
 
