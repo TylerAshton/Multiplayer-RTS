@@ -12,6 +12,7 @@ public class ProjectionManager : NetworkBehaviour
     private ProjectionStats projectionStats;
     HitboxManager hitboxManager;
     List<Collider> hitColliders = new List<Collider>();
+    GameObject spawnedVfx;
 
     
 
@@ -28,14 +29,34 @@ public class ProjectionManager : NetworkBehaviour
             return;
         }
 
+        SpawnProjectionVFXRpc();
+
         hitboxManager.OnHitboxTriggerStay += OnHit;
 
         StartCoroutine(deathTime());
     }
 
+    [Rpc(SendTo.Everyone)]
+    private void SpawnProjectionVFXRpc()
+    {
+        if (projectionStats  == null)
+        {
+            return;
+        }
+
+        if (projectionStats.VFXPrefab == null)
+        {
+            return;
+        }
+
+        spawnedVfx = Instantiate(projectionStats.VFXPrefab, transform);
+        spawnedVfx.transform.position += projectionStats.VFXOffset;
+    }
+
     private IEnumerator deathTime()
     {
         yield return new WaitForSeconds(projectionStats.Duration);
+        Destroy(spawnedVfx);
         GetComponent<NetworkObject>().Despawn();
 
     }
