@@ -24,3 +24,8 @@ MonoBehaviour:
   slowAmount: 7
   effect:
     duration: 5
+    statModifyers:
+    - statType: 0
+      value: 2
+    - statType: 2
+      value: 2

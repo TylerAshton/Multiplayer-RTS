@@ -1,11 +1,14 @@
+using Codice.Client.Common.GameUI;
+using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 namespace Editor.ProjectileEditor
 {
-    [CustomPropertyDrawer(typeof(ProjectileStats))]
-    public class ProjectileDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(BaseAbilityStat), true)]
+    public class AbilityStatPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -25,42 +28,36 @@ namespace Editor.ProjectileEditor
                     
             }
 
-            /*EditorGUI.LabelField(editButtonRect, "hi");*/
-
-            if (property.objectReferenceValue != null)
-            {
-                if (GUI.Button(editButtonRect, "Edit"))
-                {
-                    ProjectileEditorWindow.Open((ProjectileStats)property.objectReferenceValue);
-                }
-            }
-
+            //Debug.Log(fieldInfo.FieldType);
 
             EditorGUI.EndProperty();
         }
 
         private void ShowNamingWindow(SerializedProperty property)
         {
+            Type statType = fieldInfo.FieldType; // So this gets of the type of what this drawer field is
+
             UnityEditor.PopupWindow.Show(
                 new Rect(new Vector2(100, 100), new Vector2(250, 100)),
-                new ProjectileNamePopup(CreateNewProjectile, property)
+                new AbilityStatNamePopup(CreateNewStatSO, property, statType) // TODO: Get the type from the property dynamically
             );
         }
 
         /// <summary>
         /// Creates a new ability of the specified type and assigns it to the property.
         /// </summary>
-        /// <param name="projectileName"></param>
+        /// <param name="objectName"></param>
         /// <param name="property"></param>
-        private void CreateNewProjectile(string projectileName, SerializedProperty property)
+        private void CreateNewStatSO(string objectName, SerializedProperty property, Type statType)
         {
             // Calculating path for new ability asseet
-            string folderPath = "Assets/Resources/Projectiles";
-            string assetName = $"{projectileName}.asset";
+            string folderPath = $"Assets/Resources/AbilityStats/{statType}"; // NOTE: This should be fine? Like we can't make static vars for the base class so this is the next best thing
+            string assetName = $"{objectName}.asset";
             string fullPath = $"{folderPath}/{assetName}";
 
             // Create asset
-            ScriptableObject newProjectile = ScriptableObject.CreateInstance<ProjectileStats>();
+            ScriptableObject newProjectile = ScriptableObject.CreateInstance(statType);
+
 
             // Save the asset to the specified path
             AssetDatabase.CreateAsset(newProjectile, fullPath);
@@ -70,7 +67,6 @@ namespace Editor.ProjectileEditor
             property.objectReferenceValue = newProjectile;
             property.serializedObject.ApplyModifiedProperties();
         }
-
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

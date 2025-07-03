@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class Health : NetworkBehaviour
@@ -24,11 +25,20 @@ public class Health : NetworkBehaviour
     private Slider healthSlider;
     [SerializeField] private bool showHealthBar = true;
     [SerializeField] private bool showOnOwnerScreen = false;
+    private StatManager statManager;
+
     private void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
         {
             Debug.LogError("Animator is required for Health");
+            return;
+        }
+
+        if (!TryGetComponent<StatManager>(out statManager))
+        {
+            Debug.LogError($"{GetType().Name} requires {nameof(StatManager)} within gameobject: {gameObject.name}!");
+            return;
         }
 
         if (animator != null && deathAnimationLength == 0)
@@ -54,7 +64,50 @@ public class Health : NetworkBehaviour
     {
         maxHealth = hitPoints;
         ShowHealthBar();
+    }
 
+    private void Update()
+    {
+        if (IsServer)
+        {
+            ApplyRegeneration();
+        }
+    }
+
+    /// <summary>
+    /// Heals the unit by the amount specified by the health regeneration stat, if applicable.
+    /// </summary>
+    private void ApplyRegeneration()
+    {
+        if (!IsServer)
+        {
+            Debug.LogError($"Regeneration can only be applied on the server : {gameObject.name}!");
+            return;
+        }
+
+        if (isDying)
+        {
+            return;
+        }
+
+        if (!statManager.CurrentStats.TryGetValue(StatType.HealthRegeneration, out float healthRegeneration))
+        {
+            Debug.LogError($"{nameof(StatType.HealthRegeneration)} not found on {gameObject.name}!");
+            return;
+        }
+
+        if (healthRegeneration == 0)
+        {
+            return;
+        }
+
+        if (healthRegeneration < 0)
+        {
+            Debug.LogError($"Health regeneration cannot be negative: {healthRegeneration} on {gameObject.name}");
+            return;
+        }
+
+        Heal(healthRegeneration * Time.deltaTime);
     }
 
     private void ShowHealthBar()
@@ -131,6 +184,12 @@ public class Health : NetworkBehaviour
     [ClientRpc]
     private void UpdateHealthBarClientRpc(float _currentHealth)
     {
+        if (healthSlider == null)
+        {
+            Debug.LogError($"{nameof(healthSlider)} is null in {GetType()} within gameobject {gameObject.name}! " +
+                $"This might be caused by someone setting HealthRegen to a value before the start function is called.");
+            return;
+        }
         healthSlider.value = _currentHealth; // TODO: Make a setter
     }
 
@@ -146,12 +205,11 @@ public class Health : NetworkBehaviour
             return;
         }
         hitPoints += _health;
-
-        UpdateHealthBarClientRpc(hitPoints);
+        hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
 
         healthSlider.value = hitPoints;
 
-        hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
+        UpdateHealthBarClientRpc(hitPoints);
     }
 
     /// <summary>

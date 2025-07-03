@@ -2864,6 +2864,7 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
+    - {fileID: 11400000, guid: 153a5f6d042646a4ab0835467ee8be9b, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &-8172366779438765040
 MonoBehaviour:
@@ -2922,6 +2923,8 @@ MonoBehaviour:
     value: 1
   - statType: 1
     value: 7
+  - statType: 2
+    value: 0
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0

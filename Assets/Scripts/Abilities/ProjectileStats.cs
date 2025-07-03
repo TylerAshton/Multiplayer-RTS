@@ -3,10 +3,8 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Projectile Stats", menuName = "Stats/Projectile")]
-public class ProjectileStats : ScriptableObject
+public class ProjectileStats : BaseAbilityStat
 {
-    [SerializeField] private string iD;
-    public string ID => iD;
     // Consts for field sliers and validation
     private const int minAOERadius = 1;
     private const int maxAOERadius = 20;
@@ -45,14 +43,13 @@ public class ProjectileStats : ScriptableObject
     /// Validation function for the projectile stats as it got way too long to be used in ApplyProjectileStats
     /// </summary>
     /// <returns></returns>
-    public bool IsValid()
+    public override bool IsValid()
     {
-        if (this.ID == null || this.ID.Trim().Length == 0)
+        if (base.IsValid() == false)
         {
-            Debug.LogError($"{this.name} has no ID assigned or ID is empty.");
             return false;
         }
-
+        
         if (this.DetectionRange <= 0)
         {
             Debug.LogError($"{this.name} DetectionRange is zero or negative: {this.DetectionRange}");
@@ -120,14 +117,9 @@ public class ProjectileStats : ScriptableObject
         return true;
     }
 #if UNITY_EDITOR
-    public void DrawInspector(SerializedObject so)
+    public override void DrawInspector(SerializedObject so)
     {
-        SerializedProperty fieldID = so.FindProperty("iD");
-        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
-        if (string.IsNullOrWhiteSpace(fieldID.stringValue))
-        {
-            EditorGUILayout.HelpBox("ID must be assigned and cannot be empty!", MessageType.Error);
-        }
+        base.DrawInspector(so);
 
         SerializedProperty fieldDetectionRange = so.FindProperty("detectionRange");
         fieldDetectionRange.floatValue = EditorGUILayout.FloatField("Detection Range", fieldDetectionRange.floatValue);
