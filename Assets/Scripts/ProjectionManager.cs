@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,6 +29,15 @@ public class ProjectionManager : NetworkBehaviour
         }
 
         hitboxManager.OnHitboxTriggerStay += OnHit;
+
+        StartCoroutine(deathTime());
+    }
+
+    private IEnumerator deathTime()
+    {
+        yield return new WaitForSeconds(projectionStats.Duration);
+        GetComponent<NetworkObject>().Despawn();
+
     }
 
     private void OnHit(Collider _other)
