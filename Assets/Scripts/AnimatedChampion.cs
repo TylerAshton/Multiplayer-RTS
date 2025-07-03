@@ -60,6 +60,9 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public bool inShop = false;
     private StatManager statManager;
 
+    private Vector2 mouseScreenPos = Vector3.zero;
+    public Vector2 MouseScreenPos => mouseScreenPos;
+
     void Start()
     {
         manager = RelayManager.Instance;
@@ -117,6 +120,33 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         Cursor.lockState = CursorLockMode.Confined;
 
+    }
+
+    private void SetUpTargetingBall()
+    {
+        if (IsOwner)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// This is called all the time to aquire screen position and update the mouseScreenPos variable
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnPoint(InputAction.CallbackContext context)
+    {
+        mouseScreenPos = context.ReadValue<Vector2>();
+
+
+        worldPosition = new Vector3(0, 0, 0);
+
+        LayerMask environmentMask = LayerMask.GetMask("Environment");
+        Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
+        {
+            worldPosition = hit.point;
+        }
     }
 
     public void AttemptToggleUI()
