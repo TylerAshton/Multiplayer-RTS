@@ -79,6 +79,15 @@ public class CapturePoint : NetworkBehaviour
             }
         }
 
+#if UNITY_EDITOR // Just an extra note checker to ignore this error in editor for singleplayer
+        int playerCount = NetworkManager.Singleton.ConnectedClients.Count;
+        if (playerCount == 1)
+        {
+            Debug.LogError($"Only one player connected, returning 99 for {player.name} in CheckChampion");
+            return 99;
+        }
+#endif
+        // If we reach here, it means the player is not found in the connected clients
         Debug.LogError($"{player.name} is not a champion");
         return 99;
     }
