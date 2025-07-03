@@ -43,7 +43,7 @@ public class MinimapHandler : MonoBehaviour
             }
             else if (unit.CompareTag("Amalgam"))
             {
-                GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Main Champion Icon"), unit.transform);
+                GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Main Champion Icon"), unit.transform, true, );
                 icons.Add(icon);
                 UnitToIcon.Add(unit, icon);
             }
@@ -73,13 +73,7 @@ public class MinimapHandler : MonoBehaviour
     {
         foreach (GameObject unit in units)
         {
-            if (unit.CompareTag("Champion"))
-            {
-                if (unit.GetComponent<NetworkObject>().IsOwner)
-                {
-
-                }
-            }
+            
         }
     }
 }
