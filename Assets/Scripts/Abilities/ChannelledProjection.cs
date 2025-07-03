@@ -9,6 +9,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private float slowAmount;
     [SerializeField] private ProjectionStats channelStats;
+    [SerializeField] private bool isAttached = false;
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
@@ -32,7 +33,15 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
         Transform castPositionTransform = GetCastPositionTransform(_user);
         GameObject newProjection = Instantiate(GetProjectionBlueprint(), castPositionTransform.position, Quaternion.identity);
         newProjection.GetComponent<NetworkObject>().Spawn();
-        newProjection.GetComponent<NetworkParent>().SetParent(castPositionTransform);
+
+        if (isAttached)
+        {
+            newProjection.GetComponent<NetworkParent>().SetParent(castPositionTransform);
+        }
+        else
+        {
+            newProjection.transform.rotation = castPositionTransform.rotation;
+        }
         ProjectionManager projectionManager = newProjection.GetComponent<ProjectionManager>();
         projectionManager.ApplyProjectionStatsWithID(channelStats.ID);
         HitboxManager hitboxManager = newProjection.GetComponent<HitboxManager>();
@@ -57,6 +66,9 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
         {
             EditorGUILayout.HelpBox("Slow amount must be a positive value!", MessageType.Error);
         }
+
+        SerializedProperty fieldIsAttached = _so.FindProperty("isAttached");
+        fieldIsAttached.boolValue = EditorGUILayout.Toggle("Attach?", fieldIsAttached.boolValue);
 
         SerializedProperty fieldChannelStats = _so.FindProperty("channelStats");
         EditorGUILayout.PropertyField(fieldChannelStats);

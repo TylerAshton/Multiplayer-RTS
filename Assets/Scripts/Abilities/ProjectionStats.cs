@@ -76,8 +76,8 @@ public class ProjectionStats : BaseAbilityStat
             EditorGUILayout.HelpBox("Damage must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty serializedProperty = so.FindProperty("damageOnce");
-        serializedProperty.boolValue = EditorGUILayout.Toggle("Damage Once", serializedProperty.boolValue);
+        SerializedProperty fieldDamageOnce = so.FindProperty("damageOnce");
+        fieldDamageOnce.boolValue = EditorGUILayout.Toggle("Damage Once", fieldDamageOnce.boolValue);
 
         SerializedProperty fieldDuration = so.FindProperty("duration");
         fieldDuration.floatValue = EditorGUILayout.FloatField("Duration", fieldDuration.floatValue);
