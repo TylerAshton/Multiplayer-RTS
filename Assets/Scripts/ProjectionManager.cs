@@ -51,6 +51,7 @@ public class ProjectionManager : NetworkBehaviour
 
         spawnedVfx = Instantiate(projectionStats.VFXPrefab, transform);
         spawnedVfx.transform.position += projectionStats.VFXOffset;
+        spawnedVfx.transform.localRotation = projectionStats.VFXRotation;
     }
 
     private IEnumerator deathTime()

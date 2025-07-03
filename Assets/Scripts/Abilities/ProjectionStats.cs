@@ -6,6 +6,7 @@ public class ProjectionStats : BaseAbilityStat
 {
     [SerializeField] private GameObject vfxPrefab;
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+    [SerializeField] private Quaternion vfxRotation = Quaternion.identity;
     [SerializeField] private float damage = 1f;
     [SerializeField] private bool damageOnce = false;
     [SerializeField] private float duration = 5f;
@@ -14,6 +15,7 @@ public class ProjectionStats : BaseAbilityStat
     // Custom HitBox manager
     public GameObject VFXPrefab => vfxPrefab;
     public Vector3 VFXOffset => vfxOffset;
+    public Quaternion VFXRotation => vfxRotation;
     public bool DamageOnce => damageOnce;
     public float Damage => damage;
     public float Duration => duration;
@@ -68,6 +70,13 @@ public class ProjectionStats : BaseAbilityStat
         {
             EditorGUILayout.HelpBox("VFX Offset must be assigned!", MessageType.Error);
         }
+
+        SerializedProperty fieldVFXRotation = so.FindProperty("vfxRotation");
+        Quaternion quatValue = fieldVFXRotation.quaternionValue;
+        Vector3 euler = quatValue.eulerAngles;
+        Vector3 newEuler = EditorGUILayout.Vector3Field("Vfx Rotation offset", euler);
+        fieldVFXRotation.quaternionValue = Quaternion.Euler(newEuler);
+        //fieldVFXRotation.quaternionValue = EditorGUILayout.ObjectField("VFX Rotation", fieldVFXRotation.quaternionValue);
 
         SerializedProperty fieldDamagePerSecond = so.FindProperty("damage");
         fieldDamagePerSecond.floatValue = EditorGUILayout.FloatField("Damage", fieldDamagePerSecond.floatValue);

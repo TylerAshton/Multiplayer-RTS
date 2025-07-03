@@ -150,9 +150,9 @@ public class HitboxStats : BaseAbilityStat
 
     public override bool IsValid()
     {
-        if (sizeChangeTime < 0)
+        if (sizeChangeTime <= 0)
         {
-            Debug.LogError($"{this.name} has a negative size delta: {sizeChangeTime}!");
+            Debug.LogError($"{this.name} has a non or negative size delta: {sizeChangeTime}!");
             return false;
         }
         return true;
