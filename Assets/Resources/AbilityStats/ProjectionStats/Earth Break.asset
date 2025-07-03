@@ -15,7 +15,7 @@ MonoBehaviour:
   iD: EarthShatter
   vfxPrefab: {fileID: 1314945738539566, guid: 9653d9c6437e670488debd2d53a41597, type: 3}
   vfxOffset: {x: 0, y: 0, z: 0}
-  vfxRotation: {x: 0, y: 0, z: 0, w: 1}
+  vfxRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   damage: 60
   damageOnce: 1
   duration: 5
