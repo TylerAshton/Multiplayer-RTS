@@ -56,7 +56,7 @@ public class HitboxManager : MonoBehaviour, IFaction
                 StartCoroutine(ResizeSphere(_hitboxStats.SphereEndRadius, _hitboxStats.SizeChangeTime));
                 break;
             default:
-                EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
+                
                 break;
         }
     }
@@ -84,7 +84,7 @@ public class HitboxManager : MonoBehaviour, IFaction
                 DrawConeCollider();
                 break;
             default:
-                EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
+                
                 break;
         }
     }
@@ -131,7 +131,7 @@ public class HitboxManager : MonoBehaviour, IFaction
                 hits = Physics.OverlapBox(ColliderCenter, currentBoxSize / 2, transform.rotation, LayerMask.GetMask("Unit"), QueryTriggerInteraction.Collide);
                 break;
             default:
-                EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
+                
                 return;
         }
 

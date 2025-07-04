@@ -2530,6 +2530,13 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: 1500070530
     TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1563094196
+    DestinationState: 1208741550
+    TransitionDuration: 0.25
+    TriggerNameHash: -316461994
+    TransitionIndex: 1
   m_Animator: {fileID: 8215767443926878751}
 --- !u!114 &1480990190808758957
 MonoBehaviour:
@@ -2880,8 +2887,8 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 2c3b25891acc3d943883286778422896, type: 2}
-    - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
     - {fileID: 11400000, guid: 153a5f6d042646a4ab0835467ee8be9b, type: 2}
+    - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &-8172366779438765040
 MonoBehaviour:

@@ -39,6 +39,8 @@ public class HitboxStats : BaseAbilityStat
     [SerializeField] private float coneAngle = 45f;
 
     public float ConeAngle => coneAngle;
+
+#if UNITY_EDITOR
     public override void DrawInspector(SerializedObject so)
     {
         base.DrawInspector(so);
@@ -147,6 +149,8 @@ public class HitboxStats : BaseAbilityStat
             EditorGUILayout.HelpBox("Box End Size must be positive values!", MessageType.Error);
         }*/
     }
+
+#endif
 
     public override bool IsValid()
     {

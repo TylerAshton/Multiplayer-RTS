@@ -53,6 +53,8 @@ public class ProjectionStats : BaseAbilityStat
         return true;
     }
 
+#if UNITY_EDITOR
+
     public override void DrawInspector(SerializedObject so)
     {
         base.DrawInspector(so);
@@ -104,6 +106,8 @@ public class ProjectionStats : BaseAbilityStat
             
         }
     }
+
+#endif
 
 #if UNITY_EDITOR
     protected void DrawStat(SerializedProperty _sp)
