@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d281d454f5fa1ef419b48ae868a719f5, type: 3}
   m_Name: Hero's Dance LV3
   m_EditorClassIdentifier: 
-  abilityID: frenzy
+  abilityID: frenzy3
   abilityName: Hero's Prayer
   castTime: 3
   castPositionName: 0

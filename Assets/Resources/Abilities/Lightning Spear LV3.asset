@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e12e273157d5740bf167ce234674c9, type: 3}
   m_Name: Lightning Spear LV3
   m_EditorClassIdentifier: 
-  abilityID: LightningSpear1
-  abilityName: Lightning Spear LV1
+  abilityID: LightningSpear3
+  abilityName: Lightning Spear LV3
   castTime: 2
   castPositionName: 1
   animationTrigger: ProjectileAttack

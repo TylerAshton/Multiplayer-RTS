@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
   m_Name: Rejuvenating Burst LV3
   m_EditorClassIdentifier: 
-  abilityID: RejuvenatingBurst
+  abilityID: RejuvenatingBurst 3
   abilityName: Rejuvenating Burst
   castTime: 1
   castPositionName: 0

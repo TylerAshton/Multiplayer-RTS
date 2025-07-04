@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52167b63a06be94980a9db1fb1fd1e4, type: 3}
   m_Name: Greatsword LV3
   m_EditorClassIdentifier: 
-  abilityID: greatsword
+  abilityID: greatsword3
   abilityName: 
   castTime: 1.17
   castPositionName: 0
