@@ -849,7 +849,7 @@ MonoBehaviour:
   deceleration: 40
   smoothSpeed: 15
   gravity: -9.81
-  primaryAbility: {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
+  primaryAbility: {fileID: 11400000, guid: 8ea9b7f22c3198a41b7a23abad849418, type: 2}
   points: {fileID: 7670626761221738459}
   inShop: 0
 --- !u!114 &2885188943381047520
@@ -1013,6 +1013,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 251ac3ca-eec3-48cc-9ecf-d8d65e04f522
     m_ActionName: 'Player/Shop[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
+    m_ActionName: 'Player/Point[/Mouse/position,/Pen/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

@@ -15,6 +15,8 @@ MonoBehaviour:
   iD: ergeg
   vfxPrefab: {fileID: 6631761922747683013, guid: 28e2d8c08a0117841ba65ce212813fa3, type: 3}
   vfxOffset: {x: 0, y: 2, z: 0}
-  damagePerSecond: 1
+  vfxRotation: {x: 0, y: 0, z: 0, w: 1}
+  damage: 18
+  damageOnce: 0
   duration: 5
   hitboxStats: {fileID: 11400000, guid: ff98b9a0c12dbaf4cb377718a2f8d241, type: 2}

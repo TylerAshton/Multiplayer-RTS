@@ -17,7 +17,7 @@ MonoBehaviour:
   castTime: 1
   castPositionName: 0
   animationTrigger: 
-  icon: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
+  icon: {fileID: 21300000, guid: 670bd076470157144a64b17a2f102011, type: 3}
   abilityCost: 0
   cooldown: 0
   spawnee: {fileID: 8577619868932236165, guid: 4e5c9da9cd284d64b9f62719c61929d9, type: 3}
