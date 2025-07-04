@@ -10,8 +10,8 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
     [SerializeField] private GameObject hitEffect;
-    [SerializeField] private float lungeDistance = 2f;
-    [SerializeField] private float lungeDuration = 1.2f;
+    [SerializeField] private float lungeDistance = 0f;
+    [SerializeField] private float lungeDuration = 0f;
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
@@ -91,6 +91,20 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
         if (fieldDamage.floatValue < 0)
         {
             EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
+        }
+
+        SerializedProperty fieldLungeDistance = _so.FindProperty("lungeDistance");
+        fieldLungeDistance.floatValue = EditorGUILayout.FloatField("Lunge Distance", fieldLungeDistance.floatValue);
+        if (fieldLungeDistance.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Lunge Distance cannot be negative.", MessageType.Error);
+        }
+
+        SerializedProperty fieldLungeDuration = _so.FindProperty("lungeDuration");
+        fieldLungeDuration.floatValue = EditorGUILayout.FloatField("Lunge Duration", fieldLungeDuration.floatValue);
+        if (fieldLungeDuration.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Lunge Duration cannot be negative.", MessageType.Error);
         }
 
         SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
