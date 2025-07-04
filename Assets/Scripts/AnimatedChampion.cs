@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -410,8 +411,22 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         throw new System.NotImplementedException();
     }
 
-    public void Lunge(float distance, Vector3 direction)
+    public void Lunge(float distance, Vector3 direction, float duration)
     {
-        characterController.Move(direction.normalized * distance);  
+        StartCoroutine(LungeRoutine(distance, direction.normalized, duration));
+    }
+
+    private IEnumerator LungeRoutine(float distance, Vector3 direction, float duration)
+    {
+        float elapsed = 0f;
+        float speed = distance / duration;
+
+        while (elapsed < duration)
+        {
+            float step = speed * Time.deltaTime;
+            characterController.Move(direction * step);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }

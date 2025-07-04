@@ -96,7 +96,7 @@ public class NPC : Unit, ICharacterAbilityUser
         agent.SetDestination(_worldPosition);
     }
 
-    public void Lunge(float distance, Vector3 direction)
+    public void Lunge(float distance, Vector3 direction, float duration)
     {
         throw new System.NotImplementedException();
     }

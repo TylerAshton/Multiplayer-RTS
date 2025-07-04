@@ -12,12 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a52167b63a06be94980a9db1fb1fd1e4, type: 3}
   m_Name: Blade Spin
   m_EditorClassIdentifier: 
-  abilityID: bladeSpin
+  abilityID: BladeSpin
+  abilityName: Blade Spin
   castTime: 1
-  castPositionName: 0
+  castPositionName: 3
   animationTrigger: BladeSpin
-  icon: {fileID: 21300000, guid: 11990dec99b4cf346abcd769b2974c7b, type: 3}
+  icon: {fileID: 21300000, guid: af1f1b45fa6b5e64894c04ceb8a592f7, type: 3}
+  abilityCost: 0
+  cooldown: 0
   angleDegrees: 360
-  range: 6
-  damage: 2
+  range: 4
+  damage: 5
   hitEffect: {fileID: 6823302871133167919, guid: 33a967ddf22b41741828b0797077fa49, type: 3}
+  lungeDistance: 4
+  lungeDuration: 1.2
