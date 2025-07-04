@@ -31,17 +31,17 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
-        GameObject newProjection = Instantiate(GetProjectionBlueprint(), castPositionTransform.position, Quaternion.identity);
+        Quaternion rotation = isAttached ? Quaternion.identity : castPositionTransform.rotation; // If we're not attached. Use the cast position rotation
+
+        GameObject newProjection = Instantiate(GetProjectionBlueprint(), castPositionTransform.position, rotation);
         newProjection.GetComponent<NetworkObject>().Spawn();
 
         if (isAttached)
         {
             newProjection.GetComponent<NetworkParent>().SetParent(castPositionTransform);
         }
-        else
-        {
-            newProjection.transform.rotation = castPositionTransform.rotation;
-        }
+
+        //Applying stats to the projection
         ProjectionManager projectionManager = newProjection.GetComponent<ProjectionManager>();
         projectionManager.ApplyProjectionStatsWithID(channelStats.ID);
         HitboxManager hitboxManager = newProjection.GetComponent<HitboxManager>();
