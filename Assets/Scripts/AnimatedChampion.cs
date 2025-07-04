@@ -409,4 +409,9 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     {
         throw new System.NotImplementedException();
     }
+
+    public void Lunge(float distance, Vector3 direction)
+    {
+        characterController.Move(direction.normalized * distance);  
+    }
 }

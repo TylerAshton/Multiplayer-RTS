@@ -10,10 +10,15 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
     [SerializeField] private GameObject hitEffect;
+    private float lungeDistance = 2f;
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+
+        _user.Lunge(lungeDistance, _user.Transform.forward);
+
+
     }
 
     protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
