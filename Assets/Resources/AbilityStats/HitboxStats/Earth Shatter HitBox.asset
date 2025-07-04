@@ -16,7 +16,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   sizeChangeTime: 1
   hitboxType: 1
-  boxStartSize: {x: 1, y: 1, z: 1}
+  boxStartSize: {x: 1, y: 15, z: 1}
   boxForwardExtension: 10
   boxWidthExtension: 1
   sphereStartRadius: 1
