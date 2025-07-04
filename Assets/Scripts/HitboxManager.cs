@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using Unity.Netcode;
@@ -14,8 +15,17 @@ using static UnityEngine.UI.Image;
 public class HitboxManager : MonoBehaviour, IFaction
 {
     private HitboxStats hitboxStats;
-    private BoxCollider boxCollider;
-    private SphereCollider sphereCollider;
+
+    // Current box variables
+    Vector3 currentBoxSize = Vector3.zero;
+    float currentBoxForwardExtension = 0f;
+    float currentBoxWidthExtension = 0f;
+
+    // Current sphere variables
+    float currentSphereRadius = 0f;
+
+    Vector3 ColliderCenter => transform.position + transform.rotation * (hitboxStats.Offset + extensionOffset);
+    Vector3 extensionOffset = Vector3.zero;
 
     public event Action<Collider> OnHitboxTriggerStay;
     public Faction Faction { get => faction; set => faction = value; }
@@ -29,22 +39,35 @@ public class HitboxManager : MonoBehaviour, IFaction
         }
 
         hitboxStats = _hitboxStats;
+        //colliderCenter = transform.position + transform.rotation * hitboxStats.Offset;
 
         switch (_hitboxStats.HitboxType) // I think type conditionals are fine. Doing derived classes would be overkill for this.
         {
             case HitboxType.Sphere:
+                currentSphereRadius = hitboxStats.SphereStartRadius;
                 StartCoroutine(ResizeSphere(_hitboxStats.SphereEndRadius, _hitboxStats.SizeChangeTime));
                 break;
             case HitboxType.Box:
+                currentBoxSize = hitboxStats.BoxStartSize;
                 StartCoroutine(ResizeSquare(_hitboxStats.BoxForwardExtension, _hitboxStats.BoxWidthExtension, _hitboxStats.SizeChangeTime));
                 break;
             case HitboxType.Cone:
+                currentSphereRadius = hitboxStats.SphereStartRadius;
                 StartCoroutine(ResizeSphere(_hitboxStats.SphereEndRadius, _hitboxStats.SizeChangeTime));
                 break;
             default:
                 EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
                 break;
         }
+    }
+
+    private void Update()
+    {
+        if (hitboxStats == null)
+        {
+            return;
+        }
+        CheckHits();
     }
 
     private void OnDrawGizmos()
@@ -66,15 +89,17 @@ public class HitboxManager : MonoBehaviour, IFaction
         }
     }
 
-    private void OnTriggerStay(Collider _other) // TODO: Rework the whole thing to use phyisics instead
+/*    private void OnTriggerStay(Collider _other) // TODO: Rework the whole thing to use phyisics instead
     {
         if (!_other.TryGetComponent<IFaction>(out IFaction _faction))
         {
+            Debug.Log($"{_other.gameObject.name} has no IFaction)");
             return;
         }
 
         if (_faction.Faction == faction)
         {
+            Debug.Log($"{_other.gameObject.name} is a friendly");
             return;
         }
 
@@ -86,8 +111,58 @@ public class HitboxManager : MonoBehaviour, IFaction
                 return;
             }
         }
-
+        Debug.Log("Hit");
         OnHitboxTriggerStay?.Invoke(_other);
+    }*/
+
+    private void CheckHits()
+    {
+        Collider[] hits = null;
+
+        switch (hitboxStats.HitboxType)
+        {
+            case HitboxType.Sphere:
+                hits = Physics.OverlapSphere(ColliderCenter, currentSphereRadius, LayerMask.GetMask("Unit"), QueryTriggerInteraction.Collide);
+                break;
+            case HitboxType.Cone:
+                hits = Physics.OverlapSphere(ColliderCenter, currentSphereRadius, LayerMask.GetMask("Unit"), QueryTriggerInteraction.Collide);
+                break;
+            case HitboxType.Box:
+                hits = Physics.OverlapBox(ColliderCenter, currentBoxSize / 2, transform.rotation, LayerMask.GetMask("Unit"), QueryTriggerInteraction.Collide);
+                break;
+            default:
+                EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
+                return;
+        }
+
+        if (hits == null || hits.Length == 0)
+        {
+            return;
+        }
+
+        foreach (Collider hit in hits)
+        {
+            if (hit == null || hit.gameObject == null)
+            {
+                continue;
+            }
+            if (!hit.TryGetComponent<IFaction>(out IFaction _faction))
+            {
+                Debug.Log($"{hit.gameObject.name} has no IFaction");
+                continue;
+            }
+            if (_faction.Faction == faction)
+            {
+                Debug.Log($"{hit.gameObject.name} is a friendly");
+                continue;
+            }
+            // Cone filter, if the collider is not within the cone ignore it
+            if (hitboxStats.HitboxType == HitboxType.Cone && !IsWithinCone(hit))
+            {
+                continue;
+            }
+            OnHitboxTriggerStay?.Invoke(hit);
+        }
     }
 
     /// <summary>
@@ -120,7 +195,7 @@ public class HitboxManager : MonoBehaviour, IFaction
 
         Gizmos.color = Color.yellow;
 
-        Vector3 center = transform.TransformPoint(sphereCollider.center);
+        Vector3 center = ColliderCenter;
         Vector3 direction = transform.forward;
 
         for (int i = 0; i <= segments; i++)
@@ -130,7 +205,7 @@ public class HitboxManager : MonoBehaviour, IFaction
             Quaternion rot = Quaternion.AngleAxis(theta, transform.up);
             Vector3 dir = rot * direction;
 
-            Gizmos.DrawLine(center, center + dir * sphereCollider.radius);
+            Gizmos.DrawLine(center, center + dir * currentSphereRadius);
         }
 
     }
@@ -142,9 +217,9 @@ public class HitboxManager : MonoBehaviour, IFaction
     {
         Gizmos.color = Color.yellow;
 
-        Vector3 center = transform.TransformPoint(sphereCollider.center);
+        Vector3 center = ColliderCenter;
 
-        float scaledRadius = sphereCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
+        float scaledRadius = currentSphereRadius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y, transform.lossyScale.z);
 
         Gizmos.DrawWireSphere(center, scaledRadius);
     }
@@ -157,9 +232,9 @@ public class HitboxManager : MonoBehaviour, IFaction
         Gizmos.color = Color.yellow;
 
         // Rotations Matris BS that alligns the transform and rotation
-        Gizmos.matrix = Matrix4x4.TRS(transform.TransformPoint(boxCollider.center), transform.rotation, Vector3.Scale(transform.lossyScale, Vector3.one));
+        Gizmos.matrix = Matrix4x4.TRS(ColliderCenter, transform.rotation, Vector3.Scale(transform.lossyScale, Vector3.one));
 
-        Gizmos.DrawWireCube(Vector3.zero, boxCollider.size);
+        Gizmos.DrawWireCube(Vector3.zero, currentBoxSize);
 
         Gizmos.matrix = Matrix4x4.identity; // Reset Matrix
     }
@@ -172,12 +247,12 @@ public class HitboxManager : MonoBehaviour, IFaction
     /// <returns></returns>
     private IEnumerator ResizeSphere(float _targetRadius, float _duration)
     {
-        float originalRadius = sphereCollider.radius;
+        float originalRadius = currentSphereRadius;
         float timeElapsed = 0f;
-        while (sphereCollider.radius != _targetRadius)
+        while (currentSphereRadius != _targetRadius)
         {
             float newRadius = Mathf.Lerp(originalRadius, _targetRadius, timeElapsed / _duration);
-            sphereCollider.radius = newRadius;
+            currentSphereRadius = newRadius;
             timeElapsed += Time.deltaTime;
 
             yield return null;
@@ -193,8 +268,8 @@ public class HitboxManager : MonoBehaviour, IFaction
     /// <returns></returns>
     private IEnumerator ResizeSquare(float _targetForwardExtension, float _targetWidthExtension, float _duration)
     {
-        Vector3 boxColliderOriginalSize = boxCollider.size;
-        Vector3 boxColliderOriginalCenter = boxCollider.center;
+        Vector3 boxColliderOriginalSize = currentBoxSize;
+        Vector3 boxColliderOriginalCenter = ColliderCenter;
         float currentForwardExtension = 0;
         float currentWidthExtension = 0;
         float timeElapsed = 0f;
@@ -204,14 +279,14 @@ public class HitboxManager : MonoBehaviour, IFaction
             if (currentForwardExtension != _targetForwardExtension)
             {
                 currentForwardExtension = Mathf.Lerp(0, _targetForwardExtension, timeElapsed / _duration);
-                boxCollider.size = new Vector3(boxCollider.size.x, boxCollider.size.y, boxColliderOriginalSize.z + currentForwardExtension);
-                boxCollider.center = new Vector3(boxCollider.center.x, boxCollider.center.y, boxColliderOriginalCenter.z + (currentForwardExtension / 2));
+                currentBoxSize = new Vector3(currentBoxSize.x, currentBoxSize.y, boxColliderOriginalSize.z + currentForwardExtension);
+                extensionOffset.z = currentForwardExtension / 2f;
             }
 
             if (currentWidthExtension != _targetWidthExtension)
             {
                 currentWidthExtension = Mathf.Lerp(0, _targetWidthExtension, timeElapsed / _duration);
-                boxCollider.size = new Vector3(boxColliderOriginalSize.x + currentWidthExtension, boxCollider.size.y, boxCollider.size.z);
+                currentBoxSize = new Vector3(boxColliderOriginalSize.x + currentWidthExtension, currentBoxSize.y, currentBoxSize.z);
             }
 
             timeElapsed += Time.deltaTime;
@@ -241,7 +316,7 @@ public class HitboxManager : MonoBehaviour, IFaction
             return;
         }
 
-        switch (hitboxStats.HitboxType) // I think type conditionals are fine. Doing derived classes would be overkill for this.
+/*        switch (hitboxStats.HitboxType) // I think type conditionals are fine. Doing derived classes would be overkill for this.
         {
             case HitboxType.Sphere:
                 SpawnSphere(hitboxStats);
@@ -255,12 +330,12 @@ public class HitboxManager : MonoBehaviour, IFaction
             default:
                 EditorGUILayout.HelpBox("Unknown hitbox type!", MessageType.Error);
                 break;
-        }
+        }*/
 
         Init(hitboxStats);
     }
 
-    private void SpawnSphere(HitboxStats _hitboxStats)
+/*    private void SpawnSphere(HitboxStats _hitboxStats)
     {
         sphereCollider = gameObject.AddComponent<SphereCollider>();
         sphereCollider.isTrigger = true;
@@ -277,7 +352,7 @@ public class HitboxManager : MonoBehaviour, IFaction
     private void SpawnCone(HitboxStats _hitboxStats)
     {
         SpawnSphere(_hitboxStats);
-    }
+    }*/
 
     public void ApplyHitboxStatsWithID(string _hitboxStatsID)
     {
