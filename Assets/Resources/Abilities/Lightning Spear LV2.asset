@@ -19,5 +19,5 @@ MonoBehaviour:
   animationTrigger: ProjectileAttack
   icon: {fileID: 0}
   abilityCost: 0
-  cooldown: 0
+  cooldown: 23
   projectileStats: {fileID: 11400000, guid: c5530bb3f2de6234e84e2a5387a31292, type: 2}

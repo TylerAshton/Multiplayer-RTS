@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iD: LightningSpear1
   detectionRange: 1
-  speed: 10
+  speed: 20
   damage: 100
   lifeTime: 7
   bulletVFX: {fileID: 100010, guid: c3680525f45d82543be3d8c94fe9b19f, type: 3}
