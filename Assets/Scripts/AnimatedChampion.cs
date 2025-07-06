@@ -108,6 +108,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         Cursor.lockState = CursorLockMode.Confined;
 
+        MinimapHandler.Instance.updateList();
     }
 
     public void AttemptToggleUI()
@@ -179,7 +180,6 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     private void updatePointsUI()
     {
-        Debug.Log(points.text);
         points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
 
