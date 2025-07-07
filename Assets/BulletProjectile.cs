@@ -22,7 +22,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private MeshRenderer meshRenderer;
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 posLastFrame;
-    private Vector3[] corners = new Vector3[8];
 
     private float bulletVFXScale = 1f;
     private float deathVFXScale = 1f;
@@ -66,8 +65,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         {
             destroyAtTime = Time.fixedTime + lifeTime;
         }
-
-        CalculateCorners();
     }
 
     /// <summary>
@@ -140,23 +137,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         }
     }
 
-    /// <summary>
-    /// Calculates the corner extends of the bullet which are used for hit detection
-    /// </summary>
-    private void CalculateCorners()
-    {
-        Bounds bounds = meshRenderer.bounds;
-
-        float radius = Mathf.Max(bounds.extents.x, bounds.extents.z);
-
-        for (int i = 0; i < 12; i++)
-        {
-            float angle = i * (360f / 12) * Mathf.Deg2Rad;
-
-            Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-        }
-    }
-
     public void LaunchProjectile(Vector3 _direction)
     {
         if (!IsServer)
@@ -187,8 +167,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         moveDirection = _direction;
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
@@ -208,7 +186,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
         if (!isDead)
         {
-            HitDetection();
+            TunnelHitDetection();
         }
     }
 
@@ -238,47 +216,44 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     /// position and the position at the end of the last frame and performing a raycast.
     /// ifwe hit something, we will apply damage to it, apply AOE damage and despawn the projectile.
     /// </summary>
-    private void HitDetection()
+    private void TunnelHitDetection()
     {
         if (!IsServer) return;
 
         Vector3 directionToLastPos = (posLastFrame - transform.position).normalized;
-        float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame);
+        float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame); // It should be last pos ---> currentpos
 
-        foreach(Vector3 corner in corners)
+        if (Physics.Raycast(transform.position, directionToLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
         {
-            if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
+            // If we've hit this before leave it.
+            if (hitTagets.Contains(hit.collider.gameObject))
             {
-                // If we've hit this before leave it.
-                if (hitTagets.Contains(hit.collider.gameObject))
-                {
-                    continue;
-                }
-
-                if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
-                {
-                    if (faction.Faction == this.faction)
-                    {
-                        continue;
-                    }
-                }
-                TryDamage(hit.collider);
-
-                AOEHitDetection(hit.collider);
-
-                if (penetration > 0)
-                {
-                    penetration--;
-                    hitTagets.Add(hit.collider.gameObject);
-                    SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
-                }
-                else
-                {
-                    StartDespawn();
-                }
-                    
                 return;
             }
+
+            if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
+            {
+                if (faction.Faction == this.faction)
+                {
+                    return;
+                }
+            }
+            TryDamage(hit.collider);
+
+            AOEHitDetection(hit.collider);
+
+            if (penetration > 0)
+            {
+                penetration--;
+                hitTagets.Add(hit.collider.gameObject);
+                SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
+            }
+            else
+            {
+                StartDespawn();
+            }
+                    
+            return;
         }
 
         posLastFrame = transform.position;
