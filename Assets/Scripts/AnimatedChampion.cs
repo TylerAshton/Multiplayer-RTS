@@ -163,14 +163,13 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, characterMask))
         {
-            // If the hit object is an enemy or player, return its position
             if (hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
             {
                 return hit.collider.transform.position;
             }
         }
 
-        return new Vector3(worldPosition.x, transform.position.y, worldPosition.z); // Default position if nothing is hit
+        return new Vector3(worldPosition.x, worldPosition.y, worldPosition.z);
     }
 
     [Rpc(SendTo.Server)]
@@ -428,7 +427,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         LayerMask environmentMask = LayerMask.GetMask("Environment");
-        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask))
+        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask)) // TODO: wtf is this doing here, we have a mouse pos var and world pos var
         {
             worldPosition = hit.point;
         };
