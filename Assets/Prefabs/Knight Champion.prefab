@@ -2509,6 +2509,13 @@ MonoBehaviour:
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
   points: {fileID: 2214856786026772889}
   inShop: 0
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 512
+  characterMask:
+    serializedVersion: 2
+    m_Bits: 128
+  aimPositionUpdateTolerance: 0.1
 --- !u!114 &1083379821118792553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2537,6 +2544,13 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: -316461994
     TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1563094196
+    DestinationState: -1589269423
+    TransitionDuration: 0.25
+    TriggerNameHash: 456179675
+    TransitionIndex: 2
   m_Animator: {fileID: 8215767443926878751}
 --- !u!114 &1480990190808758957
 MonoBehaviour:

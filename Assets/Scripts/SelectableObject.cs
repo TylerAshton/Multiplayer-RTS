@@ -29,6 +29,8 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
 
     private Transform castTarget;
     public Transform CastTarget => castTarget;
+    public Vector3 AimPoint => castTarget != null ? castTarget.position : Vector3.zero;
+
     public Transform Transform => transform;
 
     public IFaction IFaction => this;

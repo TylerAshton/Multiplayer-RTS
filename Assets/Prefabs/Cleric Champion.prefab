@@ -852,6 +852,13 @@ MonoBehaviour:
   primaryAbility: {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
   points: {fileID: 7670626761221738459}
   inShop: 0
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 512
+  characterMask:
+    serializedVersion: 2
+    m_Bits: 128
+  aimPositionUpdateTolerance: 0.1
 --- !u!114 &2885188943381047520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,6 +1020,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 251ac3ca-eec3-48cc-9ecf-d8d65e04f522
     m_ActionName: 'Player/Shop[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
+    m_ActionName: 'Player/Point[/Mouse/position,/Touchscreen/touch0/position,/Touchscreen/touch1/position,/Touchscreen/touch2/position,/Touchscreen/touch3/position,/Touchscreen/touch4/position,/Touchscreen/touch5/position,/Touchscreen/touch6/position,/Touchscreen/touch7/position,/Touchscreen/touch8/position,/Touchscreen/touch9/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

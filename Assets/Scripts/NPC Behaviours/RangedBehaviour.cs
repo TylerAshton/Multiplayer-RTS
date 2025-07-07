@@ -43,7 +43,7 @@ public class RangedBehaviour : NPCBehaviour
 
     private void TryAttackTarget(NPC _npc)
     {
-        if (!abilityUser.CastTarget)
+        if (abilityUser.AimPoint == Vector3.zero)
         {
             return;
         }
@@ -61,9 +61,9 @@ public class RangedBehaviour : NPCBehaviour
             return;
         }
 
-        if (abilityUser.CastTarget != null)
+        if (abilityUser.AimPoint != Vector3.zero)
         {
-            _npc.Transform.rotation = Quaternion.Lerp(_npc.Transform.rotation, Quaternion.LookRotation(abilityUser.CastTarget.position - _npc.Transform.position), Time.deltaTime);
+            _npc.Transform.rotation = Quaternion.Lerp(_npc.Transform.rotation, Quaternion.LookRotation(abilityUser.AimPoint - _npc.Transform.position), Time.deltaTime);
         }
 
         else if (_npc.Agent.velocity.magnitude > 0.1f)
