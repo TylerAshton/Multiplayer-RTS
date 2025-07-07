@@ -448,7 +448,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
     }
 
-    public void SetTarget(Transform castTarget) // TODO: this will be updated in I believe 0.7?? - H
+    public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H
     {
         throw new System.NotImplementedException();
     }

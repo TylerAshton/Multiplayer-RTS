@@ -59,7 +59,7 @@ public class UnitTargettingManager : NetworkBehaviour
             return;
         }
 
-        float targetDistance = Vector3.Distance(unit.CastTarget.position, unit.transform.position);
+        float targetDistance = Vector3.Distance(unit.CastTarget.transform.position, unit.transform.position);
 
         if (targetDistance > forgivenessRange)
         {
@@ -99,7 +99,7 @@ public class UnitTargettingManager : NetworkBehaviour
                         continue;
                     }
                 }
-                abilityUser.SetTarget(collider.transform);
+                abilityUser.SetTarget(collider);
             }
         }
     }
