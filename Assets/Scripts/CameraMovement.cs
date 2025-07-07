@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,8 +10,11 @@ public class CameraMovement : NetworkBehaviour
     [SerializeField] private float panMultiplier = 0.1f;
     [SerializeField] private float maxPanningSpeed = 1;
     [SerializeField] private float panningEdgeThreshold = 100;
-    [SerializeField] private float minFOV = 15;
-    [SerializeField] private float maxFOV = 60;
+    [SerializeField] private float maxZoom = 300;
+    [SerializeField] private float targetZoom = 200;
+    private float minZoom = 0;
+    private Vector3 startPosition = Vector3.zero;
+
     [SerializeField] private float zoomSensitivity = 1;
     Camera cameraComp;
     GameObject mainCamera;
@@ -35,6 +39,8 @@ public class CameraMovement : NetworkBehaviour
     public void Init()
     {
         mainCamera = Camera.main.gameObject;
+        startPosition = mainCamera.transform.position;
+        targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
         cameraComp = mainCamera.GetComponent<Camera>();
         rtsPlayerControls = GetComponent<RTSPlayerControls>();
 
@@ -45,17 +51,26 @@ public class CameraMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (networkObject.IsOwner)
+        if (!IsOwner)
         {
-            if (isPanning)
-            {
-                ApplyPan(GetManualPanVector());
-            }
-            else
-            {
-                //ApplyPan(isMouseNearScreenEdge());
-            }
+            return;
         }
+
+        if (isPanning)
+        {
+            ApplyPan(GetManualPanVector());
+        }
+        else
+        {
+            //ApplyPan(isMouseNearScreenEdge());
+        }
+
+        ApplyZoom();
+    }
+
+    private void ApplyZoom()
+    {
+        mainCamera.transform.position = startPosition + (mainCamera.transform.forward * targetZoom);
     }
 
     /// <summary>
@@ -101,17 +116,17 @@ public class CameraMovement : NetworkBehaviour
     /// <param name="_panningVector"></param>
     private void ApplyPan(Vector3 _panningVector)
     {
-        mainCamera.transform.position += _panningVector * Time.deltaTime;
+        startPosition += _panningVector * Time.deltaTime;
     }
 
     /// <summary>
-    /// Reduces the fov of the camere by the axis given, scaled by zoomSensitivity and clamped within min/mav FOV
+    /// Adds to the zoom target.
     /// </summary>
-    /// <param name="axis"></param>
-    public void ApplyZoom(int axis)
+    /// <param name="_zoomChange"></param>
+    public void AdjustZoomTarget(float _zoomChange)
     {
-        cameraComp.fieldOfView -= axis * zoomSensitivity; // Adjust FOV
-        cameraComp.fieldOfView = Mathf.Clamp(cameraComp.fieldOfView, minFOV, maxFOV); // Clamp zoom range
+        float newZoom = Mathf.Clamp(targetZoom + (_zoomChange * zoomSensitivity), minZoom, maxZoom);
+        targetZoom = newZoom;
     }
 
     /// <summary>
