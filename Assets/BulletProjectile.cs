@@ -173,9 +173,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     {
         Vector3 direction = _targetPos - transform.position;
 
+        direction.y = 0f;
+
         direction = direction.normalized;
 
-        direction.y = 0f;
 
         LaunchProjectile(direction);
     }

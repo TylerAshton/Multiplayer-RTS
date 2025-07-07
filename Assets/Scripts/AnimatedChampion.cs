@@ -163,7 +163,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, characterMask))
         {
-            if (hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
+            if (hit.collider.gameObject != gameObject && hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
             {
                 return hit.collider.transform.position;
             }
