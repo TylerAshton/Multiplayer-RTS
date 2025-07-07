@@ -76,9 +76,11 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     /// <param name="_projectileStats"></param>
     /// 
     [Rpc(SendTo.Everyone)]
-    public void ApplyProjectileStatsRpc(string _projectileStatsID)
+    private void ApplyProjectileStatsRpc(string _projectileStatsID)
     {
-        ProjectileStats _projectileStats = ProjectileStatsRegistry.GetProjectileStat(_projectileStatsID);
+        ProjectileStats _projectileStats = AbilityStatsRegistry.GetProjectileStat<ProjectileStats>(_projectileStatsID);
+
+        
 
         if (_projectileStats == null)
         {
@@ -370,7 +372,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
         if (deathVFXScale <= 0)
         {
-            Debug.LogError($"Death VFX Scale can't be zero or negative: {deathVFXScale}");
+            Debug.LogError($"Death VFX Scale can't be zero or negative: {deathVFXScale}in {this.name}");
             return;
         }
 

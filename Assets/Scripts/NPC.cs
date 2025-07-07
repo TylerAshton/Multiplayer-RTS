@@ -96,7 +96,12 @@ public class NPC : Unit, ICharacterAbilityUser
         agent.SetDestination(_worldPosition);
     }
 
-    
+    public void Lunge(float distance, Vector3 direction, float duration)
+    {
+        throw new System.NotImplementedException();
+    }
+
+
 
     /*    /// <summary>
         /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function

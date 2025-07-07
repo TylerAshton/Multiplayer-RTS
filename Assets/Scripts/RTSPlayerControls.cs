@@ -91,7 +91,7 @@ public class RTSPlayerControls : MonoBehaviour
     public void OnScroll(InputAction.CallbackContext context)
     {
         int axis = (int)context.ReadValue<Vector2>().y;
-        cameraMovement.ApplyZoom(axis);
+        cameraMovement.AdjustZoomTarget(axis);
     }
 
     /// <summary>

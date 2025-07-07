@@ -4,7 +4,8 @@ using UnityEngine;
 public enum StatType
 {
     AttackSpeed,
-    MoveSpeed
+    MoveSpeed,
+    HealthRegeneration
 }
 
 /// <summary>

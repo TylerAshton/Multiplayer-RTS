@@ -106,8 +106,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 2}
+  m_Center: {x: 0, y: 0, z: 0.5}
 --- !u!1 &8786565032581669084
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,6 +350,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 397e86ce-1a9d-42ea-83f4-b9adaedb76fd
     m_ActionName: 'Player/Attack2[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 251ac3ca-eec3-48cc-9ecf-d8d65e04f522
+    m_ActionName: 'Player/Shop[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
+    m_ActionName: 'Player/Point[/Mouse/position,/Touchscreen/touch0/position,/Touchscreen/touch1/position,/Touchscreen/touch2/position,/Touchscreen/touch3/position,/Touchscreen/touch4/position,/Touchscreen/touch5/position,/Touchscreen/touch6/position,/Touchscreen/touch7/position,/Touchscreen/touch8/position,/Touchscreen/touch9/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -424,12 +432,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   rtsPlayerControls: {fileID: 8246939001103950362}
   isPanning: 0
-  panMultiplier: 0.1
-  maxPanningSpeed: 16
+  panMultiplier: 0.15
+  maxPanningSpeed: 50
   panningEdgeThreshold: 125
-  minFOV: 15
-  maxFOV: 120
-  zoomSensitivity: 1
+  maxZoom: 60
+  targetZoom: 24
+  zoomSensitivity: 3
 --- !u!114 &6846700315286605413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,5 +451,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-  cameraSpawnOffset: {x: 0, y: 17.9, z: 0}
+  cameraSpawnOffset: {x: 0, y: 78, z: 0}
   isChampion: 0

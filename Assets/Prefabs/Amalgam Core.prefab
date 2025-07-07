@@ -10382,6 +10382,7 @@ GameObject:
   - component: {fileID: 7067866066898143838}
   - component: {fileID: 3631197663315793780}
   - component: {fileID: -8913194457692607531}
+  - component: {fileID: 6893020842457672130}
   m_Layer: 7
   m_Name: Amalgam Core
   m_TagString: Amalgam
@@ -10753,6 +10754,21 @@ MonoBehaviour:
   abilityPositionsEntries:
   - key: 0
     value: {fileID: 5813815697016714828}
+--- !u!114 &6893020842457672130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123164835970087146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab3487c8c3ae88499c5e7916ebb44f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsList:
+  - statType: 2
+    value: 0
 --- !u!1 &5134832880157673835
 GameObject:
   m_ObjectHideFlags: 0

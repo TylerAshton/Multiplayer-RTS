@@ -7,7 +7,7 @@ using UnityEngine.ProBuilder;
 [CreateAssetMenu(fileName = "New Projectile Ability", menuName = "Abilities/Projectile")]
 public class ProjectileAbility : Ability<IAbilityUser>
 {
-    [SerializeField] private GameObject projectile;
+    //[SerializeField] private GameObject projectile;
     [SerializeField] private ProjectileStats projectileStats;
     protected override void ActivateTyped(IAbilityUser _user)
     {
@@ -54,9 +54,15 @@ public class ProjectileAbility : Ability<IAbilityUser>
         SerializedProperty fieldProjectileStats = _so.FindProperty("projectileStats");
         EditorGUILayout.PropertyField(fieldProjectileStats);
 
-        /*SerializedProperty fieldProjectilePrefab = _so.FindProperty("projectile");
-        fieldProjectilePrefab.objectReferenceValue = EditorGUILayout.ObjectField("Projectile Prefab", fieldProjectilePrefab.objectReferenceValue, typeof(GameObject), false);
-*/    }
+        if (fieldProjectileStats.objectReferenceValue != null)
+        {
+            DrawStat(fieldProjectileStats);
+        }
+
+        
+
+
+    }
 #endif
 
     private GameObject GetProjectileBlueprint()

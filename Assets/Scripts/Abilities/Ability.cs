@@ -96,4 +96,27 @@ public abstract class Ability : ScriptableObject
         fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Ability Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
     }
 #endif
+
+#if UNITY_EDITOR
+    protected void DrawStat(SerializedProperty _sp)
+    {
+        if (_sp.objectReferenceValue == null)
+        {
+            Debug.LogError($"SerializedProperty is null in {GetType().Name}. Please assign a valid SerializedProperty.");
+        }
+
+        SerializedObject statsSO = new SerializedObject(_sp.objectReferenceValue);
+        BaseAbilityStat stat = (BaseAbilityStat)_sp.objectReferenceValue;
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField($"{stat.name}", EditorStyles.boldLabel);
+
+        statsSO.Update();
+
+        stat.DrawInspector(statsSO);
+
+        statsSO.ApplyModifiedProperties();
+    }
+
+#endif
 }
