@@ -148,7 +148,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     }
 
     /// <summary>
-    /// Raycasts to the mousePosition and returns the position of the hit object if it is an enemy or player. Otherwise returns the worldPosition with the y coordinate set to the player's y coordinate.
+    /// Raycasts to the mousePosition and returns the center Position of the hit object if it is an enemy or player. Otherwise returns the worldPosition with the y coordinate set to the player's y coordinate.
     /// </summary>
     /// <returns></returns>
     private Vector3 GetAimPosition()
@@ -165,7 +165,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         {
             if (hit.collider.gameObject != gameObject && hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
             {
-                return hit.collider.transform.position;
+                return hit.collider.bounds.center;
             }
         }
 
