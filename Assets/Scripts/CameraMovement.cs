@@ -111,7 +111,7 @@ public class CameraMovement : NetworkBehaviour
         float currentPanSpeed = Mathf.Lerp(maxZoomedPanningSpeed, maxPanningSpeed, panLerpValue);
 
         panningVector = panningVector * panMultiplier;
-        panningVector = Vector3.ClampMagnitude(panningVector, maxPanningSpeed);
+        panningVector = Vector3.ClampMagnitude(panningVector, currentPanSpeed);
 
         return panningVector;
     }
