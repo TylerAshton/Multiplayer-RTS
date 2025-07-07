@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Lightning Spear LV1
   m_EditorClassIdentifier: 
   iD: LightningSpear1
-  detectionRange: 1
-  speed: 20
+  detectionRange: 3
+  speed: 7
   damage: 100
   lifeTime: 7
   bulletVFX: {fileID: 100010, guid: c3680525f45d82543be3d8c94fe9b19f, type: 3}
-  bulletVFXScale: 1.01
+  bulletVFXScale: 5
   deathVFX: {fileID: 100012, guid: 517d26ab6aa4e1d4082a18f6d6d73814, type: 3}
-  deathVFXScale: 1
-  isAOE: 0
+  deathVFXScale: 5.15
+  isAOE: 1
   aoeRadius: 1
-  penetration: 4
+  penetration: 10

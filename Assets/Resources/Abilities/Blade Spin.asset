@@ -21,8 +21,8 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 0
   angleDegrees: 360
-  range: 10
-  damage: 5
+  range: 5
+  damage: 60.13
   hitEffect: {fileID: 6823302871133167919, guid: 33a967ddf22b41741828b0797077fa49, type: 3}
   lungeDistance: 6
   lungeDuration: 1.2
