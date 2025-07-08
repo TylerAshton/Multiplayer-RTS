@@ -26,6 +26,8 @@ MonoBehaviour:
     duration: 5
     statModifyers:
     - statType: 0
-      value: 2
+      value: 1.1
+    - statType: 2
+      value: 5
     - statType: 2
       value: 2

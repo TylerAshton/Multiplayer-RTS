@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: greatsword2
   abilityName: 
-  castTime: 1.3
+  castTime: 0.8
   castPositionName: 0
   animationTrigger: MeleeAttack
   icon: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
@@ -24,3 +24,5 @@ MonoBehaviour:
   range: 3
   damage: 60
   hitEffect: {fileID: 6823302871133167919, guid: 33a967ddf22b41741828b0797077fa49, type: 3}
+  lungeDistance: 0
+  lungeDuration: 0
