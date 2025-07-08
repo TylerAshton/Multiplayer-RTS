@@ -284,7 +284,8 @@ public class Health : NetworkBehaviour
         }
 
         isDying = false;
-        Heal(maxHealth);
+
+        Heal(maxHealth + Math.Abs(hitPoints));
 
         if (TryGetComponent<Collider2D>(out Collider2D collider))
         {
