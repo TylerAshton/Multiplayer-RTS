@@ -4,6 +4,7 @@ public class ReviveSoul : MonoBehaviour, IInteractable
 {
     public InteractionPopUp InteractionPopUp => interactionPopUp;
     [SerializeField] private InteractionPopUp interactionPopUp;
+    [SerializeField] ReviveColourChange reviveColourChange;
 
     public void Interact()
     {
@@ -12,6 +13,6 @@ public class ReviveSoul : MonoBehaviour, IInteractable
 
     public void ShowProgress(float _progress)
     {
-        Debug.Log($"Revive progress: {_progress * 100}%");
+        reviveColourChange.SetParticleColour(_progress);
     }
 }

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7181671178003147169}
   - component: {fileID: 2617776130174101591}
   - component: {fileID: 1238696865971776050}
+  - component: {fileID: 2207533104007535147}
+  - component: {fileID: 7105564637803382541}
   m_Layer: 10
   m_Name: Revive Soul
   m_TagString: Untagged
@@ -69,6 +71,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPopUp: {fileID: 1065670616881727102}
+  reviveColourChange: {fileID: 7105564637803382541}
+--- !u!114 &2207533104007535147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457788855046869235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 22962859
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &7105564637803382541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457788855046869235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71791842a1fddfb4d968e185e70cafab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  particleSystems:
+  - {fileID: 3783540043398117446}
+  - {fileID: 737767878156627920}
+  - {fileID: 3437802672628150464}
+  StartColor: {r: 1, g: 1, b: 1, a: 1}
+  EndColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &3851331079551024872
 GameObject:
   m_ObjectHideFlags: 0

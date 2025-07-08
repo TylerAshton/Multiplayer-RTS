@@ -74,6 +74,7 @@ public class InterationManager : NetworkBehaviour
 
     private void ResetHold()
     {
+        currentInteractable.ShowProgress(0);
         isHolding = false;
         holdTimeCounter = 0f;
     }
