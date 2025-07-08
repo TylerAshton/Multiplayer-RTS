@@ -46,7 +46,7 @@ public class UnitTargettingManager : NetworkBehaviour
 
         TryForgiveTarget();
 
-        if (!abilityUser.CastTarget)
+        if (!unit.CastTarget)
         {
             TryScanForTarget();
         }
@@ -54,16 +54,16 @@ public class UnitTargettingManager : NetworkBehaviour
 
     private void TryForgiveTarget()
     {
-        if (!abilityUser.CastTarget)
+        if (!unit.CastTarget)
         {
             return;
         }
 
-        float targetDistance = Vector3.Distance(abilityUser.CastTarget.position, unit.transform.position);
+        float targetDistance = Vector3.Distance(unit.CastTarget.transform.position, unit.transform.position);
 
         if (targetDistance > forgivenessRange)
         {
-            abilityUser.ClearTarget();
+            unit.ClearTarget();
         }
     }
 
@@ -81,7 +81,7 @@ public class UnitTargettingManager : NetworkBehaviour
     public void TryScanForTarget()
     {
         // Only run if the NPC does not have a target
-        if (abilityUser.CastTarget)
+        if (unit.CastTarget)
         {
             return; 
         }
@@ -99,7 +99,7 @@ public class UnitTargettingManager : NetworkBehaviour
                         continue;
                     }
                 }
-                abilityUser.SetTarget(collider.transform);
+                abilityUser.SetTarget(collider);
             }
         }
     }

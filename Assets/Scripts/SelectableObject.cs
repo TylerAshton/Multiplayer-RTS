@@ -27,8 +27,10 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     private AbilityPositionManager abilityPositionManager;
     public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositionManager.AbilityPositions;
 
-    private Transform castTarget;
-    public Transform CastTarget => castTarget;
+    private Collider castTarget;
+    public Collider CastTarget => castTarget;
+    public Vector3 AimPoint => castTarget != null ? castTarget.bounds.center : Vector3.zero;
+
     public Transform Transform => transform;
 
     public IFaction IFaction => this;
@@ -254,7 +256,7 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
     /// </summary>
     /// <param name="_newTarget"></param>
-    public void SetTarget(Transform _newTarget) // TODO: Move all setTarget shit to Unit
+    public void SetTarget(Collider _newTarget) // TODO: Move all setTarget shit to Unit
     {
         if (!IsServer)
         {

@@ -34,9 +34,9 @@ public class ProjectileAbility : Ability<IAbilityUser>
         BulletProjectile bulletProjectile = spawnedProjectile.GetComponent<BulletProjectile>();
         bulletProjectile.ApplyProjectileStatsWithID(projectileStats.ID);
 
-        if (_user.CastTarget != null) // TODO: I might make this mandatory in the future once we add aim assist later to players
+        if (_user.AimPoint != Vector3.zero) // TODO: I might make this mandatory in the future once we add aim assist later to players
         {
-            bulletProjectile.LaunchProjectileAtTarget(_user.CastTarget.position);
+            bulletProjectile.LaunchProjectileAtTarget(_user.AimPoint);
         }
         else
         {
