@@ -7,8 +7,18 @@ public class WinManager : NetworkBehaviour
 {
     private int remainingAmalgams = 0;
     private int remainingChampions = 0;
-
+    [SerializeField] private GameTerminator gameTerminator;
     [SerializeField] private List<Health> StartingAmalgams = new List<Health>();
+
+
+    private void Awake()
+    {
+        if (gameTerminator == null)
+        {
+            Debug.LogError($"{nameof(GameTerminator)} is required for {GetType().Name}");
+            return;
+        }
+    }
 
     private void Start()
     {
@@ -75,13 +85,13 @@ public class WinManager : NetworkBehaviour
     private void DeclareAmalgamVictoryRpc()
     {
         Debug.Log("Amalgam victory declared!");
-        // Additional logic for Amalgam victory can be added here
+        gameTerminator.Init(IsHost); // If you're host you win, otherwise you lose
     }
 
     [Rpc(SendTo.Everyone)]
     private void DeclareChampionVictoryRpc()
     {
         Debug.Log("Champion victory declared!");
-        // Additional logic for Champion victory can be added here
+        gameTerminator.Init(!IsHost); // If you're host you lose, otherwise you win 
     }
 }
