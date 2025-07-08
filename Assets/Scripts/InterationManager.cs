@@ -63,6 +63,8 @@ public class InterationManager : NetworkBehaviour
         }
 
         holdTimeCounter += Time.deltaTime;
+        currentInteractable.ShowProgress(holdTimeCounter / holdTimeThreshold);
+
         if (holdTimeCounter >= holdTimeThreshold)
         {
             currentInteractable.Interact();
@@ -74,6 +76,18 @@ public class InterationManager : NetworkBehaviour
     {
         isHolding = false;
         holdTimeCounter = 0f;
+    }
+
+    private void SetCurrentInteractable(IInteractable _interactable)
+    {
+
+        if (currentInteractable != null)
+        {
+            currentInteractable.InteractionPopUp.SetVisible(false);
+        }
+
+        _interactable.InteractionPopUp.SetVisible(true);
+        currentInteractable = _interactable;
     }
 
     private void SetClosestInteractable()
@@ -95,7 +109,7 @@ public class InterationManager : NetworkBehaviour
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                currentInteractable = interactable;
+                SetCurrentInteractable(interactable);
             }
         }
     }
