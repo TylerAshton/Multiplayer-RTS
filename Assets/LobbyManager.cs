@@ -15,6 +15,7 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private GameObject ChampionPlayer;
     private PlayerSpawner playerSpawner;
     private NetworkObject networkObject;
+    [SerializeField] private WinManager winManager;
 
     [Header("Debug Only")]
 
@@ -41,7 +42,13 @@ public class LobbyManager : NetworkBehaviour
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
-            Debug.LogError("Network object is required for cameraMovement");
+            Debug.LogError($"{nameof(NetworkObject)} is required for {GetType().Name}");
+            return;
+        }
+        if (winManager == null)
+        {
+            Debug.LogError($"{nameof(WinManager)} is required for {GetType().Name}");
+            return;
         }
         NetworkManager.Singleton.SceneManager.OnLoadComplete += SpawnAllPlayers;
     }
@@ -77,12 +84,14 @@ public class LobbyManager : NetworkBehaviour
                 #endif
                 {
                     newPlayer = (GameObject)Instantiate(AmalgamPlayer, AmalgamSpawnPos.position, Quaternion.identity);
+                    
                 }
             }
 
             else // COOP
             {
                 newPlayer = (GameObject)Instantiate(PlayerManager.Instance.getPlayerGameObject(id), ChampionSpawnPos.position, Quaternion.identity);
+                winManager.SelectChampion(newPlayer.GetComponent<Health>()); // Register the player as a champion to winManager
             }
 
             NetworkObject netObj = newPlayer.GetComponent<NetworkObject>();

@@ -19,6 +19,7 @@ public class Health : NetworkBehaviour
     public bool IsDying => isDying;
 
     public event Action OnDeath; // Death event, used to begin respawn
+    public event Action OnRevive; // Revive event, used to begin respawn
 
     [SerializeField] private GameObject overlayHealthBar;
     [SerializeField] private GameObject healthBarPrefab;
@@ -284,6 +285,8 @@ public class Health : NetworkBehaviour
         }
 
         isDying = false;
+
+        OnRevive.Invoke();
 
         Heal(maxHealth + Math.Abs(hitPoints));
 
