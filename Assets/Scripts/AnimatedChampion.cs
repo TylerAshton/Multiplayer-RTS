@@ -138,7 +138,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         Gizmos.color = Color.red;
 
         Gizmos.DrawWireSphere(aimPoint, 0.5f); // Draw a wire sphere at the aim point for debugging
-        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point
+/*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
     }
 
     private void TryApplyAimPosition()

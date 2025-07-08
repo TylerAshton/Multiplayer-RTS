@@ -2723,8 +2723,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -2120661137109214120}
         m_TargetAssemblyTypeName: InterationManager, Assembly-CSharp
-        m_MethodName: Interact
-        m_Mode: 1
+        m_MethodName: OnInteractStart
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3015,6 +3015,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   interactionRange: 5
+  holdTimeThreshold: 1.5
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0
