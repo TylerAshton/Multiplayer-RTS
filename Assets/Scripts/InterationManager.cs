@@ -67,14 +67,28 @@ public class InterationManager : NetworkBehaviour
 
         if (holdTimeCounter >= holdTimeThreshold)
         {
-            currentInteractable.Interact();
+            PerformInteraction();
             ResetHold(); // Reset after interaction
         }
     }
 
+    private void PerformInteraction()
+    {
+        if (currentInteractable == null)
+        {
+            Debug.LogWarning("No interactable object to interact with.");
+            return;
+        }
+        currentInteractable.Interact();
+    }
+
     private void ResetHold()
     {
-        currentInteractable.ShowProgress(0);
+        if (currentInteractable != null)
+        {
+            currentInteractable.ShowProgress(0);
+        }
+
         isHolding = false;
         holdTimeCounter = 0f;
     }

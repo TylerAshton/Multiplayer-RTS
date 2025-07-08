@@ -67,6 +67,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private LayerMask environmentMask; // phyiscal stuff
     [SerializeField] private LayerMask characterMask; // Characters and enemies 
     [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
+    [SerializeField] private GameObject soulPrefab;
+    [SerializeField] private Vector3 soulSpawnOffset = Vector3.zero;
 
     private Health health;
 
@@ -502,6 +504,15 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     {
         nAnimator.SetTrigger("Death");
         ToggleControlsRpc(false);
+        SpawnSoul();
+    }
+
+    private void SpawnSoul()
+    {
+        GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
+        soul.GetComponent<NetworkObject>().Spawn();
+        soul.GetComponent<ReviveSoul>().Init(health);
+        
     }
 
     [Rpc(SendTo.Owner)]
