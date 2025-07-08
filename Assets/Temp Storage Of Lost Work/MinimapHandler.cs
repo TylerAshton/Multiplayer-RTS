@@ -8,6 +8,7 @@ public class MinimapHandler : MonoBehaviour
 {
     public static MinimapHandler Instance;
 
+    private List<GameObject> Rawunits = new List<GameObject>();
     private List<GameObject> units = new List<GameObject>();
     private Dictionary<GameObject, GameObject> UnitToIcon = new Dictionary<GameObject, GameObject>();
     [SerializeField] List<GameObject> icons;
@@ -26,22 +27,34 @@ public class MinimapHandler : MonoBehaviour
 
     private void Start()
     {
-        updateList();
-        createIcon();
+        //updateList();
+        //createIcon();
     }
 
     public void updateList()
     {
         //deleteIcons();
         units.Clear();
-        units = LayerList.FindGameObjectsWithLayer("Unit");
+        Rawunits = LayerList.FindGameObjectsWithLayer("Unit");
+        cleanList();
         //createIcon();
 
         // Was previously going to clear all icons and replace them similar to frame regeneration.
         // However this is very memory intensive so I decided to move the prexisting icons instead
     }
 
-    private void createIcon()
+    void cleanList()
+    {
+        foreach(GameObject go in Rawunits)
+        {
+            if (go.CompareTag("Champion") || go.CompareTag("Amalgam"))
+            {
+                units.Add(go);
+            }
+        }
+    }
+
+    public void createIcon()
     {
         foreach (GameObject unit in units)
         {

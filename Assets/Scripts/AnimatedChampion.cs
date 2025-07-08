@@ -109,6 +109,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
         Cursor.lockState = CursorLockMode.Confined;
 
         MinimapHandler.Instance.updateList();
+        MinimapHandler.Instance.createIcon(this.gameObject);
     }
 
     public void AttemptToggleUI()

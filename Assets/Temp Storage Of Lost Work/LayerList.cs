@@ -15,7 +15,7 @@ public class LayerList : MonoBehaviour
                 gosList.Add(go);
             }
         }
-        if (gosList.Count > 0) { return null; }
+        if (gosList.Count < 0) { return null; }
         return gosList;
     }
 
