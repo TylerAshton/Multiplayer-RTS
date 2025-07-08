@@ -39,8 +39,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public IFaction IFaction => this;
 
-    private Transform castTarget;
-    public Transform CastTarget => castTarget;
+    private Vector3 aimPoint;
+    public Vector3 AimPoint => aimPoint;
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
@@ -63,6 +63,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private Vector2 mouseScreenPos = Vector3.zero;
     public Vector2 MouseScreenPos => mouseScreenPos;
+
+    [SerializeField] private LayerMask environmentMask; // phyiscal stuff
+    [SerializeField] private LayerMask characterMask; // Characters and enemies 
+    [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
 
     void Start()
     {
@@ -123,12 +127,55 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     }
 
-    private void SetUpTargetingBall()
+    private void OnDrawGizmos()
     {
-        if (IsOwner)
-        {
+        Gizmos.color = Color.red;
 
+        Gizmos.DrawWireSphere(aimPoint, 0.5f); // Draw a wire sphere at the aim point for debugging
+        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point
+    }
+
+    private void TryApplyAimPosition()
+    {
+        if (!IsOwner) { return; }
+        Vector3 newAimPosition = GetAimPosition();
+
+        if (newAimPosition != aimPoint && Vector3.Distance(newAimPosition, AimPoint) >= aimPositionUpdateTolerance)
+        {
+            aimPoint = newAimPosition;
+            ApplyAimPositionRpc(newAimPosition);
         }
+    }
+
+    /// <summary>
+    /// Raycasts to the mousePosition and returns the center Position of the hit object if it is an enemy or player. Otherwise returns the worldPosition with the y coordinate set to the player's y coordinate.
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetAimPosition()
+    {
+        if (!IsOwner) 
+        { 
+            Debug.LogError($"{nameof(GetAimPosition)} called on non-owner client in gameobject: {gameObject.name}!");
+            return aimPoint; 
+        }
+
+        Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
+
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, characterMask))
+        {
+            if (hit.collider.gameObject != gameObject && hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
+            {
+                return hit.collider.bounds.center;
+            }
+        }
+
+        return new Vector3(worldPosition.x, worldPosition.y, worldPosition.z);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ApplyAimPositionRpc(Vector3 _newAimPosition)
+    {
+        aimPoint = _newAimPosition;
     }
 
     /// <summary>
@@ -138,11 +185,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public void OnPoint(InputAction.CallbackContext context)
     {
         mouseScreenPos = context.ReadValue<Vector2>();
-
-
         worldPosition = new Vector3(0, 0, 0);
 
-        LayerMask environmentMask = LayerMask.GetMask("Environment");
         Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
         if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
         {
@@ -215,7 +259,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         if (!IsOwner) { return; }
         RotatePlayer();
         updatePointsUI();
+        TryApplyAimPosition();
     }
+
+    
 
     private void updatePointsUI()
     {
@@ -380,7 +427,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         LayerMask environmentMask = LayerMask.GetMask("Environment");
-        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask))
+        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask)) // TODO: wtf is this doing here, we have a mouse pos var and world pos var
         {
             worldPosition = hit.point;
         };
@@ -401,7 +448,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
     }
 
-    public void SetTarget(Transform castTarget) // TODO: this will be updated in I believe 0.7?? - H
+    public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H
     {
         throw new System.NotImplementedException();
     }
