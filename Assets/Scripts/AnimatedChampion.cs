@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction
+public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable
 {
     //[SerializeField] private float moveSpeed = 4f; //movement speed multiplier REDACTED DUE TO STAT-MANAGER
     [SerializeField] private float acceleration = 10f;
@@ -68,6 +68,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private LayerMask characterMask; // Characters and enemies 
     [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
 
+    private Health health;
+
     void Start()
     {
         manager = RelayManager.Instance;
@@ -108,6 +110,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         if (!TryGetComponent<StatManager>(out statManager))
         {
             Debug.LogError($"{nameof(StatManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<Health>(out health))
+        {
+            Debug.LogError($"{nameof(Health)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
 
 
@@ -423,6 +429,11 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// </summary>
     public void RotatePlayer()
     {
+        if (health.IsDying)
+        {
+            return;
+        }
+
         RaycastHit hit;
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -445,6 +456,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [ServerRpc(RequireOwnership = false)]
     private void RotationServerRpc(float x, float y, float z)
     {
+        if (health.IsDying) // TODO: This being ran in the first place when dying is a bit iffy
+        {
+            return;
+        }
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
     }
 
@@ -475,5 +490,29 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             elapsed += Time.deltaTime;
             yield return null;
         }
+    }
+
+    public void ReviveObject()
+    {
+        nAnimator.SetTrigger("Revive");
+        ToggleControlsRpc(true);
+    }
+
+    public void DestroyObject()
+    {
+        nAnimator.SetTrigger("Death");
+        ToggleControlsRpc(false);
+    }
+
+    [Rpc(SendTo.Owner)]
+    private void ToggleControlsRpc(bool _value)
+    {
+        if (!IsOwner)
+        {
+            Debug.LogError($"Client attempted to toggle controls on a non-owner client in gameobject: {gameObject.name}!");
+            return;
+        }
+
+        playerInput.enabled = _value;
     }
 }

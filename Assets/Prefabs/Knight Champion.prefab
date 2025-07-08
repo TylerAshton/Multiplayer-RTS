@@ -2551,6 +2551,13 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: 456179675
     TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -175616127
+    DestinationState: 1563094196
+    TransitionDuration: 0.25
+    TriggerNameHash: -323374038
+    TransitionIndex: 0
   m_Animator: {fileID: 8215767443926878751}
 --- !u!114 &1480990190808758957
 MonoBehaviour:
@@ -2827,6 +2834,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
     m_ActionName: 'Player/Point[/Mouse/position,/Touchscreen/touch0/position,/Touchscreen/touch1/position,/Touchscreen/touch2/position,/Touchscreen/touch3/position,/Touchscreen/touch4/position,/Touchscreen/touch5/position,/Touchscreen/touch6/position,/Touchscreen/touch7/position,/Touchscreen/touch8/position,/Touchscreen/touch9/position]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6858280541130533361}
+        m_TargetAssemblyTypeName: Health, Assembly-CSharp
+        m_MethodName: ReviveObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fd458e1b-85cb-4adb-a648-1f70665075f4
+    m_ActionName: 'Player/Debug Revive[/Keyboard/h]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

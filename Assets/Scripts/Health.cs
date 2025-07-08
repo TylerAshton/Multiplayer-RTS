@@ -10,6 +10,7 @@ public class Health : NetworkBehaviour
     [SerializeField] private bool isImmune = false;
 
     private float maxHealth;
+    public float MaxHealth => maxHealth;
     [SerializeField] private Animator animator;
     [SerializeField] private float deathAnimationLength = 0;
     [SerializeField] private bool test;
@@ -214,7 +215,7 @@ public class Health : NetworkBehaviour
 
     /// <summary>
     /// Destroys the object this is attached to, marking it as dying and running 
-    /// any animations and IDestructable logic if applicable before the object
+    /// any IDestructable logic if applicable before the object
     /// is destroyed. This is the best way to destroy objects.
     /// </summary>
     public void DestroyObject()
@@ -245,13 +246,61 @@ public class Health : NetworkBehaviour
             collider.enabled = false;
         }
 
-        IDestructible destructible = GetComponent<IDestructible>();
+        IDestructible[] destructibles = GetComponents<IDestructible>();
 
-        if (destructible != null)
+        if (destructibles.Length > 1) // I really don't think we should ever have more than 1 destructible on a single object
         {
-            destructible.DestroyObject();
+            Debug.LogError($"Multiple destructibles found on {gameObject.name}!" +
+                $"Please ensure only one destructible is present on each object that implements IDestructible.");
+            return;
         }
+
+        destructibles[0].DestroyObject();
+
+        if (destructibles[0] is IRevivable revivable)
+        {
+            return;
+        }
+
         Invoke(nameof(Die), deathAnimationLength);
+    }
+
+    /// <summary>
+    /// Revives the object its attached to. Marking it as alive, restoring its health to maxHealth
+    /// and enabling the collider if applicable.
+    /// </summary>
+    public void ReviveObject()
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("ReviveObject can only be called by the server!");
+            return;
+        }
+
+        if (isDying == false)
+        {
+            Debug.LogError("Cannot revive an object that is not dying!");
+            return;
+        }
+
+        isDying = false;
+        hitPoints = maxHealth;
+
+        if (TryGetComponent<Collider2D>(out Collider2D collider))
+        {
+            collider.enabled = true;
+        }
+
+        IRevivable[] revivables = GetComponents<IRevivable>();
+
+        if (revivables.Length > 1) // I really don't think we should ever have more than 1 destructible on a single object
+        {
+            Debug.LogError($"Multiple {nameof(IRevivable)} found on {gameObject.name}!" +
+                $"Please ensure only one {nameof(IRevivable)} is present on each object that implements {nameof(IRevivable)}.");
+            return;
+        }
+
+        revivables[0].ReviveObject();
     }
 
     /// <summary>
