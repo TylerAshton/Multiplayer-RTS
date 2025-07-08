@@ -262,6 +262,14 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             return;
         }
 
+        // Basically if hitCollider is not a unit we shoudn't penetrate it
+        if ((unitsOnlyLayerMask.value & (1 << _hitCollider.gameObject.layer)) == 0)
+        {
+            AOEHitDetection(_hitCollider);
+            StartDespawn();
+            return;
+        }
+
         // If we've hit this before leave it.
         if (hitTagets.Contains(_hitCollider.gameObject))
         {
