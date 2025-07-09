@@ -758,6 +758,7 @@ GameObject:
   - component: {fileID: 2436520570790276548}
   - component: {fileID: -4420682171599434401}
   - component: {fileID: 8123420037731375351}
+  - component: {fileID: 3971837674269787782}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -849,9 +850,18 @@ MonoBehaviour:
   deceleration: 40
   smoothSpeed: 15
   gravity: -9.81
-  primaryAbility: {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
+  primaryAbility: {fileID: 0}
   points: {fileID: 7670626761221738459}
   inShop: 0
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 512
+  characterMask:
+    serializedVersion: 2
+    m_Bits: 128
+  aimPositionUpdateTolerance: 0.1
+  soulPrefab: {fileID: 457788855046869235, guid: 9e21631c1b352d649ab8564ad83e549d, type: 3}
+  soulSpawnOffset: {x: 0, y: 4, z: 0}
 --- !u!114 &2885188943381047520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,7 +924,19 @@ MonoBehaviour:
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/XInputControllerWindows/buttonWest,/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3971837674269787782}
+        m_TargetAssemblyTypeName: InterationManager, Assembly-CSharp
+        m_MethodName: OnInteractStart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
     m_ActionName: 'Player/Interact[/Keyboard/e,/XInputControllerWindows/buttonNorth]'
   - m_PersistentCalls:
@@ -1013,6 +1035,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 251ac3ca-eec3-48cc-9ecf-d8d65e04f522
     m_ActionName: 'Player/Shop[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6204940461610679389}
+        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+        m_MethodName: OnPoint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
+    m_ActionName: 'Player/Point[/Mouse/position,/Touchscreen/touch0/position,/Touchscreen/touch1/position,/Touchscreen/touch2/position,/Touchscreen/touch3/position,/Touchscreen/touch4/position,/Touchscreen/touch5/position,/Touchscreen/touch6/position,/Touchscreen/touch7/position,/Touchscreen/touch8/position,/Touchscreen/touch9/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fd458e1b-85cb-4adb-a648-1f70665075f4
+    m_ActionName: 'Player/Debug Revive[/Keyboard/slash]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1031,7 +1073,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList: []
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 791117924
+    DestinationState: 1563094196
+    TransitionDuration: 0.25
+    TriggerNameHash: -323374038
+    TransitionIndex: 0
   m_Animator: {fileID: 3779843464443528873}
 --- !u!114 &6245597217510480515
 MonoBehaviour:
@@ -1173,7 +1222,7 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
-    - {fileID: 11400000, guid: dd36192bb702b034da94626bc2738eab, type: 2}
+    - {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &9122862085660864469
 MonoBehaviour:
@@ -1238,6 +1287,24 @@ MonoBehaviour:
     value: 1
   - statType: 2
     value: 0
+--- !u!114 &3971837674269787782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f18fb2d27321343911d1882cf7aebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  interactableLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  interactionRange: 8
+  holdTimeThreshold: 5
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0

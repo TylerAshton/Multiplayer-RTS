@@ -5,9 +5,9 @@ public interface IAbilityUser
 {
     Transform Transform { get; }
     IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions { get; }   
-    Transform CastTarget { get; }
+    Vector3 AimPoint { get; }
     IFaction IFaction { get; }
 
-    public void SetTarget(Transform castTarget);
+    public void SetTarget(Collider castTarget);
     public void ClearTarget();
 }

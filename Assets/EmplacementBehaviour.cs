@@ -23,7 +23,7 @@ public class EmplacementBehaviour : UnitBehaviour
 
     public override void Tick()
     {
-        if (abilityUser.CastTarget != null)
+        if (abilityUser.AimPoint != Vector3.zero)
         {
             unit.AbilityManager.TryCastAbility(0);
         }

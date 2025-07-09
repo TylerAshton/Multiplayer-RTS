@@ -9,6 +9,7 @@ public class CameraMovement : NetworkBehaviour
     [SerializeField] private bool isPanning = false;
     [SerializeField] private float panMultiplier = 0.1f;
     [SerializeField] private float maxPanningSpeed = 1;
+    [SerializeField] private float maxZoomedPanningSpeed = 0.1f;
     [SerializeField] private float panningEdgeThreshold = 100;
     [SerializeField] private float maxZoom = 300;
     [SerializeField] private float targetZoom = 200;
@@ -103,9 +104,14 @@ public class CameraMovement : NetworkBehaviour
 
         // convert to vector 3
         Vector3 panningVector = new Vector3 { x = direction.x, y = 0, z = direction.y };
+        
+        float panLerpValue = targetZoom / maxZoom;
+        panLerpValue = 1 - panLerpValue;
+
+        float currentPanSpeed = Mathf.Lerp(maxZoomedPanningSpeed, maxPanningSpeed, panLerpValue);
 
         panningVector = panningVector * panMultiplier;
-        panningVector = Vector3.ClampMagnitude(panningVector, maxPanningSpeed);
+        panningVector = Vector3.ClampMagnitude(panningVector, currentPanSpeed);
 
         return panningVector;
     }

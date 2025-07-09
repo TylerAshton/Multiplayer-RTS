@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction
+public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable
 {
     //[SerializeField] private float moveSpeed = 4f; //movement speed multiplier REDACTED DUE TO STAT-MANAGER
     [SerializeField] private float acceleration = 10f;
@@ -39,8 +39,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public IFaction IFaction => this;
 
-    private Transform castTarget;
-    public Transform CastTarget => castTarget;
+    private Vector3 aimPoint;
+    public Vector3 AimPoint => aimPoint;
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
@@ -63,6 +63,14 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private Vector2 mouseScreenPos = Vector3.zero;
     public Vector2 MouseScreenPos => mouseScreenPos;
+
+    [SerializeField] private LayerMask environmentMask; // phyiscal stuff
+    [SerializeField] private LayerMask characterMask; // Characters and enemies 
+    [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
+    [SerializeField] private GameObject soulPrefab;
+    [SerializeField] private Vector3 soulSpawnOffset = Vector3.zero;
+
+    private Health health;
 
     void Start()
     {
@@ -105,6 +113,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         {
             Debug.LogError($"{nameof(StatManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
+        if (!TryGetComponent<Health>(out health))
+        {
+            Debug.LogError($"{nameof(Health)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
 
 
         if (networkObject.IsOwner)
@@ -123,12 +135,55 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     }
 
-    private void SetUpTargetingBall()
+    private void OnDrawGizmos()
     {
-        if (IsOwner)
-        {
+        Gizmos.color = Color.red;
 
+        Gizmos.DrawWireSphere(aimPoint, 0.5f); // Draw a wire sphere at the aim point for debugging
+/*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
+    }
+
+    private void TryApplyAimPosition()
+    {
+        if (!IsOwner) { return; }
+        Vector3 newAimPosition = GetAimPosition();
+
+        if (newAimPosition != aimPoint && Vector3.Distance(newAimPosition, AimPoint) >= aimPositionUpdateTolerance)
+        {
+            aimPoint = newAimPosition;
+            ApplyAimPositionRpc(newAimPosition);
         }
+    }
+
+    /// <summary>
+    /// Raycasts to the mousePosition and returns the center Position of the hit object if it is an enemy or player. Otherwise returns the worldPosition with the y coordinate set to the player's y coordinate.
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetAimPosition()
+    {
+        if (!IsOwner) 
+        { 
+            Debug.LogError($"{nameof(GetAimPosition)} called on non-owner client in gameobject: {gameObject.name}!");
+            return aimPoint; 
+        }
+
+        Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
+
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, characterMask))
+        {
+            if (hit.collider.gameObject != gameObject && hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
+            {
+                return hit.collider.bounds.center;
+            }
+        }
+
+        return new Vector3(worldPosition.x, worldPosition.y, worldPosition.z);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ApplyAimPositionRpc(Vector3 _newAimPosition)
+    {
+        aimPoint = _newAimPosition;
     }
 
     /// <summary>
@@ -138,11 +193,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public void OnPoint(InputAction.CallbackContext context)
     {
         mouseScreenPos = context.ReadValue<Vector2>();
-
-
         worldPosition = new Vector3(0, 0, 0);
 
-        LayerMask environmentMask = LayerMask.GetMask("Environment");
         Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
         if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
         {
@@ -215,7 +267,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         if (!IsOwner) { return; }
         RotatePlayer();
         updatePointsUI();
+        TryApplyAimPosition();
     }
+
+    
 
     private void updatePointsUI()
     {
@@ -376,11 +431,16 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// </summary>
     public void RotatePlayer()
     {
+        if (health.IsDying)
+        {
+            return;
+        }
+
         RaycastHit hit;
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         LayerMask environmentMask = LayerMask.GetMask("Environment");
-        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask))
+        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask)) // TODO: wtf is this doing here, we have a mouse pos var and world pos var
         {
             worldPosition = hit.point;
         };
@@ -398,10 +458,14 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [ServerRpc(RequireOwnership = false)]
     private void RotationServerRpc(float x, float y, float z)
     {
+        if (health.IsDying) // TODO: This being ran in the first place when dying is a bit iffy
+        {
+            return;
+        }
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
     }
 
-    public void SetTarget(Transform castTarget) // TODO: this will be updated in I believe 0.7?? - H
+    public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H
     {
         throw new System.NotImplementedException();
     }
@@ -428,5 +492,38 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             elapsed += Time.deltaTime;
             yield return null;
         }
+    }
+
+    public void ReviveObject()
+    {
+        nAnimator.SetTrigger("Revive");
+        ToggleControlsRpc(true);
+    }
+
+    public void DestroyObject()
+    {
+        nAnimator.SetTrigger("Death");
+        ToggleControlsRpc(false);
+        SpawnSoul();
+    }
+
+    private void SpawnSoul()
+    {
+        GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
+        soul.GetComponent<NetworkObject>().Spawn();
+        soul.GetComponent<ReviveSoul>().Init(gameObject);
+        
+    }
+
+    [Rpc(SendTo.Owner)]
+    private void ToggleControlsRpc(bool _value)
+    {
+        if (!IsOwner)
+        {
+            Debug.LogError($"Client attempted to toggle controls on a non-owner client in gameobject: {gameObject.name}!");
+            return;
+        }
+
+        playerInput.enabled = _value;
     }
 }

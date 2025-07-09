@@ -2415,6 +2415,7 @@ GameObject:
   - component: {fileID: 3480903240323997627}
   - component: {fileID: 4895559508146863324}
   - component: {fileID: 4986312761100434460}
+  - component: {fileID: -2120661137109214120}
   m_Layer: 7
   m_Name: Knight Champion
   m_TagString: Champion
@@ -2509,6 +2510,15 @@ MonoBehaviour:
   primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
   points: {fileID: 2214856786026772889}
   inShop: 0
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 512
+  characterMask:
+    serializedVersion: 2
+    m_Bits: 128
+  aimPositionUpdateTolerance: 0.1
+  soulPrefab: {fileID: 457788855046869235, guid: 9e21631c1b352d649ab8564ad83e549d, type: 3}
+  soulSpawnOffset: {x: 0, y: 4, z: 0}
 --- !u!114 &1083379821118792553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2537,6 +2547,20 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: -316461994
     TransitionIndex: 1
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1563094196
+    DestinationState: -1589269423
+    TransitionDuration: 0.25
+    TriggerNameHash: 456179675
+    TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: -175616127
+    DestinationState: 1563094196
+    TransitionDuration: 0.25
+    TriggerNameHash: -323374038
+    TransitionIndex: 0
   m_Animator: {fileID: 8215767443926878751}
 --- !u!114 &1480990190808758957
 MonoBehaviour:
@@ -2698,7 +2722,19 @@ MonoBehaviour:
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/XInputControllerWindows/buttonWest,/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -2120661137109214120}
+        m_TargetAssemblyTypeName: InterationManager, Assembly-CSharp
+        m_MethodName: OnInteractStart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
     m_ActionName: 'Player/Interact[/Keyboard/e,/XInputControllerWindows/buttonNorth]'
   - m_PersistentCalls:
@@ -2813,6 +2849,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
     m_ActionName: 'Player/Point[/Mouse/position,/Touchscreen/touch0/position,/Touchscreen/touch1/position,/Touchscreen/touch2/position,/Touchscreen/touch3/position,/Touchscreen/touch4/position,/Touchscreen/touch5/position,/Touchscreen/touch6/position,/Touchscreen/touch7/position,/Touchscreen/touch8/position,/Touchscreen/touch9/position]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6858280541130533361}
+        m_TargetAssemblyTypeName: Health, Assembly-CSharp
+        m_MethodName: ReviveObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fd458e1b-85cb-4adb-a648-1f70665075f4
+    m_ActionName: 'Player/Debug Revive[/Keyboard/h]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2949,6 +3001,24 @@ MonoBehaviour:
     value: 7
   - statType: 2
     value: 0
+--- !u!114 &-2120661137109214120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f18fb2d27321343911d1882cf7aebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  interactableLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  interactionRange: 8
+  holdTimeThreshold: 5
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0

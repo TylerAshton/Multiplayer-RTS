@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 1735559018816349755}
   - component: {fileID: 6210551594263940988}
   - component: {fileID: 9163726061631936640}
+  - component: {fileID: -129380659594923015}
   m_Layer: 7
   m_Name: Emplacement
   m_TagString: Amalgam
@@ -406,6 +407,21 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &-129380659594923015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577619868932236165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab3487c8c3ae88499c5e7916ebb44f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsList:
+  - statType: 2
+    value: 0
 --- !u!1001 &700275605903198216
 PrefabInstance:
   m_ObjectHideFlags: 0

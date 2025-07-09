@@ -22,7 +22,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private MeshRenderer meshRenderer;
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 posLastFrame;
-    private Vector3[] corners = new Vector3[8];
 
     private float bulletVFXScale = 1f;
     private float deathVFXScale = 1f;
@@ -66,8 +65,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         {
             destroyAtTime = Time.fixedTime + lifeTime;
         }
-
-        CalculateCorners();
     }
 
     /// <summary>
@@ -140,23 +137,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         }
     }
 
-    /// <summary>
-    /// Calculates the corner extends of the bullet which are used for hit detection
-    /// </summary>
-    private void CalculateCorners()
-    {
-        Bounds bounds = meshRenderer.bounds;
-
-        float radius = Mathf.Max(bounds.extents.x, bounds.extents.z);
-
-        for (int i = 0; i < 12; i++)
-        {
-            float angle = i * (360f / 12) * Mathf.Deg2Rad;
-
-            Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
-        }
-    }
-
     public void LaunchProjectile(Vector3 _direction)
     {
         if (!IsServer)
@@ -173,9 +153,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     {
         Vector3 direction = _targetPos - transform.position;
 
+        //direction.y = 0f; 
+
         direction = direction.normalized;
 
-        direction.y = 0f;
 
         LaunchProjectile(direction);
     }
@@ -185,8 +166,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     {
         moveDirection = _direction;
     }
-
-
 
     // Update is called once per frame
     void Update()
@@ -207,7 +186,8 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
         if (!isDead)
         {
-            HitDetection();
+            ForwardHitDetection();
+            TunnelHitDetection();
         }
     }
 
@@ -233,54 +213,90 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     }
 
     /// <summary>
+    /// Raycasts fprward in the direction of the projectile to detect hits with objects.
+    /// </summary>
+    private void ForwardHitDetection()
+    {
+        if (!IsServer)
+        {
+            Debug.Log($"{nameof(ForwardHitDetection)} can only be performed on the server!");
+            return;
+        }
+
+        // Perform a raycast in the direction of the projectile
+        if (Physics.Raycast(transform.position, moveDirection, out RaycastHit hit, detectionRange, objectsLayerMask))
+        {
+            HandleHit(hit.collider);
+        }
+    }
+
+    /// <summary>
     /// Detects if we've gone through anything after our last movement by taking the current 
     /// position and the position at the end of the last frame and performing a raycast.
-    /// ifwe hit something, we will apply damage to it, apply AOE damage and despawn the projectile.
+    /// if we hit something, we will handle the hit.
     /// </summary>
-    private void HitDetection()
+    private void TunnelHitDetection()
     {
-        if (!IsServer) return;
-
-        Vector3 directionToLastPos = (posLastFrame - transform.position).normalized;
-        float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame);
-
-        foreach(Vector3 corner in corners)
+        if (!IsServer)
         {
-            if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
-            {
-                // If we've hit this before leave it.
-                if (hitTagets.Contains(hit.collider.gameObject))
-                {
-                    continue;
-                }
+            Debug.Log($"{nameof(TunnelHitDetection)} can only be performed on the server!");
+            return;
+        }
 
-                if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
-                {
-                    if (faction.Faction == this.faction)
-                    {
-                        continue;
-                    }
-                }
-                TryDamage(hit.collider);
+        Vector3 directionFromLastPos = (transform.position - posLastFrame).normalized;
+        float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame); // It should be last pos ---> currentpos
 
-                AOEHitDetection(hit.collider);
-
-                if (penetration > 0)
-                {
-                    penetration--;
-                    hitTagets.Add(hit.collider.gameObject);
-                    SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
-                }
-                else
-                {
-                    StartDespawn();
-                }
-                    
-                return;
-            }
+        if (Physics.Raycast(posLastFrame, directionFromLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
+        {
+            HandleHit(hit.collider);
         }
 
         posLastFrame = transform.position;
+    }
+
+    private void HandleHit(Collider _hitCollider)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("HandleHit can only be performed on the server!");
+            return;
+        }
+
+        // Basically if hitCollider is not a unit we shoudn't penetrate it
+        if ((unitsOnlyLayerMask.value & (1 << _hitCollider.gameObject.layer)) == 0)
+        {
+            AOEHitDetection(_hitCollider);
+            StartDespawn();
+            return;
+        }
+
+        // If we've hit this before leave it.
+        if (hitTagets.Contains(_hitCollider.gameObject))
+        {
+            return;
+        }
+
+        if (_hitCollider.TryGetComponent<IFaction>(out IFaction faction))
+        {
+            if (faction.Faction == this.faction)
+            {
+                return;
+            }
+        }
+        TryDamage(_hitCollider);
+
+        AOEHitDetection(_hitCollider);
+
+        if (penetration > 0)
+        {
+            penetration--;
+            hitTagets.Add(_hitCollider.gameObject);
+            SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
+        }
+        else
+        {
+            StartDespawn();
+        }
     }
 
     /// <summary>

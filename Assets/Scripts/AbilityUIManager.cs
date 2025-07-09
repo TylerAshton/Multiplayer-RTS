@@ -56,6 +56,23 @@ public class AbilityUIManager : MonoBehaviour
     /// <param name="_cell"></param>
     private void SetAbilityCell(Ability _ability, GameObject _cell, List<AbilityManager> _abilityManagers)
     {
+        if (_ability == null)
+        {
+            Debug.LogError($"{nameof(_ability)} was null in {gameObject.name}!");
+            return;
+        }
+
+        if (_cell == null)
+        {
+            Debug.LogError($"{nameof(_cell)} was null in {gameObject.name}");
+            return;
+        }
+        if (_abilityManagers == null || _abilityManagers.Count == 0)
+        {
+            Debug.LogError($"{nameof(_abilityManagers)} was null or empty in {gameObject.name}");
+        }
+
+
         Image cellImage = _cell.GetComponent<Image>();
         Button cellButton = _cell.GetComponent<Button>();
 
