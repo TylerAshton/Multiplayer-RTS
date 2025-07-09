@@ -19,6 +19,6 @@ MonoBehaviour:
   boxStartSize: {x: 1, y: 1, z: 1}
   boxForwardExtension: 0
   boxWidthExtension: 0
-  sphereStartRadius: 1
-  sphereEndRadius: 1
+  sphereStartRadius: 10
+  sphereEndRadius: 10
   coneAngle: 45

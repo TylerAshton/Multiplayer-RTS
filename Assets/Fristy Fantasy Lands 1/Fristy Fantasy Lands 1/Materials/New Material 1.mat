@@ -103,10 +103,10 @@ Material:
     - Vector1_395485f0982f4934a0039dec14a85d95: 54.91
     - Vector1_3b56c0b7671b4a49b302feefd5c92244: 33.78
     - Vector1_5ce5959d878b41408cbcbcd450a29bbc: 1.14
-    - Vector1_7fa6e19afe694131a7d33f47294bc668: 0.08
+    - Vector1_7fa6e19afe694131a7d33f47294bc668: -0.01
     - Vector1_94285073ae8c4c89b3b74ca179d679bc: 5.61
     - Vector1_a76848a962774412abce7a1828d305fd: 0.863
-    - Vector1_b2dd9f09eb8342fea343968799f0acca: 0.07
+    - Vector1_b2dd9f09eb8342fea343968799f0acca: 0.01
     - Vector1_b6173ab72bc2402e8cd981b98c2627b4: 0
     - Vector1_b892cd0e8e1e4482b723a56da2e699b8: 0.8
     - _AlphaClip: 0
@@ -142,14 +142,14 @@ Material:
     - _foamSpeed: 10.8
     - _foamscale: 28.7
     - _smoothness: 2.35
-    - _uvSpeed: -0.1
-    - _uvSpeed2: 0.1
-    - _waterStrength: 2
-    - _waveScale: 21.8
-    - _waveScale1: 8.1
+    - _uvSpeed: -0.01
+    - _uvSpeed2: -0.01
+    - _waterStrength: 0
+    - _waveScale: 0.01
+    - _waveScale1: 0.1
     m_Colors:
-    - Color_2ac92d9cb09c47e5afeb9150620d0716: {r: 0.01214843, g: 0.8584906, b: 0.47777078, a: 1}
-    - Color_b4e7d4e07e634db682c46ca66aa0bddb: {r: 0, g: 0.5513354, b: 0.6792453, a: 0.89411765}
+    - Color_2ac92d9cb09c47e5afeb9150620d0716: {r: 0, g: 0.6532259, b: 1, a: 1}
+    - Color_b4e7d4e07e634db682c46ca66aa0bddb: {r: 0, g: 0.4086286, b: 0.49685526, a: 0.89411765}
     - Color_fb4ac56a96674dfc85db2d0b170381e1: {r: 0.4716981, g: 0.2603239, b: 0.2603239, a: 1}
     - _BaseColor: {r: 0.21306513, g: 0.7867795, b: 0.7924528, a: 0.8666667}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

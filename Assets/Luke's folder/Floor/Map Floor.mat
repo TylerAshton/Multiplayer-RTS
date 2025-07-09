@@ -50,7 +50,7 @@ Material:
         m_Scale: {x: 122.5, y: 123.8}
         m_Offset: {x: 0, y: 0}
     - _AlbedoTexture4:
-        m_Texture: {fileID: 2800000, guid: 04b337db65593684b9ebc7709fc1f1cb, type: 3}
+        m_Texture: {fileID: 2800000, guid: a68f84c4379e99a46aa7f866e9f4d68f, type: 3}
         m_Scale: {x: 99.3, y: 99.4}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
