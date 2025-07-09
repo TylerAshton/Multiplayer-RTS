@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: DEBUG 3
   m_EditorClassIdentifier: 
   abilityID: Debug 3
+  abilityName: 
   castTime: 1
   castPositionName: 0
   animationTrigger: 
   icon: {fileID: 1161372870, guid: eb39836e111a9fb40b85ea4801987a6f, type: 3}
   abilityCost: 0
+  purchasePrice: 30
   cooldown: 0

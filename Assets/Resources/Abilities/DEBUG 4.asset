@@ -19,4 +19,5 @@ MonoBehaviour:
   animationTrigger: 
   icon: {fileID: -536594785, guid: eb39836e111a9fb40b85ea4801987a6f, type: 3}
   abilityCost: 0
+  purchasePrice: 40
   cooldown: 0
