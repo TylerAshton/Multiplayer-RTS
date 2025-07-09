@@ -1014,6 +1014,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 251ac3ca-eec3-48cc-9ecf-d8d65e04f522
     m_ActionName: 'Player/Shop[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
+    m_ActionName: 'Player/Point[/Mouse/position,/Pen/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1790,7 +1794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 673, y: 402}
+  m_AnchoredPosition: {x: -673, y: 402}
   m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6358397636460911677
