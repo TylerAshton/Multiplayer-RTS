@@ -39,6 +39,8 @@ public class CapturePoint : NetworkBehaviour
 
     private List<GameObject> goInCapture = new List<GameObject>();
 
+    [SerializeField] GameObject icon;
+
     private void Awake()
     {
         circle.transform.localScale = new Vector3(r, 1, r);
@@ -127,6 +129,8 @@ public class CapturePoint : NetworkBehaviour
         {
             TurnOnBonfiresRpc(false, Color.black, 0);
         }
+
+        icon = MinimapHandler.Instance.changeCampfire(icon, owner.ToString());
     }
 
     [Rpc(SendTo.Everyone)]

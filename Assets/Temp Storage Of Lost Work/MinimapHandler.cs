@@ -54,6 +54,14 @@ public class MinimapHandler : MonoBehaviour
         }
     }
 
+    public GameObject changeCampfire(GameObject icon, string owner)
+    {
+        GameObject Newicon = (GameObject)Instantiate(Resources.Load($"Icons/{owner} Campfire Icon"), icon.transform.position, Quaternion.identity, icon.GetComponentInParent<Transform>());
+        Destroy(icon);
+        return Newicon;
+    }
+
+
     public void createIcon()
     {
         foreach (GameObject unit in units)
