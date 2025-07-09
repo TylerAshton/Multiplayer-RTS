@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction
+public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable
 {
     //[SerializeField] private float moveSpeed = 4f; //movement speed multiplier REDACTED DUE TO STAT-MANAGER
     [SerializeField] private float acceleration = 10f;
@@ -67,6 +67,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private LayerMask environmentMask; // phyiscal stuff
     [SerializeField] private LayerMask characterMask; // Characters and enemies 
     [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
+    [SerializeField] private GameObject soulPrefab;
+    [SerializeField] private Vector3 soulSpawnOffset = Vector3.zero;
+
+    private Health health;
 
     void Start()
     {
@@ -109,6 +113,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         {
             Debug.LogError($"{nameof(StatManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
+        if (!TryGetComponent<Health>(out health))
+        {
+            Debug.LogError($"{nameof(Health)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
 
 
         if (networkObject.IsOwner)
@@ -132,7 +140,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         Gizmos.color = Color.red;
 
         Gizmos.DrawWireSphere(aimPoint, 0.5f); // Draw a wire sphere at the aim point for debugging
-        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point
+/*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
     }
 
     private void TryApplyAimPosition()
@@ -423,6 +431,11 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// </summary>
     public void RotatePlayer()
     {
+        if (health.IsDying)
+        {
+            return;
+        }
+
         RaycastHit hit;
         Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -445,6 +458,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [ServerRpc(RequireOwnership = false)]
     private void RotationServerRpc(float x, float y, float z)
     {
+        if (health.IsDying) // TODO: This being ran in the first place when dying is a bit iffy
+        {
+            return;
+        }
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
     }
 
@@ -475,5 +492,38 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             elapsed += Time.deltaTime;
             yield return null;
         }
+    }
+
+    public void ReviveObject()
+    {
+        nAnimator.SetTrigger("Revive");
+        ToggleControlsRpc(true);
+    }
+
+    public void DestroyObject()
+    {
+        nAnimator.SetTrigger("Death");
+        ToggleControlsRpc(false);
+        SpawnSoul();
+    }
+
+    private void SpawnSoul()
+    {
+        GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
+        soul.GetComponent<NetworkObject>().Spawn();
+        soul.GetComponent<ReviveSoul>().Init(gameObject);
+        
+    }
+
+    [Rpc(SendTo.Owner)]
+    private void ToggleControlsRpc(bool _value)
+    {
+        if (!IsOwner)
+        {
+            Debug.LogError($"Client attempted to toggle controls on a non-owner client in gameobject: {gameObject.name}!");
+            return;
+        }
+
+        playerInput.enabled = _value;
     }
 }
