@@ -17,11 +17,13 @@ public abstract class Ability : ScriptableObject
     [SerializeField] private string animationTrigger;
     [SerializeField] private Sprite icon;
     [SerializeField] private int abilityCost = 0;
+    [SerializeField] private int purchasePrice = 0;
     [SerializeField] private float cooldown = 0f;
 
     public float Cooldown => cooldown;
 
     public int AbilityCost => abilityCost;
+    public int PurchasePrice => purchasePrice;
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
     public string AnimationTrigger => animationTrigger;
@@ -85,6 +87,13 @@ public abstract class Ability : ScriptableObject
         if (fieldAbilityCost.intValue < 0)
         {
             EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
+        }
+
+        SerializedProperty fieldPurchaseCost = _so.FindProperty("purchasePrice");
+        fieldPurchaseCost.intValue = EditorGUILayout.IntField("Purchase Cost", fieldPurchaseCost.intValue);
+        if (fieldPurchaseCost.intValue < 0)
+        {
+            EditorGUILayout.HelpBox("Purchase Cost cannot be negative!", MessageType.Error);
         }
 
 

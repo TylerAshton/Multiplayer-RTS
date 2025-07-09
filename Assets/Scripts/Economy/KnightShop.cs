@@ -1,12 +1,27 @@
-﻿using Unity.Netcode;
+﻿using NUnit.Framework;
+using Unity.Netcode;
 using UnityEngine;
 
 class KnightShop : Shop
 {
+    private float angle;
+    private float sectionAngle = 0f; // How much of the radial screen an option takes up. For example 2 options would give 180 each, 4 would give 90 each
+    [SerializeField] private int healthCost = 500;
     protected override void Awake()
     {
         base.Awake();
         ID = NetworkManager.Singleton.LocalClientId;
+    }
+
+    private void Start()
+    {
+        sectionAngle = 360f / options.Length;
+
+        // Dynamically set up the names
+        for (int i = 1; i < options.Length; i++)
+        {
+            options[i].text = abilities[i-1].name;
+        }
     }
 
     [Rpc(SendTo.Server)]
@@ -51,7 +66,7 @@ class KnightShop : Shop
         moveInput.Normalize();
         if (moveInput != Vector2.zero)
         {
-            float angle = Mathf.Atan2(moveInput.y, -moveInput.x) / Mathf.PI;
+            angle = Mathf.Atan2(moveInput.y, -moveInput.x) / Mathf.PI;
             angle = angle * 180;
             angle += 90f; //Rotate it so 0 degrees is at the bottom
             if (angle < 0)
@@ -59,9 +74,10 @@ class KnightShop : Shop
                 angle += 360;
             }
 
+            // Selection logic based on the angle of the cursor
             for (int i = 0; i < options.Length; i++)
             {
-                if (angle > i * 180 && angle < (i + 1) * 180)
+                if (angle > i * sectionAngle && angle < (i + 1) * sectionAngle)
                 {
                     options[i].color = highlightedColour;
                     selectedOption = i;
@@ -73,16 +89,26 @@ class KnightShop : Shop
             }
         }
 
+        SelectOption();
+        
+    }
+
+    /// <summary>
+    /// Highlights the selected option and displays the cost, if the player clicks their mouse it will attempt to purchase the option
+    /// </summary>
+    private void SelectOption()
+    {
         switch (selectedOption)
         {
             case 0:
-                itemCostText.text = "-500";
-                if (PointManager.Instance.GetPoints(ID) >= 500)
+                itemCostText.text = $"-{healthCost}";
+                if (PointManager.Instance.GetPoints(ID) >= healthCost)
                 {
                     itemCostText.color = Color.green;
                     if (Input.GetMouseButtonDown(0))
                     {
-                        PurchaseOption1Rpc(ID);
+                        //PurchaseOption1Rpc(ID);
+                        TryHealPlayerRpc(ID);
                         this.GetComponentInParent<AnimatedChampion>().ToggleUI();
                     }
                 }
@@ -91,17 +117,20 @@ class KnightShop : Shop
                     itemCostText.color = Color.red;
                 }
                 break;
-            case 1:
-                itemCostText.text = "-3000";
-                if (PointManager.Instance.GetPoints(ID) >= 3000)
+
+            default:
+                //itemCostText.text = "-3000";
+                int price = abilities[selectedOption - 1].PurchasePrice;
+                itemCostText.text = $"-{price}";
+                if (PointManager.Instance.GetPoints(ID) >= price)
                 {
                     itemCostText.color = Color.green;
                     if (!this.GetComponentInParent<ChampionAbilityManager>().CheckAbility(abilities[selectedOption - 1]))
                     {
                         if (Input.GetMouseButtonDown(0))
                         {
-                            Debug.Log("awergawrg");
-                            PurchaseOption2Rpc(ID, selectedOption);
+                            //PurchaseOption2Rpc(ID, selectedOption);
+                            TryPurchaseAbilityOptionRpc(selectedOption, ID);
                             this.GetComponentInParent<AnimatedChampion>().ToggleUI();
                         }
                     }
@@ -111,10 +140,66 @@ class KnightShop : Shop
                     itemCostText.color = Color.red;
                 }
                 break;
-            default:
-                itemCostText.text = string.Empty;
-                break;
         }
+
+    }
+
+    [Rpc(SendTo.Server)]
+    private void TryPurchaseAbilityOptionRpc(int _selectedOption, ulong _clientID)
+    {
+        if (_selectedOption < 0 || _selectedOption >= options.Length)
+        {
+            Debug.LogError($"Attempted to purchase an ability out of the bounds of {nameof(options)}: {_selectedOption}");
+            return;
+        }
+
+
+        // Heal specific option
+        if (_selectedOption == 0)
+        {
+            Debug.LogError($"Attempted to use purchase healing with {nameof(TryPurchaseAbilityOptionRpc)}!");
+            return;
+        }
+
+        // Ability Purchasing
+        Ability ability = abilities[_selectedOption - 1];
+        
+        if (ability == null)
+        {
+            Debug.LogError($"Ability of ID {selectedOption - 1} is null in {nameof(abilities)} in gameobject: {gameObject.name}!");
+            return;
+        }
+        
+        // Check if they already have the ability
+        if (this.GetComponentInParent<ChampionAbilityManager>().CheckAbility(ability))
+        {
+            Debug.LogError($"Player: {_clientID} attempted to pruchase {ability.name} which they already have!");
+            return;
+        }
+
+        if (PointManager.Instance.GetPoints(_clientID) < ability.PurchasePrice)
+        {
+            Debug.LogError($"Player: {_clientID} attempted to pruchase {ability.name} with insuficient funds {PointManager.Instance.GetPoints(_clientID)} < {ability.PurchasePrice}!");
+            return;
+        }
+
+        this.GetComponentInParent<ChampionAbilityManager>().AddAbility(ability, 0);
+        PointManager.Instance.RemovePoints(_clientID, ability.PurchasePrice);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void TryHealPlayerRpc(ulong _clientID)
+    {
+        if (PointManager.Instance.GetPoints(_clientID) < healthCost)
+        {
+            Debug.LogError($"Player: {_clientID} attempted to heal with insuficient funds {PointManager.Instance.GetPoints(_clientID)} < {healthCost}!");
+            return;
+        }
+
+        this.GetComponentInParent<Health>().Heal(999);
+        PointManager.Instance.RemovePoints(_clientID, healthCost);
+
+        return;
     }
 }
 
