@@ -18,5 +18,5 @@ MonoBehaviour:
   vfxRotation: {x: 0, y: 0, z: 0, w: 1}
   damage: 18
   damageOnce: 0
-  duration: 5
+  duration: 2.7
   hitboxStats: {fileID: 11400000, guid: 15a815527292ead47ba4a7d7e600015c, type: 2}
