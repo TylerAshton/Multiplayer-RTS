@@ -5,26 +5,54 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Channelled Projection Ability", menuName = "Abilities/Channelled Projection")]
-public class ChannelledProjection : Ability<IAbilityUser>
+public class ChannelledProjection : Ability<ICharacterAbilityUser>
 {
-    [SerializeField] GameObject effect;
-    protected override void ActivateTyped(IAbilityUser _user)
+    [SerializeField] private float slowAmount;
+    [SerializeField] private ProjectionStats channelStats;
+    [SerializeField] private bool isAttached = false;
+    protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+
+        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
+        List<StatModifyer> statModifyers = new List<StatModifyer>();
+        statModifyers.Add(statModifyer);
+
+        Effect newEffect = new Effect(CastTime, statModifyers);
+
+        _user.EffectManager.AddEffect(newEffect);
     }
 
-    protected override void DebugDrawingTyped(IAbilityUser _user)
+    protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
     {
         
     }
 
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
-        GameObject newEffect = Instantiate(effect, castPositionTransform);
-        newEffect.GetComponent<NetworkObject>().Spawn();
-        newEffect.GetComponent<NetworkParent>().SetParent(castPositionTransform);
-        newEffect.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
+        Quaternion rotation = isAttached ? Quaternion.identity : castPositionTransform.rotation; // If we're not attached. Use the cast position rotation
+
+        GameObject newProjection = Instantiate(GetProjectionBlueprint(), castPositionTransform.position, rotation);
+        newProjection.GetComponent<NetworkObject>().Spawn();
+
+        if (isAttached)
+        {
+            newProjection.GetComponent<NetworkParent>().SetParent(castPositionTransform);
+        }
+
+        //Applying stats to the projection
+        ProjectionManager projectionManager = newProjection.GetComponent<ProjectionManager>();
+        projectionManager.ApplyProjectionStatsWithID(channelStats.ID);
+        HitboxManager hitboxManager = newProjection.GetComponent<HitboxManager>();
+        hitboxManager.ApplyHitboxStatsWithID(channelStats.HitboxStats.ID);
+        newProjection.GetComponent<IFaction>().Faction = _user.IFaction.Faction;
+    }
+
+    private GameObject GetProjectionBlueprint()
+    {
+        GameObject projectile = Resources.Load<GameObject>("Blueprints/BPProjection");
+        return projectile;
     }
 
 #if UNITY_EDITOR
@@ -32,8 +60,23 @@ public class ChannelledProjection : Ability<IAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldEffect = _so.FindProperty("effect");
-        fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect Prefab", fieldEffect.objectReferenceValue, typeof(GameObject), false);
+        SerializedProperty fieldSlowAmount = _so.FindProperty("slowAmount");
+        EditorGUILayout.PropertyField(fieldSlowAmount);
+        if (fieldSlowAmount.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Slow amount must be a positive value!", MessageType.Error);
+        }
+
+        SerializedProperty fieldIsAttached = _so.FindProperty("isAttached");
+        fieldIsAttached.boolValue = EditorGUILayout.Toggle("Attach?", fieldIsAttached.boolValue);
+
+        SerializedProperty fieldChannelStats = _so.FindProperty("channelStats");
+        EditorGUILayout.PropertyField(fieldChannelStats);
+
+        if (fieldChannelStats.objectReferenceValue != null)
+        {
+            DrawStat(fieldChannelStats);
+        }
     }
 #endif
 }

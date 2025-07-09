@@ -4,19 +4,25 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Melee Ability", menuName = "Abilities/Melee")]
-public class MeleeAbility : Ability<IAbilityUser>
+public class MeleeAbility : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private float angleDegrees = 90f;
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
     [SerializeField] private GameObject hitEffect;
+    [SerializeField] private float lungeDistance = 0f;
+    [SerializeField] private float lungeDuration = 0f;
 
-    protected override void ActivateTyped(IAbilityUser _user)
+    protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
         _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+
+        _user.Lunge(lungeDistance, _user.Transform.forward, lungeDuration);
+
+
     }
 
-    protected override void DebugDrawingTyped(IAbilityUser _user)
+    protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
     {
         Gizmos.color = Color.yellow;
         Vector3 forward = _user.Transform.forward;
@@ -35,7 +41,7 @@ public class MeleeAbility : Ability<IAbilityUser>
     /// Function called when the animation reaches the peak of its swing
     /// </summary>
     /// <param name="_user"></param>
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnUseTyped(ICharacterAbilityUser _user)
     {
         Vector3 origin = _user.Transform.position;
         Vector3 forward = _user.Transform.forward;
@@ -85,6 +91,20 @@ public class MeleeAbility : Ability<IAbilityUser>
         if (fieldDamage.floatValue < 0)
         {
             EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
+        }
+
+        SerializedProperty fieldLungeDistance = _so.FindProperty("lungeDistance");
+        fieldLungeDistance.floatValue = EditorGUILayout.FloatField("Lunge Distance", fieldLungeDistance.floatValue);
+        if (fieldLungeDistance.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Lunge Distance cannot be negative.", MessageType.Error);
+        }
+
+        SerializedProperty fieldLungeDuration = _so.FindProperty("lungeDuration");
+        fieldLungeDuration.floatValue = EditorGUILayout.FloatField("Lunge Duration", fieldLungeDuration.floatValue);
+        if (fieldLungeDuration.floatValue < 0)
+        {
+            EditorGUILayout.HelpBox("Lunge Duration cannot be negative.", MessageType.Error);
         }
 
         SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");

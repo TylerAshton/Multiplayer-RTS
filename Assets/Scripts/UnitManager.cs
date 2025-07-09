@@ -41,6 +41,12 @@ public class UnitManager : NetworkBehaviour
     /// <param name="_unit"></param>
     public void AddUnit(SelectableObject _unit)
     {
+        if (_unit == null)
+        {
+            Debug.LogError("Attempted to add a null unit");
+            return;
+        }
+
         if (allUnits.Contains(_unit))
         {
             Debug.LogError("AddUnit was called when the unit already exists in the list");
@@ -49,14 +55,23 @@ public class UnitManager : NetworkBehaviour
         allUnits.Add(_unit);
     }
 
+    /// <summary>
+    /// Removes the unit from the allUnits and selectedUnits lists.
+    /// </summary>
+    /// <param name="_unit"></param>
     public void RemoveUnit(SelectableObject _unit)
     {
-        allUnits.Remove(_unit);
-        selectedUnits.Remove(_unit);
-
-        if (selectedUnits.Count > 0)
+        if (_unit == null)
         {
-            abilityUIManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+            Debug.LogError("Attempted to remove a null unit");
+            return;
+        }
+
+        allUnits.Remove(_unit);
+
+        if (selectedUnits.Contains(_unit))
+        {
+            DeselectUnit(_unit); // Deselect the unit if it's selected
         }
     }
 
@@ -66,6 +81,12 @@ public class UnitManager : NetworkBehaviour
     /// <param name="_rect"></param>
     public void AreaSelection(Rect _rect)
     {
+        if (_rect == null)
+        {
+            Debug.LogError("Attempted to select units with a null rect");
+            return;
+        }
+
         ClearAllSelectedUnits();
 
         foreach (SelectableObject _unit in allUnits)
@@ -89,6 +110,18 @@ public class UnitManager : NetworkBehaviour
     /// <param name="_unit"></param>
     public void SelectUnit(SelectableObject _unit)
     {
+        if (_unit == null)
+        {
+            Debug.LogError("Attempted to select a null unit");
+            return;
+        }
+
+        if (selectedUnits.Contains(_unit))
+        {
+            Debug.LogError("Attempted to select a unit that is already selected");
+            return;
+        }
+
         selectedUnits.Add(_unit);
         abilityUIManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         _unit.ShowSelectionIndicator();
@@ -100,6 +133,12 @@ public class UnitManager : NetworkBehaviour
     /// <param name="_unit"></param>
     public void DeselectUnit(SelectableObject _unit)
     {
+        if (_unit == null)
+        {
+            Debug.LogError("Attempted to deselect a null unit");
+            return;
+        }
+
         if (!selectedUnits.Contains(_unit))
         {
             Debug.LogError("Attempted to deselect a unit that isn't selected");
@@ -126,6 +165,12 @@ public class UnitManager : NetworkBehaviour
     /// <exception cref="NotImplementedException"></exception>
     public void TryDeselectUnit(SelectableObject _unit)
     {
+        if (_unit == null)
+        {
+            Debug.LogError("Attempted to deselect a null unit");
+            return;
+        }
+
         if (selectedUnits.Contains(_unit))
         {
             DeselectUnit(_unit);
@@ -158,6 +203,12 @@ public class UnitManager : NetworkBehaviour
     /// <exception cref="NotImplementedException"></exception>
     public void MoveOrder(Vector3 _worldPosition)
     {
+        if (_worldPosition == null)
+        {
+            Debug.LogError("Attempted to move units to a null position");
+            return;
+        }
+
         for (int i = 0; i < selectedUnits.Count; i++)
         {
             if (selectedUnits[i] is NPC _NPC)

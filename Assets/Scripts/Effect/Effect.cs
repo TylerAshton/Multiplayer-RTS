@@ -1,12 +1,25 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Effect : ScriptableObject
+[System.Serializable]
+public class Effect
 {
-    [SerializeField] float duration = 5f;
+    [SerializeField] float duration;
+    [SerializeField] private List<StatModifyer> statModifyers;
+    public List<StatModifyer> StatModifyers => new List<StatModifyer>(statModifyers);
     public float Duration => duration;
-    public abstract void OnStart(EffectManager _effectManager);
 
-    public abstract void OnUpdate(EffectManager _effectManager);
+    public Effect() // Inspector friendly constructor
+    {
+        
+    } 
 
-    public abstract void OnEnd(EffectManager _effectManager);
+    public Effect(float _duration, List<StatModifyer> _modifiers) // Manual constructor for runtime.
+    {
+        duration = _duration;
+        statModifyers = _modifiers;
+    }
+
+
 }

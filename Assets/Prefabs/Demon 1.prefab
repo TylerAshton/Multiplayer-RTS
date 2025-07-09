@@ -1149,6 +1149,9 @@ GameObject:
   - component: {fileID: 3387665949539355155}
   - component: {fileID: 7400058795964908341}
   - component: {fileID: 8107652278882320344}
+  - component: {fileID: 4108056335739031360}
+  - component: {fileID: 4352039317983900972}
+  - component: {fileID: 4076452208090559733}
   m_Layer: 7
   m_Name: Demon 1
   m_TagString: Amalgam
@@ -1262,7 +1265,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.8
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
@@ -1279,7 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  hitPoints: 3
+  hitPoints: 100
   isImmune: 0
   animator: {fileID: 2865285359833913113}
   deathAnimationLength: 0.01
@@ -1459,7 +1462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &8107652278882320344
+--- !u!114 &4108056335739031360
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1468,9 +1471,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 2401997887451976919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d62199f322c82284fbce99902465c658, type: 3}
+  m_Script: {fileID: 11500000, guid: dd317351aae5f3c4798d1ead39b655c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4352039317983900972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3933d86ce24080b46a00f112f8d44f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4076452208090559733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab3487c8c3ae88499c5e7916ebb44f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsList:
+  - statType: 2
+    value: 0
 --- !u!1 &2453397364068737160
 GameObject:
   m_ObjectHideFlags: 0

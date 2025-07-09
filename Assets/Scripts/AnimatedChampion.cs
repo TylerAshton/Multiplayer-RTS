@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -5,9 +6,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
+public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction
 {
-    [SerializeField] private float moveSpeed = 4f; //movement speed multiplier
+    //[SerializeField] private float moveSpeed = 4f; //movement speed multiplier REDACTED DUE TO STAT-MANAGER
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 15f;
     [SerializeField] private float smoothSpeed = 10f;
@@ -38,6 +39,9 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
     public IFaction IFaction => this;
 
+    private Transform castTarget;
+    public Transform CastTarget => castTarget;
+
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private NetCodeAnimationManager nAnimator;
@@ -55,6 +59,10 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     [SerializeField] private TextMeshProUGUI points;
 
     public bool inShop = false;
+    private StatManager statManager;
+
+    private Vector2 mouseScreenPos = Vector3.zero;
+    public Vector2 MouseScreenPos => mouseScreenPos;
 
     void Start()
     {
@@ -65,34 +73,39 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
         {
-            Debug.LogError("Skissue");
+            Debug.LogError($"{nameof(CameraSpawner)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
-            Debug.LogError("Network object is required for cameraMovement");
+            Debug.LogError($"{nameof(NetworkObject)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
 
         if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
         {
-            Debug.LogError("NetCodeAnimationManager is required for AnimatedChampion");
-        }
-        if (!TryGetComponent<AbilityManager>(out abilityManager))
-        {
-            Debug.LogError("AbilityManager is required for AnimatedChampion");
-        }
-        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
-        {
-            Debug.LogError("AbilityPositionManager is required for AnimatedChampion");
-        }
-        if (!TryGetComponent<CharacterController>(out characterController))
-        {
-            Debug.LogError("CharacterController is required for AnimatedChampion");
+            Debug.LogError($"{nameof(NetCodeAnimationManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
         if (!TryGetComponent<EffectManager>(out effectManager))
         {
-            Debug.LogError("EffectManager is required for AnimatedChampion");
+            Debug.LogError($"{nameof(EffectManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
+        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        {
+            Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<CharacterController>(out characterController))
+        {
+            Debug.LogError($"{nameof(CharacterController)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<StatManager>(out statManager))
+        {
+            Debug.LogError($"{nameof(StatManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+
 
         if (networkObject.IsOwner)
         {
@@ -100,7 +113,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
             playerCamera = cameraSpawner.SpawnedCamera.transform.gameObject;
             if (!TryGetComponent<PlayerInput>(out playerInput))
             {
-                Debug.LogError("CharacterController is required for AnimatedChampion");
+                Debug.LogError($"{nameof(PlayerInput)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             }
             playerInput.enabled = true;
 
@@ -110,6 +123,33 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         MinimapHandler.Instance.updateList();
         MinimapHandler.Instance.createIcon(this.gameObject);
+    }
+
+    private void SetUpTargetingBall()
+    {
+        if (IsOwner)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// This is called all the time to aquire screen position and update the mouseScreenPos variable
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnPoint(InputAction.CallbackContext context)
+    {
+        mouseScreenPos = context.ReadValue<Vector2>();
+
+
+        worldPosition = new Vector3(0, 0, 0);
+
+        LayerMask environmentMask = LayerMask.GetMask("Environment");
+        Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
+        {
+            worldPosition = hit.point;
+        }
     }
 
     public void AttemptToggleUI()
@@ -253,7 +293,7 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
 
         Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
 
-        Vector3 targetVelocity = move * moveSpeed;
+        Vector3 targetVelocity = move * statManager.CurrentStats[StatType.MoveSpeed];
 
         float lerpSpeed = (movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
 
@@ -360,5 +400,34 @@ public class AnimatedChampion : NetworkBehaviour, IAbilityUser, IFaction
     private void RotationServerRpc(float x, float y, float z)
     {
         this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
+    }
+
+    public void SetTarget(Transform castTarget) // TODO: this will be updated in I believe 0.7?? - H
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ClearTarget()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Lunge(float distance, Vector3 direction, float duration)
+    {
+        StartCoroutine(LungeRoutine(distance, direction.normalized, duration));
+    }
+
+    private IEnumerator LungeRoutine(float distance, Vector3 direction, float duration)
+    {
+        float elapsed = 0f;
+        float speed = distance / duration;
+
+        while (elapsed < duration)
+        {
+            float step = speed * Time.deltaTime;
+            characterController.Move(direction * step);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }
