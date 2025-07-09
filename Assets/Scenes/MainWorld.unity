@@ -30579,7 +30579,7 @@ PrefabInstance:
     - target: {fileID: 7638822680781091495, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 803997169}
     - target: {fileID: 7638822680781091495, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
       propertyPath: offset.y
       value: 0
@@ -30589,6 +30589,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+--- !u!1 &803997169 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2328260266450214800, guid: e51134838830d1d4186f483ce73fbe9a, type: 3}
+  m_PrefabInstance: {fileID: 803997168}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &817678125
 GameObject:
   m_ObjectHideFlags: 0

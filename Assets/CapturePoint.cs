@@ -110,6 +110,13 @@ public class CapturePoint : NetworkBehaviour
 
     void Update()
     {
+        HostUpdate();
+        ClientUpdate();
+
+    }
+
+    private void HostUpdate()
+    {
         if (!IsHost) { return; }
         CheckOwner();
 
@@ -130,6 +137,14 @@ public class CapturePoint : NetworkBehaviour
             TurnOnBonfiresRpc(false, Color.black, 0);
         }
 
+    }
+
+    private void ClientUpdate()
+    {
+        if (!IsClient)
+        {
+            return;
+        }
         icon = MinimapHandler.Instance.changeCampfire(icon, owner.ToString());
     }
 
