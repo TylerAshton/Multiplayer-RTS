@@ -133,6 +133,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         Cursor.lockState = CursorLockMode.Confined;
 
+        MinimapHandler.Instance.updateList();
+        MinimapHandler.Instance.createIcon(this.gameObject);
     }
 
     private void OnDrawGizmos()
@@ -274,7 +276,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private void updatePointsUI()
     {
-        Debug.Log(points.text);
         points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
 
