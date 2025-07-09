@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
+  m_Name: Rejuvenating Burst LV2
+  m_EditorClassIdentifier: 
+  abilityID: RejuvenatingBurst2
+  abilityName: Rejuvenating Burst
+  castTime: 1
+  castPositionName: 0
+  animationTrigger: 
+  icon: {fileID: 21300000, guid: b44e8d04f053e234e8bc2467b44c2bae, type: 3}
+  abilityCost: 0
+  cooldown: 48
+  radius: 8
+  healAmount: 100
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128

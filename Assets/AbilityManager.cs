@@ -187,7 +187,7 @@ public class AbilityManager : NetworkBehaviour
 
         if (selectedTab.Abilities.Count <= _abilityIndex || selectedTab.Abilities[_abilityIndex] == null)
         {
-            Debug.LogError("Ability index out of range: " + _abilityIndex);
+            Debug.LogError($"Ability index out of range: {_abilityIndex} in gameobject: {gameObject.name}!");
             return;
         }
 

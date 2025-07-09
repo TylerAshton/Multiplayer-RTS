@@ -2682,7 +2682,7 @@ MonoBehaviour:
   deceleration: 40
   smoothSpeed: 15
   gravity: -9.81
-  primaryAbility: {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
+  primaryAbility: {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
   points: {fileID: 2214856786026772889}
   inShop: 0
   environmentMask:
@@ -3113,9 +3113,10 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Main
     abilities:
-    - {fileID: 11400000, guid: 2c3b25891acc3d943883286778422896, type: 2}
-    - {fileID: 11400000, guid: 153a5f6d042646a4ab0835467ee8be9b, type: 2}
     - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
+    - {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
+    - {fileID: 11400000, guid: 153a5f6d042646a4ab0835467ee8be9b, type: 2}
+    - {fileID: 11400000, guid: 2c3b25891acc3d943883286778422896, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &-8172366779438765040
 MonoBehaviour:

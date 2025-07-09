@@ -18,10 +18,10 @@ MonoBehaviour:
   castPositionName: 0
   animationTrigger: 
   icon: {fileID: 21300000, guid: 3fe3c2d716716964d91bc544623afa75, type: 3}
-  abilityCost: 4
-  cooldown: 0
-  radius: 40
-  healAmount: 10
+  abilityCost: 0
+  cooldown: 48
+  radius: 5
+  healAmount: 100
   layerMask:
     serializedVersion: 2
     m_Bits: 128

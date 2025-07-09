@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 42d7338f6d037c14aba80b5848df4ebb
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198504
+  packageName: Fristy Fantasy Lands 1
+  packageVersion: 1.0
+  assetPath: Assets/Fristy Fantasy Lands 1/Fristy Fantasy Lands 1/Shaders/URP/Water.shadergraph
+  uploadId: 446920
