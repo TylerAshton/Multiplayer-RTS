@@ -511,7 +511,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     {
         GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
         soul.GetComponent<NetworkObject>().Spawn();
-        soul.GetComponent<ReviveSoul>().Init(health);
+        soul.GetComponent<ReviveSoul>().Init(gameObject);
         
     }
 

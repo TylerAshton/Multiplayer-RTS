@@ -12,6 +12,7 @@ public class LobbyManager : NetworkBehaviour
     [SerializeField] private Transform AmalgamSpawnPos;
     [SerializeField] private GameObject AmalgamPlayer;
     [SerializeField] private Transform ChampionSpawnPos;
+    public Transform PChampionSpawnPos => ChampionSpawnPos;
     [SerializeField] private GameObject ChampionPlayer;
     private PlayerSpawner playerSpawner;
     private NetworkObject networkObject;

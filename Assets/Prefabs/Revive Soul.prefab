@@ -98,6 +98,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   interactionPopUp: {fileID: 1065670616881727102}
   reviveColourChange: {fileID: 7105564637803382541}
+  respawnTime: 30
 --- !u!114 &7105564637803382541
 MonoBehaviour:
   m_ObjectHideFlags: 0
