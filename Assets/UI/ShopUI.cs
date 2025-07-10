@@ -66,10 +66,10 @@ public class ShopUI : MonoBehaviour
     {
         healthButton.RegisterCallback<PointerEnterEvent>(evt => CostDisplay(500));
 
-        for (int i = 1; i < purchasableAbilities.Length; i++)
+        for (int i = 0; i < purchasableAbilities.Length; i++)
         {
-            abilityButtons[i].RegisterCallback<PointerEnterEvent>(evt => CostDisplay(purchasableAbilities[i].PurchasePrice));
-            Debug.Log(i);
+            int index = i;
+            abilityButtons[index].RegisterCallback<PointerEnterEvent>(evt => CostDisplay(purchasableAbilities[index].PurchasePrice));
         }
         /*
                 healthButton.clicked += HealthButton_clicked;

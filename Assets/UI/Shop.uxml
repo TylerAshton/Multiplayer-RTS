@@ -1,9 +1,11 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <engine:VisualElement style="flex-grow: 1;">
-        <engine:Button name="Heal" icon-image="project://database/Assets/Assets/AbilityIcons/icon2.png?fileID=2800000&amp;guid=3fe3c2d716716964d91bc544623afa75&amp;type=3#icon2" />
-        <engine:Button name="Ability1" />
-        <engine:Button name="Abiity2" />
-        <engine:Button text="Button" name="Ability3" />
+    <Style src="project://database/Assets/UI/ShopStyle.uss?fileID=7433441132597879392&amp;guid=070f74b0d2009da4a88a41151b939383&amp;type=3#ShopStyle" />
+    <engine:VisualElement name="VisualElement" class="shop-container" style="flex-grow: 1; height: 442px; width: 279px;">
+        <engine:Button name="Heal" icon-image="project://database/Assets/Assets/AbilityIcons/icon2.png?fileID=2800000&amp;guid=3fe3c2d716716964d91bc544623afa75&amp;type=3#icon2" text="edgfefgergergrg" class="ability-button" />
+        <engine:Button name="Ability1" class="ability-button" />
+        <engine:Button name="Ability2" class="ability-button" />
+        <engine:Button text="Button" name="Ability3" class="ability-button" />
+        <engine:Button text="Button" name="Ability4" class="ability-button" />
         <engine:Label text="Cost: " name="PriceLabel" />
     </engine:VisualElement>
 </engine:UXML>
