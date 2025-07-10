@@ -1,11 +1,26 @@
 .shop-container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
-    height: 120px;
-    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
 }
+
+.ability-slot-container
+{
+    position: relative;
+}
+
+.ability-slot {
+    width: 110px;
+    height: 130px;
+    position: absolute;
+}
+
 .ability-button {
     width: 100px;
     height: 100px;
@@ -15,17 +30,16 @@
     background-color: #222;
     border-width: 2px;
     border-color: white;
-    margin: 5px;
 }
 .icon {
-    width: 64px;
-    height: 64px;
+    width: 110px;
+    height: 110px;
     background-color: black;
+    background-size: contain;
     font-color: white;
-    margin-bottom: 4px;
 }
 .label {
     font-size: 12px;
     color: white;
-    -unity-text-align: lower-center;
+    -unity-text-align: middle-center;
 }
