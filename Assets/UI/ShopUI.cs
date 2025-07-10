@@ -7,15 +7,16 @@ public class ShopUI : MonoBehaviour
 {
     private const int abilityCap = 4;
 
-    private Button healthButton;
-    private Button abilityButton1;
-    private Button abilityButton2;
-    private Button abilityButton3;
-    private Button abilityButton4;
+    private VisualElement heal;
+    private VisualElement ability1;
+    private VisualElement ability2;
+    private VisualElement ability3;
+    private VisualElement ability4;
+
 
     private Label label;
 
-    private List<Button> abilityButtons = new List<Button>();
+    private List<VisualElement> abilitySlots = new List<VisualElement>();
     [SerializeField] private Ability[] purchasableAbilities = new Ability[abilityCap];
 
 
@@ -24,16 +25,16 @@ public class ShopUI : MonoBehaviour
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
         label = root.Q<Label>("PriceLabel");
-        healthButton = root.Q<Button>("Heal");
-        abilityButton1 = root.Q<Button>("Ability1");
-        abilityButton2 = root.Q<Button>("Ability2");
-        abilityButton3 = root.Q<Button>("Ability3");
-        abilityButton4 = root.Q<Button>("Ability4");
+        heal = root.Q<VisualElement>("Heal");
+        ability1 = root.Q<VisualElement>("Ability1");
+        ability2 = root.Q<VisualElement>("Ability2");
+        ability3 = root.Q<VisualElement>("Ability3");
+        ability4 = root.Q<VisualElement>("Ability4");
 
-        abilityButtons.Add(abilityButton1);
-        abilityButtons.Add(abilityButton2);
-        abilityButtons.Add(abilityButton3);
-        abilityButtons.Add(abilityButton4);
+        abilitySlots.Add(ability1);
+        abilitySlots.Add(ability2);
+        abilitySlots.Add(ability3);
+        abilitySlots.Add(ability4);
 
         if (purchasableAbilities.Length > abilityCap)
         {
@@ -69,7 +70,7 @@ public class ShopUI : MonoBehaviour
         for (int i = 0; i < purchasableAbilities.Length; i++)
         {
             int index = i;
-            abilityButtons[index].RegisterCallback<PointerEnterEvent>(evt => CostDisplay(purchasableAbilities[index].PurchasePrice));
+            abilitySlots[index].RegisterCallback<PointerEnterEvent>(evt => CostDisplay(purchasableAbilities[index].PurchasePrice));
         }
         /*
                 healthButton.clicked += HealthButton_clicked;
