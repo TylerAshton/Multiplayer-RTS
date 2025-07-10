@@ -19,7 +19,8 @@ MonoBehaviour:
   animationTrigger: FireBlast
   icon: {fileID: 21300000, guid: d8ec14304128e45409652899d27a038f, type: 3}
   abilityCost: 0
+  purchasePrice: 0
   cooldown: 30
   slowAmount: 4
   channelStats: {fileID: 11400000, guid: 90f0649252b36f84a9af74845d27ab5e, type: 2}
-  isAttached: 0
+  isAttached: 1
