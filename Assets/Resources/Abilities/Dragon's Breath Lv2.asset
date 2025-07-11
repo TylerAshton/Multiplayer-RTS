@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityID: Dragon'sBreath2
   abilityName: Dragon's Breath Lv2
   castTime: 4
-  castPositionName: 0
+  castPositionName: 4
   animationTrigger: FireBlast
   icon: {fileID: 21300000, guid: d8ec14304128e45409652899d27a038f, type: 3}
   abilityCost: 0

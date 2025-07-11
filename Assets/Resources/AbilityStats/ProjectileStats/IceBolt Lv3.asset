@@ -22,5 +22,5 @@ MonoBehaviour:
   deathVFX: {fileID: 100004, guid: a538c26b827a66e45a17c1f359fbd88b, type: 3}
   deathVFXScale: 0.009
   isAOE: 1
-  aoeRadius: 1
+  aoeRadius: 3
   penetration: 2
