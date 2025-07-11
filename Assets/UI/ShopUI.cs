@@ -8,6 +8,8 @@ public class ShopUI : MonoBehaviour
     private const int purchaseCap = 5;
     private const int abilityCap = 4;
 
+    private ChampionAbilityManager championAbilityManager;
+    private Health health;
     [SerializeField] private int healthCost = 500;
     [SerializeField] private int healthAmount = 1000;
 
@@ -27,14 +29,62 @@ public class ShopUI : MonoBehaviour
 
     private void Awake()
     {
+        if(!TryGetComponent<ChampionAbilityManager>(out championAbilityManager))
+        {
+            Debug.LogError($"{nameof(championAbilityManager)} is required in {GetType().Name} for gameobject: {gameObject.name}");
+            return;
+        }
+        if(!TryGetComponent<Health>(out health))
+        {
+            Debug.LogError($"{nameof(Health)} is required in {GetType().Name} for gameobject: {gameObject.name}");
+            return;
+        }
+
+
+        InitUIVariables();
+        CreatePurchaseSlots();
+    }
+
+    private void InitUIVariables()
+    {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
         label = root.Q<Label>("PriceLabel");
+        if (label == null)
+        {
+            Debug.LogError($"{nameof(label)} was not found in the root visual element!");
+            return;
+        }
         heal = root.Q<VisualElement>("Heal");
+        if (heal == null)
+        {
+            Debug.LogError($"{nameof(heal)} was not found in the root visual element!");
+            return;
+        }
         ability1 = root.Q<VisualElement>("Ability1");
+        if (ability1 == null)
+        {
+            Debug.LogError($"{nameof(ability1)} was not found in the root visual element!");
+            return;
+        }
         ability2 = root.Q<VisualElement>("Ability2");
+        if (ability2 == null)
+        {
+            Debug.LogError($"{nameof(ability2)} was not found in the root visual element!");
+            return;
+        }
         ability3 = root.Q<VisualElement>("Ability3");
+        if (ability3 == null)
+        {
+            Debug.LogError($"{nameof(ability3)} was not found in the root visual element!");
+            return;
+        }
         ability4 = root.Q<VisualElement>("Ability4");
+        if (ability4 == null)
+        {
+            Debug.LogError($"{nameof(ability4)} was not found in the root visual element!");
+            return;
+        }
 
         purchaseUIElements.Add(heal);
         purchaseUIElements.Add(ability1);
@@ -47,12 +97,6 @@ public class ShopUI : MonoBehaviour
             Debug.LogError($"{nameof(purchasableAbilities)} {purchasableAbilities.Length} exceeds ability cap of {abilityCap}!");
             return;
         }
-
-        CreatePurchaseSlots();
-
-
-
-
     }
 
     /// <summary>
@@ -127,7 +171,7 @@ public class ShopUI : MonoBehaviour
     {
         foreach (PurchaseSlot slot in purchaseSlots)
         {
-            slot.UnsubscribeHoverPriceLabel(label);
+            slot.SubscribeHoverPriceLabel(label);
         }
 
     }

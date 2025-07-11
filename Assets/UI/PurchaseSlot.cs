@@ -72,9 +72,12 @@ public abstract class PurchaseSlot
         if (onHoverEnter == null)
         {
             Debug.LogError($"{nameof(onHoverEnter)} is not assigned in {GetType().Name}!");
+            return;
         }
 
         purchaseButton.UnregisterCallback<MouseEnterEvent>(onHoverEnter);
         onHoverEnter = null;
     }
+
+
 }
