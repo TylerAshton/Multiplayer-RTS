@@ -33,12 +33,17 @@
     padding-top: 0px;
     padding-bottom: 0px;
 }
+
 .icon {
     width: 100px;
     height: 100px;
-    background-color: black;
     background-size: contain;
     font-color: white;
+}
+
+.ability-button:hover .icon {
+    width: 50px;
+    -unity-image-tint-color: #cfa93f;
 }
 .label {
     font-size: 12px;
