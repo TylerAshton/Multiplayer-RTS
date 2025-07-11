@@ -32,7 +32,7 @@
                 </engine:Button>
                 <engine:Label text="Ice Bolt" name="AbilityLabel" class="label" />
             </engine:VisualElement>
+            <engine:Label text="Cost: " name="PriceLabel" style="position: absolute; top: 201px; left: 873px; right: 763px; bottom: 97px; -unity-font-style: bold; font-size: 32px; -unity-text-align: middle-center;" />
         </engine:VisualElement>
     </engine:VisualElement>
-    <engine:Label text="Cost: " name="PriceLabel" />
 </engine:UXML>

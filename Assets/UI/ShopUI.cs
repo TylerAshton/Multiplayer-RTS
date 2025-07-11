@@ -1,14 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ShopUI : MonoBehaviour
+
+
+public class ShopUI : NetworkBehaviour
 {
     private const int purchaseCap = 5;
     private const int abilityCap = 4;
 
     private GameObject championGO;
+    private IShopUser championShopUser;
     private ChampionAbilityManager championAbilityManager;
     private Health championHealth;
     [SerializeField] private int healthCost = 500;
@@ -27,6 +31,8 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private Ability[] purchasableAbilities = new Ability[abilityCap];
     private List<PurchaseSlot> purchaseSlots = new List<PurchaseSlot>();
 
+    
+
 
     private void Awake()
     {
@@ -38,16 +44,18 @@ public class ShopUI : MonoBehaviour
             return;
         }
 
+        if (!championGO.TryGetComponent<IShopUser>(out championShopUser))
+        {
+            Debug.LogError($"{GetType().Name} requires {nameof(IShopUser)} within gameobject: {gameObject.name}!");
+            return;
+        }
         if (!championGO.TryGetComponent<ChampionAbilityManager>(out championAbilityManager))
         {
-            Debug.LogError($"{nameof(championAbilityManager)} is required in {GetType().Name} for gameobject: {championGO.gameObject.name}");
+            Debug.LogError($"{GetType().Name} requires {nameof(ChampionAbilityManager)} within gameobject: {gameObject.name}!");
             return;
         }
-        if(!championGO.TryGetComponent<Health>(out championHealth))
-        {
-            Debug.LogError($"{nameof(Health)} is required in {GetType().Name} for gameobject: {championGO.gameObject.name}");
-            return;
-        }
+
+
 
 
         InitUIVariables();
@@ -108,6 +116,20 @@ public class ShopUI : MonoBehaviour
         }
     }
 
+    private void RelaySlotPurchaseRequest(PurchaseSlot _purchaseSlot)
+    {
+        if (_purchaseSlot is AbilitySlot abilitySlot) // NOTE: This is fine as we'll only ever have 2 purchase elements within our scope of game
+        {
+            championShopUser.ShopPurchaseManager.HandleAbilityPurchaseRequestRpc(abilitySlot.AbilityData.AbilityID);
+        }
+        else if (_purchaseSlot is HealSlot)
+        {
+            championShopUser.ShopPurchaseManager.HandleHealPurchaseRequestRpc(healthCost, healthAmount);
+        }
+    }
+
+    
+
     /// <summary>
     /// Populates the purchaseSlots list with PurchaseSlot objects based on the UI elements defined in the purchaseUIElements list.
     /// </summary>
@@ -139,13 +161,13 @@ public class ShopUI : MonoBehaviour
                     continue;
                 }
 
-                purchaseSlot = new AbilitySlot(element, purchasableAbilities[abilityIndex]);
+                purchaseSlot = new AbilitySlot(element, championShopUser, purchasableAbilities[abilityIndex]);
                 abilityIndex++;
             }
 
             else if (element.name == "Heal")
             {
-                purchaseSlot = new HealSlot(element, healthCost, healthAmount);
+                purchaseSlot = new HealSlot(element, championShopUser, healthCost, healthAmount);
             }
 
 
@@ -168,21 +190,23 @@ public class ShopUI : MonoBehaviour
         ButtonActionsUnsubscribe();
     }
 
-    private void ButtonActionsUnsubscribe()
-    {
-        foreach (PurchaseSlot slot in purchaseSlots)
-        {
-            slot.UnsubscribeHoverPriceLabel(label);
-        }
-    }
-
     private void ButtonActionsSubscribe()
     {
         foreach (PurchaseSlot slot in purchaseSlots)
         {
             slot.SubscribeHoverPriceLabel(label);
+            slot.SubscribePurchaseButtonClickEvent();
+            slot.OnAttemptedPurchase += RelaySlotPurchaseRequest;
         }
-
+    }
+    private void ButtonActionsUnsubscribe()
+    {
+        foreach (PurchaseSlot slot in purchaseSlots)
+        {
+            slot.UnsubscribeHoverPriceLabel(label);
+            slot.UnsubscribePurchaseButtonClickEvent();
+            slot.OnAttemptedPurchase -= RelaySlotPurchaseRequest;
+        }
     }
 
     private void CostDisplay(int _cost)

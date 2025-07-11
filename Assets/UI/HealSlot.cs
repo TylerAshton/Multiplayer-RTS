@@ -6,7 +6,7 @@ public class HealSlot : PurchaseSlot
     int healCost;
     int healAmount;
     protected override int Price => healCost;
-    public HealSlot(VisualElement _purchaseSlot, int _healCost, int _healAmount) : base(_purchaseSlot)
+    public HealSlot(VisualElement _purchaseSlot, IShopUser _shopUser, int _healCost, int _healAmount) : base(_purchaseSlot, _shopUser)
     {
         if (_healCost < 0)
         {
@@ -23,5 +23,4 @@ public class HealSlot : PurchaseSlot
         this.healCost = _healCost;
         this.healAmount = _healAmount;
     }
-
 }

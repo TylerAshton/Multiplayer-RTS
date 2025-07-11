@@ -5,8 +5,18 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public interface IShopUser
+{
+    ChampionAbilityManager ChampionAbilityManager { get; }
+    Health ChampionHealth { get; }
+    int Points { get; } 
+    ShopPurchaseManager ShopPurchaseManager { get; }
+
+    ulong PlayerID { get; }
+}
+
 [RequireComponent(typeof(Animator))]
-public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable
+public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable, IShopUser
 {
     //[SerializeField] private float moveSpeed = 4f; //movement speed multiplier REDACTED DUE TO STAT-MANAGER
     [SerializeField] private float acceleration = 10f;
@@ -45,7 +55,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private NetCodeAnimationManager nAnimator;
-    private AbilityManager abilityManager;
+    private ChampionAbilityManager championAbilityManager;
     private CharacterController characterController;
     private PlayerInput playerInput;
     private ShopDisplayManager ShopDisplayManager;
@@ -65,6 +75,17 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private Vector2 mouseScreenPos = Vector3.zero;
     public Vector2 MouseScreenPos => mouseScreenPos;
 
+    public ChampionAbilityManager ChampionAbilityManager => championAbilityManager;
+
+    public Health ChampionHealth => health;
+
+    public int Points => PointManager.Instance.GetPoints(OwnerClientId);
+
+    public ulong PlayerID => OwnerClientId;
+
+    private ShopPurchaseManager shopPurchaseManager;
+    public ShopPurchaseManager ShopPurchaseManager => shopPurchaseManager;
+
     [SerializeField] private LayerMask environmentMask; // phyiscal stuff
     [SerializeField] private LayerMask characterMask; // Characters and enemies 
     [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
@@ -83,44 +104,59 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
         {
             Debug.LogError($"{nameof(CameraSpawner)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
 
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
             Debug.LogError($"{nameof(NetworkObject)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
 
         if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
         {
             Debug.LogError($"{nameof(NetCodeAnimationManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
         if (!TryGetComponent<EffectManager>(out effectManager))
         {
             Debug.LogError($"{nameof(EffectManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
-        if (!TryGetComponent<AbilityManager>(out abilityManager))
+        if (!TryGetComponent<ChampionAbilityManager>(out championAbilityManager))
         {
-            Debug.LogError($"{nameof(AbilityManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            Debug.LogError($"{nameof(ChampionAbilityManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
         if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
         {
             Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
         if (!TryGetComponent<CharacterController>(out characterController))
         {
             Debug.LogError($"{nameof(CharacterController)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
         if (!TryGetComponent<StatManager>(out statManager))
         {
             Debug.LogError($"{nameof(StatManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
         if (!TryGetComponent<Health>(out health))
         {
             Debug.LogError($"{nameof(Health)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
         if (!TryGetComponent<ShopDisplayManager>(out ShopDisplayManager))
         {
             Debug.LogError($"{nameof(ShopDisplayManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
+        }
+        if (!TryGetComponent<ShopPurchaseManager>(out shopPurchaseManager))
+        {
+            Debug.LogError($"{nameof(ShopPurchaseManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
         }
 
 
@@ -281,7 +317,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private void updatePointsUI()
     {
-        Debug.Log(points.text);
+        //Debug.Log(points.text); This was pissing me off, so I commented it out. - H
         points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
 
@@ -306,7 +342,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         if (!context.performed) return;
 
-        if (abilityManager.AbilityTabs[0].Abilities.Count < 2)
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 2)
         {
             Debug.LogWarning("No secondary ability available.");
             return;
@@ -322,7 +358,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [ServerRpc(RequireOwnership = false)]
     private void CastAbilityServerRpc(int _AbilityIndex)
     {
-        abilityManager.TryCastAbility(_AbilityIndex);
+        championAbilityManager.TryCastAbility(_AbilityIndex);
     }
 
     /// <summary>
