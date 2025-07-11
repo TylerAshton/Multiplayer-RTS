@@ -1318,6 +1318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4fd8348f57bd74b85cf601971db6e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  championShopPrefab: {fileID: 5922602120024632008, guid: 205238ca94f00ab4c9f5b7157498f0ed, type: 3}
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0

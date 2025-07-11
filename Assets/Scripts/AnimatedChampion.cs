@@ -48,6 +48,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private AbilityManager abilityManager;
     private CharacterController characterController;
     private PlayerInput playerInput;
+    private ShopDisplayManager ShopDisplayManager;
 
     private Vector3 velocity; // used for gravity shit
 
@@ -116,6 +117,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         if (!TryGetComponent<Health>(out health))
         {
             Debug.LogError($"{nameof(Health)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+        }
+        if (!TryGetComponent<ShopDisplayManager>(out ShopDisplayManager))
+        {
+            Debug.LogError($"{nameof(ShopDisplayManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
 
 
@@ -202,7 +207,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         }
     }
 
-    public void AttemptToggleUI()
+    public void AttemptToggleUI() // TODO: This should really be reworked into ShopDisplayManager
     {
         if (inShop && networkObject.IsOwner) // TODO: Move this to ShopDisplayManager?
         {
@@ -212,23 +217,25 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public void CloseShopUI()
     {
-        Debug.Log("Closing Shop");
+        /*Debug.Log("Closing Shop");
         Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
         playerShop.enabled = false;
         foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
         {
             child.gameObject.SetActive(false);
-        }
+        }*/
+        ShopDisplayManager.CloseShopUI();
     }
 
     public void ToggleUI()
     {
-        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
+/*        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
         playerShop.enabled = !playerShop.enabled;
         foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
         {
             child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
-        }
+        }*/
+        ShopDisplayManager.ToggleShopUI();
     }
 
 

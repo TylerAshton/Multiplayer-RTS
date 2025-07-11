@@ -8,8 +8,9 @@ public class ShopUI : MonoBehaviour
     private const int purchaseCap = 5;
     private const int abilityCap = 4;
 
+    private GameObject championGO;
     private ChampionAbilityManager championAbilityManager;
-    private Health health;
+    private Health championHealth;
     [SerializeField] private int healthCost = 500;
     [SerializeField] private int healthAmount = 1000;
 
@@ -29,14 +30,22 @@ public class ShopUI : MonoBehaviour
 
     private void Awake()
     {
-        if(!TryGetComponent<ChampionAbilityManager>(out championAbilityManager))
+        championGO = transform.parent.gameObject;
+
+        if (championGO == null)
         {
-            Debug.LogError($"{nameof(championAbilityManager)} is required in {GetType().Name} for gameobject: {gameObject.name}");
+            Debug.LogError($"{GetType().Name} requires a parent Champion for gameobject: {gameObject.name}");
             return;
         }
-        if(!TryGetComponent<Health>(out health))
+
+        if (!championGO.TryGetComponent<ChampionAbilityManager>(out championAbilityManager))
         {
-            Debug.LogError($"{nameof(Health)} is required in {GetType().Name} for gameobject: {gameObject.name}");
+            Debug.LogError($"{nameof(championAbilityManager)} is required in {GetType().Name} for gameobject: {championGO.gameObject.name}");
+            return;
+        }
+        if(!championGO.TryGetComponent<Health>(out championHealth))
+        {
+            Debug.LogError($"{nameof(Health)} is required in {GetType().Name} for gameobject: {championGO.gameObject.name}");
             return;
         }
 
