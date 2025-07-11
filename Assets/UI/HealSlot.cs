@@ -5,6 +5,7 @@ public class HealSlot : PurchaseSlot
 {
     int healCost;
     int healAmount;
+    protected override int Price => healCost;
     public HealSlot(VisualElement _purchaseSlot, int _healCost, int _healAmount) : base(_purchaseSlot)
     {
         if (_healCost < 0)
@@ -23,13 +24,4 @@ public class HealSlot : PurchaseSlot
         this.healAmount = _healAmount;
     }
 
-    public override void SubscribeActions()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void UnsubscribeActions()
-    {
-        throw new System.NotImplementedException();
-    }
 }

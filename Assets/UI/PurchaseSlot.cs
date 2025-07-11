@@ -10,6 +10,8 @@ public abstract class PurchaseSlot
     protected EventCallback<MouseEnterEvent> onHoverEnter;
     protected EventCallback<ClickEvent> onClickEvent;
 
+    protected abstract int Price { get; }
+
 
     public PurchaseSlot(VisualElement _purchaseSlot)
     {
@@ -38,7 +40,41 @@ public abstract class PurchaseSlot
         }
     }
 
-    public abstract void SubscribeHoverPriceLabel(Label label);
+    public void SubscribeHoverPriceLabel(Label label)
+    {
+        if (label == null)
+        {
+            Debug.LogError($"{nameof(label)} is null in {GetType().Name}!");
+            return;
+        }
 
-    public abstract void UnsubscribeHoverPriceLabel(Label label);
+        if (onHoverEnter != null) // This shouldn't be stopped as it's possibile to sub more than once legally
+        {
+            purchaseButton.UnregisterCallback(onHoverEnter);
+        }
+
+        onHoverEnter = evt =>
+        {
+            label.text = Price.ToString();
+        };
+
+        purchaseButton.RegisterCallback<MouseEnterEvent>(onHoverEnter);
+    }
+
+    public void UnsubscribeHoverPriceLabel(Label label)
+    {
+        if (label == null)
+        {
+            Debug.LogError($"{nameof(label)} is null in {GetType().Name}!");
+            return;
+        }
+
+        if (onHoverEnter == null)
+        {
+            Debug.LogError($"{nameof(onHoverEnter)} is not assigned in {GetType().Name}!");
+        }
+
+        purchaseButton.UnregisterCallback<MouseEnterEvent>(onHoverEnter);
+        onHoverEnter = null;
+    }
 }

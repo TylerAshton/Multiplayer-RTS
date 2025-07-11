@@ -119,7 +119,7 @@ public class ShopUI : MonoBehaviour
     {
         foreach (PurchaseSlot slot in purchaseSlots)
         {
-            slot.UnsubscribeActions();
+            slot.UnsubscribeHoverPriceLabel(label);
         }
     }
 
@@ -127,7 +127,7 @@ public class ShopUI : MonoBehaviour
     {
         foreach (PurchaseSlot slot in purchaseSlots)
         {
-            slot.SubscribeActions();
+            slot.UnsubscribeHoverPriceLabel(label);
         }
 
     }

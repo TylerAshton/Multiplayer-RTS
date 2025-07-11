@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class AbilitySlot : PurchaseSlot
 {
     private Ability abilityData;
+    protected override int Price => abilityData.PurchasePrice;
 
     public AbilitySlot(VisualElement _purchaseSlot, Ability _abilityData) : base(_purchaseSlot)
     {
@@ -15,41 +16,4 @@ public class AbilitySlot : PurchaseSlot
         this.abilityData = _abilityData;
     }
 
-    public override void SubscribeHoverPriceLabel(Label label)
-    {
-        if (label == null)
-        {
-            Debug.LogError($"{nameof(label)} is null in {GetType().Name}!");
-            return;
-        }
-
-        if (onHoverEnter != null) // This shouldn't be stopped as it's possibile to sub more than once legally
-        {
-            purchaseButton.UnregisterCallback(onHoverEnter);
-        }
-
-        onHoverEnter = evt =>
-        {
-            label.text = abilityData.PurchasePrice.ToString();
-        };
-
-        purchaseButton.RegisterCallback<MouseEnterEvent>(onHoverEnter);
-    }
-
-    public override void UnsubscribeHoverPriceLabel(Label label)
-    {
-        if (label == null)
-        {
-            Debug.LogError($"{nameof(label)} is null in {GetType().Name}!");
-            return;
-        }
-
-        if (onHoverEnter == null)
-        {
-            Debug.LogError($"{nameof(onHoverEnter)} is not assigned in {GetType().Name}!");
-        }
-
-        purchaseButton.UnregisterCallback<MouseEnterEvent>(onHoverEnter);
-        onHoverEnter = null;
-    }
 }
