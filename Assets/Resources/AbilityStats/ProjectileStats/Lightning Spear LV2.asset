@@ -20,7 +20,7 @@ MonoBehaviour:
   bulletVFX: {fileID: 100010, guid: c3680525f45d82543be3d8c94fe9b19f, type: 3}
   bulletVFXScale: 5.02
   deathVFX: {fileID: 100012, guid: 517d26ab6aa4e1d4082a18f6d6d73814, type: 3}
-  deathVFXScale: 1.02
+  deathVFXScale: 0.5
   isAOE: 1
   aoeRadius: 1
   penetration: 10

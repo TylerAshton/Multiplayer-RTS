@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityID: CrushingBlow
   abilityName: Crushing Blow
-  castTime: 4.62
+  castTime: 4.5
   castPositionName: 0
   animationTrigger: CrushingBlow
   icon: {fileID: 21300000, guid: 448add05846f96a48bed3a01f74e3c1c, type: 3}
   abilityCost: 0
+  purchasePrice: 0
   cooldown: 25
   slowAmount: 7
   channelStats: {fileID: 11400000, guid: ad6a4663b2f86a14d8d72a4cc4a7fc99, type: 2}
