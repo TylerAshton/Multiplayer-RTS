@@ -204,7 +204,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public void AttemptToggleUI()
     {
-        if (inShop && networkObject.IsOwner)
+        if (inShop && networkObject.IsOwner) // TODO: Move this to ShopDisplayManager?
         {
             ToggleUI();
         }
