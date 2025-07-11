@@ -759,6 +759,7 @@ GameObject:
   - component: {fileID: -4420682171599434401}
   - component: {fileID: 8123420037731375351}
   - component: {fileID: 3971837674269787782}
+  - component: {fileID: 4394188322512067527}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -1305,6 +1306,18 @@ MonoBehaviour:
     m_Bits: 1024
   interactionRange: 8
   holdTimeThreshold: 5
+--- !u!114 &4394188322512067527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4fd8348f57bd74b85cf601971db6e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,6 +3409,10 @@ PrefabInstance:
     - target: {fileID: 5685279325936207913, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685279325936207913, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6250346294641880146, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_Layer

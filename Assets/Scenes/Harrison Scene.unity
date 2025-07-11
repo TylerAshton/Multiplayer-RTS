@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 972480141}
   - component: {fileID: 972480140}
   m_Layer: 0
-  m_Name: UIShop
+  m_Name: ChampionShopUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -319,6 +319,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8142630cb01540f40890fc6a83523b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthCost: 500
+  healthAmount: 1000
   purchasableAbilities:
   - {fileID: 11400000, guid: c0008e4df8400724c9ecf82f7d7865bb, type: 2}
   - {fileID: 11400000, guid: 81735795af1971346a5220ff697a843b, type: 2}
