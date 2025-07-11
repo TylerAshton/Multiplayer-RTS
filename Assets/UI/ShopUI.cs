@@ -5,7 +5,11 @@ using UnityEngine.UIElements;
 
 public class ShopUI : MonoBehaviour
 {
+    private const int purchaseCap = 5;
     private const int abilityCap = 4;
+
+    [SerializeField] private int healthCost = 500;
+    [SerializeField] private int healthAmount = 1000;
 
     private VisualElement heal;
     private VisualElement ability1;
@@ -16,8 +20,9 @@ public class ShopUI : MonoBehaviour
 
     private Label label;
 
-    private List<VisualElement> abilitySlots = new List<VisualElement>();
+    private List<VisualElement> purchaseUIElements = new List<VisualElement>();
     [SerializeField] private Ability[] purchasableAbilities = new Ability[abilityCap];
+    private List<PurchaseSlot> purchaseSlots = new List<PurchaseSlot>();
 
 
     private void Awake()
@@ -31,10 +36,11 @@ public class ShopUI : MonoBehaviour
         ability3 = root.Q<VisualElement>("Ability3");
         ability4 = root.Q<VisualElement>("Ability4");
 
-        abilitySlots.Add(ability1);
-        abilitySlots.Add(ability2);
-        abilitySlots.Add(ability3);
-        abilitySlots.Add(ability4);
+        purchaseUIElements.Add(heal);
+        purchaseUIElements.Add(ability1);
+        purchaseUIElements.Add(ability2);
+        purchaseUIElements.Add(ability3);
+        purchaseUIElements.Add(ability4);
 
         if (purchasableAbilities.Length > abilityCap)
         {
@@ -42,9 +48,60 @@ public class ShopUI : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < purchasableAbilities.Length && purchasableAbilities[i] != null; i++)
+        CreatePurchaseSlots();
+
+
+
+
+    }
+
+    /// <summary>
+    /// Populates the purchaseSlots list with PurchaseSlot objects based on the UI elements defined in the purchaseUIElements list.
+    /// </summary>
+    private void CreatePurchaseSlots()
+    {
+        int abilityIndex = 0;
+
+        foreach (VisualElement element in purchaseUIElements)
         {
-            //Debug.Log(i);
+            PurchaseSlot purchaseSlot = null;
+
+            if (element.name.StartsWith("Ability")) // Maybe better to add this to the element class tag instead?
+            {
+                if (abilityIndex >= abilityCap)
+                {
+                    Debug.LogError($"Ability cap has been exceeded by ui element {element.name}!");
+                    continue;
+                }
+
+                if (abilityIndex >= purchasableAbilities.Length)
+                {
+                    Debug.LogError($"Not enough purchasable abilities for {element.name}! Expected {abilityCap}, found {purchasableAbilities.Length}!");
+                    continue;
+                }
+
+                if (purchasableAbilities[abilityIndex] == null)
+                {
+                    Debug.LogError($"Purchasable ability at index {abilityIndex} is null for {element.name}!");
+                    continue;
+                }
+
+                purchaseSlot = new AbilitySlot(element, purchasableAbilities[abilityIndex]);
+                abilityIndex++;
+            }
+
+            else if (element.name == "Heal")
+            {
+                purchaseSlot = new HealSlot(element, healthCost, healthAmount);
+            }
+
+
+            if (purchaseSlot == null)
+            {
+                Debug.LogError($"Could not find slot type for {element.name}");
+                continue;
+            }
+            purchaseSlots.Add(purchaseSlot);
         }
     }
 
@@ -60,21 +117,18 @@ public class ShopUI : MonoBehaviour
 
     private void ButtonActionsUnsubscribe()
     {
-        //healthButton.clicked -= HealthButton_clicked;
+        foreach (PurchaseSlot slot in purchaseSlots)
+        {
+            slot.UnsubscribeActions();
+        }
     }
 
     private void ButtonActionsSubscribe()
     {
-        healthButton.RegisterCallback<PointerEnterEvent>(evt => CostDisplay(500));
-
-        for (int i = 0; i < purchasableAbilities.Length; i++)
+        foreach (PurchaseSlot slot in purchaseSlots)
         {
-            int index = i;
-            abilitySlots[index].RegisterCallback<PointerEnterEvent>(evt => CostDisplay(purchasableAbilities[index].PurchasePrice));
+            slot.SubscribeActions();
         }
-        /*
-                healthButton.clicked += HealthButton_clicked;
-                healthButton.RegisterCallback<PointerEnterEvent>(evt => OnHealthHover());*/
 
     }
 
