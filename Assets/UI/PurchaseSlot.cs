@@ -56,6 +56,15 @@ public class PurchaseSlot
             return;
         }
         this.purchasable = _purchasable;
+
+        purchaseButton = purchaseSlot.Q<Button>("AbilityButton");
+
+        purchaseButton.style.backgroundImage = null;
+        purchaseButton.style.backgroundImage = new StyleBackground(purchasable.Icon); // TODO: This fucks hover colour somehow
+
+        purchaseLabel.text = purchasable.name;
+
+
     }
 
     protected void SubmitPurchaseRequest()

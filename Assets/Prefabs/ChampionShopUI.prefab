@@ -91,11 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  healthCost: 500
-  healthAmount: 1000
   purchasables:
   - {fileID: 11400000, guid: b373251cd48634e48b46d26eaa0bfa4f, type: 2}
-  - {fileID: 11400000, guid: c0008e4df8400724c9ecf82f7d7865bb, type: 2}
-  - {fileID: 11400000, guid: 81735795af1971346a5220ff697a843b, type: 2}
+  - {fileID: 11400000, guid: 2c3b25891acc3d943883286778422896, type: 2}
+  - {fileID: 11400000, guid: 153a5f6d042646a4ab0835467ee8be9b, type: 2}
   - {fileID: 11400000, guid: 1784e034798a97c4ba19c9d45795f2bb, type: 2}
   - {fileID: 11400000, guid: 210f3808e4b245a4eb79049b9d465d7e, type: 2}

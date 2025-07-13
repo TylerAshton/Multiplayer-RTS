@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DEBUG 4
   m_EditorClassIdentifier: 
   purchaseID: Debug 4
-  price: 0
+  price: 40
   abilityID: Debug 4
   abilityName: 
   castTime: 1

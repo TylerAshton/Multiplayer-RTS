@@ -35,12 +35,14 @@
 .icon {
     width: 100px;
     height: 100px;
-    background-size: contain;
+    background-size: cover;
     font-color: white;
+    background-image: url("project://database/Assets/Assets/Keyboard%20Letters%20and%20Symbols.png?fileID=2800000&guid=eb39836e111a9fb40b85ea4801987a6f&type=3#Keyboard Letters and Symbols");
 }
 
 .ability-button:hover .icon {
     -unity-background-image-tint-color: rgb(167, 255, 47);
+    unity-tint-color: #cfa93f;
 }
 
 .label {

@@ -15,7 +15,6 @@ public abstract class Ability : Purchasable
     [SerializeField] private float castTime = 1f;
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
     [SerializeField] private string animationTrigger;
-    [SerializeField] private Sprite icon;
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private int purchasePrice = 0;
     [SerializeField] private float cooldown = 0f;
@@ -27,7 +26,6 @@ public abstract class Ability : Purchasable
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
     public string AnimationTrigger => animationTrigger;
-    public Sprite Icon => icon;
 
     //public string PurchaseID => abilityID;
 
@@ -61,8 +59,8 @@ public abstract class Ability : Purchasable
         }
 
 
+        PointManager.Instance.RemovePoints(_shopUser.PlayerID, this.price);
         _shopUser.ChampionAbilityManager.AddAbility(this, 0);
-        PointManager.Instance.RemovePoints(_shopUser.PlayerID, this.PurchasePrice);
     }
 
     /// <summary>
