@@ -31,10 +31,11 @@ public abstract class Ability : Purchasable
 
     public string PurchaseID => abilityID;
 
-    private void OnValidate()
+/*    private void OnValidate()
     {
         purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
-    }
+        price = purchasePrice;
+    }*/
 
     public override bool CanPurchase(IShopUser _shopUser)
     {

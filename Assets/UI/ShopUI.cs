@@ -8,8 +8,6 @@ using UnityEngine.UIElements;
 
 public class ShopUI : NetworkBehaviour
 {
-    private const int purchaseCap = 5;
-    private const int abilityCap = 4;
 
     private GameObject championGO;
     private IShopUser championShopUser;
@@ -28,7 +26,7 @@ public class ShopUI : NetworkBehaviour
     private Label label;
 
     private List<VisualElement> purchaseUIElements = new List<VisualElement>();
-    [SerializeField] private Purchasable[] purchasables = new Purchasable[purchaseCap];
+    [SerializeField] private List<Purchasable> purchasables = new List<Purchasable>();
     private List<PurchaseSlot> purchaseSlots = new List<PurchaseSlot>();
 
     
@@ -109,9 +107,9 @@ public class ShopUI : NetworkBehaviour
         purchaseUIElements.Add(ability3);
         purchaseUIElements.Add(ability4);
 
-        if (purchasables.Length > abilityCap)
+        if (purchasables.Count > purchaseUIElements.Count)
         {
-            Debug.LogError($"{nameof(purchasables)} {purchasables.Length} exceeds ability cap of {abilityCap}!");
+            Debug.LogError($"{nameof(purchasables)} {purchasables.Count} is bigger than the amount of buttons we have {purchaseUIElements.Count}!");
             return;
         }
     }
@@ -135,48 +133,31 @@ public class ShopUI : NetworkBehaviour
     /// </summary>
     private void CreatePurchaseSlots()
     {
-        int abilityIndex = 0;
+        int purchasableIndex = 0; // TODO: Use a fucking FOR LOOP
 
-        foreach (VisualElement element in purchaseUIElements)
+        if (purchaseUIElements.Count < purchasables.Count)
         {
-            PurchaseSlot purchaseSlot = null;
+            Debug.LogError($"Too many {nameof(Purchasable)}s to fit in our {purchaseUIElements.Count} purchase slots!");
+            return;
+        }
 
-            if (element.name.StartsWith("Ability")) // Maybe better to add this to the element class tag instead?
+        for (int i = 0; i < purchaseUIElements.Count; i++)
+        {
+            Purchasable purchasable = purchasables[i];
+            VisualElement purchaseUIElement = purchaseUIElements[i];
+
+            if (purchasable == null)
             {
-                if (abilityIndex >= abilityCap)
-                {
-                    Debug.LogError($"Ability cap has been exceeded by ui element {element.name}!");
-                    continue;
-                }
-
-                if (abilityIndex >= purchasables.Length)
-                {
-                    Debug.LogError($"Not enough purchasable abilities for {element.name}! Expected {abilityCap}, found {purchasables.Length}!");
-                    continue;
-                }
-
-                if (purchasables[abilityIndex] == null)
-                {
-                    Debug.LogError($"Purchasable ability at index {abilityIndex} is null for {element.name}!");
-                    continue;
-                }
-
-                purchaseSlot = new PurchaseSlot(element, championShopUser, purchasables[abilityIndex]);
-                abilityIndex++;
+                Debug.LogError($"Index {i} is null in {nameof(purchasables)}!");
+            }
+            if (purchaseUIElement == null)
+            {
+                Debug.LogError($"Index {i} is null in {nameof(purchaseUIElements)}!");
             }
 
-            else if (element.name == "Heal")
-            {
-                purchaseSlot = new PurchaseSlot(element, championShopUser, purchasables[abilityIndex]);
-            }
+            PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasables[purchasableIndex]);
 
-
-            if (purchaseSlot == null)
-            {
-                Debug.LogError($"Could not find slot type for {element.name}");
-                continue;
-            }
-            purchaseSlots.Add(purchaseSlot);
+            purchaseSlots.Add(newPurchaseSlot);
         }
     }
 

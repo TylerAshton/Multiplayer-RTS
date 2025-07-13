@@ -5,7 +5,7 @@ public abstract class Purchasable : ScriptableObject
     [SerializeField] protected string purchaseID;
     public string PurchaseID => purchaseID;
 
-    private int price;
+    [SerializeField] protected int price;
     public int Price => price;
 
     public virtual bool CanPurchase(IShopUser _shopUser)
