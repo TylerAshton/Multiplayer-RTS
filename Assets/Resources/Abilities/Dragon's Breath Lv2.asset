@@ -14,15 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   purchaseID: Dragon'sBreath2
   price: 0
-  abilityID: Dragon'sBreath2
-  abilityName: Dragon's Breath Lv2
-  castTime: 4
-  castPositionName: 0
-  animationTrigger: FireBlast
   icon: {fileID: 21300000, guid: d8ec14304128e45409652899d27a038f, type: 3}
+  abilityID: Dragon'sBreath2
+  castTime: 4
+  castPositionName: 4
+  animationTrigger: FireBlast
   abilityCost: 0
-  purchasePrice: 0
   cooldown: 35
   slowAmount: 4
   channelStats: {fileID: 11400000, guid: 90f0649252b36f84a9af74845d27ab5e, type: 2}
-  isAttached: 0
+  isAttached: 1
