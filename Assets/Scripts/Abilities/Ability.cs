@@ -9,20 +9,17 @@ using UnityEngine;
 public abstract class Ability : Purchasable
 {
     [SerializeField] private string abilityID = string.Empty;
-    [SerializeField] private string abilityName = string.Empty;
     public string AbilityID => abilityID;
-    public string AbilityName => abilityName;
+    public string AbilityName => this.name; // This probably isn't needed but cba to refactor some stuff
     [SerializeField] private float castTime = 1f;
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
     [SerializeField] private string animationTrigger;
     [SerializeField] private int abilityCost = 0;
-    [SerializeField] private int purchasePrice = 0;
     [SerializeField] private float cooldown = 0f;
 
     public float Cooldown => cooldown;
 
     public int AbilityCost => abilityCost;
-    public int PurchasePrice => purchasePrice;
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
     public string AnimationTrigger => animationTrigger;
@@ -102,8 +99,12 @@ public abstract class Ability : Purchasable
             EditorGUILayout.HelpBox("Ability ID Can't be null", MessageType.Error);
         }
 
-        SerializedProperty fieldName = _so.FindProperty("abilityName");
-        fieldName.stringValue = EditorGUILayout.TextField("Name", fieldName.stringValue);
+        SerializedProperty fieldShopPrice = _so.FindProperty("price");
+        fieldShopPrice.intValue = EditorGUILayout.IntField("Shop Price", fieldShopPrice.intValue);
+        if (fieldShopPrice.intValue < 0)
+        {
+            EditorGUILayout.HelpBox("Shop price cannot be less than zero!", MessageType.Error);
+        }
 
         SerializedProperty fieldAnimationTrigger = _so.FindProperty("animationTrigger");
         fieldAnimationTrigger.stringValue = EditorGUILayout.TextField("Animation Trigger", fieldAnimationTrigger.stringValue); // TODO: Remove?
@@ -122,15 +123,6 @@ public abstract class Ability : Purchasable
         {
             EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
         }
-
-        SerializedProperty fieldPurchaseCost = _so.FindProperty("purchasePrice");
-        fieldPurchaseCost.intValue = EditorGUILayout.IntField("Purchase Cost", fieldPurchaseCost.intValue);
-        if (fieldPurchaseCost.intValue < 0)
-        {
-            EditorGUILayout.HelpBox("Purchase Cost cannot be negative!", MessageType.Error);
-        }
-
-
 
         SerializedProperty fieldCastPos = _so.FindProperty("castPositionName");
         fieldCastPos.enumValueIndex = EditorGUILayout.Popup("Cast Position", fieldCastPos.enumValueIndex, fieldCastPos.enumDisplayNames);
