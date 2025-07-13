@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 
 
-public class ShopUI : NetworkBehaviour
+public class ShopUI : MonoBehaviour
 {
 
     private GameObject championGO;
@@ -101,20 +101,6 @@ public class ShopUI : NetworkBehaviour
         }
     }
 
-/*    private void RelaySlotPurchaseRequest(PurchaseSlot _purchaseSlot)
-    {
-        if (_purchaseSlot is AbilitySlot abilitySlot) // NOTE: This is fine as we'll only ever have 2 purchase elements within our scope of game
-        {
-            championShopUser.ShopPurchaseManager.HandleAbilityPurchaseRequestRpc(abilitySlot.AbilityData.AbilityID);
-        }
-        else if (_purchaseSlot is HealSlot)
-        {
-            championShopUser.ShopPurchaseManager.HandleHealPurchaseRequestRpc(healthCost, healthAmount);
-        }
-    }*/
-
-    
-
     /// <summary>
     /// Populates the purchaseSlots list with PurchaseSlot objects based on the UI elements defined in the purchaseUIElements list.
     /// </summary>
@@ -128,16 +114,20 @@ public class ShopUI : NetworkBehaviour
 
         for (int i = 0; i < purchaseUIElements.Count; i++)
         {
-            Purchasable purchasable = purchasables[i];
             VisualElement purchaseUIElement = purchaseUIElements[i];
+            Purchasable purchasable = (i < purchasables.Count) ? purchasables[i] : null; // gotta do this shit or it'll error on empty
 
-            if (purchasable == null)
-            {
-                Debug.LogError($"Index {i} is null in {nameof(purchasables)}!");
-            }
             if (purchaseUIElement == null)
             {
                 Debug.LogError($"Index {i} is null in {nameof(purchaseUIElements)}!");
+            }
+
+            // Hide button if we're out of purchasables
+            if (purchasable == null)
+            {
+                purchaseUIElement.style.visibility = Visibility.Hidden;
+                Debug.LogWarning($"Index {i} is null in {nameof(purchasables)}!");
+                continue;
             }
 
             PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasables[i]);

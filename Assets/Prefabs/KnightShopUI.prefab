@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -8130628226513115743}
   - component: {fileID: 1991467521374962832}
   m_Layer: 0
-  m_Name: ChampionShopUI
+  m_Name: KnightShopUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1301183176
+  GlobalObjectIdHash: 178011670
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -90,10 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8142630cb01540f40890fc6a83523b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
   purchasables:
   - {fileID: 11400000, guid: b373251cd48634e48b46d26eaa0bfa4f, type: 2}
   - {fileID: 11400000, guid: 2c3b25891acc3d943883286778422896, type: 2}
   - {fileID: 11400000, guid: 153a5f6d042646a4ab0835467ee8be9b, type: 2}
-  - {fileID: 11400000, guid: 1784e034798a97c4ba19c9d45795f2bb, type: 2}
-  - {fileID: 11400000, guid: 210f3808e4b245a4eb79049b9d465d7e, type: 2}
+  - {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
