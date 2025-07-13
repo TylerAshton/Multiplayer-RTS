@@ -353,7 +353,7 @@ public class CapturePoint : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void CloseShopRpc(ulong _ID)
+    void CloseShopRpc(ulong _ID) // TODO: This needs polishing as UI only exists on the client
     {
         NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.GetComponent<AnimatedChampion>().CloseShopUI();
     }

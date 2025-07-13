@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861e46c58c190cc4589f84dd658eb3ae, type: 3}
   m_Name: DEBUG 1
   m_EditorClassIdentifier: 
+  purchaseID: Debug 1
+  price: 0
   abilityID: Debug 1
   abilityName: 
   castTime: 1

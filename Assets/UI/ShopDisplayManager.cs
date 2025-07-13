@@ -37,12 +37,22 @@ public class ShopDisplayManager : NetworkBehaviour
 
     public void CloseShopUI()
     {
+        if (!IsOwner)
+        {
+            Debug.LogWarning("Attempted to close shop UI when not owner");
+            return; 
+        }
         Debug.Log("Closing Shop");
         shopUIDocument.rootVisualElement.style.display = DisplayStyle.None;
     }
 
     public void ToggleShopUI()
     {
+        if (!IsOwner)
+        {
+            Debug.LogWarning("Attempted to toggle shop UI when not owner");
+            return;
+        }
         shopUIDocument.rootVisualElement.style.display =
             shopUIDocument.rootVisualElement.style.display == DisplayStyle.None ?
             DisplayStyle.Flex : DisplayStyle.None;

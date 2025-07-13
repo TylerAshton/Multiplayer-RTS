@@ -11,10 +11,6 @@ public class ShopUI : NetworkBehaviour
 
     private GameObject championGO;
     private IShopUser championShopUser;
-    private ChampionAbilityManager championAbilityManager;
-    private Health championHealth;
-    [SerializeField] private int healthCost = 500;
-    [SerializeField] private int healthAmount = 1000;
 
     private VisualElement heal;
     private VisualElement ability1;
@@ -22,8 +18,7 @@ public class ShopUI : NetworkBehaviour
     private VisualElement ability3;
     private VisualElement ability4;
 
-
-    private Label label;
+    private Label priceLabel;
 
     private List<VisualElement> purchaseUIElements = new List<VisualElement>();
     [SerializeField] private List<Purchasable> purchasables = new List<Purchasable>();
@@ -47,14 +42,6 @@ public class ShopUI : NetworkBehaviour
             Debug.LogError($"{GetType().Name} requires {nameof(IShopUser)} within gameobject: {gameObject.name}!");
             return;
         }
-        if (!championGO.TryGetComponent<ChampionAbilityManager>(out championAbilityManager))
-        {
-            Debug.LogError($"{GetType().Name} requires {nameof(ChampionAbilityManager)} within gameobject: {gameObject.name}!");
-            return;
-        }
-
-
-
 
         InitUIVariables();
         CreatePurchaseSlots();
@@ -64,10 +51,10 @@ public class ShopUI : NetworkBehaviour
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
 
-        label = root.Q<Label>("PriceLabel");
-        if (label == null)
+        priceLabel = root.Q<Label>("PriceLabel");
+        if (priceLabel == null)
         {
-            Debug.LogError($"{nameof(label)} was not found in the root visual element!");
+            Debug.LogError($"{nameof(priceLabel)} was not found in the root visual element!");
             return;
         }
         heal = root.Q<VisualElement>("Heal");
@@ -133,8 +120,6 @@ public class ShopUI : NetworkBehaviour
     /// </summary>
     private void CreatePurchaseSlots()
     {
-        int purchasableIndex = 0; // TODO: Use a fucking FOR LOOP
-
         if (purchaseUIElements.Count < purchasables.Count)
         {
             Debug.LogError($"Too many {nameof(Purchasable)}s to fit in our {purchaseUIElements.Count} purchase slots!");
@@ -155,7 +140,7 @@ public class ShopUI : NetworkBehaviour
                 Debug.LogError($"Index {i} is null in {nameof(purchaseUIElements)}!");
             }
 
-            PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasables[purchasableIndex]);
+            PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasables[i]);
 
             purchaseSlots.Add(newPurchaseSlot);
         }
@@ -175,7 +160,7 @@ public class ShopUI : NetworkBehaviour
     {
         foreach (PurchaseSlot slot in purchaseSlots)
         {
-            slot.SubscribeHoverPriceLabel(label);
+            slot.SubscribeHoverPriceLabel(priceLabel);
             slot.SubscribePurchaseButtonClickEvent();
 /*            slot.OnAttemptedPurchase += RelaySlotPurchaseRequest;*/
         }
@@ -184,7 +169,7 @@ public class ShopUI : NetworkBehaviour
     {
         foreach (PurchaseSlot slot in purchaseSlots)
         {
-            slot.UnsubscribeHoverPriceLabel(label);
+            slot.UnsubscribeHoverPriceLabel(priceLabel);
             slot.UnsubscribePurchaseButtonClickEvent();
 /*            slot.OnAttemptedPurchase -= RelaySlotPurchaseRequest;*/
         }
@@ -192,6 +177,6 @@ public class ShopUI : NetworkBehaviour
 
     private void CostDisplay(int _cost)
     {
-        label.text = $"Cost: {_cost}";
+        priceLabel.text = $"Cost: {_cost}";
     }
 }
