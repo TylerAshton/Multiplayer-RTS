@@ -19,7 +19,7 @@ MonoBehaviour:
   castTime: 1
   castPositionName: 0
   animationTrigger: 
-  icon: {fileID: 21300000, guid: 0d3301ccf4b1d7243afda09fcd959c83, type: 3}
+  icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
   abilityCost: 0
   purchasePrice: 0
   cooldown: 0

@@ -19,7 +19,7 @@ MonoBehaviour:
   castTime: 1
   castPositionName: 1
   animationTrigger: ProjectileAttack
-  icon: {fileID: 21300000, guid: dcc2e75424959f04697a0ba5ea47d5f4, type: 3}
+  icon: {fileID: 21300000, guid: cf5936511a0dd6b498f3098d28b2fb55, type: 3}
   abilityCost: 0
   purchasePrice: 0
   cooldown: 0
