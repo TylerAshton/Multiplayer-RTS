@@ -1,4 +1,4 @@
-using Unity.Netcode;
+/*using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,5 +34,9 @@ public class AbilitySlot : PurchaseSlot
         return true;
     }
 
-
+    protected override void SubmitPurchaseRequest()
+    {
+        //shopUser.ShopPurchaseManager.TryPurchaseAbility(abilityData.AbilityID)
+    }
 }
+*/

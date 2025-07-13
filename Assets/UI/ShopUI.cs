@@ -28,7 +28,7 @@ public class ShopUI : NetworkBehaviour
     private Label label;
 
     private List<VisualElement> purchaseUIElements = new List<VisualElement>();
-    [SerializeField] private Ability[] purchasableAbilities = new Ability[abilityCap];
+    [SerializeField] private Purchasable[] purchasables = new Purchasable[purchaseCap];
     private List<PurchaseSlot> purchaseSlots = new List<PurchaseSlot>();
 
     
@@ -109,14 +109,14 @@ public class ShopUI : NetworkBehaviour
         purchaseUIElements.Add(ability3);
         purchaseUIElements.Add(ability4);
 
-        if (purchasableAbilities.Length > abilityCap)
+        if (purchasables.Length > abilityCap)
         {
-            Debug.LogError($"{nameof(purchasableAbilities)} {purchasableAbilities.Length} exceeds ability cap of {abilityCap}!");
+            Debug.LogError($"{nameof(purchasables)} {purchasables.Length} exceeds ability cap of {abilityCap}!");
             return;
         }
     }
 
-    private void RelaySlotPurchaseRequest(PurchaseSlot _purchaseSlot)
+/*    private void RelaySlotPurchaseRequest(PurchaseSlot _purchaseSlot)
     {
         if (_purchaseSlot is AbilitySlot abilitySlot) // NOTE: This is fine as we'll only ever have 2 purchase elements within our scope of game
         {
@@ -126,7 +126,7 @@ public class ShopUI : NetworkBehaviour
         {
             championShopUser.ShopPurchaseManager.HandleHealPurchaseRequestRpc(healthCost, healthAmount);
         }
-    }
+    }*/
 
     
 
@@ -149,25 +149,25 @@ public class ShopUI : NetworkBehaviour
                     continue;
                 }
 
-                if (abilityIndex >= purchasableAbilities.Length)
+                if (abilityIndex >= purchasables.Length)
                 {
-                    Debug.LogError($"Not enough purchasable abilities for {element.name}! Expected {abilityCap}, found {purchasableAbilities.Length}!");
+                    Debug.LogError($"Not enough purchasable abilities for {element.name}! Expected {abilityCap}, found {purchasables.Length}!");
                     continue;
                 }
 
-                if (purchasableAbilities[abilityIndex] == null)
+                if (purchasables[abilityIndex] == null)
                 {
                     Debug.LogError($"Purchasable ability at index {abilityIndex} is null for {element.name}!");
                     continue;
                 }
 
-                purchaseSlot = new AbilitySlot(element, championShopUser, purchasableAbilities[abilityIndex]);
+                purchaseSlot = new PurchaseSlot(element, championShopUser, purchasables[abilityIndex]);
                 abilityIndex++;
             }
 
             else if (element.name == "Heal")
             {
-                purchaseSlot = new HealSlot(element, championShopUser, healthCost, healthAmount);
+                purchaseSlot = new PurchaseSlot(element, championShopUser, purchasables[abilityIndex]);
             }
 
 
@@ -196,7 +196,7 @@ public class ShopUI : NetworkBehaviour
         {
             slot.SubscribeHoverPriceLabel(label);
             slot.SubscribePurchaseButtonClickEvent();
-            slot.OnAttemptedPurchase += RelaySlotPurchaseRequest;
+/*            slot.OnAttemptedPurchase += RelaySlotPurchaseRequest;*/
         }
     }
     private void ButtonActionsUnsubscribe()
@@ -205,7 +205,7 @@ public class ShopUI : NetworkBehaviour
         {
             slot.UnsubscribeHoverPriceLabel(label);
             slot.UnsubscribePurchaseButtonClickEvent();
-            slot.OnAttemptedPurchase -= RelaySlotPurchaseRequest;
+/*            slot.OnAttemptedPurchase -= RelaySlotPurchaseRequest;*/
         }
     }
 

@@ -2,22 +2,21 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class PurchaseSlot
+public class PurchaseSlot
 {
     protected VisualElement purchaseSlot;
     protected Button purchaseButton;
     protected Label purchaseLabel;
     protected IShopUser shopUser;
+    protected Purchasable purchasable;
 
     protected EventCallback<MouseEnterEvent> onHoverEnter;
     protected EventCallback<ClickEvent> onClickEvent;
 
     public event Action<PurchaseSlot> OnAttemptedPurchase;
 
-    protected abstract int Price { get; }
 
-
-    public PurchaseSlot(VisualElement _purchaseSlot, IShopUser _shopUser)
+    public PurchaseSlot(VisualElement _purchaseSlot, IShopUser _shopUser, Purchasable _purchasable)
     {
         if (_purchaseSlot == null)
         {
@@ -50,16 +49,18 @@ public abstract class PurchaseSlot
         }
 
         this.shopUser = _shopUser;
+
+        if (_purchasable == null)
+        {
+            Debug.LogError($"{nameof(_purchasable)} is null in {GetType().Name}!");
+            return;
+        }
+        this.purchasable = _purchasable;
     }
 
-    public virtual bool CanPurchase()
+    protected void SubmitPurchaseRequest()
     {
-        if (shopUser.Points < Price)
-        {
-            Debug.LogWarning($"Not enough gold to purchase! Required: {Price}, Available: {shopUser.Points}");
-            return false;
-        }
-        return true;
+        shopUser.ShopPurchaseManager.HandlePurchaseRequestRpc(purchasable.PurchaseID);
     }
 
     public void SubscribePurchaseButtonClickEvent()
@@ -70,7 +71,7 @@ public abstract class PurchaseSlot
         }
         onClickEvent = evt =>
         {
-            if (CanPurchase()) { OnAttemptedPurchase.Invoke(this); }
+            if (purchasable.CanPurchase(shopUser)) { SubmitPurchaseRequest(); }
         };
         purchaseButton.RegisterCallback(onClickEvent);
     }
@@ -104,7 +105,7 @@ public abstract class PurchaseSlot
 
         onHoverEnter = evt =>
         {
-            label.text = Price.ToString();
+            label.text = purchasable.Price.ToString();
         };
 
         purchaseButton.RegisterCallback<MouseEnterEvent>(onHoverEnter);

@@ -6,7 +6,7 @@ using UnityEngine;
 /// all kinds of abilities
 /// </summary>
 [System.Serializable]
-public abstract class Ability : ScriptableObject
+public abstract class Ability : Purchasable
 {
     [SerializeField] private string abilityID = string.Empty;
     [SerializeField] private string abilityName = string.Empty;
@@ -28,6 +28,42 @@ public abstract class Ability : ScriptableObject
     public AbilityPosition CastPositionName => castPositionName;
     public string AnimationTrigger => animationTrigger;
     public Sprite Icon => icon;
+
+    public string PurchaseID => abilityID;
+
+    private void OnValidate()
+    {
+        purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
+    }
+
+    public override bool CanPurchase(IShopUser _shopUser)
+    {
+        if (base.CanPurchase(_shopUser) == false)
+        {
+            return false;
+        }
+
+        if (_shopUser.ChampionAbilityManager.CheckAbility(this))
+        {
+            Debug.LogWarning($"Ability {this.AbilityName} is already owned by the user.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public override void ExecutePurchase(IShopUser _shopUser)
+    {
+        if (!CanPurchase(_shopUser))
+        {
+            Debug.LogError("Cannot purchase conditions aren't met!");
+            return;
+        }
+
+
+        _shopUser.ChampionAbilityManager.AddAbility(this, 0);
+        PointManager.Instance.RemovePoints(_shopUser.PlayerID, this.PurchasePrice);
+    }
 
     /// <summary>
     /// Phantom function form for Activate which allows different types of ability classes to type cast

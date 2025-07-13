@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.UIElements;
 
 public class HealSlot : PurchaseSlot
@@ -23,4 +23,9 @@ public class HealSlot : PurchaseSlot
         this.healCost = _healCost;
         this.healAmount = _healAmount;
     }
-}
+
+    protected override void SubmitPurchaseRequest()
+    {
+        throw new System.NotImplementedException();
+    }
+}*/
