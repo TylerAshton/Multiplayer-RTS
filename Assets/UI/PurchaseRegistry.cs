@@ -15,14 +15,14 @@ public class PurchaseRegistry
     /// <param name="_purchasable"></param>
     public static void Register(string _purchaseID, Purchasable _purchasable)
     {
+        if (_purchaseID == null || _purchaseID == string.Empty)
+        {
+            Debug.LogError($"{_purchasable.GetType().Name} - {_purchasable.name} ID | {_purchaseID} is null or empty.");
+            return;
+        }
         if (purchasables.ContainsKey(_purchaseID))
         {
             Debug.LogError($"Attempted to register an {_purchasable.GetType().Name} ({_purchaseID}) that is alrady registered");
-            return;
-        }
-        if (_purchaseID == null || _purchaseID == string.Empty)
-        {
-            Debug.LogError($"{_purchasable.GetType().Name} ID | {_purchaseID} is null or empty.");
             return;
         }
 

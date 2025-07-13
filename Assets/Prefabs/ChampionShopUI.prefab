@@ -94,7 +94,7 @@ MonoBehaviour:
   healthCost: 500
   healthAmount: 1000
   purchasables:
-  - {fileID: 11400000, guid: 45359c14d4fae6943bacb13202b3f3b8, type: 2}
+  - {fileID: 11400000, guid: b373251cd48634e48b46d26eaa0bfa4f, type: 2}
   - {fileID: 11400000, guid: c0008e4df8400724c9ecf82f7d7865bb, type: 2}
   - {fileID: 11400000, guid: 81735795af1971346a5220ff697a843b, type: 2}
   - {fileID: 11400000, guid: 1784e034798a97c4ba19c9d45795f2bb, type: 2}
