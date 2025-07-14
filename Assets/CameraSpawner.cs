@@ -11,6 +11,7 @@ public class CameraSpawner : MonoBehaviour
 
     protected GameObject spawnedCamera;
     protected CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera VirtualCamera => virtualCamera;
     public GameObject SpawnedCamera => spawnedCamera;
     private Camera spawnedCameraComponent;
     [SerializeField] private Vector3 cameraSpawnOffset;
@@ -32,12 +33,24 @@ public class CameraSpawner : MonoBehaviour
     protected virtual void SpawnCamera()
     {
         spawnedCamera = Instantiate(cameraPrefab, transform.position, cameraPrefab.transform.rotation);
-        spawnedCameraComponent = spawnedCamera.GetComponent<Camera>();
+        if (!spawnedCamera.TryGetComponent<Camera>(out spawnedCameraComponent))
+        {
+            Debug.LogError($"{nameof(Camera)} was not found on {spawnedCamera.name}!");
+            return;
+        }
         spawnedCamera.transform.position += cameraSpawnOffset;
+
+        virtualCamera = spawnedCamera.GetComponentInChildren<CinemachineVirtualCamera>();
+        if (virtualCamera == null)
+        {
+            Debug.LogError($"{nameof(CinemachineVirtualCamera)} not found!");
+            return;
+        }
+
 
         if (cameraTarget)
         {
-            virtualCamera = spawnedCamera.GetComponentInChildren<CinemachineVirtualCamera>();
+            
             virtualCamera.Follow = cameraTarget;
             virtualCamera.LookAt = cameraTarget;
             virtualCamera.enabled = true;

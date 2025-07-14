@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -15,20 +16,25 @@ public class CameraMovement : NetworkBehaviour
     [SerializeField] private float panningEdgeThreshold = 100;
     [SerializeField] private float maxZoom = 300;
     [SerializeField] private float targetZoom = 200;
+    private float currentZoom;
+    [SerializeField] private float zoomSensitivity = 1;
+    [SerializeField] private float zoomSpeed = 5f;
     [SerializeField] private Transform panningTarget;
+    [SerializeField] private Vector3 panningRotationOffset;
     private float minZoom = 0;
     private Vector3 startPosition = Vector3.zero;
-
-    [SerializeField] private float zoomSensitivity = 1;
-    Camera cameraComp;
-    GameObject mainCamera;
+    private CameraSpawner cameraSpawner;
+    private Camera cameraComp;
+    private GameObject mainCamera;
+    private CinemachineVirtualCamera virtualCamera;
+    private CinemachineTransposer transposer;
+    private Vector3 originalFollowOffset;
     private NetworkObject networkObject;
     private Vector2 panStartPos;
     private Vector2 screenPosition => rtsPlayerControls.MouseScreenPos;
 
     float screenWidth = Screen.width;
     float screenHeight = Screen.height;
-    [SerializeField] private Vector3 panningRotationOffset;
 
     private void Awake()
     {
@@ -51,11 +57,46 @@ public class CameraMovement : NetworkBehaviour
         mainCamera = Camera.main.gameObject;
         startPosition = mainCamera.transform.position;
         targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
-        cameraComp = mainCamera.GetComponent<Camera>();
-        rtsPlayerControls = GetComponent<RTSPlayerControls>();
+        currentZoom = targetZoom;
 
-        
+        if (!mainCamera.TryGetComponent<Camera>(out cameraComp))
+        {
+            Debug.LogError($"{nameof(Camera)} was not found in MainCamera!");
+            return;
+        }
 
+        if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
+        {
+            Debug.LogError($"{nameof(CameraSpawner)} was not found on {gameObject.name} and is required for {GetType().Name}!");
+            return;
+        }
+
+        if (!TryGetComponent<RTSPlayerControls>(out rtsPlayerControls))
+        {
+            Debug.LogError($"{nameof(RTSPlayerControls)} was not found on {gameObject.name} and is required for {GetType().Name}!");
+            return;
+        }
+
+        SetVirtualCamera(cameraSpawner.VirtualCamera);
+        if (virtualCamera == null)
+        {
+            Debug.LogError($"{nameof(CinemachineVirtualCamera)} is " +
+            $"required to be set via {nameof(SetVirtualCamera)} before {nameof(Init)} is called!");
+            return;
+        }
+
+        transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        originalFollowOffset = transposer.m_FollowOffset;
+    }
+
+    public void SetVirtualCamera(CinemachineVirtualCamera _virtualCamera)
+    {
+        if (_virtualCamera == null)
+        {
+            Debug.LogError($"{nameof(_virtualCamera)} was null!");
+        }
+
+        virtualCamera = _virtualCamera;
     }
 
     // Update is called once per frame
@@ -75,12 +116,15 @@ public class CameraMovement : NetworkBehaviour
             //ApplyPan(isMouseNearScreenEdge());
         }
 
+        UpdateCurrentZoom();
         ApplyZoom();
     }
 
     private void ApplyZoom()
     {
-        mainCamera.transform.position = startPosition + (mainCamera.transform.forward * targetZoom);
+        //panningTarget.transform.position = startPosition + (mainCamera.transform.forward * targetZoom);
+        Vector3 offset = originalFollowOffset + (mainCamera.transform.forward * currentZoom);
+        transposer.m_FollowOffset = offset;
     }
 
     /// <summary>
@@ -163,6 +207,11 @@ public class CameraMovement : NetworkBehaviour
     {
         float newZoom = Mathf.Clamp(targetZoom + (_zoomChange * zoomSensitivity), minZoom, maxZoom);
         targetZoom = newZoom;
+    }
+
+    private void UpdateCurrentZoom()
+    {
+        currentZoom = Mathf.Lerp(currentZoom, targetZoom, Time.deltaTime * zoomSpeed);
     }
 
     /// <summary>
