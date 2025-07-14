@@ -1,6 +1,8 @@
 using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent (typeof(RTSPlayerControls))]
 public class CameraMovement : NetworkBehaviour
@@ -132,6 +134,25 @@ public class CameraMovement : NetworkBehaviour
     private void ApplyPan(Vector3 _panningVector)
     {
         panningTarget.position += _panningVector * Time.deltaTime;
+
+        // Clamp to bounds
+        panningTarget.position = ClampToBounds(panningTarget.position, MapManager.MapBounds);
+
+
+    }
+
+    /// <summary>
+    /// Clamps the Vector3 pos within the bounds given. Used to panning clamps
+    /// </summary>
+    /// <param name="_position"></param>
+    /// <param name="_bounds"></param>
+    /// <returns></returns>
+    private Vector3 ClampToBounds(Vector3 _position, Bounds _bounds)
+    {                   // My day is ruined.... it doesn't slot nicely :(
+        return new Vector3( Mathf.Clamp(_position.x, _bounds.min.x, _bounds.max.x),
+                            Mathf.Clamp(_position.y, _bounds.min.y, _bounds.max.y),
+                            Mathf.Clamp(_position.z, _bounds.min.z, _bounds.max.z)
+        );
     }
 
     /// <summary>
