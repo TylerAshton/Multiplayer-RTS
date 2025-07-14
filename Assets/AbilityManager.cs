@@ -105,7 +105,7 @@ public class AbilityManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void SetAbilityRpc(int _abilityIndex, string _abilityID, int tabIndex)
     {
-        abilityTabs[tabIndex].SetAbility(_abilityIndex, AbilityRegistry.GetAbility(_abilityID));
+        abilityTabs[tabIndex].SetAbility(_abilityIndex, Registry<Ability>.GetItem(_abilityID));
     }
 
     public virtual void AddAbility(Ability _ability, int _tabIndex)
@@ -123,7 +123,7 @@ public class AbilityManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void AddAbilityRpc(string _abilityID, int _tabIndex)
     {
-        abilityTabs[_tabIndex].AddAbility(AbilityRegistry.GetAbility(_abilityID));
+        abilityTabs[_tabIndex].AddAbility(Registry<Ability>.GetItem(_abilityID));
     }
 
     public bool CheckAbility(Ability _ability, int tabIndex = 0)
