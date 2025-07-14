@@ -13,6 +13,7 @@ public class CameraMovement : NetworkBehaviour
     [SerializeField] private float panningEdgeThreshold = 100;
     [SerializeField] private float maxZoom = 300;
     [SerializeField] private float targetZoom = 200;
+    [SerializeField] private Transform panningTarget;
     private float minZoom = 0;
     private Vector3 startPosition = Vector3.zero;
 
@@ -25,12 +26,18 @@ public class CameraMovement : NetworkBehaviour
 
     float screenWidth = Screen.width;
     float screenHeight = Screen.height;
+    [SerializeField] private Vector3 panningRotationOffset;
 
     private void Awake()
     {
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
             Debug.LogError("Network object is required for cameraMovement");
+            return;
+        }
+        if (panningTarget == null)
+        {
+            Debug.LogError($"{nameof(panningTarget)} is null!");
         }
     }
 
@@ -113,6 +120,8 @@ public class CameraMovement : NetworkBehaviour
         panningVector = panningVector * panMultiplier;
         panningVector = Vector3.ClampMagnitude(panningVector, currentPanSpeed);
 
+        panningVector = Quaternion.Euler(panningRotationOffset) * panningVector;
+
         return panningVector;
     }
 
@@ -122,7 +131,7 @@ public class CameraMovement : NetworkBehaviour
     /// <param name="_panningVector"></param>
     private void ApplyPan(Vector3 _panningVector)
     {
-        startPosition += _panningVector * Time.deltaTime;
+        panningTarget.position += _panningVector * Time.deltaTime;
     }
 
     /// <summary>
