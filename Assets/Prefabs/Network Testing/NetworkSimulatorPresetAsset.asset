@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: 
   <Description>k__BackingField: 
-  <PacketDelayMs>k__BackingField: 1000
+  <PacketDelayMs>k__BackingField: 0
   <PacketJitterMs>k__BackingField: 0
   <PacketLossInterval>k__BackingField: 0
   <PacketLossPercent>k__BackingField: 0
