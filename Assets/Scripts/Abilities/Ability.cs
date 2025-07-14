@@ -88,21 +88,9 @@ public abstract class Ability : Purchasable
     /// <param name="_so"></param>
     /// 
 #if UNITY_EDITOR // Will crash if this is not wrapped in UNITY_EDITOR
-    public virtual void DrawInspector(SerializedObject _so)
+    public override void DrawInspector(SerializedObject _so)
     {
-        SerializedProperty fieldID = _so.FindProperty("abilityID");
-        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
-        if (fieldID.stringValue == "")
-        {
-            EditorGUILayout.HelpBox("Ability ID Can't be null", MessageType.Error);
-        }
-
-        SerializedProperty fieldShopPrice = _so.FindProperty("price");
-        fieldShopPrice.intValue = EditorGUILayout.IntField("Shop Price", fieldShopPrice.intValue);
-        if (fieldShopPrice.intValue < 0)
-        {
-            EditorGUILayout.HelpBox("Shop price cannot be less than zero!", MessageType.Error);
-        }
+        base.DrawInspector(_so);
 
         SerializedProperty fieldAnimationTrigger = _so.FindProperty("animationTrigger");
         fieldAnimationTrigger.stringValue = EditorGUILayout.TextField("Animation Trigger", fieldAnimationTrigger.stringValue); // TODO: Remove?
@@ -125,8 +113,7 @@ public abstract class Ability : Purchasable
         SerializedProperty fieldCastPos = _so.FindProperty("castPositionName");
         fieldCastPos.enumValueIndex = EditorGUILayout.Popup("Cast Position", fieldCastPos.enumValueIndex, fieldCastPos.enumDisplayNames);
 
-        SerializedProperty fieldIcon = _so.FindProperty("icon");
-        fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Ability Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
+        
     }
 #endif
 

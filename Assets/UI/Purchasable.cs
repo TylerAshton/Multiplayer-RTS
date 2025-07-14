@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -28,4 +29,19 @@ public abstract class Purchasable : RegistryItem
         return true;
     }
     public abstract void ExecutePurchase(IShopUser _shopUser);
+
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldShopPrice = _so.FindProperty("price");
+        fieldShopPrice.intValue = EditorGUILayout.IntField("Shop Price", fieldShopPrice.intValue);
+        if (fieldShopPrice.intValue < 0)
+        {
+            EditorGUILayout.HelpBox("Shop price cannot be less than zero!", MessageType.Error);
+        }
+
+        SerializedProperty fieldIcon = _so.FindProperty("icon");
+        fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
+    }
 }

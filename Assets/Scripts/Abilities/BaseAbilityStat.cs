@@ -12,16 +12,4 @@ public abstract class BaseAbilityStat : RegistryItem
         }
         return true;
     }
-
-#if UNITY_EDITOR
-    public virtual void DrawInspector(SerializedObject so)
-    {
-        SerializedProperty fieldID = so.FindProperty("iD");
-        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
-        if (string.IsNullOrWhiteSpace(fieldID.stringValue))
-        {
-            EditorGUILayout.HelpBox("ID must be assigned and cannot be empty!", MessageType.Error);
-        }
-    }
-#endif
 }
