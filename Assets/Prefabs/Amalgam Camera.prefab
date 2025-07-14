@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4149839590012210246}
   - component: {fileID: 1695481169955958113}
   m_Layer: 0
-  m_Name: Player Camera
+  m_Name: Amalgam Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1334692810404585016}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.47183257, y: 0.00017674484, z: -0.00009458443, w: 0.8816882}
-  m_LocalPosition: {x: -7.805631, y: 15.5, z: -26.911507}
+  m_LocalRotation: {x: 0.33506095, y: 0.62268305, z: -0.33506095, w: 0.62268305}
+  m_LocalPosition: {x: -292.43, y: 76.71982, z: 57.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 15, z: -10}
+  m_FollowOffset: {x: -46, y: 69.67982, z: 0}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1

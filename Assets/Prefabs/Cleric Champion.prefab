@@ -748,7 +748,6 @@ GameObject:
   - component: {fileID: 6204940461610679389}
   - component: {fileID: 2885188943381047520}
   - component: {fileID: 7055258072633900359}
-  - component: {fileID: 6245597217510480515}
   - component: {fileID: 3585590050127319289}
   - component: {fileID: -7219205608655039362}
   - component: {fileID: -7655420320514313834}
@@ -761,6 +760,7 @@ GameObject:
   - component: {fileID: 3971837674269787782}
   - component: {fileID: 4394188322512067527}
   - component: {fileID: -8212970734632235601}
+  - component: {fileID: -3697217004477378991}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -1085,21 +1085,6 @@ MonoBehaviour:
     TriggerNameHash: -323374038
     TransitionIndex: 0
   m_Animator: {fileID: 3779843464443528873}
---- !u!114 &6245597217510480515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2434894007857547855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-  cameraSpawnOffset: {x: 0, y: 10, z: -10}
-  isChampion: 1
 --- !u!114 &3585590050127319289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1335,6 +1320,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-3697217004477378991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
+  cameraSpawnOffset: {x: 0, y: 0, z: 0}
+  isChampion: 0
+  cameraTarget: {fileID: 1770477014136216472}
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0
