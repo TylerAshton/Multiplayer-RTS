@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEditor.PackageManager.ValidationSuite;
 using UnityEngine;
 
@@ -27,7 +27,7 @@ public class PurchaseRegistry
         }
 
         purchasables.Add(_purchaseID, _purchasable);
-/*        Debug.Log($"Registered {_purchaseID}");*/
+*//*        Debug.Log($"Registered {_purchaseID}");*//*
     }
 
     /// <summary>
@@ -59,3 +59,4 @@ public class PurchaseRegistry
         }
     }
 }
+*/

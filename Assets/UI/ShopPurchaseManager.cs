@@ -18,7 +18,7 @@ public class ShopPurchaseManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void HandlePurchaseRequestRpc(string _purchaseID)
     {
-        Purchasable purchasable = PurchaseRegistry.GetPurchasable(_purchaseID);
+        Purchasable purchasable = Registry<Purchasable>.GetItem(_purchaseID);
 
         purchasable.ExecutePurchase(championShopUser);
     }
