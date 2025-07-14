@@ -3,6 +3,8 @@ using UnityEngine.Serialization;
 
 public class RegistryItem : ScriptableObject
 {
-    [SerializeField] [FormerlySerializedAs("abilityID")] protected string id;
+    [SerializeField] 
+    [FormerlySerializedAs("abilityID")] 
+    [FormerlySerializedAs("iD")] protected string id;
     public string ID => id;
 }

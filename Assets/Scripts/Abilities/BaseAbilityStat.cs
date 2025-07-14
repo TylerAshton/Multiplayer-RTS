@@ -1,10 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-public abstract class BaseAbilityStat : ScriptableObject
+public abstract class BaseAbilityStat : RegistryItem
 {
-    [SerializeField] private string iD;
-    public string ID => iD;
     public virtual bool IsValid()
     {
         if (this.ID == null || this.ID.Trim().Length == 0) // Use this instead of string.IsNullOrEmpty as it also checks for whitespace
