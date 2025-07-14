@@ -30,6 +30,7 @@ public abstract class Purchasable : RegistryItem
     }
     public abstract void ExecutePurchase(IShopUser _shopUser);
 
+#if UNITY_EDITOR 
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
@@ -44,4 +45,5 @@ public abstract class Purchasable : RegistryItem
         SerializedProperty fieldIcon = _so.FindProperty("icon");
         fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
     }
+#endif
 }
