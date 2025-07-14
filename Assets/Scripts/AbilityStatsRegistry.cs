@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEngine;
 
 public static class AbilityStatsRegistry
@@ -66,3 +66,4 @@ public static class AbilityStatsRegistry
         }
     }
 }
+*/

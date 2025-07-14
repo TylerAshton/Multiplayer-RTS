@@ -88,7 +88,7 @@ public class ProjectionManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void ApplyProjectionStatsRpc(string _projectionStatsID)
     {
-        ProjectionStats projectionStats = AbilityStatsRegistry.GetProjectileStat<ProjectionStats>(_projectionStatsID);
+        ProjectionStats projectionStats = Registry<ProjectionStats>.GetItem(_projectionStatsID);
 
         if (projectionStats == null)
         {

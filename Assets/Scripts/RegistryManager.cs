@@ -6,6 +6,9 @@ public static class RegistryManager
     private static void Init()
     {
         Registry<Ability>.Init("Abilities");
-        Registry<Purchasable>.Init();
+        Registry<Purchasable>.Init("AbilityStats");
+        Registry<HitboxStats>.Init("AbilityStats");
+        Registry<ProjectileStats>.Init("AbilityStats");
+        Registry<ProjectionStats>.Init("AbilityStats");
     }
 }
