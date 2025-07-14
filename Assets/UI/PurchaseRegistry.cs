@@ -55,7 +55,7 @@ public class PurchaseRegistry
         var all = Resources.LoadAll<Purchasable>("");
         foreach (var a in all)
         {
-            Register(a.PurchaseID, a);
+            Register(a.ID, a);
         }
     }
 }

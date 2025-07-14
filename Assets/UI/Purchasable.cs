@@ -1,11 +1,8 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class Purchasable : ScriptableObject
+public abstract class Purchasable : RegistryItem
 {
-    [SerializeField] protected string purchaseID;
-    public string PurchaseID => purchaseID;
-
     [SerializeField] protected int price;
     public int Price => price;
 

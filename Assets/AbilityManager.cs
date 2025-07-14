@@ -99,7 +99,7 @@ public class AbilityManager : NetworkBehaviour
             Debug.LogError("Client attempted to set an ability");
             return;
         }
-        SetAbilityRpc(_index, _ability.AbilityID, _tabIndex);
+        SetAbilityRpc(_index, _ability.ID, _tabIndex);
     }
 
     [Rpc(SendTo.Everyone)]
@@ -115,7 +115,7 @@ public class AbilityManager : NetworkBehaviour
             Debug.LogError("Client attempted to add an ability");
             return;
         }
-        AddAbilityRpc(_ability.AbilityID, _tabIndex);
+        AddAbilityRpc(_ability.ID, _tabIndex);
 
         // TODO: Harrison please update abilityGrid
     }
@@ -245,7 +245,7 @@ public class AbilityManager : NetworkBehaviour
         }
 
         // Cooldown checker
-        if (cooldownTimers.TryGetValue(_ability.AbilityID, out float lastUsedTime))
+        if (cooldownTimers.TryGetValue(_ability.ID, out float lastUsedTime))
         {
             if (Time.time < lastUsedTime + _ability.Cooldown)
             {
@@ -269,8 +269,8 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        cooldownTimers[_ability.AbilityID] = Time.time;
-        SetCooldownRpc(_ability.AbilityID, Time.time);
+        cooldownTimers[_ability.ID] = Time.time;
+        SetCooldownRpc(_ability.ID, Time.time);
     }
 
     /// <summary>

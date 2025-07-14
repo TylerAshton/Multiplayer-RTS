@@ -69,7 +69,7 @@ public class PurchaseSlot
 
     protected void SubmitPurchaseRequest()
     {
-        shopUser.ShopPurchaseManager.HandlePurchaseRequestRpc(purchasable.PurchaseID);
+        shopUser.ShopPurchaseManager.HandlePurchaseRequestRpc(purchasable.ID);
     }
 
     public void SubscribePurchaseButtonClickEvent()

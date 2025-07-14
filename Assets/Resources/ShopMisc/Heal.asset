@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a01661311fbf8047a3f6875445f1b35, type: 3}
   m_Name: Heal
   m_EditorClassIdentifier: 
-  purchaseID: ShopHeal
+  id: Heal
   price: 500
   icon: {fileID: 21300000, guid: 3fe3c2d716716964d91bc544623afa75, type: 3}
   healAmount: 9999

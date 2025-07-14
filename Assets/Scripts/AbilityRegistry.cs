@@ -53,7 +53,7 @@ public static class AbilityRegistry
         var all = Resources.LoadAll<Ability>("Abilities");
         foreach (var a in all)
         {
-            Register(a.AbilityID, a);
+            Register(a.ID, a);
         }
     }
 

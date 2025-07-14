@@ -8,8 +8,6 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Ability : Purchasable
 {
-    [SerializeField] private string abilityID = string.Empty;
-    public string AbilityID => abilityID;
     public string AbilityName => this.name; // This probably isn't needed but cba to refactor some stuff
     [SerializeField] private float castTime = 1f;
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
