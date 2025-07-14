@@ -10645,6 +10645,12 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    - {fileID: 11400000, guid: 76eb052def7ff7346a29ca6f73829f66, type: 2}
+    - {fileID: 11400000, guid: 188d07e038d14eb4cb1cf67beef57714, type: 2}
+  - tabName: Main
+    abilities:
+    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
 --- !u!95 &379041836462067280
 Animator:
   serializedVersion: 7

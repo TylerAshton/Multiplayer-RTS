@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02c659d45b5118c4c9c60f028df39bb4, type: 3}
-  m_Name: SummonDemon
+  m_Name: Summon Ranged LV1
   m_EditorClassIdentifier: 
   abilityID: spawnDemon
   abilityName: 

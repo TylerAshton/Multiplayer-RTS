@@ -1153,7 +1153,7 @@ GameObject:
   - component: {fileID: 4076452208090559733}
   - component: {fileID: 8995406540848693083}
   m_Layer: 7
-  m_Name: Demon 1
+  m_Name: Ranged Level 2
   m_TagString: Amalgam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1233,7 +1233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1549775216
+  GlobalObjectIdHash: 2523864116
   InScenePlacedSourceGlobalObjectIdHash: 218889727
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1400,7 +1400,7 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Main
     abilities:
-    - {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
+    - {fileID: 11400000, guid: 7545daeae7ba45846b58ba792fe20050, type: 2}
 --- !u!114 &-8325889620801518248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1824,8 +1824,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2771982348586837434, guid: 601889d4ab056184991a6d5eaf2bbba6, type: 3}
-  - {fileID: -2535493626731703989, guid: 601889d4ab056184991a6d5eaf2bbba6, type: 3}
+  - {fileID: 2100000, guid: 95c07e4bb15eef94093dcfa68e9291b3, type: 2}
+  - {fileID: 2100000, guid: 95c07e4bb15eef94093dcfa68e9291b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
