@@ -123,18 +123,30 @@ public class RTSPlayerControls : MonoBehaviour
 
         if (clickValue > 0) // Button pressed
         {
-            OnMouseClickStarted();
+            
         }
         else // Button released
         {
-            OnMouseClickEnded();
+            
+        }
+    }
+
+    public void OnMouseHeld(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            OnMouseHoldStarted();
+        }
+        else if (context.canceled)
+        {
+            OnMouseHoldEnded();
         }
     }
 
     /// <summary>
     /// If the player isn't using the UI, enables the selectionBox
     /// </summary>
-    private void OnMouseClickStarted()
+    private void OnMouseHoldStarted()
     {
         if (isUsingUI(mouseScreenPos))
         {
@@ -158,7 +170,7 @@ public class RTSPlayerControls : MonoBehaviour
     /// Sends the selectionBox ScreenRect to the unitManager to attempt and AreaSelection,
     /// with said selection updates the cursor based on units selected
     /// </summary>
-    private void OnMouseClickEnded()
+    private void OnMouseHoldEnded()
     {
         if (isUsingUI(mouseScreenPos))
         {

@@ -394,6 +394,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fd458e1b-85cb-4adb-a648-1f70665075f4
     m_ActionName: 'Player/Debug Revive[/Keyboard/slash]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8246939001103950362}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: OnMouseHeld
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 18b8d62a-07c9-4ad2-b473-a3b17b8cd318
+    m_ActionName: 'UI/M1Hold[/Mouse/leftButton,/Touchscreen/touch0/press,/Touchscreen/touch1/press,/Touchscreen/touch2/press,/Touchscreen/touch3/press,/Touchscreen/touch4/press,/Touchscreen/touch5/press,/Touchscreen/touch6/press,/Touchscreen/touch7/press,/Touchscreen/touch8/press,/Touchscreen/touch9/press]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -474,8 +490,9 @@ MonoBehaviour:
   panningEdgeThreshold: 125
   maxZoom: 70
   targetZoom: 10
-  panningTarget: {fileID: 4743093171616859353}
   zoomSensitivity: 3
+  zoomSpeed: 5
+  panningTarget: {fileID: 4743093171616859353}
   panningRotationOffset: {x: 0, y: 90, z: 0}
 --- !u!114 &6846700315286605413
 MonoBehaviour:
