@@ -116,6 +116,7 @@ public class AbilityUIManager : MonoBehaviour
         {
             _cell.Image.enabled = false;
             _cell.Button.interactable = false;
+            _cell.Slider.value = 0;
         }
     }
 
