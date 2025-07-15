@@ -119,25 +119,27 @@ public class RTSPlayerControls : MonoBehaviour
     /// <param name="context"></param>
     public void OnMouseClick(InputAction.CallbackContext context)
     {
-        float clickValue = context.ReadValue<float>();
-
-        if (clickValue > 0) // Button pressed
-        {
-            
-        }
-        else // Button released
-        {
-            
-        }
-    }
-
-    public void OnMouseHeld(InputAction.CallbackContext context)
-    {
         if (context.performed)
         {
             OnMouseHoldStarted();
         }
         else if (context.canceled)
+        {
+            OnMouseHoldEnded();
+        }
+    }
+
+    public void OnMouseHeld(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            mousetStartPosition = mouseScreenPos;
+        }
+        else if (context.phase == InputActionPhase.Performed)
+        {
+            OnMouseHoldStarted();
+        }
+        else if (context.phase == InputActionPhase.Canceled)
         {
             OnMouseHoldEnded();
         }
@@ -154,7 +156,7 @@ public class RTSPlayerControls : MonoBehaviour
         }
 
         isMouseHeld = true;
-        mousetStartPosition = mouseScreenPos;
+        //mousetStartPosition = mouseScreenPos;
         selectionBox.EnableBox();
     }
 
