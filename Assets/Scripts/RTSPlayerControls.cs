@@ -81,7 +81,7 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void Update()
     {
-        if (isMouseHeld) { OnMouseClickHeld(); }
+        if (isMouseHeld) { OnMouseClickHeldStart(); }
     }
 
     /// <summary>
@@ -121,11 +121,11 @@ public class RTSPlayerControls : MonoBehaviour
     {
         if (context.performed)
         {
-            OnMouseHoldStarted();
+            //OnMouseHoldStarted();
         }
         else if (context.canceled)
         {
-            OnMouseHoldEnded();
+            //OnMouseHoldEnded();
         }
     }
 
@@ -163,7 +163,7 @@ public class RTSPlayerControls : MonoBehaviour
     /// <summary>
     /// Draws the selection box based on where the player started holding down the mouse and where it is now
     /// </summary>
-    private void OnMouseClickHeld()
+    private void OnMouseClickHeldStart()
     {
         selectionBox.DrawSelectionBox(mousetStartPosition, MouseScreenPos);
     }
