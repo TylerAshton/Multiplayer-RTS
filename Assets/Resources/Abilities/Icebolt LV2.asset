@@ -12,15 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e12e273157d5740bf167ce234674c9, type: 3}
   m_Name: Icebolt LV2
   m_EditorClassIdentifier: 
-  purchaseID: IceBolt2
+  id: IceBolt2
   price: 0
-  abilityID: IceBolt2
-  abilityName: Icebolt Lv2
+  icon: {fileID: 21300000, guid: cf5936511a0dd6b498f3098d28b2fb55, type: 3}
   castTime: 1
   castPositionName: 1
   animationTrigger: ProjectileAttack
-  icon: {fileID: 21300000, guid: cf5936511a0dd6b498f3098d28b2fb55, type: 3}
   abilityCost: 0
-  purchasePrice: 0
-  cooldown: 0
+  cooldown: 1
   projectileStats: {fileID: 11400000, guid: 6a0f5eee02193674396d754d3fa3539d, type: 2}

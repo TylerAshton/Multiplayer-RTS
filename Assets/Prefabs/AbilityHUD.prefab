@@ -118,10 +118,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityCells:
-  - {fileID: 3668427733148923074}
-  - {fileID: 4398368634911259067}
-  - {fileID: 4897247255679650578}
-  - {fileID: 6568742830559507503}
+  - {fileID: 8002177288832430163}
+  - {fileID: 2763061720055334183}
+  - {fileID: 7444658179312422153}
+  - {fileID: 8290813718395808509}
   abilityTabButtons:
   - {fileID: 7359095978017352132}
   - {fileID: 5568067266346212267}
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2674,7 +2674,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2819,7 +2819,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

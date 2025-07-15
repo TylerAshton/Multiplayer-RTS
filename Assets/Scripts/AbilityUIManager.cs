@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class AbilityUIManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
+    [SerializeField] private List<AbilityCell> abilityCells = new List<AbilityCell>();
     [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
     [SerializeField] private Sprite backSprite;
@@ -54,9 +54,9 @@ public class AbilityUIManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < commonAbilities.Count; i++)
         {
-            Slider slider = abilityCells[i].transform.parent.GetComponent<Slider>();
+            Slider slider = abilityCells[i].Slider;
             Ability ability = commonAbilities[i];
 
             float cooldownStartTime = abilityManagers[0].CooldownTimers.TryGetValue(ability.ID, out float value) ? value : 0f;
@@ -65,7 +65,7 @@ public class AbilityUIManager : MonoBehaviour
             float timePassed = Time.time - cooldownStartTime;
             float timeRemaining = ability.Cooldown - timePassed;
 
-
+            slider.maxValue = ability.Cooldown;
             slider.value = timeRemaining;
             Debug.Log($"{slider.value} : {timePassed} -- {ability.Cooldown}");
 
@@ -78,13 +78,10 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     public void ResetAbilityGrid()
     {
-        foreach (GameObject _cell in abilityCells)
+        foreach (AbilityCell _cell in abilityCells)
         {
-            Image cellImage = _cell.GetComponent<Image>();
-            Button cellButton = _cell.GetComponent<Button>();
-
-            cellImage.enabled = false;
-            cellButton.interactable = false;
+            _cell.Image.enabled = false;
+            _cell.Button.interactable = false;
         }
     }
 
@@ -93,7 +90,7 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     /// <param name="_ability"></param>
     /// <param name="_cell"></param>
-    private void SetAbilityCell(Ability _ability, GameObject _cell, List<AbilityManager> _abilityManagers)
+    private void SetAbilityCell(Ability _ability, AbilityCell _cell, List<AbilityManager> _abilityManagers)
     {
         if (_ability == null)
         {
@@ -111,20 +108,16 @@ public class AbilityUIManager : MonoBehaviour
             Debug.LogError($"{nameof(_abilityManagers)} was null or empty in {gameObject.name}");
         }
 
+        _cell.Image.enabled = true;
 
-        Image cellImage = _cell.GetComponent<Image>();
-        Button cellButton = _cell.GetComponent<Button>();
+        if (!isChampionUI) _cell.Button.interactable = true;
 
-        cellImage.enabled = true;
-
-        if (!isChampionUI) cellButton.interactable = true;
-
-        cellImage.sprite = _ability.Icon;
+        _cell.Image.sprite = _ability.Icon;
 
         // Add Event bindings to button pressed
-        cellButton.onClick.RemoveAllListeners();
+        _cell.Button.onClick.RemoveAllListeners();
 
-        cellButton.onClick.AddListener(() =>
+        _cell.Button.onClick.AddListener(() =>
         {
             foreach (AbilityManager _abilityManager in _abilityManagers)
             {
@@ -137,19 +130,16 @@ public class AbilityUIManager : MonoBehaviour
         });
     }
 
-    private void SetPageCell(GameObject _cell, int _pageIndex)
+    private void SetPageCell(AbilityCell _cell, int _pageIndex)
     {
-        Image cellImage = _cell.GetComponent<Image>();
-        Button cellButton = _cell.GetComponent<Button>();
+        _cell.Image.enabled = true;
+        _cell.Button.interactable = true;
 
-        cellImage.enabled = true;
-        cellButton.interactable = true;
+        _cell.Image.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
 
-        cellImage.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
+        _cell.Button.onClick.RemoveAllListeners();
 
-        cellButton.onClick.RemoveAllListeners();
-
-        cellButton.onClick.AddListener(() =>
+        _cell.Button.onClick.AddListener(() =>
         {
             this.SetPage(_pageIndex);
         });
