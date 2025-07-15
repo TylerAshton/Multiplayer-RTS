@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,13 +60,8 @@ public class AbilityUIManager : MonoBehaviour
             Slider slider = abilityCells[i].Slider;
             Ability ability = commonAbilities[i];
 
-            float cooldownStartTime = abilityManagers[0].CooldownTimers.TryGetValue(ability.ID, out float value) ? value : 0f;
+            float cooldownStartTime = GetLongestCooldown(ability);
 
-            /*            if (!abilityManagers[0].CooldownTimers.TryGetValue(ability.ID, out float cooldownStartTime))
-                        {
-                            // Don't render if no cooldown
-                            //return;
-                        }*/
             if (cooldownStartTime == 0)
             {
                 slider.value = 0;
@@ -81,6 +77,34 @@ public class AbilityUIManager : MonoBehaviour
 
             slider.value = timeRemaining;
         }
+    }
+
+    /// <summary>
+    /// Returns the longest cooldown value among the abilityManagers with the parsed Ability
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private float GetLongestCooldown(Ability _ability)
+    {
+        if (!commonAbilities.Contains(_ability))
+        {
+            Debug.LogError($"{_ability.name} is not a common abiltiy!");
+            return 0;
+        }
+
+        float longestCooldown = 0f;
+
+        foreach (AbilityManager abilityManager in abilityManagers)
+        {
+            float cooldownStartTime = abilityManager.CooldownTimers.TryGetValue(_ability.ID, out float value) ? value : 0f;
+
+            if (value > longestCooldown)
+            {
+                longestCooldown = value;
+            }
+        }
+
+        return longestCooldown;
     }
 
     /// <summary>
