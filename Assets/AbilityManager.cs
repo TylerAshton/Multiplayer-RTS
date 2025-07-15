@@ -42,12 +42,13 @@ public class AbilityManager : NetworkBehaviour
     public List<AbilityTab> AbilityTabs => GetAbilityTabs(); // This prevents the list CONTENTS from being fucked with
 
     private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();
+    public IReadOnlyDictionary<string, float> CooldownTimers => cooldownTimers;
 
     private float AttackSpeed = 1;
 
     private NetworkObject networkObject;
 
-    ulong ownerClientId = 999999;
+    private ulong ownerClientId = 999999;
 
 
     protected virtual void Awake()
@@ -269,19 +270,18 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        cooldownTimers[_ability.ID] = Time.time;
         SetCooldownRpc(_ability.ID, Time.time);
     }
 
     /// <summary>
     /// Updates the clients with the cooldown of said ability
     /// </summary>
-    /// <param name="abilityID"></param>
-    /// <param name="serverTimeStamp"></param>
-    [Rpc(SendTo.NotMe)]
-    private void SetCooldownRpc(string abilityID, float serverTimeStamp)
+    /// <param name="_abilityID"></param>
+    /// <param name="_serverTimeStamp"></param>
+    [Rpc(SendTo.Everyone)]
+    private void SetCooldownRpc(string _abilityID, float _serverTimeStamp)
     {
-        cooldownTimers[abilityID] = serverTimeStamp;
+        cooldownTimers[_abilityID] = _serverTimeStamp;
     }
 
 

@@ -26,12 +26,51 @@ public class AbilityUIManager : MonoBehaviour
             return commonAbilityTabs[tabIndex].Abilities;
         }
     }
-    private List<AbilityManager> abilityManagers;
+    private List<AbilityManager> abilityManagers = new List<AbilityManager>();
     private bool isChampionUI = false;
 
     internal void Init(bool _isChampionUI)
     {
         isChampionUI = _isChampionUI;
+    }
+
+    private void Update()
+    {
+        ShowCooldowns();
+    }
+
+    /// <summary>
+    /// Updates the UI to show the cooldowns of the common abilities. Or at least the 
+    /// </summary>
+    private void ShowCooldowns()
+    {
+        if (abilityManagers.Count <= 0)
+        {
+            return;
+        }
+
+        if (commonAbilities.Count <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < 1; i++)
+        {
+            Slider slider = abilityCells[i].transform.parent.GetComponent<Slider>();
+            Ability ability = commonAbilities[i];
+
+            float cooldownStartTime = abilityManagers[0].CooldownTimers.TryGetValue(ability.ID, out float value) ? value : 0f;
+            float cooldownEndTime = ability.Cooldown + cooldownStartTime;
+
+            float timePassed = Time.time - cooldownStartTime;
+            float timeRemaining = ability.Cooldown - timePassed;
+
+
+            slider.value = timeRemaining;
+            Debug.Log($"{slider.value} : {timePassed} -- {ability.Cooldown}");
+
+        }
+
     }
 
     /// <summary>
