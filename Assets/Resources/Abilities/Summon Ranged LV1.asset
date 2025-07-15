@@ -19,7 +19,8 @@ MonoBehaviour:
   animationTrigger: 
   icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
   abilityCost: 0
-  cooldown: 0
+  purchasePrice: 0
+  cooldown: 3
   spawnee: {fileID: 2401997887451976919, guid: 44030ceaa8e63cb42ab47b206a6e8252, type: 3}
   spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
   maxDispersion: 5
