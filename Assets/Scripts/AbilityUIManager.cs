@@ -60,17 +60,27 @@ public class AbilityUIManager : MonoBehaviour
             Ability ability = commonAbilities[i];
 
             float cooldownStartTime = abilityManagers[0].CooldownTimers.TryGetValue(ability.ID, out float value) ? value : 0f;
-            float cooldownEndTime = ability.Cooldown + cooldownStartTime;
 
+            /*            if (!abilityManagers[0].CooldownTimers.TryGetValue(ability.ID, out float cooldownStartTime))
+                        {
+                            // Don't render if no cooldown
+                            //return;
+                        }*/
+            if (cooldownStartTime == 0)
+            {
+                slider.value = 0;
+                return; // No cooldown needed to calculate
+            }
+
+            // Calculate remaining time until end of cooldown
+            slider.maxValue = ability.Cooldown;
+
+            float cooldownEndTime = ability.Cooldown + cooldownStartTime;
             float timePassed = Time.time - cooldownStartTime;
             float timeRemaining = ability.Cooldown - timePassed;
 
-            slider.maxValue = ability.Cooldown;
             slider.value = timeRemaining;
-            Debug.Log($"{slider.value} : {timePassed} -- {ability.Cooldown}");
-
         }
-
     }
 
     /// <summary>

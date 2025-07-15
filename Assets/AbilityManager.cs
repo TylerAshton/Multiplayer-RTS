@@ -270,7 +270,7 @@ public class AbilityManager : NetworkBehaviour
             return;
         }
 
-        SetCooldownRpc(_ability.ID, Time.time);
+        SetCooldownRpc(_ability.ID);
     }
 
     /// <summary>
@@ -279,9 +279,9 @@ public class AbilityManager : NetworkBehaviour
     /// <param name="_abilityID"></param>
     /// <param name="_serverTimeStamp"></param>
     [Rpc(SendTo.Everyone)]
-    private void SetCooldownRpc(string _abilityID, float _serverTimeStamp)
+    private void SetCooldownRpc(string _abilityID)
     {
-        cooldownTimers[_abilityID] = _serverTimeStamp;
+        cooldownTimers[_abilityID] = Time.time;
     }
 
 
