@@ -43,7 +43,7 @@ public class AbilityUIManager : MonoBehaviour
     /// <summary>
     /// Updates the UI to show the cooldowns of the common abilities. Or at least the 
     /// </summary>
-    private void ShowCooldowns()
+    private void ShowCooldowns() // TODO: Self contain abilityCells if we have time
     {
         if (abilityManagers.Count <= 0)
         {

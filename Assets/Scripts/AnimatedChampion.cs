@@ -19,6 +19,7 @@ public interface IShopUser
 public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable, IShopUser
 {
     //[SerializeField] private float moveSpeed = 4f; //movement speed multiplier REDACTED DUE TO STAT-MANAGER
+    [SerializeField] private Vector3 movementRotationOffset = Vector3.zero;
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 15f;
     [SerializeField] private float smoothSpeed = 10f;
@@ -380,9 +381,9 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// <summary>
     /// This attempts to move the player transform by adding the movementVector to its current transform
     /// </summary>
-    /// <param name="movementVector"></param>
+    /// <param name="_movementVector"></param>
     /// <param name="serverRpcParams"></param>
-    private void ChampionMove(Vector3 movementVector)
+    private void ChampionMove(Vector3 _movementVector)
     {
         if (!IsServer)
         {
@@ -390,11 +391,13 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             return;
         }
 
-        Vector3 move = Vector3.right * movementVector.x + Vector3.forward * movementVector.z;
+        _movementVector = Quaternion.Euler(movementRotationOffset) * _movementVector;
+
+        Vector3 move = Vector3.right * _movementVector.x + Vector3.forward * _movementVector.z;
 
         Vector3 targetVelocity = move * statManager.CurrentStats[StatType.MoveSpeed];
 
-        float lerpSpeed = (movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
+        float lerpSpeed = (_movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
 
         // lerp towards targetVelocity
         velocity = Vector3.MoveTowards(velocity, targetVelocity, lerpSpeed * Time.deltaTime);
@@ -445,6 +448,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             Debug.LogError("Client attempted to update the animations!");
             return;
         }
+
+        _movementInput = Quaternion.Euler(movementRotationOffset) * _movementInput;
 
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
