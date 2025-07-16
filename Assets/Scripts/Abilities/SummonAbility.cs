@@ -52,9 +52,17 @@ public class SummonAbility : Ability<IAbilityUser>
 
         SerializedProperty fieldSpawnee = _so.FindProperty("spawnee");
         fieldSpawnee.objectReferenceValue = EditorGUILayout.ObjectField("Spawnee Prefab", fieldSpawnee.objectReferenceValue, typeof(GameObject), false);
+        if (fieldSpawnee.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Spawnee Prefab must be assigned.", MessageType.Error);
+        }
 
         SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");
         fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
+        if (fieldSpawnVFX.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Spawn VFX Prefab must be assigned.", MessageType.Error);
+        }
 
         SerializedProperty fieldMaxDispersion = _so.FindProperty("maxDispersion");
         fieldMaxDispersion.floatValue = EditorGUILayout.FloatField("Max Dispersion", fieldMaxDispersion.floatValue);
