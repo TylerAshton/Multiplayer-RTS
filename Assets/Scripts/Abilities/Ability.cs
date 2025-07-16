@@ -11,7 +11,6 @@ public abstract class Ability : Purchasable, Inspectorable
     public string AbilityName => this.name; // This probably isn't needed but cba to refactor some stuff
     [SerializeField] private float castTime = 1f;
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
-    [SerializeField] private string animationTrigger;
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private float cooldown = 0f;
     protected virtual string animationTrigger => null;
