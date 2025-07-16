@@ -5,3 +5,7 @@ lfs/objects/7d/cf/7dcf93bbb5e63c26536783a558ce85dc78b985226b3c10f2081c3ca06b056d
 *.unity merge=unityyamlmerge
 *.prefab merge=unityyamlmerge
 *.asset merge=unityyamlmerge
+
+# FMOD Stuff
+Assets/Plugins/FMOD/**/*.bundle text eol=lf
+Assets/Plugins/FMOD/**/Info.plist text eol=lf
