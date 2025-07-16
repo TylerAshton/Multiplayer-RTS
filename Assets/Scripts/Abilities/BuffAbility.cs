@@ -54,7 +54,11 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
 
         SerializedProperty fieldBuffEffects = _so.FindProperty("buffEffects");
         fieldBuffEffects.objectReferenceValue = EditorGUILayout.ObjectField("Buff Effects Prefab", fieldBuffEffects.objectReferenceValue, typeof(GameObject), false);
-        
+        if (fieldBuffEffects.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Buff Effects Prefab must be assigned.", MessageType.Error);
+        }
+
         SerializedProperty fieldEffect = _so.FindProperty("effect");
         fieldEffect.objectReferenceValue = EditorGUILayout.ObjectField("Effect", fieldEffect.objectReferenceValue, typeof(Effect), false);
     }

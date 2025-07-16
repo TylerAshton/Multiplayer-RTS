@@ -44,7 +44,7 @@ public class Construct : Ability<IConstructionPad>
         fieldSpawnee.objectReferenceValue = EditorGUILayout.ObjectField("Spawnee Prefab", fieldSpawnee.objectReferenceValue, typeof(GameObject), false);
         if (fieldSpawnee.objectReferenceValue == null)
         {
-            EditorGUILayout.HelpBox("'Spawnee Prefab' must be assigned.", MessageType.Error);
+            EditorGUILayout.HelpBox("Spawnee Prefab must be assigned.", MessageType.Error);
         }
 
 
@@ -52,7 +52,7 @@ public class Construct : Ability<IConstructionPad>
         fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
         if (fieldSpawnVFX.objectReferenceValue == null)
         {
-            EditorGUILayout.HelpBox("'Spawn VFX Prefab' must be assigned.", MessageType.Error);
+            EditorGUILayout.HelpBox("Spawn VFX Prefab must be assigned.", MessageType.Error);
         }
     }
 #endif
