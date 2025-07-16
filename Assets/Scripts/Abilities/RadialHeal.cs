@@ -12,8 +12,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
-        //_user.NAnimator.SetTrigger($"{AnimationTrigger}"); // TODO: Add an effect shiz
-        OnUseTyped(_user);
+        _user.NAnimator.SetTrigger($"{animationTrigger}"); // TODO: Add an effect shiz
     }
 
     protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
