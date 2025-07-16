@@ -1063,6 +1063,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 18b8d62a-07c9-4ad2-b473-a3b17b8cd318
     m_ActionName: 'UI/M1Hold[/Mouse/leftButton,/Touchscreen/touch0/press,/Touchscreen/touch1/press,/Touchscreen/touch2/press,/Touchscreen/touch3/press,/Touchscreen/touch4/press,/Touchscreen/touch5/press,/Touchscreen/touch6/press,/Touchscreen/touch7/press,/Touchscreen/touch8/press,/Touchscreen/touch9/press]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6f0226b5-81d7-435f-946d-0652f5ae9d19
+    m_ActionName: 'UI/M1DoubleTap[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7494411-9b32-4763-a4c4-2fc173ce8c35
+    m_ActionName: 'UI/Shift[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
