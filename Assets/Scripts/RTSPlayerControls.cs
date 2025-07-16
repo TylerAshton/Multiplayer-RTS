@@ -224,7 +224,7 @@ public class RTSPlayerControls : MonoBehaviour
         RTSPlayer.instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
         selectionBox.DisableBox();
 
-        // If a unit was selected switch to move commands if idle
+/*        // If a unit was selected switch to move commands if idle
         if (selectedCommand == CommandMode.None)
         {
             if (RTSPlayer.instance.UnitManager.SelectedUnits.Count > 0)
@@ -238,7 +238,7 @@ public class RTSPlayerControls : MonoBehaviour
             {
                 SetCommandMode(CommandMode.None);
             }
-        }
+        }*/
     }
 
     /// <summary>
@@ -269,7 +269,7 @@ public class RTSPlayerControls : MonoBehaviour
             return;
         }
 
-        switch (selectedCommand)
+/*        switch (selectedCommand)
         {
             case CommandMode.None:
                 break;
@@ -278,10 +278,12 @@ public class RTSPlayerControls : MonoBehaviour
                 break;
             case CommandMode.AttackMove:
                 break;
-        }
+        }*/
+
+        RTSPlayer.instance.UnitManager.MoveOrder(worldPosition);
 
 
-        
+
     }
     private void OnRightClickEnded()
     {
