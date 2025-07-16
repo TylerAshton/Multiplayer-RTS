@@ -118,7 +118,30 @@ public abstract class Ability : Purchasable
 #endif
 
 #if UNITY_EDITOR
-    protected void DrawStat(SerializedProperty _sp)
+    protected void DrawStat(SerializedObject _so, string _fieldName)
+    {
+        SerializedProperty fieldBaseAbilityStat = _so.FindProperty(_fieldName);
+
+        if (fieldBaseAbilityStat == null)
+        {
+            Debug.LogError($"SerializedProperty is null in {GetType().Name}. Please assign a valid SerializedProperty.");
+            return;
+        }
+
+        EditorGUILayout.PropertyField(fieldBaseAbilityStat);
+
+        if (fieldBaseAbilityStat.objectReferenceValue != null)
+        {
+            DrawStatValues(fieldBaseAbilityStat);
+        }
+        else
+        {
+            EditorGUILayout.HelpBox($"Stats field cannot be null!", MessageType.Error);
+        }
+
+    }
+
+    protected void DrawStatValues(SerializedProperty _sp)
     {
         if (_sp.objectReferenceValue == null)
         {

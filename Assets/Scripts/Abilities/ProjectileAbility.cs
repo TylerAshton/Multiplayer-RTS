@@ -51,17 +51,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldProjectileStats = _so.FindProperty("projectileStats");
-        EditorGUILayout.PropertyField(fieldProjectileStats);
-
-        if (fieldProjectileStats.objectReferenceValue != null)
-        {
-            DrawStat(fieldProjectileStats);
-        }
-
-        
-
-
+        DrawStat(_so, "projectileStats");
     }
 #endif
 

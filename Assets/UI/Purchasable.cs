@@ -44,6 +44,10 @@ public abstract class Purchasable : RegistryItem
 
         SerializedProperty fieldIcon = _so.FindProperty("icon");
         fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
+        if (fieldIcon.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Icon must be set!", MessageType.Error);
+        }
     }
 #endif
 }
