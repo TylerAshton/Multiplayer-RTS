@@ -623,7 +623,7 @@
                     "id": "3c7022bf-7922-4f7c-a998-c437916075ad",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Tap(duration=0.1)",
                     "initialStateCheck": true
                 },
                 {

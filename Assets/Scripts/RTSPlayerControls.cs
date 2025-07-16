@@ -81,7 +81,7 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void Update()
     {
-        if (isMouseHeld) { OnMouseClickHeldStart(); }
+        if (isMouseHeld) { OnMouseClickHoldUpdate(); }
     }
 
     /// <summary>
@@ -121,17 +121,26 @@ public class RTSPlayerControls : MonoBehaviour
     {
         if (context.performed)
         {
-            //OnMouseHoldStarted();
+            OnMouseClick();
         }
-        else if (context.canceled)
+/*        else if (context.canceled)
         {
-            //OnMouseHoldEnded();
-        }
+            OnMouseClickEnded();
+        }*/
     }
+    private void OnMouseClick()
+    {
+        RTSPlayer.instance.UnitManager.PointSelection(mouseScreenPos);
+    }
+    private void OnMouseClickEnded()
+    {
+        throw new NotImplementedException();
+    }
+
 
     public void OnMouseHeld(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started) // TODO: Just use context?
         {
             mousetStartPosition = mouseScreenPos;
         }
@@ -141,12 +150,16 @@ public class RTSPlayerControls : MonoBehaviour
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
+            if (!isMouseHeld)
+            {
+                return;
+            }
             OnMouseHoldEnded();
         }
     }
 
     /// <summary>
-    /// If the player isn't using the UI, enables the selectionBox
+    /// Once the mouse is held for the treshhold time this will run ONCE
     /// </summary>
     private void OnMouseHoldStarted()
     {
@@ -161,9 +174,9 @@ public class RTSPlayerControls : MonoBehaviour
     }
 
     /// <summary>
-    /// Draws the selection box based on where the player started holding down the mouse and where it is now
+    /// Once the mouse is held for the treshhold time this will run EVERY frame
     /// </summary>
-    private void OnMouseClickHeldStart()
+    private void OnMouseClickHoldUpdate()
     {
         selectionBox.DrawSelectionBox(mousetStartPosition, MouseScreenPos);
     }

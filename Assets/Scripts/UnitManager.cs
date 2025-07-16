@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -10,6 +11,7 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private List<SelectableObject> allUnits = new List<SelectableObject>();
     [SerializeField] private List<SelectableObject> selectedUnits = new List<SelectableObject>();
     [SerializeField] private GameObject AbilityPanelPrefab;
+    [SerializeField] private LayerMask unitLayer;
     private AbilityUIManager abilityUIManager;
     public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
 
@@ -243,5 +245,32 @@ public class UnitManager : NetworkBehaviour
         return offset;
     }
 
-    
+    /// <summary>
+    /// Raycasts to the position selecting the first unit hit
+    /// </summary>
+    /// <param name="mouseScreenPos"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void PointSelection(Vector2 mouseScreenPos)
+    {
+        ClearAllSelectedUnits();
+        Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, unitLayer))
+        {
+            GameObject hitObject = hitInfo.collider.gameObject;
+
+            // Find matching unit in cache by GameObject reference
+            SelectableObject clickedUnit = allUnits.Find(unit => unit.gameObject == hitObject);
+
+            if (clickedUnit != null)
+            {
+                
+                SelectUnit(clickedUnit);
+            }
+            else
+            {
+                Debug.LogError($"{hitInfo.collider.gameObject.name} was not found in {allUnits}!");
+            }
+        }
+    }
 }
