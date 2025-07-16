@@ -4,8 +4,10 @@ using UnityEditor;
 using UnityEngine;
 
 public interface Inspectorable
-{ 
+{
+#if UNITY_EDITOR
     void DrawInspector(SerializedObject _so);
+#endif
 }
 
 
