@@ -13,16 +13,21 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private GameObject AbilityPanelPrefab;
     [SerializeField] private LayerMask unitLayer;
     private AbilityUIManager abilityUIManager;
+    private RTSPlayerControls rTSPlayerControls;
+    private bool isShitHeld => rTSPlayerControls.IsShiftPressed;
     public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
 
     private readonly float moveSpacing = 2;
     private readonly int moveLayerCapciaty = 8;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void Awake()
     {
-        /*GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
-        abilityUIManager = AbilityPanel.GetComponentInChildren<AbilityUIManager>();*/
+        if (!TryGetComponent<RTSPlayerControls>(out rTSPlayerControls))
+        {
+            Debug.LogError($"{nameof(rTSPlayerControls)} is required in {GetType().Name} within gameobject {gameObject.name}!");
+            return;
+        }
     }
 
     public void Init()
@@ -89,7 +94,10 @@ public class UnitManager : NetworkBehaviour
             return;
         }
 
-        ClearAllSelectedUnits();
+        if (!isShitHeld)
+        {
+            ClearAllSelectedUnits();
+        }
 
         foreach (SelectableObject _unit in allUnits)
         {
@@ -252,7 +260,11 @@ public class UnitManager : NetworkBehaviour
     /// <exception cref="NotImplementedException"></exception>
     public void PointSelection(Vector2 mouseScreenPos)
     {
-        ClearAllSelectedUnits();
+        if (!isShitHeld)
+        {
+            ClearAllSelectedUnits();
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
 
         if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, unitLayer))

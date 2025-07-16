@@ -39,6 +39,8 @@ public class RTSPlayerControls : MonoBehaviour
     public CommandMode SelectedCommand => selectedCommand;
     [SerializeField] private CommandCursors commandCursors;
     private CameraSpawner cameraSpawner;
+    private bool isShiftPressed = false;
+    public bool IsShiftPressed => isShiftPressed;
     
 
     /// <summary>
@@ -82,6 +84,18 @@ public class RTSPlayerControls : MonoBehaviour
     private void Update()
     {
         if (isMouseHeld) { OnMouseClickHoldUpdate(); }
+    }
+
+    public void Shift(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isShiftPressed = true;
+        }
+        else if (context.canceled)
+        {
+            isShiftPressed = false;
+        }
     }
 
     /// <summary>
