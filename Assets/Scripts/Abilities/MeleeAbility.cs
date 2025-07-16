@@ -109,6 +109,10 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
 
         SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
         fieldHitEffect.objectReferenceValue = EditorGUILayout.ObjectField("Hit Effect Prefab", fieldHitEffect.objectReferenceValue, typeof(GameObject), false);
+        if (fieldHitEffect.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Hit Effect Prefab must be assigned.", MessageType.Error);
+        }
     }
 #endif
 }
