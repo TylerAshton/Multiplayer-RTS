@@ -627,6 +627,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "M1DoubleTap",
+                    "type": "Button",
+                    "id": "6f0226b5-81d7-435f-946d-0652f5ae9d19",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "MultiTap(tapTime=0.1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "M1Hold",
                     "type": "Button",
                     "id": "18b8d62a-07c9-4ad2-b473-a3b17b8cd318",
@@ -1181,6 +1190,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84fc13fb-7fcd-4906-94f9-d94ec90c954e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "M1DoubleTap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

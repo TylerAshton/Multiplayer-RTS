@@ -38,6 +38,9 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
 
     private Health castTargetHealth;
 
+    [SerializeField] private string iD = string.Empty;
+    public string ID => iD; 
+
     protected virtual void Awake()
     {
         if (selectionIndiator == null)
@@ -52,6 +55,11 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
         if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
         {
             Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+        }
+        if (string.IsNullOrEmpty(iD))
+        {
+            Debug.LogError($"{nameof(iD)} is null or empty in {gameObject.name}!");
+            return;
         }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();

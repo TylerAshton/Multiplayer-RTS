@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private LayerMask unitLayer;
     private AbilityUIManager abilityUIManager;
     private RTSPlayerControls rTSPlayerControls;
-    private bool isShitHeld => rTSPlayerControls.IsShiftPressed;
+    private bool isShiftHeld => rTSPlayerControls.IsShiftPressed;
     public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
 
     private readonly float moveSpacing = 2;
@@ -94,7 +95,7 @@ public class UnitManager : NetworkBehaviour
             return;
         }
 
-        if (!isShitHeld)
+        if (!isShiftHeld)
         {
             ClearAllSelectedUnits();
         }
@@ -256,33 +257,84 @@ public class UnitManager : NetworkBehaviour
     /// <summary>
     /// Raycasts to the position selecting the first unit hit
     /// </summary>
-    /// <param name="mouseScreenPos"></param>
+    /// <param name="_mouseScreenPos"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void PointSelection(Vector2 mouseScreenPos)
+    public void PointSelection(Vector2 _mouseScreenPos)
     {
-        if (!isShitHeld)
+        if (!isShiftHeld)
         {
             ClearAllSelectedUnits();
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(mouseScreenPos);
+        SelectableObject clickedUnit = GetSelectableAtMouse(_mouseScreenPos);
+
+        if (clickedUnit == null)
+        {
+            return;
+        }
+
+        if (selectedUnits.Contains(clickedUnit))
+        {
+            return;
+        }
+
+        SelectUnit(clickedUnit);
+    }
+
+    private SelectableObject GetSelectableAtMouse(Vector3 _mouseScreenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(_mouseScreenPos);
+
+        SelectableObject clickedUnit = null;
 
         if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, unitLayer))
         {
             GameObject hitObject = hitInfo.collider.gameObject;
 
             // Find matching unit in cache by GameObject reference
-            SelectableObject clickedUnit = allUnits.Find(unit => unit.gameObject == hitObject);
+            clickedUnit = allUnits.Find(unit => unit.gameObject == hitObject);
 
-            if (clickedUnit != null)
-            {
-                
-                SelectUnit(clickedUnit);
-            }
-            else
+            if (clickedUnit == null)
             {
                 Debug.LogError($"{hitInfo.collider.gameObject.name} was not found in {allUnits}!");
+                return null;
             }
+
+            if (!clickedUnit.IsSelectable)
+            {
+                return null;
+            }
+        }
+
+        
+
+        return clickedUnit;
+    }
+
+    public void SelectCommon(Vector2 _mouseScreenPos)
+    {
+        SelectableObject clickedUnit = GetSelectableAtMouse(_mouseScreenPos);
+
+        if (clickedUnit == null)
+        {
+            return;
+        }
+
+        SelectableObject[] matchingUnits;
+
+        if (!isShiftHeld) // If double clicking we'll already have selected the clickUnit
+        {
+            ClearAllSelectedUnits();
+            matchingUnits = allUnits.Where(unit => unit.ID == clickedUnit.ID && unit.IsSelectable).ToArray();
+        }
+        else
+        {
+            matchingUnits = allUnits.Where(unit => unit.ID == clickedUnit.ID && unit.IsSelectable && !selectedUnits.Contains(unit)).ToArray();
+        }
+
+        foreach (SelectableObject _selectableObject in matchingUnits)
+        {
+            SelectUnit(_selectableObject);
         }
     }
 }

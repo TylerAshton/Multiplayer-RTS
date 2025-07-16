@@ -133,24 +133,38 @@ public class RTSPlayerControls : MonoBehaviour
     /// <param name="context"></param>
     public void OnMouseClick(InputAction.CallbackContext context)
     {
+        if (isUsingUI(mouseScreenPos))
+        {
+            return;
+        }
+
         if (context.performed)
         {
-            OnMouseClick();
+            OnMouseClickPerformed();
         }
-/*        else if (context.canceled)
-        {
-            OnMouseClickEnded();
-        }*/
     }
-    private void OnMouseClick()
+    private void OnMouseClickPerformed()
     {
         RTSPlayer.instance.UnitManager.PointSelection(mouseScreenPos);
     }
-    private void OnMouseClickEnded()
+
+    public void OnMouseDoubleClick(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        if (isUsingUI(mouseScreenPos))
+        {
+            return;
+        }
+
+        if (context.performed)
+        {
+            OnMouseDoubleClickPerformed();
+        }
     }
 
+    private void OnMouseDoubleClickPerformed()
+    {
+        RTSPlayer.instance.UnitManager.SelectCommon(mouseScreenPos);
+    }
 
     public void OnMouseHeld(InputAction.CallbackContext context)
     {
@@ -320,7 +334,7 @@ public class RTSPlayerControls : MonoBehaviour
     {
         selectedCommand = _mode;
 
-        Texture2D cursorIcon = commandCursors.defaultCursor;
+/*        Texture2D cursorIcon = commandCursors.defaultCursor;
 
         switch(_mode)
         {
@@ -341,7 +355,7 @@ public class RTSPlayerControls : MonoBehaviour
                 }
         }
 
-        Cursor.SetCursor(cursorIcon, default, CursorMode.Auto);
+        Cursor.SetCursor(cursorIcon, default, CursorMode.Auto);*/
     }
 
     /// <summary>
