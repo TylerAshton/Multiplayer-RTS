@@ -10,9 +10,10 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     [SerializeField] private float slowAmount;
     [SerializeField] private ProjectionStats channelStats;
     [SerializeField] private bool isAttached = false;
+    protected override string animationTrigger => "ProjectionAbility";
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+        _user.NAnimator.SetTrigger($"{animationTrigger}");
 
         StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
         List<StatModifyer> statModifyers = new List<StatModifyer>();

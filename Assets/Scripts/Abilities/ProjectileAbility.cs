@@ -9,11 +9,12 @@ public class ProjectileAbility : Ability<IAbilityUser>
 {
     //[SerializeField] private GameObject projectile;
     [SerializeField] private ProjectileStats projectileStats;
+    protected override string animationTrigger => "ProjectileAbility";
     protected override void ActivateTyped(IAbilityUser _user)
     {
         if (_user is ICharacterAbilityUser _characterAbilityUser)
         {
-            _characterAbilityUser.NAnimator.SetTrigger($"{AnimationTrigger}");
+            _characterAbilityUser.NAnimator.SetTrigger($"{animationTrigger}");
         }
         else
         {

@@ -10,7 +10,7 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
     [SerializeField] private GameObject buffEffects;
     [SerializeField] private float slowAmount;
     [SerializeField] private Effect effect;
-
+    protected override string animationTrigger => "BuffAbility";
 /*    public override Ability Clone()
     {
         throw new System.NotImplementedException();
@@ -18,7 +18,7 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+        _user.NAnimator.SetTrigger($"{animationTrigger}");
         StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
         List<StatModifyer> statModifyers = new List<StatModifyer>();
         statModifyers.Add(statModifyer);

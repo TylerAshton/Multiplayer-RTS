@@ -14,13 +14,13 @@ public abstract class Ability : Purchasable, Inspectorable
     [SerializeField] private string animationTrigger;
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private float cooldown = 0f;
+    protected virtual string animationTrigger => null;
 
     public float Cooldown => cooldown;
 
     public int AbilityCost => abilityCost;
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
-    public string AnimationTrigger => animationTrigger;
 
     //public string PurchaseID => abilityID;
 
@@ -91,10 +91,6 @@ public abstract class Ability : Purchasable, Inspectorable
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
-
-        SerializedProperty fieldAnimationTrigger = _so.FindProperty("animationTrigger");
-        fieldAnimationTrigger.stringValue = EditorGUILayout.TextField("Animation Trigger", fieldAnimationTrigger.stringValue); // TODO: Remove?
-                                                                                                                               //EditorGUILayout.HelpBox("Honestly don't animationTrigger touch this without a dev.", MessageType.Warning);
 
         SerializedProperty fieldCastTime = _so.FindProperty("castTime");
         fieldCastTime.floatValue = EditorGUILayout.Slider("Cast Time", fieldCastTime.floatValue, 0, 10);
