@@ -51,7 +51,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
     {
         base.DrawInspector(_so);
 
-        DrawStat(_so, "projectileStats");
+        DrawStat<BaseAbilityStat>(_so, "projectileStats");
     }
 #endif
 

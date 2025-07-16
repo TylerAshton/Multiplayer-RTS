@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public abstract class BaseAbilityStat : RegistryItem
+public abstract class BaseAbilityStat : RegistryItem, Inspectorable
 {
     public virtual bool IsValid()
     {

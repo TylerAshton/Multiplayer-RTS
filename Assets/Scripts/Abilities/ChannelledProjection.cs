@@ -70,7 +70,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
         SerializedProperty fieldIsAttached = _so.FindProperty("isAttached");
         fieldIsAttached.boolValue = EditorGUILayout.Toggle("Attach?", fieldIsAttached.boolValue);
 
-        DrawStat(_so, "channelStats");
+        DrawStat<BaseAbilityStat>(_so, "channelStats");
 
     }
 #endif

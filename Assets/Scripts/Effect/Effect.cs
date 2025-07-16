@@ -1,6 +1,13 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+
+public interface Inspectorable
+{ 
+    void DrawInspector(SerializedObject _so);
+}
+
 
 [System.Serializable]
 public class Effect
@@ -20,6 +27,5 @@ public class Effect
         duration = _duration;
         statModifyers = _modifiers;
     }
-
 
 }

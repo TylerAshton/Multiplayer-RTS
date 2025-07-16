@@ -6,7 +6,7 @@ using UnityEngine;
 /// all kinds of abilities
 /// </summary>
 [System.Serializable]
-public abstract class Ability : Purchasable
+public abstract class Ability : Purchasable, Inspectorable
 {
     public string AbilityName => this.name; // This probably isn't needed but cba to refactor some stuff
     [SerializeField] private float castTime = 1f;
@@ -118,7 +118,7 @@ public abstract class Ability : Purchasable
 #endif
 
 #if UNITY_EDITOR
-    protected void DrawStat(SerializedObject _so, string _fieldName)
+    protected void DrawStat<T>(SerializedObject _so, string _fieldName) where T : UnityEngine.Object, Inspectorable
     {
         SerializedProperty fieldBaseAbilityStat = _so.FindProperty(_fieldName);
 
@@ -132,7 +132,7 @@ public abstract class Ability : Purchasable
 
         if (fieldBaseAbilityStat.objectReferenceValue != null)
         {
-            DrawStatValues(fieldBaseAbilityStat);
+            DrawStatValues<T>(fieldBaseAbilityStat);
         }
         else
         {
@@ -141,7 +141,7 @@ public abstract class Ability : Purchasable
 
     }
 
-    protected void DrawStatValues(SerializedProperty _sp)
+    protected void DrawStatValues<T>(SerializedProperty _sp) where T : UnityEngine.Object, Inspectorable
     {
         if (_sp.objectReferenceValue == null)
         {
@@ -149,16 +149,16 @@ public abstract class Ability : Purchasable
         }
 
         SerializedObject statsSO = new SerializedObject(_sp.objectReferenceValue);
-        BaseAbilityStat stat = (BaseAbilityStat)_sp.objectReferenceValue;
+        T stat = _sp.objectReferenceValue as T;
 
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField($"{stat.name}", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField($"{nameof(T)}", EditorStyles.boldLabel);
 
         statsSO.Update();
 
         stat.DrawInspector(statsSO);
 
-        statsSO.ApplyModifiedProperties();
+        statsSO.ApplyModifiedProperties();   
     }
 
 #endif
