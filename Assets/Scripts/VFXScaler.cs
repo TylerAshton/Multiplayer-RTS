@@ -8,7 +8,7 @@ public class VFXScaler : MonoBehaviour
     /// </summary>
     /// <param name="scaleFactor"></param>
     /// <param name="vfxParent"></param>
-    public void ScaleParticles(float scaleFactor, GameObject vfxParent)
+    public static void ScaleParticles(float scaleFactor, GameObject vfxParent)
     {
         ParticleSystem[] particleSystems = vfxParent.GetComponentsInChildren<ParticleSystem>();
         foreach (var particleSystem in particleSystems)

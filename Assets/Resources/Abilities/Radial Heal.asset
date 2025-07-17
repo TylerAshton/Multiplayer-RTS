@@ -12,19 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
   m_Name: Radial Heal
   m_EditorClassIdentifier: 
-  purchaseID: RadHeal
+  id: RadHeal
   price: 0
-  abilityID: RadHeal
-  abilityName: Radial Heal
-  castTime: 1
-  castPositionName: 0
-  animationTrigger: 
   icon: {fileID: 21300000, guid: 3fe3c2d716716964d91bc544623afa75, type: 3}
+  castTime: 1
+  castPositionName: 4
   abilityCost: 0
-  purchasePrice: 0
-  cooldown: 48
+  cooldown: 2
   radius: 5
   healAmount: 100
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  healVFX: {fileID: 100002, guid: 8ac7c51da8481d04281de20a4d9a2015, type: 3}
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxScale: 0.13
