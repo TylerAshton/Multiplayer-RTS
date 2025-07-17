@@ -31,7 +31,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private Faction faction = Faction.None;
     public Faction Faction { get => faction; set => faction = value; }
     private List<GameObject> hitTagets = new List<GameObject>();
-    private VFXScaler vfxScaler;
 
     private void Awake()
     {
@@ -48,10 +47,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         if (!TryGetComponent<MeshRenderer>(out meshRenderer))
         {
             Debug.LogError("MeshRenderer is required for BulletProjectile");
-        }
-        if (!TryGetComponent<VFXScaler>(out vfxScaler))
-        {
-            Debug.LogError($"VFXScaler is required for BulletProjectile");
         }
 
 
@@ -133,7 +128,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         {
             GameObject spawnedVfx = Instantiate(bulletVFX, transform);
             //spawnedVfx.transform.localScale *= bulletVFXScale;
-            vfxScaler.ScaleParticles(bulletVFXScale, spawnedVfx);
+            VFXScaler.ScaleParticles(bulletVFXScale, spawnedVfx);
         }
     }
 
@@ -394,7 +389,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
         GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
         //spawnedVfx.transform.localScale *= deathVFXScale;
-        vfxScaler.ScaleParticles(deathVFXScale, spawnedVfx);
+        VFXScaler.ScaleParticles(deathVFXScale, spawnedVfx);
 
     }
 }
