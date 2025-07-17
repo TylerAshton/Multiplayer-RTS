@@ -343,6 +343,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
                     rotation = transform.rotation,
                     velocity = characterController.velocity
                 };
+                Debug.Log($"characterController.velocity : {characterController.velocity}");
                 serverStateBuffer.Add(statePay, bufferIndex);
                 SendToClientRpc(statePay);
                 continue;
@@ -376,9 +377,10 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
                 latest = extrapolationState;
             }
 
-            //var posAdjustment = latest.velocity * (1 + latency * extrapolationMultiplier);
-            //extrapolationState.postition = posAdjustment;
-            extrapolationState.position = latest.position;
+            var posAdjustment = latest.velocity * (1 + latency * extrapolationMultiplier);
+            extrapolationState.position = posAdjustment;
+            Debug.Log($"posAdjustment : {posAdjustment.ToString()}... latest.velocity : {latest.velocity.ToString()}... extrapolationState.position : {extrapolationState.position}");  //Velocity isnt being updated meaning its multiplying by 0 and not moving
+            //extrapolationState.position = latest.position;
             extrapolationState.rotation = latest.rotation;
             extrapolationState.velocity = latest.velocity;
             extrapolationTimer.Start();
