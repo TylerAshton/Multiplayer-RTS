@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
   m_Name: Rejuvenating Burst LV1
   m_EditorClassIdentifier: 
+  purchaseID: RejuvenatingBurst
+  price: 0
+  icon: {fileID: 21300000, guid: b44e8d04f053e234e8bc2467b44c2bae, type: 3}
   abilityID: RejuvenatingBurst
-  abilityName: Rejuvenating Burst
   castTime: 1
   castPositionName: 0
   animationTrigger: 
-  icon: {fileID: 21300000, guid: b44e8d04f053e234e8bc2467b44c2bae, type: 3}
   abilityCost: 0
   cooldown: 48
   radius: 5

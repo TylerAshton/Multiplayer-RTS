@@ -1,0 +1,52 @@
+.shop-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.ability-slot-container {
+    position: relative;
+}
+
+.ability-slot {
+    width: 110px;
+    height: 130px;
+    position: absolute;
+}
+
+.ability-button {
+    width: 100px;
+    height: 100px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(34, 34, 34);
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.icon {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    font-color: white;
+    background-image: url("project://database/Assets/Assets/Keyboard%20Letters%20and%20Symbols.png?fileID=2800000&guid=eb39836e111a9fb40b85ea4801987a6f&type=3#Keyboard Letters and Symbols");
+}
+
+.ability-button:hover .icon {
+    -unity-background-image-tint-color: rgb(167, 255, 47);
+    unity-tint-color: #cfa93f;
+}
+
+.label {
+    font-size: 12px;
+    color: white;
+    -unity-text-align: middle-center;
+}

@@ -288,7 +288,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: BladeSpin
+    m_ConditionEvent: MeleeAbilityLunge
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -512746790762464561}
@@ -529,7 +529,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: MeleeAttack
+  - m_Name: MeleeAbility
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -547,13 +547,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: BladeSpin
+  - m_Name: MeleeAbilityLunge
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Frenzy
+  - m_Name: BuffAbility
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -565,7 +565,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: CrushingBlow
+  - m_Name: ProjectionAbility
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -629,17 +629,17 @@ BlendTree:
     m_Threshold: 2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: MoveX
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 1392ac369f2d953489aa0c470c209bc0, type: 2}
+    m_Motion: {fileID: 7400000, guid: 07d0b871dfd962c40aced74170713659, type: 2}
     m_Threshold: 7
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
+    m_TimeScale: 1.5
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: MoveX
-    m_Mirror: 0
+    m_Mirror: 1
   m_BlendParameter: SpeedX
   m_BlendParameterY: Blend
   m_MinThreshold: 0
@@ -683,7 +683,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: CrushingBlow
+    m_ConditionEvent: ProjectionAbility
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4606512802433053739}
@@ -785,7 +785,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: MeleeAttack
+    m_ConditionEvent: MeleeAbility
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -891440694686600813}
@@ -876,10 +876,10 @@ BlendTree:
     m_DirectBlendParameter: MoveX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f043cb2bf51e6e94aa93fc36ed23ba76, type: 2}
+    m_Motion: {fileID: 7400000, guid: 0ca610115acbda043b7afe11eb676d86, type: 2}
     m_Threshold: 7
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
+    m_TimeScale: 1.5
     m_CycleOffset: 0
     m_DirectBlendParameter: MoveX
     m_Mirror: 0
@@ -899,7 +899,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Frenzy
+    m_ConditionEvent: BuffAbility
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1116863567564062460}

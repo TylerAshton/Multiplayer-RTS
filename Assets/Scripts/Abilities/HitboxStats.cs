@@ -50,7 +50,7 @@ public class HitboxStats : BaseAbilityStat
 
         SerializedProperty fieldSizeDelta = so.FindProperty("sizeChangeTime");
         EditorGUILayout.PropertyField(fieldSizeDelta, new GUIContent("Size Change Time"));
-        if (sizeChangeTime < 0)
+        if (sizeChangeTime <= 0)
         {
             EditorGUILayout.HelpBox($"{nameof(sizeChangeTime)} must be a positive value!", MessageType.Error);
         }

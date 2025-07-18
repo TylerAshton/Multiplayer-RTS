@@ -108,6 +108,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0.5}
+--- !u!1 &7857061559200207059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4743093171616859353}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4743093171616859353
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857061559200207059}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6820472438362718674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8786565032581669084
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +176,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6794675902788546236}
+  - {fileID: 4743093171616859353}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8246939001103950362
@@ -358,6 +390,58 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 7f070569-26a8-48b6-a0b7-5283182a9a27
     m_ActionName: 'Player/Point[/Mouse/position,/Touchscreen/touch0/position,/Touchscreen/touch1/position,/Touchscreen/touch2/position,/Touchscreen/touch3/position,/Touchscreen/touch4/position,/Touchscreen/touch5/position,/Touchscreen/touch6/position,/Touchscreen/touch7/position,/Touchscreen/touch8/position,/Touchscreen/touch9/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fd458e1b-85cb-4adb-a648-1f70665075f4
+    m_ActionName: 'Player/Debug Revive[/Keyboard/slash]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8246939001103950362}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: OnMouseHeld
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 18b8d62a-07c9-4ad2-b473-a3b17b8cd318
+    m_ActionName: 'UI/M1Hold[/Mouse/leftButton,/Touchscreen/touch0/press,/Touchscreen/touch1/press,/Touchscreen/touch2/press,/Touchscreen/touch3/press,/Touchscreen/touch4/press,/Touchscreen/touch5/press,/Touchscreen/touch6/press,/Touchscreen/touch7/press,/Touchscreen/touch8/press,/Touchscreen/touch9/press]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8246939001103950362}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: Shift
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b7494411-9b32-4763-a4c4-2fc173ce8c35
+    m_ActionName: 'UI/Shift[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8246939001103950362}
+        m_TargetAssemblyTypeName: RTSPlayerControls, Assembly-CSharp
+        m_MethodName: OnMouseDoubleClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6f0226b5-81d7-435f-946d-0652f5ae9d19
+    m_ActionName: UI/M1DoubleTap
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -404,6 +488,9 @@ MonoBehaviour:
   allUnits: []
   selectedUnits: []
   AbilityPanelPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &3909084894797125082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +526,9 @@ MonoBehaviour:
   maxZoom: 70
   targetZoom: 10
   zoomSensitivity: 3
+  zoomSpeed: 5
+  panningTarget: {fileID: 4743093171616859353}
+  panningRotationOffset: {x: 0, y: 90, z: 0}
 --- !u!114 &6846700315286605413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,6 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
+  cameraPrefab: {fileID: 1334692810404585016, guid: 3e6cc4edf8aba094ab15422fb6b4e95e, type: 3}
   cameraSpawnOffset: {x: 0, y: 78, z: 0}
   isChampion: 0
+  cameraTarget: {fileID: 4743093171616859353}

@@ -10,9 +10,10 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     [SerializeField] private float slowAmount;
     [SerializeField] private ProjectionStats channelStats;
     [SerializeField] private bool isAttached = false;
+    protected override string animationTrigger => "ProjectionAbility";
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{AnimationTrigger}");
+        _user.NAnimator.SetTrigger($"{animationTrigger}");
 
         StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
         List<StatModifyer> statModifyers = new List<StatModifyer>();
@@ -70,13 +71,8 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
         SerializedProperty fieldIsAttached = _so.FindProperty("isAttached");
         fieldIsAttached.boolValue = EditorGUILayout.Toggle("Attach?", fieldIsAttached.boolValue);
 
-        SerializedProperty fieldChannelStats = _so.FindProperty("channelStats");
-        EditorGUILayout.PropertyField(fieldChannelStats);
+        DrawStat<BaseAbilityStat>(_so, "channelStats");
 
-        if (fieldChannelStats.objectReferenceValue != null)
-        {
-            DrawStat(fieldChannelStats);
-        }
     }
 #endif
 }

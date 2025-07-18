@@ -299,6 +299,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 6590560809606865843}
   isSelectable: 1
+  iD: Emplacement
 --- !u!114 &8282621190444458776
 MonoBehaviour:
   m_ObjectHideFlags: 0

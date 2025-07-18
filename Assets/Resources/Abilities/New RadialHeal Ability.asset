@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
   m_Name: New RadialHeal Ability
   m_EditorClassIdentifier: 
+  purchaseID: wegfw
+  price: 0
   abilityID: wegfw
   abilityName: awergaewrg
   castTime: 1
@@ -19,6 +21,7 @@ MonoBehaviour:
   animationTrigger: 
   icon: {fileID: 0}
   abilityCost: 0
+  purchasePrice: 0
   cooldown: 0
   radius: 1
   healAmount: 1

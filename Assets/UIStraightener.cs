@@ -7,6 +7,7 @@ public class UIStraightener : MonoBehaviour
 {
     private void LateUpdate()
     {
-        transform.rotation = Quaternion.LookRotation(Vector3.forward);
+        //transform.rotation = Quaternion.LookRotation(Vector3.forward);
+        transform.rotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
     }
 }

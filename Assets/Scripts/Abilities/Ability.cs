@@ -6,28 +6,56 @@ using UnityEngine;
 /// all kinds of abilities
 /// </summary>
 [System.Serializable]
-public abstract class Ability : ScriptableObject
+public abstract class Ability : Purchasable, Inspectorable
 {
-    [SerializeField] private string abilityID = string.Empty;
-    [SerializeField] private string abilityName = string.Empty;
-    public string AbilityID => abilityID;
-    public string AbilityName => abilityName;
+    public string AbilityName => this.name; // This probably isn't needed but cba to refactor some stuff
     [SerializeField] private float castTime = 1f;
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
-    [SerializeField] private string animationTrigger;
-    [SerializeField] private Sprite icon;
     [SerializeField] private int abilityCost = 0;
-    [SerializeField] private int purchasePrice = 0;
     [SerializeField] private float cooldown = 0f;
+    protected virtual string animationTrigger => null;
 
     public float Cooldown => cooldown;
 
     public int AbilityCost => abilityCost;
-    public int PurchasePrice => purchasePrice;
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
-    public string AnimationTrigger => animationTrigger;
-    public Sprite Icon => icon;
+
+    //public string PurchaseID => abilityID;
+
+/*    private void OnValidate()
+    {
+        purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
+    }*/
+
+    public override bool CanPurchase(IShopUser _shopUser)
+    {
+        if (base.CanPurchase(_shopUser) == false)
+        {
+            return false;
+        }
+
+        if (_shopUser.ChampionAbilityManager.CheckAbility(this))
+        {
+            Debug.LogWarning($"Ability {this.AbilityName} is already owned by the user.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public override void ExecutePurchase(IShopUser _shopUser)
+    {
+        if (!CanPurchase(_shopUser))
+        {
+            Debug.LogError("Cannot purchase conditions aren't met!");
+            return;
+        }
+
+
+        PointManager.Instance.RemovePoints(_shopUser.PlayerID, this.price);
+        _shopUser.ChampionAbilityManager.AddAbility(this, 0);
+    }
 
     /// <summary>
     /// Phantom function form for Activate which allows different types of ability classes to type cast
@@ -59,21 +87,9 @@ public abstract class Ability : ScriptableObject
     /// <param name="_so"></param>
     /// 
 #if UNITY_EDITOR // Will crash if this is not wrapped in UNITY_EDITOR
-    public virtual void DrawInspector(SerializedObject _so)
+    public override void DrawInspector(SerializedObject _so)
     {
-        SerializedProperty fieldID = _so.FindProperty("abilityID");
-        fieldID.stringValue = EditorGUILayout.TextField("ID", fieldID.stringValue);
-        if (fieldID.stringValue == "")
-        {
-            EditorGUILayout.HelpBox("Ability ID Can't be null", MessageType.Error);
-        }
-
-        SerializedProperty fieldName = _so.FindProperty("abilityName");
-        fieldName.stringValue = EditorGUILayout.TextField("Name", fieldName.stringValue);
-
-        SerializedProperty fieldAnimationTrigger = _so.FindProperty("animationTrigger");
-        fieldAnimationTrigger.stringValue = EditorGUILayout.TextField("Animation Trigger", fieldAnimationTrigger.stringValue); // TODO: Remove?
-                                                                                                                               //EditorGUILayout.HelpBox("Honestly don't animationTrigger touch this without a dev.", MessageType.Warning);
+        base.DrawInspector(_so);
 
         SerializedProperty fieldCastTime = _so.FindProperty("castTime");
         fieldCastTime.floatValue = EditorGUILayout.Slider("Cast Time", fieldCastTime.floatValue, 0, 10);
@@ -89,25 +105,38 @@ public abstract class Ability : ScriptableObject
             EditorGUILayout.HelpBox("Ability Cost cannot be negative.", MessageType.Error);
         }
 
-        SerializedProperty fieldPurchaseCost = _so.FindProperty("purchasePrice");
-        fieldPurchaseCost.intValue = EditorGUILayout.IntField("Purchase Cost", fieldPurchaseCost.intValue);
-        if (fieldPurchaseCost.intValue < 0)
-        {
-            EditorGUILayout.HelpBox("Purchase Cost cannot be negative!", MessageType.Error);
-        }
-
-
-
         SerializedProperty fieldCastPos = _so.FindProperty("castPositionName");
         fieldCastPos.enumValueIndex = EditorGUILayout.Popup("Cast Position", fieldCastPos.enumValueIndex, fieldCastPos.enumDisplayNames);
 
-        SerializedProperty fieldIcon = _so.FindProperty("icon");
-        fieldIcon.objectReferenceValue = EditorGUILayout.ObjectField("Ability Icon", fieldIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
+        
     }
 #endif
 
 #if UNITY_EDITOR
-    protected void DrawStat(SerializedProperty _sp)
+    protected void DrawStat<T>(SerializedObject _so, string _fieldName) where T : UnityEngine.Object, Inspectorable
+    {
+        SerializedProperty fieldBaseAbilityStat = _so.FindProperty(_fieldName);
+
+        if (fieldBaseAbilityStat == null)
+        {
+            Debug.LogError($"SerializedProperty is null in {GetType().Name}. Please assign a valid SerializedProperty.");
+            return;
+        }
+
+        EditorGUILayout.PropertyField(fieldBaseAbilityStat);
+
+        if (fieldBaseAbilityStat.objectReferenceValue != null)
+        {
+            DrawStatValues<T>(fieldBaseAbilityStat);
+        }
+        else
+        {
+            EditorGUILayout.HelpBox($"Stats field cannot be null!", MessageType.Error);
+        }
+
+    }
+
+    protected void DrawStatValues<T>(SerializedProperty _sp) where T : UnityEngine.Object, Inspectorable
     {
         if (_sp.objectReferenceValue == null)
         {
@@ -115,16 +144,16 @@ public abstract class Ability : ScriptableObject
         }
 
         SerializedObject statsSO = new SerializedObject(_sp.objectReferenceValue);
-        BaseAbilityStat stat = (BaseAbilityStat)_sp.objectReferenceValue;
+        T stat = _sp.objectReferenceValue as T;
 
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField($"{stat.name}", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField($"{nameof(T)}", EditorStyles.boldLabel);
 
         statsSO.Update();
 
         stat.DrawInspector(statsSO);
 
-        statsSO.ApplyModifiedProperties();
+        statsSO.ApplyModifiedProperties();   
     }
 
 #endif

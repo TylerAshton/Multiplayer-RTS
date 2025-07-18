@@ -9,11 +9,12 @@ public class ProjectileAbility : Ability<IAbilityUser>
 {
     //[SerializeField] private GameObject projectile;
     [SerializeField] private ProjectileStats projectileStats;
+    protected override string animationTrigger => "ProjectileAbility";
     protected override void ActivateTyped(IAbilityUser _user)
     {
         if (_user is ICharacterAbilityUser _characterAbilityUser)
         {
-            _characterAbilityUser.NAnimator.SetTrigger($"{AnimationTrigger}");
+            _characterAbilityUser.NAnimator.SetTrigger($"{animationTrigger}");
         }
         else
         {
@@ -51,17 +52,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldProjectileStats = _so.FindProperty("projectileStats");
-        EditorGUILayout.PropertyField(fieldProjectileStats);
-
-        if (fieldProjectileStats.objectReferenceValue != null)
-        {
-            DrawStat(fieldProjectileStats);
-        }
-
-        
-
-
+        DrawStat<BaseAbilityStat>(_so, "projectileStats");
     }
 #endif
 
