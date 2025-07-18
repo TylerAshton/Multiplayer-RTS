@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
-	<object class="AudioFile" id="{2b39eb40-93b9-436e-9035-89345f265653}">
+	<object class="AudioFile" id="{a01e6dc4-f26f-4758-abbd-9a0e6e7f6386}">
 		<property name="assetPath">
-			<value>Eldritch Blast.wav</value>
+			<value>Healing Abilities.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
@@ -11,7 +11,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>3.0434467120181408</value>
+			<value>9</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{ac79da2d-cb46-4bad-8988-11fa0855fd32}</destination>
