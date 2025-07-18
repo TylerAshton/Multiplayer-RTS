@@ -50,8 +50,8 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, VfxObject
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         HealArea(castPositionTransform, _user);
-        //SpawnVFX(castPositionTransform.position + vfxOffset);
-        VFXSpawner.Instance.AbilityVfxRpc(id, castPositionTransform.position);
+        VFXSpawner.Instance.SpawnAbilityVfxRpc(id, castPositionTransform.position);
+
 
 
 

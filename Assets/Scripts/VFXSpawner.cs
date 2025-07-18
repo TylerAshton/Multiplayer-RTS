@@ -11,6 +11,9 @@ public interface VfxObject
     float VfxDuration { get; }
 }
 
+/// <summary>
+/// Static manager that spawns vfx over the network in cases where it cannot be managed by another script
+/// </summary>
 public class VFXSpawner : NetworkBehaviour
 {
     public static VFXSpawner Instance { get; private set; }
@@ -28,8 +31,21 @@ public class VFXSpawner : NetworkBehaviour
         }
     }
 
+    public void RAWR()
+    {
+        Debug.Log("called");
+        MEERpc();
+
+    }
+
     [Rpc(SendTo.Everyone)]
-    public void AbilityVfxRpc(string _abilityID, Vector3 _parentPos)
+    private void MEERpc()
+    {
+        Debug.Log("SERVER");
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawnAbilityVfxRpc(string _abilityID, Vector3 _parentPos)
     {
         Ability ability = Registry<Ability>.GetItem(_abilityID);
 
