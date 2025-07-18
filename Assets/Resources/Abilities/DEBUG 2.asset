@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861e46c58c190cc4589f84dd658eb3ae, type: 3}
   m_Name: DEBUG 2
   m_EditorClassIdentifier: 
+  purchaseID: Debug 2
+  price: 20
   abilityID: Debug 2
+  abilityName: 
   castTime: 1
   castPositionName: 0
   animationTrigger: 
   icon: {fileID: -469861933, guid: eb39836e111a9fb40b85ea4801987a6f, type: 3}
   abilityCost: 0
+  purchasePrice: 20
   cooldown: 0

@@ -52,15 +52,28 @@ public class SummonAbility : Ability<IAbilityUser>
 
         SerializedProperty fieldSpawnee = _so.FindProperty("spawnee");
         fieldSpawnee.objectReferenceValue = EditorGUILayout.ObjectField("Spawnee Prefab", fieldSpawnee.objectReferenceValue, typeof(GameObject), false);
+        if (fieldSpawnee.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Spawnee Prefab must be assigned.", MessageType.Error);
+        }
 
         SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");
         fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
+        if (fieldSpawnVFX.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Spawn VFX Prefab must be assigned.", MessageType.Error);
+        }
 
-        SerializedProperty fieldMaxDispersion = _so.FindProperty("maxDispersion");
-        fieldMaxDispersion.floatValue = EditorGUILayout.FloatField("Max Dispersion", fieldMaxDispersion.floatValue);
-
+        // Min max slider tom foolery
         SerializedProperty fieldMinDisperstion = _so.FindProperty("minDisperstion");
-        fieldMinDisperstion.floatValue = EditorGUILayout.FloatField("Min Dispersion", fieldMinDisperstion.floatValue);
+        SerializedProperty fieldMaxDispersion = _so.FindProperty("maxDispersion");
+
+        float min = fieldMinDisperstion.floatValue; // yay lines are now readable
+        float max = fieldMaxDispersion.floatValue;
+
+        fieldMinDisperstion.floatValue = EditorGUILayout.Slider("Min Dispersion", min, 0f, max);
+        fieldMaxDispersion.floatValue = EditorGUILayout.Slider("Max Dispersion", max, min, 20f);
+
 
         SerializedProperty fieldOffset = _so.FindProperty("offset");
         EditorGUILayout.PropertyField(fieldOffset, new GUIContent("Offset"));

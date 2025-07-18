@@ -266,6 +266,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 4803152115824460874}
   isSelectable: 1
+  iD: Obelisk
 --- !u!114 &3157112401180135382
 MonoBehaviour:
   m_ObjectHideFlags: 0

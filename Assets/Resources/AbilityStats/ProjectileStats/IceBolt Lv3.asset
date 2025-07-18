@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffe88dae6799a94a8b7ecae488eb09f, type: 3}
   m_Name: IceBolt Lv3
   m_EditorClassIdentifier: 
-  iD: Ice3
+  id: Ice3
   detectionRange: 0.1
   speed: 15
   damage: 45

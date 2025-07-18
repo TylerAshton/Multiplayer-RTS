@@ -18,7 +18,7 @@ public class AbilityRegistryTest : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        IReadOnlyDictionary<string, Ability> abilities = AbilityRegistry.Abilities;
+        IReadOnlyDictionary<string, Ability> abilities = Registry<Ability>.Items;
 
         PopulateDropdown(abilities);
     }
@@ -50,7 +50,7 @@ public class AbilityRegistryTest : NetworkBehaviour
     [Rpc(SendTo.NotMe)]
     private void AbilityTestRpc(string _abilityID)
     {
-        Ability ability = AbilityRegistry.GetAbility(_abilityID);
+        Ability ability = Registry<Ability>.GetItem(_abilityID);
 
         Debug.Log(ability);
     }

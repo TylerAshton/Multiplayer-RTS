@@ -51,9 +51,7 @@ public class ProjectionManager : NetworkBehaviour
 
         spawnedVfx = Instantiate(projectionStats.VFXPrefab, transform);
         spawnedVfx.transform.position += projectionStats.VFXOffset;
-        Debug.Log(spawnedVfx.transform.rotation);
         spawnedVfx.transform.rotation *= Quaternion.Euler(projectionStats.VFXRotation.eulerAngles);
-        Debug.Log(spawnedVfx.transform.rotation);
     }
 
     private IEnumerator deathTime()
@@ -88,7 +86,7 @@ public class ProjectionManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void ApplyProjectionStatsRpc(string _projectionStatsID)
     {
-        ProjectionStats projectionStats = AbilityStatsRegistry.GetProjectileStat<ProjectionStats>(_projectionStatsID);
+        ProjectionStats projectionStats = Registry<ProjectionStats>.GetItem(_projectionStatsID);
 
         if (projectionStats == null)
         {

@@ -302,7 +302,7 @@ public class HitboxManager : MonoBehaviour, IFaction
     [Rpc(SendTo.Everyone)]
     private void ApplyHitboxStatsRpc(string _hitboxStatsID)
     {
-        HitboxStats hitboxStats = AbilityStatsRegistry.GetProjectileStat<HitboxStats>(_hitboxStatsID);
+        HitboxStats hitboxStats = Registry<HitboxStats>.GetItem(_hitboxStatsID);
 
         if (hitboxStats == null)
         {

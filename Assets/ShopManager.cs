@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ShopManager : MonoBehaviour
+public class ShopManager : MonoBehaviour // TODO: Honestly I'd rename this script as it's not doing anything shopwise
 {
     public enum shopOwners
     {

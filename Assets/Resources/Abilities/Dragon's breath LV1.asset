@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28d32f4a1997914192c5c1efc4ddc64, type: 3}
   m_Name: Dragon's breath LV1
   m_EditorClassIdentifier: 
+  purchaseID: fireBlaze
+  price: 0
   abilityID: fireBlaze
   abilityName: Dragons Breath
   castTime: 4

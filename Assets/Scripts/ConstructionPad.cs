@@ -67,7 +67,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     public void HideBuildPad()
     {
         HidebuildPadClientRpc();
-        RTSPlayer.instance.UnitManager.TryDeselectUnit(this);
+        RTSPlayer.Instance.UnitManager.TryDeselectUnit(this);
         SetIsSelectable(false);
     }
 

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28d32f4a1997914192c5c1efc4ddc64, type: 3}
   m_Name: Crushing Blow LV1
   m_EditorClassIdentifier: 
+  purchaseID: CrushingBlow
+  price: 0
   abilityID: CrushingBlow
   abilityName: Crushing Blow
   castTime: 4.5

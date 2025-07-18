@@ -748,7 +748,6 @@ GameObject:
   - component: {fileID: 6204940461610679389}
   - component: {fileID: 2885188943381047520}
   - component: {fileID: 7055258072633900359}
-  - component: {fileID: 6245597217510480515}
   - component: {fileID: 3585590050127319289}
   - component: {fileID: -7219205608655039362}
   - component: {fileID: -7655420320514313834}
@@ -759,6 +758,9 @@ GameObject:
   - component: {fileID: -4420682171599434401}
   - component: {fileID: 8123420037731375351}
   - component: {fileID: 3971837674269787782}
+  - component: {fileID: 4394188322512067527}
+  - component: {fileID: -8212970734632235601}
+  - component: {fileID: -3697217004477378991}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -847,6 +849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  movementRotationOffset: {x: 0, y: -90, z: 0}
   acceleration: 30
   deceleration: 40
   smoothSpeed: 15
@@ -1056,6 +1059,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fd458e1b-85cb-4adb-a648-1f70665075f4
     m_ActionName: 'Player/Debug Revive[/Keyboard/slash]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 18b8d62a-07c9-4ad2-b473-a3b17b8cd318
+    m_ActionName: 'UI/M1Hold[/Mouse/leftButton,/Touchscreen/touch0/press,/Touchscreen/touch1/press,/Touchscreen/touch2/press,/Touchscreen/touch3/press,/Touchscreen/touch4/press,/Touchscreen/touch5/press,/Touchscreen/touch6/press,/Touchscreen/touch7/press,/Touchscreen/touch8/press,/Touchscreen/touch9/press]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6f0226b5-81d7-435f-946d-0652f5ae9d19
+    m_ActionName: 'UI/M1DoubleTap[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7494411-9b32-4763-a4c4-2fc173ce8c35
+    m_ActionName: 'UI/Shift[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1083,21 +1098,6 @@ MonoBehaviour:
     TriggerNameHash: -323374038
     TransitionIndex: 0
   m_Animator: {fileID: 3779843464443528873}
---- !u!114 &6245597217510480515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2434894007857547855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-  cameraSpawnOffset: {x: 0, y: 10, z: -10}
-  isChampion: 1
 --- !u!114 &3585590050127319289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,6 +1112,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -1222,7 +1232,7 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Main
     abilities:
-    - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
+    - {fileID: 11400000, guid: c0217e19d85ef6043afabec4844c05f9, type: 2}
     - {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
 --- !u!114 &9122862085660864469
@@ -1254,8 +1264,12 @@ MonoBehaviour:
     value: {fileID: 5742072020312327593}
   - key: 4
     value: {fileID: 5960994509850344562}
+  - key: 2
+    value: {fileID: 8680075027200440846}
   - key: 0
     value: {fileID: 4744129452889750225}
+  - key: 3
+    value: {fileID: 5960994509850344562}
 --- !u!114 &-4420682171599434401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1306,6 +1320,49 @@ MonoBehaviour:
     m_Bits: 1024
   interactionRange: 8
   holdTimeThreshold: 5
+--- !u!114 &4394188322512067527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4fd8348f57bd74b85cf601971db6e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  championShopPrefab: {fileID: 5922602120024632008, guid: 205238ca94f00ab4c9f5b7157498f0ed, type: 3}
+--- !u!114 &-8212970734632235601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4df26162e17e48a4d91158f8f8d78a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-3697217004477378991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
+  cameraSpawnOffset: {x: 0, y: 0, z: 0}
+  isChampion: 0
+  cameraTarget: {fileID: 1770477014136216472}
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,6 +3628,10 @@ PrefabInstance:
     - target: {fileID: 5685279325936207913, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685279325936207913, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6250346294641880146, guid: ac59d545c0102ad4f90d8407fb83826e, type: 3}
       propertyPath: m_Layer

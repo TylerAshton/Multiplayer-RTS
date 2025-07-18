@@ -1,7 +1,9 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -10,17 +12,23 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private List<SelectableObject> allUnits = new List<SelectableObject>();
     [SerializeField] private List<SelectableObject> selectedUnits = new List<SelectableObject>();
     [SerializeField] private GameObject AbilityPanelPrefab;
+    [SerializeField] private LayerMask unitLayer;
     private AbilityUIManager abilityUIManager;
+    private RTSPlayerControls rTSPlayerControls;
+    private bool isShiftHeld => rTSPlayerControls.IsShiftPressed;
     public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
 
     private readonly float moveSpacing = 2;
     private readonly int moveLayerCapciaty = 8;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void Awake()
     {
-        /*GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
-        abilityUIManager = AbilityPanel.GetComponentInChildren<AbilityUIManager>();*/
+        if (!TryGetComponent<RTSPlayerControls>(out rTSPlayerControls))
+        {
+            Debug.LogError($"{nameof(rTSPlayerControls)} is required in {GetType().Name} within gameobject {gameObject.name}!");
+            return;
+        }
     }
 
     public void Init()
@@ -87,7 +95,10 @@ public class UnitManager : NetworkBehaviour
             return;
         }
 
-        ClearAllSelectedUnits();
+        if (!isShiftHeld)
+        {
+            ClearAllSelectedUnits();
+        }
 
         foreach (SelectableObject _unit in allUnits)
         {
@@ -243,5 +254,87 @@ public class UnitManager : NetworkBehaviour
         return offset;
     }
 
-    
+    /// <summary>
+    /// Raycasts to the position selecting the first unit hit
+    /// </summary>
+    /// <param name="_mouseScreenPos"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void PointSelection(Vector2 _mouseScreenPos)
+    {
+        if (!isShiftHeld)
+        {
+            ClearAllSelectedUnits();
+        }
+
+        SelectableObject clickedUnit = GetSelectableAtMouse(_mouseScreenPos);
+
+        if (clickedUnit == null)
+        {
+            return;
+        }
+
+        if (selectedUnits.Contains(clickedUnit))
+        {
+            return;
+        }
+
+        SelectUnit(clickedUnit);
+    }
+
+    private SelectableObject GetSelectableAtMouse(Vector3 _mouseScreenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(_mouseScreenPos);
+
+        SelectableObject clickedUnit = null;
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, unitLayer))
+        {
+            GameObject hitObject = hitInfo.collider.gameObject;
+
+            // Find matching unit in cache by GameObject reference
+            clickedUnit = allUnits.Find(unit => unit.gameObject == hitObject);
+
+            if (clickedUnit == null)
+            {
+                Debug.LogError($"{hitInfo.collider.gameObject.name} was not found in {allUnits}!");
+                return null;
+            }
+
+            if (!clickedUnit.IsSelectable)
+            {
+                return null;
+            }
+        }
+
+        
+
+        return clickedUnit;
+    }
+
+    public void SelectCommon(Vector2 _mouseScreenPos)
+    {
+        SelectableObject clickedUnit = GetSelectableAtMouse(_mouseScreenPos);
+
+        if (clickedUnit == null)
+        {
+            return;
+        }
+
+        SelectableObject[] matchingUnits;
+
+        if (!isShiftHeld) // If double clicking we'll already have selected the clickUnit
+        {
+            ClearAllSelectedUnits();
+            matchingUnits = allUnits.Where(unit => unit.ID == clickedUnit.ID && unit.IsSelectable).ToArray();
+        }
+        else
+        {
+            matchingUnits = allUnits.Where(unit => unit.ID == clickedUnit.ID && unit.IsSelectable && !selectedUnits.Contains(unit)).ToArray();
+        }
+
+        foreach (SelectableObject _selectableObject in matchingUnits)
+        {
+            SelectUnit(_selectableObject);
+        }
+    }
 }

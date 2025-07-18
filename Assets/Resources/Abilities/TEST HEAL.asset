@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
   m_Name: TEST HEAL
   m_EditorClassIdentifier: 
+  purchaseID: \swedfg
+  price: 0
   abilityID: \swedfg
   abilityName: zdefgb
   castTime: 1
@@ -19,6 +21,7 @@ MonoBehaviour:
   animationTrigger: 
   icon: {fileID: 21300000, guid: 994ca0d156e8a0f47b51c564b795490c, type: 3}
   abilityCost: 0
+  purchasePrice: 0
   cooldown: 0
   radius: 30
   healAmount: 20

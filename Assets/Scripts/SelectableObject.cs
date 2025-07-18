@@ -38,6 +38,9 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
 
     private Health castTargetHealth;
 
+    [SerializeField] private string iD = string.Empty;
+    public string ID => iD; 
+
     protected virtual void Awake()
     {
         if (selectionIndiator == null)
@@ -53,6 +56,11 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
         {
             Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
+        if (string.IsNullOrEmpty(iD))
+        {
+            Debug.LogError($"{nameof(iD)} is null or empty in {gameObject.name}!");
+            return;
+        }
 
         selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
     }
@@ -65,13 +73,13 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
             return;
         }
 
-        if (RTSPlayer.instance == null)
+        if (RTSPlayer.Instance == null)
         {
             Debug.LogError("RTS Manager doesn't exist, shutting down");
             return;
         }
 
-        rts_Player = RTSPlayer.instance;
+        rts_Player = RTSPlayer.Instance;
         rts_Player.UnitManager.AddUnit(this);
     }
 

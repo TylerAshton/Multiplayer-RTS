@@ -55,62 +55,79 @@ public class ProjectionStats : BaseAbilityStat
 
 #if UNITY_EDITOR
 
-    public override void DrawInspector(SerializedObject so)
+    public override void DrawInspector(SerializedObject _so)
     {
-        base.DrawInspector(so);
+        base.DrawInspector(_so);
 
-        SerializedProperty fieldVFXPrefab = so.FindProperty("vfxPrefab");
+        SerializedProperty fieldVFXPrefab = _so.FindProperty("vfxPrefab");
         fieldVFXPrefab.objectReferenceValue = EditorGUILayout.ObjectField("VFX Prefab", fieldVFXPrefab.objectReferenceValue, typeof(GameObject), false);
         if (fieldVFXPrefab.objectReferenceValue == null)
         {
             EditorGUILayout.HelpBox("VFX Prefab must be assigned!", MessageType.Error);
         }
 
-        SerializedProperty fieldVFXOffset = so.FindProperty("vfxOffset");
+        SerializedProperty fieldVFXOffset = _so.FindProperty("vfxOffset");
         fieldVFXOffset.vector3Value = EditorGUILayout.Vector3Field("VFX Offset", fieldVFXOffset.vector3Value);
         if (fieldVFXOffset.vector3Value == null)
         {
             EditorGUILayout.HelpBox("VFX Offset must be assigned!", MessageType.Error);
         }
 
-        SerializedProperty fieldVFXRotation = so.FindProperty("vfxRotation");
+        SerializedProperty fieldVFXRotation = _so.FindProperty("vfxRotation");
         Quaternion quatValue = fieldVFXRotation.quaternionValue;
         Vector3 euler = quatValue.eulerAngles;
         Vector3 newEuler = EditorGUILayout.Vector3Field("Vfx Rotation offset", euler);
         fieldVFXRotation.quaternionValue = Quaternion.Euler(newEuler);
         //fieldVFXRotation.quaternionValue = EditorGUILayout.ObjectField("VFX Rotation", fieldVFXRotation.quaternionValue);
 
-        SerializedProperty fieldDamagePerSecond = so.FindProperty("damage");
+        SerializedProperty fieldDamagePerSecond = _so.FindProperty("damage");
         fieldDamagePerSecond.floatValue = EditorGUILayout.FloatField("Damage", fieldDamagePerSecond.floatValue);
         if (fieldDamagePerSecond.floatValue <= 0)
         {
             EditorGUILayout.HelpBox("Damage must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldDamageOnce = so.FindProperty("damageOnce");
+        SerializedProperty fieldDamageOnce = _so.FindProperty("damageOnce");
         fieldDamageOnce.boolValue = EditorGUILayout.Toggle("Damage Once", fieldDamageOnce.boolValue);
 
-        SerializedProperty fieldDuration = so.FindProperty("duration");
+        SerializedProperty fieldDuration = _so.FindProperty("duration");
         fieldDuration.floatValue = EditorGUILayout.FloatField("Duration", fieldDuration.floatValue);
         if (fieldDuration.floatValue <= 0)
         {
             EditorGUILayout.HelpBox("Duration must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldHitbox = so.FindProperty("hitboxStats");
-        EditorGUILayout.PropertyField(fieldHitbox);
-
-        if (fieldHitbox.objectReferenceValue != null)
-        {
-            DrawStat(fieldHitbox);
-            
-        }
+        SerializedProperty fieldHitbox = _so.FindProperty("hitboxStats");
+        DrawStat(_so, "hitboxStats");
     }
 
 #endif
 
-#if UNITY_EDITOR
-    protected void DrawStat(SerializedProperty _sp)
+#if UNITY_EDITOR // TODO: This should really be in a static helper class
+    protected void DrawStat(SerializedObject _so, string _fieldName)
+    {
+        SerializedProperty fieldBaseAbilityStat = _so.FindProperty(_fieldName);
+
+        if (fieldBaseAbilityStat == null)
+        {
+            Debug.LogError($"SerializedProperty is null in {GetType().Name}. Please assign a valid SerializedProperty.");
+            return;
+        }
+
+        EditorGUILayout.PropertyField(fieldBaseAbilityStat);
+
+        if (fieldBaseAbilityStat.objectReferenceValue != null)
+        {
+            DrawStatValues(fieldBaseAbilityStat);
+        }
+        else
+        {
+            EditorGUILayout.HelpBox($"Stats field cannot be null!", MessageType.Error);
+        }
+
+    }
+
+    protected void DrawStatValues(SerializedProperty _sp)
     {
         if (_sp.objectReferenceValue == null)
         {
