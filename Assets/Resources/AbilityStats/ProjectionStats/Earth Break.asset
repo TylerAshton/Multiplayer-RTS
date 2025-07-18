@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Earth Break
   m_EditorClassIdentifier: 
   iD: EarthShatter1
-  vfxPrefab: {fileID: 1314945738539566, guid: 9653d9c6437e670488debd2d53a41597, type: 3}
+  vfxPrefab: {fileID: 1314945738539566, guid: 32c9fd11a72259d45aa26ae41c34c5aa, type: 3}
   vfxOffset: {x: 0, y: 0, z: 0}
-  vfxRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  vfxRotation: {x: 0, y: 0.7372773, z: 0, w: -0.6755902}
   damage: 125
   damageOnce: 1
-  duration: 5
+  duration: 3.2
   hitboxStats: {fileID: 11400000, guid: d4fb3e11b4b89bf43a59646c8f11afeb, type: 2}

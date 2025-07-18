@@ -19,6 +19,7 @@ MonoBehaviour:
   castPositionName: 4
   animationTrigger: FireBlast
   abilityCost: 0
+  purchasePrice: 0
   cooldown: 35
   slowAmount: 4
   channelStats: {fileID: 11400000, guid: 90f0649252b36f84a9af74845d27ab5e, type: 2}

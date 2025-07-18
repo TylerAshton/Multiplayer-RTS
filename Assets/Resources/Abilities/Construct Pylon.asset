@@ -23,5 +23,5 @@ MonoBehaviour:
   abilityCost: 0
   purchasePrice: 0
   cooldown: 1
-  spawnee: {fileID: 5123164835970087146, guid: a3dd1adf908c46342bbd0d6f6cf2f312, type: 3}
+  spawnee: {fileID: 371476738365510241, guid: 5fcd6cd9836275949bfeae72c436339a, type: 3}
   spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
