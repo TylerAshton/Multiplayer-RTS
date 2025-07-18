@@ -145,7 +145,7 @@ public class RTSPlayerControls : MonoBehaviour
     }
     private void OnMouseClickPerformed()
     {
-        RTSPlayer.instance.UnitManager.PointSelection(mouseScreenPos);
+        RTSPlayer.Instance.UnitManager.PointSelection(mouseScreenPos);
     }
 
     public void OnMouseDoubleClick(InputAction.CallbackContext context)
@@ -163,7 +163,7 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void OnMouseDoubleClickPerformed()
     {
-        RTSPlayer.instance.UnitManager.SelectCommon(mouseScreenPos);
+        RTSPlayer.Instance.UnitManager.SelectCommon(mouseScreenPos);
     }
 
     public void OnMouseHeld(InputAction.CallbackContext context)
@@ -221,7 +221,7 @@ public class RTSPlayerControls : MonoBehaviour
         }
 
         isMouseHeld = false;
-        RTSPlayer.instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
+        RTSPlayer.Instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
         selectionBox.DisableBox();
 
 /*        // If a unit was selected switch to move commands if idle
@@ -280,7 +280,7 @@ public class RTSPlayerControls : MonoBehaviour
                 break;
         }*/
 
-        RTSPlayer.instance.UnitManager.MoveOrder(worldPosition);
+        RTSPlayer.Instance.UnitManager.MoveOrder(worldPosition);
 
 
 

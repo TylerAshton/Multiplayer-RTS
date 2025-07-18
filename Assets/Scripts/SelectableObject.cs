@@ -73,13 +73,13 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
             return;
         }
 
-        if (RTSPlayer.instance == null)
+        if (RTSPlayer.Instance == null)
         {
             Debug.LogError("RTS Manager doesn't exist, shutting down");
             return;
         }
 
-        rts_Player = RTSPlayer.instance;
+        rts_Player = RTSPlayer.Instance;
         rts_Player.UnitManager.AddUnit(this);
     }
 

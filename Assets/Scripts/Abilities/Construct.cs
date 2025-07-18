@@ -22,7 +22,7 @@ public class Construct : Ability<IConstructionPad>
         summoned.GetComponent<Health>().OnDeath += _user.ConstructionPad.ShowBuildPad;
 
         // Select new unit
-        RTSPlayer.instance.UnitManager.SelectUnit(summoned.GetComponent<SelectableObject>());
+        RTSPlayer.Instance.UnitManager.SelectUnit(summoned.GetComponent<SelectableObject>());
     }
 
     protected override void DebugDrawingTyped(IConstructionPad _user)

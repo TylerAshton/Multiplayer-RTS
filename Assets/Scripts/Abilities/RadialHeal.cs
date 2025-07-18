@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New RadialHeal Ability", menuName = "Abilities/RadialHeal")]
-public class RadialHeal : Ability<ICharacterAbilityUser>
+public class RadialHeal : Ability<ICharacterAbilityUser>, VfxObject
 {
     [SerializeField] float radius = 1f;
     [SerializeField] float healAmount = 1f;
@@ -12,11 +12,20 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
     [SerializeField] private GameObject healVFX;
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
     [SerializeField] private float vfxScale = 1f;
+    [SerializeField] private float vfxDuration = 5f;
     [SerializeField] private float slowAmount = 7;
 
     private const int minVFXRadius = 0;
     private const int maxVFXRadius = 10;
     protected override string animationTrigger => "RadialAbility";
+
+    public GameObject VfxPrefab => healVFX;
+
+    public Vector3 VfxOffset => vfxOffset;
+
+    public float VfxScale => vfxScale;
+
+    public float VfxDuration => vfxDuration;
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
@@ -41,14 +50,25 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         HealArea(castPositionTransform, _user);
-        SpawnVFXRpc(castPositionTransform.position);
-        
+        //SpawnVFX(castPositionTransform.position + vfxOffset);
+        VFXSpawner.Instance.AbilityVfxRpc(id, castPositionTransform.position);
+
+
 
     }
 
-    [Rpc(SendTo.Everyone)]
-    private void SpawnVFXRpc(Vector3 _spawnPos)
+    private GameObject GetVfxBlueprint()
     {
+        GameObject vfxPrefab = Resources.Load<GameObject>("Blueprints/BPVFX");
+        return vfxPrefab;
+    }
+
+/*    private void SpawnVFX(Vector3 _spawnPos)
+    {
+        GameObject vfxObj = Instantiate(GetVfxBlueprint(), _spawnPos, Quaternion.identity);
+        vfxObj.GetComponent<NetworkObject>().Spawn();
+        vfxObj.GetComponent<VFXSpawner>().SpawnVFXRpc();
+
         if (healVFX == null)
         {
             Debug.LogError($"{nameof(healVFX)} is null in {this.name}");
@@ -58,7 +78,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
         GameObject spawnedVfx = Instantiate(healVFX, _spawnPos, Quaternion.identity);
         spawnedVfx.transform.position += vfxOffset;
         VFXScaler.ScaleParticles(vfxScale, spawnedVfx);
-    }
+    }*/
 
 #if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
