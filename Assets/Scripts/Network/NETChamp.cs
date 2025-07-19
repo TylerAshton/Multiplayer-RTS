@@ -343,6 +343,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
                     rotation = transform.rotation,
                     velocity = characterController.velocity
                 };
+                //StatePayload statePay = SimulateMovement(inputPayload);
                 Debug.Log($"characterController.velocity : {characterController.velocity}");
                 serverStateBuffer.Add(statePay, bufferIndex);
                 SendToClientRpc(statePay);
@@ -396,23 +397,24 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         return latency < extrapolationLimit && latency > Time.fixedDeltaTime;
     }
 
-    //StatePayload SimulateMovement(InputPayload inputPayload)
-    //{
-    //    Physics.simulationMode = SimulationMode.Script;
+    StatePayload SimulateMovement(InputPayload inputPayload)
+    {
+        Physics.simulationMode = SimulationMode.Script;
 
-    //    Move(inputPayload.inputVector);
+        Move(inputPayload.inputVector);
 
-    //    Physics.Simulate(Time.fixedDeltaTime);
-    //    Physics.simulationMode = SimulationMode.FixedUpdate;
+        Physics.Simulate(Time.fixedDeltaTime);
+        Physics.simulationMode = SimulationMode.FixedUpdate;
 
-    //    return new StatePayload()
-    //    {
-    //        tick = inputPayload.tick,
-    //        postition = transform.position,
-    //        rotation = transform.rotation,
-    //        velocity = characterController.velocity
-    //    };
-    //}
+        return new StatePayload()
+        {
+            tick = inputPayload.tick,
+            networkObjectId = NetworkObjectId,
+            position = transform.position,
+            rotation = transform.rotation,
+            velocity = characterController.velocity
+        };
+    }
 
     static float CalculateLatencyInMillis(InputPayload inputPayload)
     {
