@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: EEEE
   price: 0
-  icon: {fileID: 21300000, guid: 859fbc8486cc55646866eec839beedd0, type: 3}
+  icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
   castTime: 0
   castPositionName: 0
   abilityCost: 0

@@ -39,6 +39,8 @@ public class AbilityManager : NetworkBehaviour
 
 
     [SerializeField] private List<AbilityTab> abilityTabs = new List<AbilityTab>();
+    [SerializeField] private Ability utilityAbility;
+    public Ability UtilityAbility => utilityAbility;
     public List<AbilityTab> AbilityTabs => GetAbilityTabs(); // This prevents the list CONTENTS from being fucked with
 
     private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();

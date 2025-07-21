@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class AbilityUIManager : MonoBehaviour
 {
+    [SerializeField] private AbilityCell utilityCell;
     [SerializeField] private List<AbilityCell> abilityCells = new List<AbilityCell>();
     [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
@@ -117,6 +118,10 @@ public class AbilityUIManager : MonoBehaviour
             _cell.Button.interactable = false;
             _cell.Slider.value = 0;
         }
+
+        utilityCell.Image.enabled = false;
+        utilityCell.Button.interactable = false;
+        utilityCell.Slider.value = 0;
     }
 
     /// <summary>
@@ -183,7 +188,7 @@ public class AbilityUIManager : MonoBehaviour
     {
         pageIndex = _newPageIndex;
 
-        RefreshGrid();
+        RefreshAbilityGrid();
     }
 
     public void SetTab(int _newTabIndex)
@@ -196,7 +201,7 @@ public class AbilityUIManager : MonoBehaviour
 
         tabIndex = _newTabIndex;
         pageIndex = 0;
-        RefreshGrid();
+        RefreshAbilityGrid();
     }
 
     /// <summary>
@@ -208,7 +213,30 @@ public class AbilityUIManager : MonoBehaviour
         tabIndex = 0;
         commonAbilityTabs = new List<AbilityTab>();
         RefreshTabButtons();
-        RefreshGrid();
+        RefreshAbilityGrid();
+        RefreshUtilityButton();
+        
+    }
+
+    private void RefreshUtilityButton()
+    {
+        if (abilityManagers == null || abilityManagers.Count == 0)
+            return;
+
+        var firstUtility = abilityManagers[0].UtilityAbility;
+
+        bool allSame = abilityManagers.All(manager => manager.UtilityAbility == firstUtility); // LINQ THIS TIME
+
+        if (!allSame || firstUtility == null)
+        {
+            utilityCell.Image.enabled = false;
+            utilityCell.Button.interactable = false;
+            utilityCell.Slider.value = 0;
+            return;
+        }
+
+        SetAbilityCell(firstUtility, utilityCell, abilityManagers);
+
         
     }
 
@@ -240,7 +268,8 @@ public class AbilityUIManager : MonoBehaviour
         commonAbilityTabs = GetCommonAbilityTabs(_selectedUnits);
         abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
         RefreshTabButtons();
-        RefreshGrid();
+        RefreshAbilityGrid();
+        RefreshUtilityButton();
     }
 
     /// <summary>
@@ -255,13 +284,14 @@ public class AbilityUIManager : MonoBehaviour
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
         RefreshTabButtons();
-        RefreshGrid();
+        RefreshAbilityGrid();
+        RefreshUtilityButton();
     }
 
     /// <summary>
     /// Recalculates the ability grid based on the current page and tab index and the common abilities of selected units.
     /// </summary>
-    private void RefreshGrid()
+    private void RefreshAbilityGrid()
     {
         ResetAbilityGrid();
 
