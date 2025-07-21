@@ -19,3 +19,4 @@ MonoBehaviour:
   castPositionName: 0
   abilityCost: 0
   cooldown: 0
+  constructionStats: {fileID: 11400000, guid: 6e8949119e2e3714ebe6432d0bdaadd7, type: 2}
