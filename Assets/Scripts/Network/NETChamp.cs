@@ -104,14 +104,14 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     // Netcode General Variables
     [Header("Netcode")]
-    NetworkTimer networkTimer;
-    const float k_serverTickRate = 60f;
-    const int k_bufferSize = 1024;
     [SerializeField] CountdownTimer reconciliationTimer;
     [SerializeField] float reconciliationCooldownTime = 1f;
     [SerializeField] private float reconciliationThreshold = 10f; // Used to be 50f
     [SerializeField] float extrapolationLimit = 0.5f; // 1f = 1000 Milliseconds therefore 0.5f = 500 milliseconds
     [SerializeField] float extrapolationMultiplier = 1.2f;
+    NetworkTimer networkTimer;
+    const float k_serverTickRate = 60f;
+    const int k_bufferSize = 1024;
 
     // Netcode Client Specific Variables
     [Header("Netcode Client")]
@@ -335,16 +335,15 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
             //StatePayload statePayload = SimulateMovement(inputPayload);
             if (IsHost)
             {
-                StatePayload statePay = new StatePayload()
-                {
-                    tick = inputPayload.tick,
-                    networkObjectId = NetworkObjectId,
-                    position = transform.position,
-                    rotation = transform.rotation,
-                    velocity = characterController.velocity
-                };
-                //StatePayload statePay = SimulateMovement(inputPayload);
-                Debug.Log($"characterController.velocity : {characterController.velocity}");
+                //StatePayload statePay = new StatePayload()
+                //{
+                //    tick = inputPayload.tick,
+                //    networkObjectId = NetworkObjectId,
+                //    position = transform.position,
+                //    rotation = transform.rotation,
+                //    velocity = characterController.velocity
+                //};
+                StatePayload statePay = ProcessMovement(inputPayload);
                 serverStateBuffer.Add(statePay, bufferIndex);
                 SendToClientRpc(statePay);
                 continue;
@@ -600,7 +599,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
         // Movement application
         characterController.Move(velocity * Time.deltaTime);
-        //Debug.Log(velocity);
+        Debug.Log(velocity);
     }
 
     /// <summary>
