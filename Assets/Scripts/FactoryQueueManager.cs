@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class FactoryQueueManager : NetworkBehaviour
 {
+    [SerializeField] private ConstructionProgressBar progressBar;
     private Queue<ConstructionStats> productionQueue = new Queue<ConstructionStats>();
     private ConstructionStats currentProduction;
 
@@ -40,8 +41,11 @@ public class FactoryQueueManager : NetworkBehaviour
             Debug.LogError("Production is already in progress.");
             return;
         }
-
+        
         currentProduction = productionQueue.Dequeue();
+
+        progressBar.gameObject.SetActive(true);
+        progressBar.Slider.maxValue = currentProduction.ConstructionTime;
         StartCoroutine(ProduceCurrentUnit());
     }
 
@@ -49,8 +53,16 @@ public class FactoryQueueManager : NetworkBehaviour
     {
         Vector3 spawnPos = CalculateSpawnPos(currentProduction);
         SpawnCurrentProductionSummonVfxRpc(spawnPos);
-        yield return new WaitForSeconds(currentProduction.ConstructionTime);
 
+        float timeElapsed = 0f;
+        float duration = currentProduction.ConstructionTime;
+
+        while (timeElapsed < duration)
+        {
+            progressBar.Slider.value = timeElapsed;
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
 
         SpawnCurrentProduction(spawnPos);
         SpawnCurrentProudctionSpawnVfxRpc(spawnPos);
@@ -62,6 +74,10 @@ public class FactoryQueueManager : NetworkBehaviour
         {
             StartProduction();
         }
+        else
+        {
+            progressBar.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -72,7 +88,6 @@ public class FactoryQueueManager : NetworkBehaviour
     {
         GameObject summoned = Instantiate(currentProduction.ConstructablePrefab, _spawnPos, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
-
     }
 
     /// <summary>
