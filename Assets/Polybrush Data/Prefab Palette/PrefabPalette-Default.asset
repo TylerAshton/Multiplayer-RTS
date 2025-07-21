@@ -47,7 +47,7 @@ MonoBehaviour:
     name: Fern2
   - gameObject: {fileID: 1212246297705233334, guid: 30a878c1d1da97d42a456d77f72cca61, type: 3}
     settings:
-      m_Strength: 50
+      m_Strength: 10.983167
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -111,7 +111,7 @@ MonoBehaviour:
     name: Flower3
   - gameObject: {fileID: 6590975227295379492, guid: 6f67d1c79c9b196459c5de7ea6ce6077, type: 3}
     settings:
-      m_Strength: 50
+      m_Strength: 15.142863
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -223,7 +223,7 @@ MonoBehaviour:
     name: Grass1
   - gameObject: {fileID: 7045990119674233780, guid: 8e20bb73d6781f047a846b8e13553d15, type: 3}
     settings:
-      m_Strength: 50
+      m_Strength: 17.222687
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -239,7 +239,7 @@ MonoBehaviour:
     name: Grass2
   - gameObject: {fileID: 2022498996388788194, guid: ea784f90c6a294d4c943e54ce9184fb2, type: 3}
     settings:
-      m_Strength: 50
+      m_Strength: 64.55882
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -271,7 +271,7 @@ MonoBehaviour:
     name: Grass4
   - gameObject: {fileID: 7182954667185978330, guid: b33ce8376149eb040be6057eed2bd12f, type: 3}
     settings:
-      m_Strength: 50
+      m_Strength: 4.243697
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -349,3 +349,19 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: Plant5
+  - gameObject: {fileID: 2616272714232760750, guid: 18b3653ff6ace964c9b8347669591485, type: 3}
+    settings:
+      m_Strength: 79.117645
+      m_RotationRangeMin: {x: 0, y: 0, z: 0}
+      m_RotationRangeMax: {x: 0, y: 0, z: 0}
+      m_ScaleRangeMin: {x: 4.633094, y: 1.0431654, z: 1}
+      m_ScaleRangeMax: {x: 5.1007195, y: 10, z: 1}
+      m_UniformScale: {x: 0, y: 0.25906736}
+      m_UniformBool: 0
+      m_XRotationBool: 0
+      m_YRotationBool: 0
+      m_ZRotationBool: 0
+      m_XScaleBool: 0
+      m_YScaleBool: 0
+      m_ZScaleBool: 0
+    name: Rye

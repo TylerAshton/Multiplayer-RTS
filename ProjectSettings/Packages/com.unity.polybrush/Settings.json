@@ -94,12 +94,12 @@
             {
                 "type": "UnityEditor.Polybrush.PrefabLoadout, Unity.Polybrush.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "ScatteringEditor.userLoadout",
-                "value": "{\"m_Value\":{\"infos\":[{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":7045990119674233780,\"guid\":\"8e20bb73d6781f047a846b8e13553d15\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":8812584711120714047,\"guid\":\"91d8d8ad5c541394c80f7cc7e1fd253b\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":6590975227295379492,\"guid\":\"6f67d1c79c9b196459c5de7ea6ce6077\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":2022498996388788194,\"guid\":\"ea784f90c6a294d4c943e54ce9184fb2\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":5982839853698224172,\"guid\":\"c00784b589bee494b831054cc54dbf7b\",\"type\":3}}]}}"
+                "value": "{\"m_Value\":{\"infos\":[{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":8812584711120714047,\"guid\":\"91d8d8ad5c541394c80f7cc7e1fd253b\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":5982839853698224172,\"guid\":\"c00784b589bee494b831054cc54dbf7b\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":7045990119674233780,\"guid\":\"8e20bb73d6781f047a846b8e13553d15\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":7182954667185978330,\"guid\":\"b33ce8376149eb040be6057eed2bd12f\",\"type\":3}},{\"palette\":{\"fileID\":11400000,\"guid\":\"84d82d39e0c99d14f8fbc57b8b23ffc5\",\"type\":2},\"prefab\":{\"fileID\":1212246297705233334,\"guid\":\"30a878c1d1da97d42a456d77f72cca61\",\"type\":3}}]}}"
             },
             {
                 "type": "UnityEngine.Polybrush.PolyDirection, Unity.Polybrush, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "RaiseLowerBrush.Direction",
-                "value": "{\"m_Value\":2}"
+                "value": "{\"m_Value\":4}"
             },
             {
                 "type": "UnityEngine.Polybrush.PolyDirection, Unity.Polybrush, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
