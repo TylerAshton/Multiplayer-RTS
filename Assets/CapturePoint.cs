@@ -45,7 +45,7 @@ public class CapturePoint : NetworkBehaviour
     {
         circle.transform.localScale = new Vector3(r, 1, r);
         circle.transform.position = this.transform.position + offset;
-        bonfireObj.transform.position = this.transform.position + offset;
+        //bonfireObj.transform.position = this.transform.position + offset;
         SphereCollider trigger = GetComponent<SphereCollider>();
         trigger.radius = r;
         trigger.center += offset;

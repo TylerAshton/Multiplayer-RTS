@@ -20,7 +20,8 @@ MonoBehaviour:
   castPositionName: 0
   animationTrigger: MeleeAttack
   abilityCost: 0
+  purchasePrice: 0
   cooldown: 25
   slowAmount: 7
-  channelStats: {fileID: 11400000, guid: ad6a4663b2f86a14d8d72a4cc4a7fc99, type: 2}
+  channelStats: {fileID: 11400000, guid: b4011fecfb8c2974faeca0bc5df1f946, type: 2}
   isAttached: 0
