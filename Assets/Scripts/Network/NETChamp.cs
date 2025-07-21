@@ -335,15 +335,15 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
             //StatePayload statePayload = SimulateMovement(inputPayload);
             if (IsHost)
             {
-                //StatePayload statePay = new StatePayload()
-                //{
-                //    tick = inputPayload.tick,
-                //    networkObjectId = NetworkObjectId,
-                //    position = transform.position,
-                //    rotation = transform.rotation,
-                //    velocity = characterController.velocity
-                //};
-                StatePayload statePay = ProcessMovement(inputPayload);
+                StatePayload statePay = new StatePayload()
+                {
+                   tick = inputPayload.tick,
+                   networkObjectId = NetworkObjectId,
+                   position = transform.position,
+                   rotation = transform.rotation,
+                   velocity = characterController.velocity
+                };
+                //StatePayload statePay = ProcessMovement(inputPayload);
                 serverStateBuffer.Add(statePay, bufferIndex);
                 SendToClientRpc(statePay);
                 continue;
@@ -364,6 +364,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     {
         if (IsServer && extrapolationTimer.IsRunning)
         {
+            Debug.Log("Extrapolating");
             transform.position += new Vector3(extrapolationState.position.x, 0f, extrapolationState.position.z);
         }
     }
@@ -379,7 +380,6 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
             var posAdjustment = latest.velocity * (1 + latency * extrapolationMultiplier);
             extrapolationState.position = posAdjustment;
-            Debug.Log($"posAdjustment : {posAdjustment.ToString()}... latest.velocity : {latest.velocity.ToString()}... extrapolationState.position : {extrapolationState.position}");  //Velocity isnt being updated meaning its multiplying by 0 and not moving
             //extrapolationState.position = latest.position;
             extrapolationState.rotation = latest.rotation;
             extrapolationState.velocity = latest.velocity;
@@ -393,7 +393,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     private bool ShouldExtrapolate(float latency)
     {
-        return latency < extrapolationLimit && latency > Time.fixedDeltaTime;
+        return (latency > extrapolationLimit) &&  (latency > Time.fixedDeltaTime);
     }
 
     StatePayload SimulateMovement(InputPayload inputPayload)
@@ -431,7 +431,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     bool ShouldReconcile()
     {
         bool isNewServerState = !lastServerState.Equals(default);
-        //bool isLastStateUndefinedOrDifferent = lastProcessedState.Equals(obj: default) ||Å !lastProcessedState.Equals(lastServerState);
+        //bool isLastStateUndefinedOrDifferent = lastProcessedState.Equals(obj: default) ||ÔøΩ !lastProcessedState.Equals(lastServerState);
         bool isLastStateUndefinedOrDifferent;
         if (lastProcessedState.Equals(default) || !lastProcessedState.Equals(lastServerState))
         {
@@ -629,7 +629,6 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     /// 
     private void SetAnimationParams(Vector3 _movementInput)
     {
-
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
         {
             nAnimator.SetFloat("MoveX", Mathf.Lerp(nAnimator.GetFloat("MoveX"), 0f, smoothSpeed * Time.deltaTime));

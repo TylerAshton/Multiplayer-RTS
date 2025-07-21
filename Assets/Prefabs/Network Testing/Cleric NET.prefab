@@ -1000,7 +1000,7 @@ MonoBehaviour:
   input: {fileID: 11400000, guid: 09ebcdee6a382ca46ad9465574c9f854, type: 2}
   reconciliationCooldownTime: 1
   reconciliationThreshold: 50
-  extrapolationLimit: 0.5
+  extrapolationLimit: 0
   extrapolationMultiplier: 1
   serverCube: {fileID: 2914916941526577892}
   clientCube: {fileID: 7667291981074508183}
