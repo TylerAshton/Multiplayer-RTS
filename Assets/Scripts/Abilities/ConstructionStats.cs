@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class ConstructionStats : BaseAbilityStat
 {
-    [SerializeField]
-    private float constructionTime = 5f;
+    [SerializeField] private float constructionTime = 5f;
     public float ConstructionTime => constructionTime;
 
     [SerializeField] private GameObject consutrctablePrefab;
@@ -25,6 +24,9 @@ public class ConstructionStats : BaseAbilityStat
     [SerializeField] private float minDisperstion = 5f;
     public float MinDisperstion => minDisperstion;
     [SerializeField] private Vector3 offset = Vector3.zero;
+
+    [SerializeField] private Sprite queueIcon;
+    public Sprite QueueIcon => queueIcon;
 
     public Vector3 Offset => offset;
 }

@@ -9,6 +9,7 @@ public class FactoryQueueManager : NetworkBehaviour
 {
     [SerializeField] private ConstructionProgressBar progressBar;
     private Queue<ConstructionStats> productionQueue = new Queue<ConstructionStats>();
+    public Queue<ConstructionStats> ProductionQueue => productionQueue;
     private ConstructionStats currentProduction;
     private AbilityManager abilityManager;
     private bool isRepeating => abilityManager.IsUtilityEnabled;
@@ -52,13 +53,7 @@ public class FactoryQueueManager : NetworkBehaviour
             return;
         }
         
-        currentProduction = productionQueue.Dequeue();
-
-        // Requeue the current production if the production is set to repeat
-        if (isRepeating)
-        {
-            productionQueue.Enqueue(currentProduction);
-        }
+        currentProduction = productionQueue.Peek();
 
         progressBar.gameObject.SetActive(true);
         progressBar.Slider.maxValue = currentProduction.ConstructionTime;
@@ -83,6 +78,12 @@ public class FactoryQueueManager : NetworkBehaviour
         SpawnCurrentProduction(spawnPos);
         SpawnCurrentProudctionSpawnVfxRpc(spawnPos);
 
+        productionQueue.Dequeue();
+        // Requeue the current production if the production is set to repeat
+        if (isRepeating)
+        {
+            productionQueue.Enqueue(currentProduction);
+        }
         currentProduction = null;
 
         // Start the next production if there are units in the queue
