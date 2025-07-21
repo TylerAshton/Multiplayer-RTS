@@ -274,7 +274,7 @@ MonoBehaviour:
     abilities:
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
-  utilityAbility: {fileID: 0}
+  hasUtility: 1
 --- !u!95 &2878191684668715549
 Animator:
   serializedVersion: 7

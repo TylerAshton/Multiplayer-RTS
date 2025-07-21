@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +40,6 @@ public class AbilityManager : NetworkBehaviour
 
 
     [SerializeField] private List<AbilityTab> abilityTabs = new List<AbilityTab>();
-    [SerializeField] private Ability utilityAbility;
-    public Ability UtilityAbility => utilityAbility;
     public List<AbilityTab> AbilityTabs => GetAbilityTabs(); // This prevents the list CONTENTS from being fucked with
 
     private Dictionary<string, float> cooldownTimers = new Dictionary<string, float>();
@@ -51,6 +50,11 @@ public class AbilityManager : NetworkBehaviour
     private NetworkObject networkObject;
 
     private ulong ownerClientId = 999999;
+
+    [SerializeField] private bool hasUtility = false;
+    public bool HasUtility => hasUtility;
+    private bool isUtilityEnabled = false;
+    public bool IsUtilityEnabled => isUtilityEnabled;
 
 
     protected virtual void Awake()
@@ -286,5 +290,8 @@ public class AbilityManager : NetworkBehaviour
         cooldownTimers[_abilityID] = Time.time;
     }
 
-
+    public void ToggleUtility()
+    {
+        isUtilityEnabled = !isUtilityEnabled;
+    }
 }

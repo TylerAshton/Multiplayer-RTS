@@ -134,7 +134,7 @@ public class UnitManager : NetworkBehaviour
         }
 
         selectedUnits.Add(_unit);
-        abilityUIManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         _unit.ShowSelectionIndicator();
     }
 
@@ -160,7 +160,7 @@ public class UnitManager : NetworkBehaviour
 
         if (selectedUnits.Count > 0)
         {
-            abilityUIManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+            abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         }
         else
         {
@@ -205,7 +205,7 @@ public class UnitManager : NetworkBehaviour
             DeselectUnit(_unit); // TODO: This is a bit inefficient as it refreshes several times
         }
 
-        abilityUIManager.ResetSelection();
+        abilityUIManager.ClearUI();
     }
 
     /// <summary>

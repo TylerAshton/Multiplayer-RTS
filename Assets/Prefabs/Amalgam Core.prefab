@@ -10652,6 +10652,7 @@ MonoBehaviour:
     abilities:
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+  hasUtility: 1
 --- !u!95 &379041836462067280
 Animator:
   serializedVersion: 7

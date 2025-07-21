@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class AbilityUIManager : MonoBehaviour
 {
-    [SerializeField] private AbilityCell utilityCell;
+    [SerializeField] private UtilityCell utilityCell;
     [SerializeField] private List<AbilityCell> abilityCells = new List<AbilityCell>();
     [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
@@ -107,6 +107,11 @@ public class AbilityUIManager : MonoBehaviour
         return longestCooldown;
     }
 
+    private void ResetUtilityButton()
+    {
+        utilityCell.ResetCell();
+    }
+
     /// <summary>
     /// Disables and hides all ability cells in the grid
     /// </summary>
@@ -119,9 +124,7 @@ public class AbilityUIManager : MonoBehaviour
             _cell.Slider.value = 0;
         }
 
-        utilityCell.Image.enabled = false;
-        utilityCell.Button.interactable = false;
-        utilityCell.Slider.value = 0;
+        utilityCell.ResetCell();
     }
 
     /// <summary>
@@ -205,39 +208,17 @@ public class AbilityUIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets the selected abilities and tabs
+    /// Updates the ability grid and tab buttons based on the currently selected units.
     /// </summary>
-    public void ResetSelection() // TODO: The amount of repeated code here is insane
+    public void ClearUI() // TODO: The amount of repeated code here is insane
     {
         pageIndex = 0;
         tabIndex = 0;
         commonAbilityTabs = new List<AbilityTab>();
         RefreshTabButtons();
         RefreshAbilityGrid();
-        RefreshUtilityButton();
-        
-    }
+        ResetUtilityButton();
 
-    private void RefreshUtilityButton()
-    {
-        if (abilityManagers == null || abilityManagers.Count == 0)
-            return;
-
-        var firstUtility = abilityManagers[0].UtilityAbility;
-
-        bool allSame = abilityManagers.All(manager => manager.UtilityAbility == firstUtility); // LINQ THIS TIME
-
-        if (!allSame || firstUtility == null)
-        {
-            utilityCell.Image.enabled = false;
-            utilityCell.Button.interactable = false;
-            utilityCell.Slider.value = 0;
-            return;
-        }
-
-        SetAbilityCell(firstUtility, utilityCell, abilityManagers);
-
-        
     }
 
     public void RefreshTabButtons()
@@ -261,7 +242,7 @@ public class AbilityUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits)
+    public void UpdateAbilityTabsWithUnitSelection(List<SelectableObject> _selectedUnits)
     {
         pageIndex = 0;
         //commonAbilities = GetCommonAbilities(_selectedUnits);
@@ -272,20 +253,40 @@ public class AbilityUIManager : MonoBehaviour
         RefreshUtilityButton();
     }
 
+    
+
     /// <summary>
     /// Updates the ability grid with the abilities of the passed in ability manager
     /// </summary>
     /// <param name="_abilityManager"></param>
-    public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
+    public void UpdateAbilityTabsWithAbilityManager(AbilityManager _abilityManager)
     {
         pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
-        //commonAbilities = _abilityManager.AbilityTabs[tabIndex].Abilities;
         commonAbilityTabs = _abilityManager.AbilityTabs;
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
         RefreshTabButtons();
         RefreshAbilityGrid();
         RefreshUtilityButton();
+    }
+
+    private void RefreshUtilityButton()
+    {
+        bool allHasUtility = abilityManagers.All(m => m.HasUtility);
+
+        if (!allHasUtility)
+        {
+            ResetUtilityButton();
+            return;
+        }
+
+        utilityCell.Refresh(abilityManagers, () =>
+        {
+            foreach (AbilityManager _abilityManager in abilityManagers)
+            {
+                _abilityManager.ToggleUtility();
+            }
+        });
     }
 
     /// <summary>

@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8199654e3e470454184be55def1fcd54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  utilityCell: {fileID: 0}
+  utilityCell: {fileID: 7602744098190353121}
   abilityCells:
   - {fileID: 8002177288832430163}
   - {fileID: 2763061720055334183}
@@ -1064,7 +1064,7 @@ GameObject:
   - component: {fileID: 3949107298765259594}
   - component: {fileID: 4291435489794943456}
   m_Layer: 5
-  m_Name: AbilityHUD
+  m_Name: AmalgamAbilityHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1188,7 +1188,7 @@ RectTransform:
   m_Father: {fileID: 7648864208688583780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2429,7 +2429,7 @@ GameObject:
   - component: {fileID: 1717483012479250894}
   - component: {fileID: 1847018034755107961}
   - component: {fileID: 7346318778111085296}
-  - component: {fileID: 1029096611142046446}
+  - component: {fileID: 7602744098190353121}
   m_Layer: 5
   m_Name: AbilityCell
   m_TagString: Untagged
@@ -2547,7 +2547,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1029096611142046446
+--- !u!114 &7602744098190353121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2556,12 +2556,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5941771404695932378}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06bfee3e7340da048b358f59676fa7e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 146149d905ac2d1498ffe572e291f814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 6030432292856139958}
   button: {fileID: 8411829949456264634}
-  slider: {fileID: 7346318778111085296}
+  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  enabledColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &5967133905848429554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,7 +2580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7625082423365766643
 RectTransform:
   m_ObjectHideFlags: 0
