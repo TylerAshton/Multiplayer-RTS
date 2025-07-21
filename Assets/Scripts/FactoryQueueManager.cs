@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -47,12 +48,12 @@ public class FactoryQueueManager : NetworkBehaviour
     private IEnumerator ProduceCurrentUnit()
     {
         Vector3 spawnPos = CalculateSpawnPos(currentProduction);
+        SpawnCurrentProductionSummonVfxRpc(spawnPos);
         yield return new WaitForSeconds(currentProduction.ConstructionTime);
 
 
-
-        GameObject summoned = Instantiate(currentProduction.ConstructablePrefab, spawnPos, Quaternion.identity);
-        summoned.GetComponent<NetworkObject>().Spawn();
+        SpawnCurrentProduction(spawnPos);
+        SpawnCurrentProudctionSpawnVfxRpc(spawnPos);
 
         currentProduction = null;
 
@@ -62,6 +63,44 @@ public class FactoryQueueManager : NetworkBehaviour
             StartProduction();
         }
     }
+
+    /// <summary>
+    /// Spawns the actual prefab of the current production at the given position.
+    /// </summary>
+    /// <param name="_spawnPos"></param>
+    private void SpawnCurrentProduction(Vector3 _spawnPos)
+    {
+        GameObject summoned = Instantiate(currentProduction.ConstructablePrefab, _spawnPos, Quaternion.identity);
+        summoned.GetComponent<NetworkObject>().Spawn();
+
+    }
+
+    /// <summary>
+    /// Spawns vfx of the current production at the given position.
+    /// </summary>
+    /// <param name="_spawnPos"></param>
+    [Rpc(SendTo.Everyone)]
+    private void SpawnCurrentProudctionSpawnVfxRpc(Vector3 _spawnPos)
+    {
+        GameObject spawnedVfx = Instantiate(currentProduction.SpawnVFX, _spawnPos, Quaternion.identity);
+        VFXScaler.ScaleParticles(currentProduction.SpawnVFXScale, spawnedVfx);
+
+        Destroy(spawnedVfx, currentProduction.VfxDespawnTime);
+    }
+
+    /// <summary>
+    /// Summon a looping vfx at the spawn position of the current production. Used to represent portals
+    /// </summary>
+    /// <param name="_spawnPos"></param>
+    [Rpc(SendTo.Everyone)]
+    private void SpawnCurrentProductionSummonVfxRpc(Vector3 _spawnPos)
+    {
+        GameObject spawnedVfx = Instantiate(currentProduction.SummonVFX, _spawnPos, Quaternion.identity);
+        VFXScaler.ScaleParticles(currentProduction.SummonVFXScale, spawnedVfx);
+        Destroy(spawnedVfx, currentProduction.ConstructionTime);
+    }
+
+
 
     /// <summary>
     /// Returns the position where the unit should be spawned based on the construction stats.
