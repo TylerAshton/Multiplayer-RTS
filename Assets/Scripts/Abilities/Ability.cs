@@ -110,7 +110,10 @@ public abstract class Ability : Purchasable, Inspectorable
         SerializedProperty fieldCastPos = _so.FindProperty("castPositionName");
         fieldCastPos.enumValueIndex = EditorGUILayout.Popup("Cast Position", fieldCastPos.enumValueIndex, fieldCastPos.enumDisplayNames);
 
-        
+        SerializedProperty fieldSuccessor = _so.FindProperty("successor");
+        EditorGUILayout.PropertyField(fieldSuccessor, new GUIContent("Successor Ability"));
+
+
     }
 #endif
 

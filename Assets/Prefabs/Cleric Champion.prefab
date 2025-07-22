@@ -1235,7 +1235,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
     - {fileID: 11400000, guid: e52549d731846804db8d074e1cf8a1d3, type: 2}
     - {fileID: 11400000, guid: e52549d731846804db8d074e1cf8a1d3, type: 2}
-    - {fileID: 11400000, guid: e52549d731846804db8d074e1cf8a1d3, type: 2}
+    - {fileID: 11400000, guid: 012ca2833cb1ee841992851219737049, type: 2}
   hasUtility: 0
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 55d9baef825216f4daaccb32394929b0, type: 3}
 --- !u!114 &9122862085660864469
