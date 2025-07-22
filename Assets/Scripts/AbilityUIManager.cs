@@ -499,6 +499,12 @@ public class AbilityUIManager : MonoBehaviour
             }
         }
 
+        // Fail safe check for if the selected index is now out of bounds after removing tabs
+        if (commonTabs.Count - 1 < tabIndex)
+        {
+            tabIndex = 0; 
+        }
+
         return commonTabs;
     }
 
