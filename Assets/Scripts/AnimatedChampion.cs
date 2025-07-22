@@ -77,6 +77,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public Vector2 MouseScreenPos => mouseScreenPos;
 
     public ChampionAbilityManager ChampionAbilityManager => championAbilityManager;
+    public AbilityManager AbilityManager => championAbilityManager;
 
     public Health ChampionHealth => health;
 

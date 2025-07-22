@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 872596042
+  GlobalObjectIdHash: 3436060701
   InScenePlacedSourceGlobalObjectIdHash: 3436060701
   DeferredDespawnTick: 0
   Ownership: 1
@@ -102,12 +102,16 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
-    - {fileID: 11400000, guid: 76eb052def7ff7346a29ca6f73829f66, type: 2}
+    - {fileID: 11400000, guid: d31f82307161a1648b242d09020e662d, type: 2}
     - {fileID: 11400000, guid: 188d07e038d14eb4cb1cf67beef57714, type: 2}
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+  - tabName: Upgrades
+    abilities:
+    - {fileID: 11400000, guid: 7725255f9ec4643428a2a0253c6e4f6e, type: 2}
+  hasUtility: 0
 --- !u!95 &2878191684668715549
 Animator:
   serializedVersion: 7
