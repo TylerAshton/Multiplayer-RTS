@@ -65,7 +65,7 @@ public class AbilityUIManager : MonoBehaviour
             if (cooldownStartTime == 0)
             {
                 slider.value = 0;
-                return; // No cooldown needed to calculate
+                continue; // No cooldown needed to calculate
             }
 
             // Calculate remaining time until end of cooldown

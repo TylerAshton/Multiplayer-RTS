@@ -15,11 +15,11 @@ MonoBehaviour:
   id: spawnDemon
   price: 0
   icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
-  castTime: 1
+  castTime: 0
   castPositionName: 0
-  animationTrigger: 
   abilityCost: 0
   cooldown: 3
+  successor: {fileID: 0}
   spawnee: {fileID: 2401997887451976919, guid: 44030ceaa8e63cb42ab47b206a6e8252, type: 3}
   spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
   maxDispersion: 5
