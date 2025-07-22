@@ -106,35 +106,120 @@ public class AbilityManager : NetworkBehaviour
             Debug.LogError("Client attempted to set an ability");
             return;
         }
+
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot add a null ability");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {_tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
         SetAbilityRpc(_index, _ability.ID, _tabIndex);
     }
 
     [Rpc(SendTo.Everyone)]
-    private void SetAbilityRpc(int _abilityIndex, string _abilityID, int tabIndex)
+    private void SetAbilityRpc(int _abilityIndex, string _abilityID, int _tabIndex)
     {
-        abilityTabs[tabIndex].SetAbility(_abilityIndex, Registry<Ability>.GetItem(_abilityID));
+        Ability ability = Registry<Ability>.GetItem(_abilityID);
+
+        if (ability == null)
+        {
+            Debug.LogError("abilityID parsed doesn't match an ability!");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {_tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
+
+        abilityTabs[_tabIndex].SetAbility(_abilityIndex, ability);
     }
 
     public virtual void AddAbility(Ability _ability, int _tabIndex)
     {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot add a null ability");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: { _tabIndex }. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
         if (!IsServer)
         {
             Debug.LogError("Client attempted to add an ability");
             return;
         }
-        AddAbilityRpc(_ability.ID, _tabIndex);
 
-        // TODO: Harrison please update abilityGrid
+        int predIndex = TryFindPrediscessorIndex(_ability, _tabIndex);
+
+        if (predIndex != -1)
+        {
+            SetAbility(predIndex, _ability, _tabIndex);
+            return;
+        }
+
+        AddAbilityRpc(_ability.ID, _tabIndex);
+    }
+
+    private int TryFindPrediscessorIndex(Ability _ability, int _tabIndex)
+    {
+        if (_ability == null || _tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError("Invalid ability or tab index");
+            return -1;
+        }
+        AbilityTab tab = abilityTabs[_tabIndex];
+        for (int i = 0; i < tab.Abilities.Count; i++)
+        {
+            if (tab.Abilities[i].Successor == _ability)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     [Rpc(SendTo.Everyone)]
     private void AddAbilityRpc(string _abilityID, int _tabIndex)
     {
-        abilityTabs[_tabIndex].AddAbility(Registry<Ability>.GetItem(_abilityID));
+        Ability ability = Registry<Ability>.GetItem(_abilityID);
+
+        if (ability == null)
+        {
+            Debug.LogError("abilityID parsed doesn't match an ability!");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid ability index: {_tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
+        abilityTabs[_tabIndex].AddAbility(ability);
     }
 
     public bool CheckAbility(Ability _ability, int tabIndex = 0)
     {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot check a null ability");
+            return false;
+        }
+
         if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
         {
             Debug.LogError($"Invalid ability index: {tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
