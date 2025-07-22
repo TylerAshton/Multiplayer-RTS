@@ -9,6 +9,7 @@ TagManager:
   - Champion
   - CinemachineTarget
   - PointAwarder
+  - Minimap Cam
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,8 @@ TagManager:
   - Unit
   - Capture
   - Environment
-  - 
+  - Interactable
+  - Icon
   - 
   - 
   - 

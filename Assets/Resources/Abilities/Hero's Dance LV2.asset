@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d281d454f5fa1ef419b48ae868a719f5, type: 3}
+  m_Name: Hero's Dance LV2
+  m_EditorClassIdentifier: 
+  purchaseID: frenzy2
+  price: 0
+  icon: {fileID: 21300000, guid: 84feb4b2801ad034a83fb3b64c4545bb, type: 3}
+  abilityID: frenzy2
+  castTime: 3
+  castPositionName: 0
+  animationTrigger: Frenzy
+  abilityCost: 0
+  cooldown: 42
+  buffEffects: {fileID: 7155335147208632822, guid: d12255bed4198eb4a8e05e9653396c99, type: 3}
+  slowAmount: 7
+  effect:
+    duration: 5
+    statModifyers:
+    - statType: 0
+      value: 1.1
+    - statType: 2
+      value: 5
+    - statType: 2
+      value: 2

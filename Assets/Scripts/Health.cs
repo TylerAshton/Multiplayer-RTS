@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class Health : NetworkBehaviour
@@ -9,6 +10,7 @@ public class Health : NetworkBehaviour
     [SerializeField] private bool isImmune = false;
 
     private float maxHealth;
+    public float MaxHealth => maxHealth;
     [SerializeField] private Animator animator;
     [SerializeField] private float deathAnimationLength = 0;
     [SerializeField] private bool test;
@@ -17,6 +19,7 @@ public class Health : NetworkBehaviour
     public bool IsDying => isDying;
 
     public event Action OnDeath; // Death event, used to begin respawn
+    public event Action OnRevive; // Revive event, used to begin respawn
 
     [SerializeField] private GameObject overlayHealthBar;
     [SerializeField] private GameObject healthBarPrefab;
@@ -24,11 +27,20 @@ public class Health : NetworkBehaviour
     private Slider healthSlider;
     [SerializeField] private bool showHealthBar = true;
     [SerializeField] private bool showOnOwnerScreen = false;
+    private StatManager statManager;
+
     private void Awake()
     {
         if (!TryGetComponent<Animator>(out animator))
         {
             Debug.LogError("Animator is required for Health");
+            return;
+        }
+
+        if (!TryGetComponent<StatManager>(out statManager))
+        {
+            Debug.LogError($"{GetType().Name} requires {nameof(StatManager)} within gameobject: {gameObject.name}!");
+            return;
         }
 
         if (animator != null && deathAnimationLength == 0)
@@ -54,7 +66,50 @@ public class Health : NetworkBehaviour
     {
         maxHealth = hitPoints;
         ShowHealthBar();
+    }
 
+    private void Update()
+    {
+        if (IsServer)
+        {
+            ApplyRegeneration();
+        }
+    }
+
+    /// <summary>
+    /// Heals the unit by the amount specified by the health regeneration stat, if applicable.
+    /// </summary>
+    private void ApplyRegeneration()
+    {
+        if (!IsServer)
+        {
+            Debug.LogError($"Regeneration can only be applied on the server : {gameObject.name}!");
+            return;
+        }
+
+        if (isDying)
+        {
+            return;
+        }
+
+        if (!statManager.CurrentStats.TryGetValue(StatType.HealthRegeneration, out float healthRegeneration))
+        {
+            Debug.LogError($"{nameof(StatType.HealthRegeneration)} not found on {gameObject.name}!");
+            return;
+        }
+
+        if (healthRegeneration == 0)
+        {
+            return;
+        }
+
+        if (healthRegeneration < 0)
+        {
+            Debug.LogError($"Health regeneration cannot be negative: {healthRegeneration} on {gameObject.name}");
+            return;
+        }
+
+        Heal(healthRegeneration * Time.deltaTime);
     }
 
     private void ShowHealthBar()
@@ -131,6 +186,12 @@ public class Health : NetworkBehaviour
     [ClientRpc]
     private void UpdateHealthBarClientRpc(float _currentHealth)
     {
+        if (healthSlider == null)
+        {
+            Debug.LogError($"{nameof(healthSlider)} is null in {GetType()} within gameobject {gameObject.name}! " +
+                $"This might be caused by someone setting HealthRegen to a value before the start function is called.");
+            return;
+        }
         healthSlider.value = _currentHealth; // TODO: Make a setter
     }
 
@@ -146,17 +207,16 @@ public class Health : NetworkBehaviour
             return;
         }
         hitPoints += _health;
-
-        UpdateHealthBarClientRpc(hitPoints);
+        hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
 
         healthSlider.value = hitPoints;
 
-        hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
+        UpdateHealthBarClientRpc(hitPoints);
     }
 
     /// <summary>
     /// Destroys the object this is attached to, marking it as dying and running 
-    /// any animations and IDestructable logic if applicable before the object
+    /// any IDestructable logic if applicable before the object
     /// is destroyed. This is the best way to destroy objects.
     /// </summary>
     public void DestroyObject()
@@ -187,13 +247,64 @@ public class Health : NetworkBehaviour
             collider.enabled = false;
         }
 
-        IDestructible destructible = GetComponent<IDestructible>();
+        IDestructible[] destructibles = GetComponents<IDestructible>();
 
-        if (destructible != null)
+        if (destructibles.Length > 1) // I really don't think we should ever have more than 1 destructible on a single object
         {
-            destructible.DestroyObject();
+            Debug.LogError($"Multiple destructibles found on {gameObject.name}!" +
+                $"Please ensure only one destructible is present on each object that implements IDestructible.");
+            return;
         }
+
+        destructibles[0].DestroyObject();
+
+        if (destructibles[0] is IRevivable revivable)
+        {
+            return;
+        }
+
         Invoke(nameof(Die), deathAnimationLength);
+    }
+
+    /// <summary>
+    /// Revives the object its attached to. Marking it as alive, restoring its health to maxHealth
+    /// and enabling the collider if applicable.
+    /// </summary>
+    public void ReviveObject()
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("ReviveObject can only be called by the server!");
+            return;
+        }
+
+        if (isDying == false)
+        {
+            Debug.LogError("Cannot revive an object that is not dying!");
+            return;
+        }
+
+        isDying = false;
+
+        OnRevive.Invoke();
+
+        Heal(maxHealth + Math.Abs(hitPoints));
+
+        if (TryGetComponent<Collider2D>(out Collider2D collider))
+        {
+            collider.enabled = true;
+        }
+
+        IRevivable[] revivables = GetComponents<IRevivable>();
+
+        if (revivables.Length > 1) // I really don't think we should ever have more than 1 destructible on a single object
+        {
+            Debug.LogError($"Multiple {nameof(IRevivable)} found on {gameObject.name}!" +
+                $"Please ensure only one {nameof(IRevivable)} is present on each object that implements {nameof(IRevivable)}.");
+            return;
+        }
+
+        revivables[0].ReviveObject();
     }
 
     /// <summary>

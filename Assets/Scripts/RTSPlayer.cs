@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 [RequireComponent (typeof(RTSPlayerControls), typeof(UnitManager),  typeof(PlayerInput))]
 public class RTSPlayer : NetworkBehaviour
 {
-    public static RTSPlayer instance { get; private set; }
+    public static RTSPlayer Instance { get; private set; }
     private RTSPlayerControls rtsPlayerControls;
     public RTSPlayerControls RTSPlayerControls => rtsPlayerControls;
     private UnitManager unitManager;
@@ -16,9 +16,9 @@ public class RTSPlayer : NetworkBehaviour
     
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {

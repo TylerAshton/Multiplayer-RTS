@@ -1,5 +1,9 @@
+using Cinemachine;
+using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent (typeof(RTSPlayerControls))]
 public class CameraMovement : NetworkBehaviour
@@ -8,12 +12,23 @@ public class CameraMovement : NetworkBehaviour
     [SerializeField] private bool isPanning = false;
     [SerializeField] private float panMultiplier = 0.1f;
     [SerializeField] private float maxPanningSpeed = 1;
+    [SerializeField] private float maxZoomedPanningSpeed = 0.1f;
     [SerializeField] private float panningEdgeThreshold = 100;
-    [SerializeField] private float minFOV = 15;
-    [SerializeField] private float maxFOV = 60;
+    [SerializeField] private float maxZoom = 300;
+    [SerializeField] private float targetZoom = 200;
+    private float currentZoom;
     [SerializeField] private float zoomSensitivity = 1;
-    Camera cameraComp;
-    GameObject mainCamera;
+    [SerializeField] private float zoomSpeed = 5f;
+    [SerializeField] private Transform panningTarget;
+    [SerializeField] private Vector3 panningRotationOffset;
+    private float minZoom = 0;
+    private Vector3 startPosition = Vector3.zero;
+    private CameraSpawner cameraSpawner;
+    private Camera cameraComp;
+    private GameObject mainCamera;
+    private CinemachineVirtualCamera virtualCamera;
+    private CinemachineTransposer transposer;
+    private Vector3 originalFollowOffset;
     private NetworkObject networkObject;
     private Vector2 panStartPos;
     private Vector2 screenPosition => rtsPlayerControls.MouseScreenPos;
@@ -26,6 +41,11 @@ public class CameraMovement : NetworkBehaviour
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
             Debug.LogError("Network object is required for cameraMovement");
+            return;
+        }
+        if (panningTarget == null)
+        {
+            Debug.LogError($"{nameof(panningTarget)} is null!");
         }
     }
 
@@ -35,27 +55,76 @@ public class CameraMovement : NetworkBehaviour
     public void Init()
     {
         mainCamera = Camera.main.gameObject;
-        cameraComp = mainCamera.GetComponent<Camera>();
-        rtsPlayerControls = GetComponent<RTSPlayerControls>();
+        startPosition = mainCamera.transform.position;
+        targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
+        currentZoom = targetZoom;
 
-        
+        if (!mainCamera.TryGetComponent<Camera>(out cameraComp))
+        {
+            Debug.LogError($"{nameof(Camera)} was not found in MainCamera!");
+            return;
+        }
 
+        if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
+        {
+            Debug.LogError($"{nameof(CameraSpawner)} was not found on {gameObject.name} and is required for {GetType().Name}!");
+            return;
+        }
+
+        if (!TryGetComponent<RTSPlayerControls>(out rtsPlayerControls))
+        {
+            Debug.LogError($"{nameof(RTSPlayerControls)} was not found on {gameObject.name} and is required for {GetType().Name}!");
+            return;
+        }
+
+        SetVirtualCamera(cameraSpawner.VirtualCamera);
+        if (virtualCamera == null)
+        {
+            Debug.LogError($"{nameof(CinemachineVirtualCamera)} is " +
+            $"required to be set via {nameof(SetVirtualCamera)} before {nameof(Init)} is called!");
+            return;
+        }
+
+        transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        originalFollowOffset = transposer.m_FollowOffset;
+    }
+
+    public void SetVirtualCamera(CinemachineVirtualCamera _virtualCamera)
+    {
+        if (_virtualCamera == null)
+        {
+            Debug.LogError($"{nameof(_virtualCamera)} was null!");
+        }
+
+        virtualCamera = _virtualCamera;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (networkObject.IsOwner)
+        if (!IsOwner)
         {
-            if (isPanning)
-            {
-                ApplyPan(GetManualPanVector());
-            }
-            else
-            {
-                //ApplyPan(isMouseNearScreenEdge());
-            }
+            return;
         }
+
+        if (isPanning)
+        {
+            ApplyPan(GetManualPanVector());
+        }
+        else
+        {
+            //ApplyPan(isMouseNearScreenEdge());
+        }
+
+        UpdateCurrentZoom();
+        ApplyZoom();
+    }
+
+    private void ApplyZoom()
+    {
+        //panningTarget.transform.position = startPosition + (mainCamera.transform.forward * targetZoom);
+        Vector3 offset = originalFollowOffset + (mainCamera.transform.forward * currentZoom);
+        transposer.m_FollowOffset = offset;
     }
 
     /// <summary>
@@ -88,9 +157,16 @@ public class CameraMovement : NetworkBehaviour
 
         // convert to vector 3
         Vector3 panningVector = new Vector3 { x = direction.x, y = 0, z = direction.y };
+        
+        float panLerpValue = targetZoom / maxZoom;
+        panLerpValue = 1 - panLerpValue;
+
+        float currentPanSpeed = Mathf.Lerp(maxZoomedPanningSpeed, maxPanningSpeed, panLerpValue);
 
         panningVector = panningVector * panMultiplier;
-        panningVector = Vector3.ClampMagnitude(panningVector, maxPanningSpeed);
+        panningVector = Vector3.ClampMagnitude(panningVector, currentPanSpeed);
+
+        panningVector = Quaternion.Euler(panningRotationOffset) * panningVector;
 
         return panningVector;
     }
@@ -101,17 +177,41 @@ public class CameraMovement : NetworkBehaviour
     /// <param name="_panningVector"></param>
     private void ApplyPan(Vector3 _panningVector)
     {
-        mainCamera.transform.position += _panningVector * Time.deltaTime;
+        panningTarget.position += _panningVector * Time.deltaTime;
+
+        // Clamp to bounds
+        panningTarget.position = ClampToBounds(panningTarget.position, MapManager.MapBounds);
+
+
     }
 
     /// <summary>
-    /// Reduces the fov of the camere by the axis given, scaled by zoomSensitivity and clamped within min/mav FOV
+    /// Clamps the Vector3 pos within the bounds given. Used to panning clamps
     /// </summary>
-    /// <param name="axis"></param>
-    public void ApplyZoom(int axis)
+    /// <param name="_position"></param>
+    /// <param name="_bounds"></param>
+    /// <returns></returns>
+    private Vector3 ClampToBounds(Vector3 _position, Bounds _bounds)
+    {                   // My day is ruined.... it doesn't slot nicely :(
+        return new Vector3( Mathf.Clamp(_position.x, _bounds.min.x, _bounds.max.x),
+                            Mathf.Clamp(_position.y, _bounds.min.y, _bounds.max.y),
+                            Mathf.Clamp(_position.z, _bounds.min.z, _bounds.max.z)
+        );
+    }
+
+    /// <summary>
+    /// Adds to the zoom target.
+    /// </summary>
+    /// <param name="_zoomChange"></param>
+    public void AdjustZoomTarget(float _zoomChange)
     {
-        cameraComp.fieldOfView -= axis * zoomSensitivity; // Adjust FOV
-        cameraComp.fieldOfView = Mathf.Clamp(cameraComp.fieldOfView, minFOV, maxFOV); // Clamp zoom range
+        float newZoom = Mathf.Clamp(targetZoom + (_zoomChange * zoomSensitivity), minZoom, maxZoom);
+        targetZoom = newZoom;
+    }
+
+    private void UpdateCurrentZoom()
+    {
+        currentZoom = Mathf.Lerp(currentZoom, targetZoom, Time.deltaTime * zoomSpeed);
     }
 
     /// <summary>

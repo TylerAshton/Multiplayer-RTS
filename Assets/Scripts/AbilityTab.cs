@@ -1,7 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -15,13 +12,26 @@ public class AbilityTab
     public List<Ability> Abilities => new List<Ability>(abilities);
 
 
+
     public void SetAbility(int _abilityIndex, Ability _ability)
     {
+        if (_abilityIndex < 0 || _abilityIndex >= abilities.Count)
+        {
+            Debug.LogError($"Invalid ability index: {_abilityIndex}. Must be between 0 and {abilities.Count - 1}.");
+            return;
+        }
+
         abilities[_abilityIndex] = _ability;
     }
 
     public void OverrideList(List<Ability> _abilities)
     {
+        if (_abilities == null)
+        {
+            Debug.LogError("Cannot override with a null list of abilities.");
+            return;
+        }
+
         abilities = new List<Ability>(_abilities);
     }
 
@@ -29,11 +39,6 @@ public class AbilityTab
     {
         abilities.Add(_ability);
     }
-
-    /*    public List<Ability> GetAbilities()
-        {
-            return abilities.Select(tab => tab.Clone()).ToList();
-        }*/
 
     /// <summary>
     /// Returns a read-only variant of this AbilityTab.
@@ -44,7 +49,7 @@ public class AbilityTab
         AbilityTab clone = new AbilityTab
         {
             tabName = this.tabName,
-            abilities = new List<Ability>(this.Abilities)
+            abilities = new List<Ability>(this.abilities)
         };
         return clone;
     }

@@ -127,7 +127,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.netcode.gameobjects": {
-      "version": "2.2.0",
+      "version": "2.4.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -156,6 +156,15 @@
       "source": "registry",
       "dependencies": {
         "com.unity.nuget.mono-cecil": "0.1.6-preview.2"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.polybrush": {
+      "version": "1.1.8",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.settings-manager": "2.0.1"
       },
       "url": "https://packages.unity.com"
     },

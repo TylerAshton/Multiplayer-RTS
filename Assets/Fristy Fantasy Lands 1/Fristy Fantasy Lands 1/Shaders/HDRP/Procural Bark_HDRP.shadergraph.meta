@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 458839f52f42f254588b20cbe0fa37f6
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198504
+  packageName: Fristy Fantasy Lands 1
+  packageVersion: 1.0
+  assetPath: Assets/Fristy Fantasy Lands 1/Fristy Fantasy Lands 1/Shaders/HDRP/Procural
+    Bark_HDRP.shadergraph
+  uploadId: 446920

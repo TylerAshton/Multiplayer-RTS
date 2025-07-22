@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class AbilityUIManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> abilityCells = new List<GameObject>();
+    [SerializeField] private List<AbilityCell> abilityCells = new List<AbilityCell>();
     [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
     [SerializeField] private Sprite backSprite;
@@ -26,7 +26,7 @@ public class AbilityUIManager : MonoBehaviour
             return commonAbilityTabs[tabIndex].Abilities;
         }
     }
-    private List<AbilityManager> abilityManagers;
+    private List<AbilityManager> abilityManagers = new List<AbilityManager>();
     private bool isChampionUI = false;
 
     internal void Init(bool _isChampionUI)
@@ -34,18 +34,88 @@ public class AbilityUIManager : MonoBehaviour
         isChampionUI = _isChampionUI;
     }
 
+    private void Update()
+    {
+        ShowCooldowns();
+    }
+
+    /// <summary>
+    /// Updates the UI to show the cooldowns of the common abilities. Or at least the 
+    /// </summary>
+    private void ShowCooldowns() // TODO: Self contain abilityCells if we have time
+    {
+        if (abilityManagers.Count <= 0)
+        {
+            return;
+        }
+
+        if (commonAbilities.Count <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < commonAbilities.Count; i++)
+        {
+            Slider slider = abilityCells[i].Slider;
+            Ability ability = commonAbilities[i];
+
+            float cooldownStartTime = GetLongestCooldown(ability);
+
+            if (cooldownStartTime == 0)
+            {
+                slider.value = 0;
+                return; // No cooldown needed to calculate
+            }
+
+            // Calculate remaining time until end of cooldown
+            slider.maxValue = ability.Cooldown;
+
+            float cooldownEndTime = ability.Cooldown + cooldownStartTime;
+            float timePassed = Time.time - cooldownStartTime;
+            float timeRemaining = ability.Cooldown - timePassed;
+
+            slider.value = timeRemaining;
+        }
+    }
+
+    /// <summary>
+    /// Returns the longest cooldown value among the abilityManagers with the parsed Ability
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private float GetLongestCooldown(Ability _ability)
+    {
+        if (!commonAbilities.Contains(_ability))
+        {
+            Debug.LogError($"{_ability.name} is not a common abiltiy!");
+            return 0;
+        }
+
+        float longestCooldown = 0f;
+
+        foreach (AbilityManager abilityManager in abilityManagers)
+        {
+            float cooldownStartTime = abilityManager.CooldownTimers.TryGetValue(_ability.ID, out float value) ? value : 0f;
+
+            if (value > longestCooldown)
+            {
+                longestCooldown = value;
+            }
+        }
+
+        return longestCooldown;
+    }
+
     /// <summary>
     /// Disables and hides all ability cells in the grid
     /// </summary>
     public void ResetAbilityGrid()
     {
-        foreach (GameObject _cell in abilityCells)
+        foreach (AbilityCell _cell in abilityCells)
         {
-            Image cellImage = _cell.GetComponent<Image>();
-            Button cellButton = _cell.GetComponent<Button>();
-
-            cellImage.enabled = false;
-            cellButton.interactable = false;
+            _cell.Image.enabled = false;
+            _cell.Button.interactable = false;
+            _cell.Slider.value = 0;
         }
     }
 
@@ -54,21 +124,34 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     /// <param name="_ability"></param>
     /// <param name="_cell"></param>
-    private void SetAbilityCell(Ability _ability, GameObject _cell, List<AbilityManager> _abilityManagers)
+    private void SetAbilityCell(Ability _ability, AbilityCell _cell, List<AbilityManager> _abilityManagers)
     {
-        Image cellImage = _cell.GetComponent<Image>();
-        Button cellButton = _cell.GetComponent<Button>();
+        if (_ability == null)
+        {
+            Debug.LogError($"{nameof(_ability)} was null in {gameObject.name}!");
+            return;
+        }
 
-        cellImage.enabled = true;
+        if (_cell == null)
+        {
+            Debug.LogError($"{nameof(_cell)} was null in {gameObject.name}");
+            return;
+        }
+        if (_abilityManagers == null || _abilityManagers.Count == 0)
+        {
+            Debug.LogError($"{nameof(_abilityManagers)} was null or empty in {gameObject.name}");
+        }
 
-        if (!isChampionUI) cellButton.interactable = true;
+        _cell.Image.enabled = true;
 
-        cellImage.sprite = _ability.Icon;
+        if (!isChampionUI) _cell.Button.interactable = true;
+
+        _cell.Image.sprite = _ability.Icon;
 
         // Add Event bindings to button pressed
-        cellButton.onClick.RemoveAllListeners();
+        _cell.Button.onClick.RemoveAllListeners();
 
-        cellButton.onClick.AddListener(() =>
+        _cell.Button.onClick.AddListener(() =>
         {
             foreach (AbilityManager _abilityManager in _abilityManagers)
             {
@@ -81,19 +164,16 @@ public class AbilityUIManager : MonoBehaviour
         });
     }
 
-    private void SetPageCell(GameObject _cell, int _pageIndex)
+    private void SetPageCell(AbilityCell _cell, int _pageIndex)
     {
-        Image cellImage = _cell.GetComponent<Image>();
-        Button cellButton = _cell.GetComponent<Button>();
+        _cell.Image.enabled = true;
+        _cell.Button.interactable = true;
 
-        cellImage.enabled = true;
-        cellButton.interactable = true;
+        _cell.Image.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
 
-        cellImage.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
+        _cell.Button.onClick.RemoveAllListeners();
 
-        cellButton.onClick.RemoveAllListeners();
-
-        cellButton.onClick.AddListener(() =>
+        _cell.Button.onClick.AddListener(() =>
         {
             this.SetPage(_pageIndex);
         });

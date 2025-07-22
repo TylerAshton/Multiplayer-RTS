@@ -3,10 +3,11 @@ using UnityEngine;
 
 public interface IAbilityUser
 {
-    NetCodeAnimationManager NAnimator { get; }
     Transform Transform { get; }
-    IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions { get; }
-    EffectManager EffectManager { get; }
-
+    IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions { get; }   
+    Vector3 AimPoint { get; }
     IFaction IFaction { get; }
+
+    public void SetTarget(Collider castTarget);
+    public void ClearTarget();
 }

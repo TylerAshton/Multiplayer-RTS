@@ -10382,6 +10382,7 @@ GameObject:
   - component: {fileID: 7067866066898143838}
   - component: {fileID: 3631197663315793780}
   - component: {fileID: -8913194457692607531}
+  - component: {fileID: 6893020842457672130}
   m_Layer: 7
   m_Name: Amalgam Core
   m_TagString: Amalgam
@@ -10627,6 +10628,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   selectionIndiator: {fileID: 3859389024563432009}
   isSelectable: 1
+  iD: Obelisk
 --- !u!114 &-8818372801074404822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10643,6 +10645,12 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Main
     abilities:
+    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    - {fileID: 11400000, guid: 76eb052def7ff7346a29ca6f73829f66, type: 2}
+    - {fileID: 11400000, guid: 188d07e038d14eb4cb1cf67beef57714, type: 2}
+  - tabName: Main
+    abilities:
+    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
 --- !u!95 &379041836462067280
 Animator:
@@ -10709,8 +10717,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 1.2413384, z: 5}
-  m_Center: {x: -0.025808971, y: 0.5886913, z: 0.23052153}
+  m_Size: {x: 5, y: 2.5164125, z: 5}
+  m_Center: {x: -0.025808971, y: 1.2262281, z: 0.23052153}
 --- !u!54 &3631197663315793780
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10753,6 +10761,21 @@ MonoBehaviour:
   abilityPositionsEntries:
   - key: 0
     value: {fileID: 5813815697016714828}
+--- !u!114 &6893020842457672130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123164835970087146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab3487c8c3ae88499c5e7916ebb44f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStatsList:
+  - statType: 2
+    value: 0
 --- !u!1 &5134832880157673835
 GameObject:
   m_ObjectHideFlags: 0

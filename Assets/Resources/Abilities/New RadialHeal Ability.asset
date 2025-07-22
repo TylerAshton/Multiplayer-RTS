@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
+  m_Name: New RadialHeal Ability
+  m_EditorClassIdentifier: 
+  purchaseID: wegfw
+  price: 0
+  abilityID: wegfw
+  abilityName: awergaewrg
+  castTime: 1
+  castPositionName: 0
+  animationTrigger: 
+  icon: {fileID: 0}
+  abilityCost: 0
+  purchasePrice: 0
+  cooldown: 0
+  radius: 1
+  healAmount: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128

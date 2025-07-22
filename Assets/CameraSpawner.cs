@@ -9,12 +9,14 @@ public class CameraSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cameraPrefab;
 
-    private GameObject spawnedCamera;
-    private CinemachineVirtualCamera virtualCamera;
+    protected GameObject spawnedCamera;
+    protected CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera VirtualCamera => virtualCamera;
     public GameObject SpawnedCamera => spawnedCamera;
     private Camera spawnedCameraComponent;
     [SerializeField] private Vector3 cameraSpawnOffset;
     [SerializeField] private bool isChampion = false;
+    [SerializeField] private Transform cameraTarget;
 
     /// <summary>
     /// Spawns the camera with the allocated Offset and sets it to the main Camera
@@ -28,17 +30,29 @@ public class CameraSpawner : MonoBehaviour
     /// <summary>
     /// Spawns the given camera prefab
     /// </summary>
-    public void SpawnCamera()
+    protected virtual void SpawnCamera()
     {
         spawnedCamera = Instantiate(cameraPrefab, transform.position, cameraPrefab.transform.rotation);
-        spawnedCameraComponent = spawnedCamera.GetComponent<Camera>();
+        if (!spawnedCamera.TryGetComponent<Camera>(out spawnedCameraComponent))
+        {
+            Debug.LogError($"{nameof(Camera)} was not found on {spawnedCamera.name}!");
+            return;
+        }
         spawnedCamera.transform.position += cameraSpawnOffset;
 
-        if (isChampion)
+        virtualCamera = spawnedCamera.GetComponentInChildren<CinemachineVirtualCamera>();
+        if (virtualCamera == null)
         {
-            virtualCamera = spawnedCamera.GetComponentInChildren<CinemachineVirtualCamera>();
-            virtualCamera.Follow = transform;
-            virtualCamera.LookAt = transform;
+            Debug.LogError($"{nameof(CinemachineVirtualCamera)} not found!");
+            return;
+        }
+
+
+        if (cameraTarget)
+        {
+            
+            virtualCamera.Follow = cameraTarget;
+            virtualCamera.LookAt = cameraTarget;
             virtualCamera.enabled = true;
         }
         
@@ -47,7 +61,7 @@ public class CameraSpawner : MonoBehaviour
     /// <summary>
     /// Sets the camera spawned by SpawnCamera to be CameraMain while disabling all other cameras
     /// </summary>
-    public void SetCameraMain()
+    private void SetCameraMain()
     {
         Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
 
@@ -56,6 +70,11 @@ public class CameraSpawner : MonoBehaviour
             if (camera != spawnedCameraComponent)
             {
                 camera.enabled = false;
+            }
+
+            if (camera.CompareTag("Minimap Cam"))
+            {
+                camera.enabled = true;
             }
 
             Camera.main.tag = "Untagged";

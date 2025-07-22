@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,8 +11,10 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [SerializeField] float speed = 10f;
     [SerializeField] private float damage = 1f;
     [SerializeField] string friendlyTag;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask objectsLayerMask;
+    [SerializeField] private LayerMask unitsOnlyLayerMask;
     [SerializeField] private GameObject deathVFX;
+    private GameObject bulletVFX;
     [SerializeField] private float lifeTime = 5f;
     private float destroyAtTime = Mathf.Infinity;
     NetworkObject networkObject;
@@ -18,10 +22,15 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     private MeshRenderer meshRenderer;
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 posLastFrame;
-    private Vector3[] corners = new Vector3[8];
 
+    private float bulletVFXScale = 1f;
+    private float deathVFXScale = 1f;
+    private bool isAOE = false;
+    private float aoeRadius = 1f;
+    private int penetration = 0;
     private Faction faction = Faction.None;
     public Faction Faction { get => faction; set => faction = value; }
+    private List<GameObject> hitTagets = new List<GameObject>();
 
     private void Awake()
     {
@@ -51,24 +60,75 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         {
             destroyAtTime = Time.fixedTime + lifeTime;
         }
-
-        CalculateCorners();
     }
 
     /// <summary>
-    /// Calculates the corner extends of the bullet which are used for hit detection
+    /// Applies the projectile stats to the bullet, this is used to set the stats of the bullet when it is instantiated
     /// </summary>
-    private void CalculateCorners()
+    /// <param name="_projectileStats"></param>
+    /// 
+    [Rpc(SendTo.Everyone)]
+    private void ApplyProjectileStatsRpc(string _projectileStatsID)
     {
-        Bounds bounds = meshRenderer.bounds;
+        ProjectileStats _projectileStats = Registry<ProjectileStats>.GetItem(_projectileStatsID);
 
-        float radius = Mathf.Max(bounds.extents.x, bounds.extents.z);
+        
 
-        for (int i = 0; i < 12; i++)
+        if (_projectileStats == null)
         {
-            float angle = i * (360f / 12) * Mathf.Deg2Rad;
+            Debug.LogError("ProjectileStats is null");
+            return;
+        }
 
-            Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+        if (!_projectileStats.IsValid())
+        {
+            Debug.LogError("ProjectileStats is not valid, check the console for more information");
+            return;
+        }
+
+
+
+        detectionRange = _projectileStats.DetectionRange;
+        speed = _projectileStats.Speed;
+        damage = _projectileStats.Damage;
+        lifeTime = _projectileStats.LifeTime;
+        bulletVFX = _projectileStats.BulletVFX;
+        bulletVFXScale = _projectileStats.BulletVFXScale;
+        deathVFX = _projectileStats.DeathVFX;
+        deathVFXScale = _projectileStats.DeathVFXScale;
+        isAOE = _projectileStats.IsAOE;
+        aoeRadius = _projectileStats.AOERadius;
+        penetration = _projectileStats.Penetration;
+
+        SpawmBulletVFXRpc();
+    }
+
+    public void ApplyProjectileStatsWithID(string _projectileStatsID)
+    {
+        ApplyProjectileStatsRpc(_projectileStatsID);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawmBulletVFXRpc()
+    {
+        // TODO: Check if VFX is in networked prefab pool,
+
+        if (bulletVFX == null)
+        {
+            Debug.LogError("Attempted to spawn bullet vfx when it's null!");
+            return;
+        }
+
+        if (bulletVFXScale <= 0)
+        {
+            Debug.LogError($"Bullet VFX Scale can't be zero or negative: {bulletVFXScale}");
+            return;
+        }
+        else
+        {
+            GameObject spawnedVfx = Instantiate(bulletVFX, transform);
+            //spawnedVfx.transform.localScale *= bulletVFXScale;
+            VFXScaler.ScaleParticles(bulletVFXScale, spawnedVfx);
         }
     }
 
@@ -84,13 +144,23 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         SetDirectionClientRpc(moveDirection);
     }
 
+    public void LaunchProjectileAtTarget(Vector3 _targetPos)
+    {
+        Vector3 direction = _targetPos - transform.position;
+
+        //direction.y = 0f; 
+
+        direction = direction.normalized;
+
+
+        LaunchProjectile(direction);
+    }
+
     [ClientRpc]
     private void SetDirectionClientRpc(Vector3 _direction)
     {
         moveDirection = _direction;
     }
-
-
 
     // Update is called once per frame
     void Update()
@@ -111,7 +181,8 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
         if (!isDead)
         {
-            HitDetection();
+            ForwardHitDetection();
+            TunnelHitDetection();
         }
     }
 
@@ -128,72 +199,150 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     private void OnDrawGizmos()
     {
-/*        Gizmos.color = Color.red;
-        Vector3 rayDirection = moveDirection.normalized * detectionRange;
-
-
-        Bounds bounds = meshRenderer.bounds;
-
-        float radius = Mathf.Max(bounds.extents.x, bounds.extents.z);
-
-        for (int i = 0; i < 12; i++)
+        if (isAOE)
         {
-            float angle = i * Mathf.PI * 2f / 12;
-
-            Vector3 localOffset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
-            Vector3 worldStart = transform.position + transform.rotation * localOffset;
-
-            worldStart = transform.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
-
-            Gizmos.DrawRay(worldStart, rayDirection);
-
-        }*/
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, aoeRadius);
+        }
 
     }
 
     /// <summary>
-    /// Detects if we've gone through anything after our last movement by taking the current 
-    /// position and the position at the end of the last frame and performing a raycast
+    /// Raycasts fprward in the direction of the projectile to detect hits with objects.
     /// </summary>
-    private void HitDetection()
+    private void ForwardHitDetection()
     {
-        if (!IsServer) return;
-
-        Vector3 directionToLastPos = (posLastFrame - transform.position).normalized;
-        float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame);
-
-        foreach(Vector3 corner in corners)
+        if (!IsServer)
         {
-            if (Physics.Raycast(transform.position + corner, directionToLastPos, out RaycastHit hit, distanceToLastPos, layerMask))
+            Debug.Log($"{nameof(ForwardHitDetection)} can only be performed on the server!");
+            return;
+        }
+
+        // Perform a raycast in the direction of the projectile
+        if (Physics.Raycast(transform.position, moveDirection, out RaycastHit hit, detectionRange, objectsLayerMask))
+        {
+            HandleHit(hit.collider);
+        }
+    }
+
+    /// <summary>
+    /// Detects if we've gone through anything after our last movement by taking the current 
+    /// position and the position at the end of the last frame and performing a raycast.
+    /// if we hit something, we will handle the hit.
+    /// </summary>
+    private void TunnelHitDetection()
+    {
+        if (!IsServer)
+        {
+            Debug.Log($"{nameof(TunnelHitDetection)} can only be performed on the server!");
+            return;
+        }
+
+        Vector3 directionFromLastPos = (transform.position - posLastFrame).normalized;
+        float distanceToLastPos = Vector3.Distance(transform.position, posLastFrame); // It should be last pos ---> currentpos
+
+        if (Physics.Raycast(posLastFrame, directionFromLastPos, out RaycastHit hit, distanceToLastPos, objectsLayerMask))
+        {
+            HandleHit(hit.collider);
+        }
+
+        posLastFrame = transform.position;
+    }
+
+    private void HandleHit(Collider _hitCollider)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("HandleHit can only be performed on the server!");
+            return;
+        }
+
+        // Basically if hitCollider is not a unit we shoudn't penetrate it
+        if ((unitsOnlyLayerMask.value & (1 << _hitCollider.gameObject.layer)) == 0)
+        {
+            AOEHitDetection(_hitCollider);
+            StartDespawn();
+            return;
+        }
+
+        // If we've hit this before leave it.
+        if (hitTagets.Contains(_hitCollider.gameObject))
+        {
+            return;
+        }
+
+        if (_hitCollider.TryGetComponent<IFaction>(out IFaction faction))
+        {
+            if (faction.Faction == this.faction)
             {
-                /*if (hit.collider.gameObject.tag == friendlyTag) // This is no longer used as we now use faction enums
-                {
-                    continue;
-                }*/
+                return;
+            }
+        }
+        TryDamage(_hitCollider);
 
-                // Skip if the hit object is part of the same faction
-                if (hit.collider.TryGetComponent<IFaction>(out IFaction faction))
-                {
-                    if (faction.Faction == this.faction)
-                    {
-                        continue;
-                    }
-                }
+        AOEHitDetection(_hitCollider);
 
-                // Example: Damage logic
-                if (hit.collider.TryGetComponent(out Health health))
-                {
-                    health.Damage(damage);
-                }
+        if (penetration > 0)
+        {
+            penetration--;
+            hitTagets.Add(_hitCollider.gameObject);
+            SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
+        }
+        else
+        {
+            StartDespawn();
+        }
+    }
 
-                StartDespawn();
+    /// <summary>
+    /// If collider is not a friednly and has health, will apply damage to it.
+    /// </summary>
+    /// <param name="_hitCollider"></param>
+    private void TryDamage(Collider _hitCollider)
+    {
+        if (_hitCollider.TryGetComponent<IFaction>(out IFaction faction))
+        {
+            if (faction.Faction == this.faction)
+            {
                 return;
             }
         }
 
-        posLastFrame = transform.position;
+        // Damage logic
+        if (_hitCollider.TryGetComponent(out Health health))
+        {
+            health.Damage(damage);
+        }
+    }
 
+    /// <summary>
+    /// If the projectile is an AOE projectile, this will perform hit detection for all OTHER objects within the AOE radius and apply damage to them.
+    /// </summary>
+    private void AOEHitDetection(Collider _exempt)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("AOE Hit Detection can only be performed on the server");
+        }
 
+        if (!isAOE)
+        {
+            return;
+        }
+
+        // Check sphere overlap for AOE detection
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, aoeRadius, unitsOnlyLayerMask);
+
+        // Remove _exempt from hit colliders if exists
+        if (_exempt != null)
+        {
+            hitColliders = System.Array.FindAll(hitColliders, collider => collider != _exempt);
+        }
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+            TryDamage(hitCollider);
+        }
 
 
 
@@ -219,12 +368,28 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     public void DestroyObject()
     {
-        Debug.Log("Killing bullet");
-        if (deathVFX)
-        {
-            GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
-            spawnedVfx.GetComponent<NetworkObject>().Spawn();
-        }
+        SpawnDeathVFXRpc();
         networkObject.Despawn();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SpawnDeathVFXRpc()
+    {
+        if (deathVFX == null)
+        {
+            Debug.LogError($"Death VFX undefined in {this.name}!");
+            return;
+        }
+
+        if (deathVFXScale <= 0)
+        {
+            Debug.LogError($"Death VFX Scale can't be zero or negative: {deathVFXScale}in {this.name}");
+            return;
+        }
+
+        GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
+        //spawnedVfx.transform.localScale *= deathVFXScale;
+        VFXScaler.ScaleParticles(deathVFXScale, spawnedVfx);
+
     }
 }

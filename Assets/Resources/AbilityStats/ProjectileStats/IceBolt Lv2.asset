@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cffe88dae6799a94a8b7ecae488eb09f, type: 3}
+  m_Name: IceBolt Lv2
+  m_EditorClassIdentifier: 
+  iD: Ice2
+  detectionRange: 0.1
+  speed: 10
+  damage: 45
+  lifeTime: 5
+  bulletVFX: {fileID: 100006, guid: 09a9233e871e63a4ca33f8cb6f46cf1c, type: 3}
+  bulletVFXScale: 1.32
+  deathVFX: {fileID: 100004, guid: a538c26b827a66e45a17c1f359fbd88b, type: 3}
+  deathVFXScale: 0.29
+  isAOE: 0
+  aoeRadius: 1
+  penetration: 1

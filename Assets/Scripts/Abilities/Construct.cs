@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Construct Ability", menuName = "Abilities/Construct")]
@@ -21,7 +22,7 @@ public class Construct : Ability<IConstructionPad>
         summoned.GetComponent<Health>().OnDeath += _user.ConstructionPad.ShowBuildPad;
 
         // Select new unit
-        RTSPlayer.instance.UnitManager.SelectUnit(summoned.GetComponent<SelectableObject>());
+        RTSPlayer.Instance.UnitManager.SelectUnit(summoned.GetComponent<SelectableObject>());
     }
 
     protected override void DebugDrawingTyped(IConstructionPad _user)
@@ -33,4 +34,26 @@ public class Construct : Ability<IConstructionPad>
     {
         
     }
+
+#if UNITY_EDITOR
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldSpawnee = _so.FindProperty("spawnee");
+        fieldSpawnee.objectReferenceValue = EditorGUILayout.ObjectField("Spawnee Prefab", fieldSpawnee.objectReferenceValue, typeof(GameObject), false);
+        if (fieldSpawnee.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Spawnee Prefab must be assigned.", MessageType.Error);
+        }
+
+
+        SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");
+        fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
+        if (fieldSpawnVFX.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Spawn VFX Prefab must be assigned.", MessageType.Error);
+        }
+    }
+#endif
 }

@@ -39,11 +39,13 @@ public class CapturePoint : NetworkBehaviour
 
     private List<GameObject> goInCapture = new List<GameObject>();
 
+    [SerializeField] GameObject icon;
+
     private void Awake()
     {
         circle.transform.localScale = new Vector3(r, 1, r);
         circle.transform.position = this.transform.position + offset;
-        bonfireObj.transform.position = this.transform.position + offset;
+        //bonfireObj.transform.position = this.transform.position + offset;
         SphereCollider trigger = GetComponent<SphereCollider>();
         trigger.radius = r;
         trigger.center += offset;
@@ -79,6 +81,15 @@ public class CapturePoint : NetworkBehaviour
             }
         }
 
+#if UNITY_EDITOR // Just an extra note checker to ignore this error in editor for singleplayer
+        int playerCount = NetworkManager.Singleton.ConnectedClients.Count;
+        if (playerCount == 1)
+        {
+            Debug.LogError($"Only one player connected, returning 99 for {player.name} in CheckChampion");
+            return 99;
+        }
+#endif
+        // If we reach here, it means the player is not found in the connected clients
         Debug.LogError($"{player.name} is not a champion");
         return 99;
     }
@@ -108,6 +119,13 @@ public class CapturePoint : NetworkBehaviour
 
     void Update()
     {
+        HostUpdate();
+        ClientUpdate();
+
+    }
+
+    private void HostUpdate()
+    {
         if (!IsHost) { return; }
         CheckOwner();
 
@@ -127,6 +145,16 @@ public class CapturePoint : NetworkBehaviour
         {
             TurnOnBonfiresRpc(false, Color.black, 0);
         }
+
+    }
+
+    private void ClientUpdate()
+    {
+        if (!IsClient)
+        {
+            return;
+        }
+        icon = MinimapHandler.Instance.changeCampfire(icon, owner.ToString());
     }
 
     [Rpc(SendTo.Everyone)]
@@ -344,7 +372,7 @@ public class CapturePoint : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void CloseShopRpc(ulong _ID)
+    void CloseShopRpc(ulong _ID) // TODO: This needs polishing as UI only exists on the client
     {
         NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.GetComponent<AnimatedChampion>().CloseShopUI();
     }

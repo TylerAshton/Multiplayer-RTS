@@ -39,6 +39,8 @@ public class RTSPlayerControls : MonoBehaviour
     public CommandMode SelectedCommand => selectedCommand;
     [SerializeField] private CommandCursors commandCursors;
     private CameraSpawner cameraSpawner;
+    private bool isShiftPressed = false;
+    public bool IsShiftPressed => isShiftPressed;
     
 
     /// <summary>
@@ -81,7 +83,19 @@ public class RTSPlayerControls : MonoBehaviour
 
     private void Update()
     {
-        if (isMouseHeld) { OnMouseClickHeld(); }
+        if (isMouseHeld) { OnMouseClickHoldUpdate(); }
+    }
+
+    public void Shift(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isShiftPressed = true;
+        }
+        else if (context.canceled)
+        {
+            isShiftPressed = false;
+        }
     }
 
     /// <summary>
@@ -91,7 +105,7 @@ public class RTSPlayerControls : MonoBehaviour
     public void OnScroll(InputAction.CallbackContext context)
     {
         int axis = (int)context.ReadValue<Vector2>().y;
-        cameraMovement.ApplyZoom(axis);
+        cameraMovement.AdjustZoomTarget(axis);
     }
 
     /// <summary>
@@ -119,22 +133,63 @@ public class RTSPlayerControls : MonoBehaviour
     /// <param name="context"></param>
     public void OnMouseClick(InputAction.CallbackContext context)
     {
-        float clickValue = context.ReadValue<float>();
-
-        if (clickValue > 0) // Button pressed
+        if (isUsingUI(mouseScreenPos))
         {
-            OnMouseClickStarted();
+            return;
         }
-        else // Button released
+
+        if (context.performed)
         {
-            OnMouseClickEnded();
+            OnMouseClickPerformed();
+        }
+    }
+    private void OnMouseClickPerformed()
+    {
+        RTSPlayer.Instance.UnitManager.PointSelection(mouseScreenPos);
+    }
+
+    public void OnMouseDoubleClick(InputAction.CallbackContext context)
+    {
+        if (isUsingUI(mouseScreenPos))
+        {
+            return;
+        }
+
+        if (context.performed)
+        {
+            OnMouseDoubleClickPerformed();
+        }
+    }
+
+    private void OnMouseDoubleClickPerformed()
+    {
+        RTSPlayer.Instance.UnitManager.SelectCommon(mouseScreenPos);
+    }
+
+    public void OnMouseHeld(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started) // TODO: Just use context?
+        {
+            mousetStartPosition = mouseScreenPos;
+        }
+        else if (context.phase == InputActionPhase.Performed)
+        {
+            OnMouseHoldStarted();
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            if (!isMouseHeld)
+            {
+                return;
+            }
+            OnMouseHoldEnded();
         }
     }
 
     /// <summary>
-    /// If the player isn't using the UI, enables the selectionBox
+    /// Once the mouse is held for the treshhold time this will run ONCE
     /// </summary>
-    private void OnMouseClickStarted()
+    private void OnMouseHoldStarted()
     {
         if (isUsingUI(mouseScreenPos))
         {
@@ -142,14 +197,14 @@ public class RTSPlayerControls : MonoBehaviour
         }
 
         isMouseHeld = true;
-        mousetStartPosition = mouseScreenPos;
+        //mousetStartPosition = mouseScreenPos;
         selectionBox.EnableBox();
     }
 
     /// <summary>
-    /// Draws the selection box based on where the player started holding down the mouse and where it is now
+    /// Once the mouse is held for the treshhold time this will run EVERY frame
     /// </summary>
-    private void OnMouseClickHeld()
+    private void OnMouseClickHoldUpdate()
     {
         selectionBox.DrawSelectionBox(mousetStartPosition, MouseScreenPos);
     }
@@ -158,7 +213,7 @@ public class RTSPlayerControls : MonoBehaviour
     /// Sends the selectionBox ScreenRect to the unitManager to attempt and AreaSelection,
     /// with said selection updates the cursor based on units selected
     /// </summary>
-    private void OnMouseClickEnded()
+    private void OnMouseHoldEnded()
     {
         if (isUsingUI(mouseScreenPos))
         {
@@ -166,10 +221,10 @@ public class RTSPlayerControls : MonoBehaviour
         }
 
         isMouseHeld = false;
-        RTSPlayer.instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
+        RTSPlayer.Instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
         selectionBox.DisableBox();
 
-        // If a unit was selected switch to move commands if idle
+/*        // If a unit was selected switch to move commands if idle
         if (selectedCommand == CommandMode.None)
         {
             if (RTSPlayer.instance.UnitManager.SelectedUnits.Count > 0)
@@ -183,7 +238,7 @@ public class RTSPlayerControls : MonoBehaviour
             {
                 SetCommandMode(CommandMode.None);
             }
-        }
+        }*/
     }
 
     /// <summary>
@@ -214,7 +269,7 @@ public class RTSPlayerControls : MonoBehaviour
             return;
         }
 
-        switch (selectedCommand)
+/*        switch (selectedCommand)
         {
             case CommandMode.None:
                 break;
@@ -223,10 +278,12 @@ public class RTSPlayerControls : MonoBehaviour
                 break;
             case CommandMode.AttackMove:
                 break;
-        }
+        }*/
+
+        RTSPlayer.Instance.UnitManager.MoveOrder(worldPosition);
 
 
-        
+
     }
     private void OnRightClickEnded()
     {
@@ -279,7 +336,7 @@ public class RTSPlayerControls : MonoBehaviour
     {
         selectedCommand = _mode;
 
-        Texture2D cursorIcon = commandCursors.defaultCursor;
+/*        Texture2D cursorIcon = commandCursors.defaultCursor;
 
         switch(_mode)
         {
@@ -300,7 +357,7 @@ public class RTSPlayerControls : MonoBehaviour
                 }
         }
 
-        Cursor.SetCursor(cursorIcon, default, CursorMode.Auto);
+        Cursor.SetCursor(cursorIcon, default, CursorMode.Auto);*/
     }
 
     /// <summary>
