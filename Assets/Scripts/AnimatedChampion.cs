@@ -95,6 +95,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private Vector3 soulSpawnOffset = Vector3.zero;
 
     private Health health;
+    public Health Health => health;
 
     void Start()
     {

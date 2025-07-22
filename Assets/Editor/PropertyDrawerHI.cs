@@ -37,6 +37,7 @@ namespace Editor
                 menu.AddItem(new GUIContent("Placeholder Ability"), false, () => ShowNamingWindow($"{typeof(PlaceholderAbility).FullName}", property));
                 menu.AddItem(new GUIContent("Unit Construction Ability"), false, () => ShowNamingWindow($"{typeof(EnqueueConstruction).FullName}", property));
                 menu.AddItem(new GUIContent("Upgrade Ability"), false, () => ShowNamingWindow($"{typeof(AmalgamCoreUpgrader).FullName}", property));
+                menu.AddItem(new GUIContent("Self-Heal Ability"), false, () => ShowNamingWindow($"{typeof(SelfHeal).FullName}", property));
 
                 menu.AddItem(new GUIContent("DEBUG Ability"), false, () => ShowNamingWindow($"{typeof(DebugAbility).FullName}", property));
 

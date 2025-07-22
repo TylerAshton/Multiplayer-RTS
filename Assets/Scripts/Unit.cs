@@ -3,6 +3,7 @@ using UnityEngine;
 public class Unit : SelectableObject, IDestructible
 {
     private Health health;
+    public Health Health => health;
     private UnitBehaviour unitBehaviour;
 
     protected override void Awake()

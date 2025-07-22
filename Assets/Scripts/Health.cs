@@ -173,7 +173,10 @@ public class Health : NetworkBehaviour
 
         hitPoints -= _damage;
 
-        UpdateHealthBarClientRpc(hitPoints);
+        if (showHealthBar)
+        {
+            UpdateHealthBarClientRpc(hitPoints);
+        }
 
         animator.SetTrigger("OnHit");
 
@@ -186,6 +189,11 @@ public class Health : NetworkBehaviour
     [ClientRpc]
     private void UpdateHealthBarClientRpc(float _currentHealth)
     {
+        if (!showHealthBar)
+        {
+            return;
+        }
+
         if (healthSlider == null)
         {
             Debug.LogError($"{nameof(healthSlider)} is null in {GetType()} within gameobject {gameObject.name}! " +
@@ -209,9 +217,13 @@ public class Health : NetworkBehaviour
         hitPoints += _health;
         hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
 
-        healthSlider.value = hitPoints;
+        //healthSlider.value = hitPoints;
 
-        UpdateHealthBarClientRpc(hitPoints);
+        if (showHealthBar)
+        {
+            UpdateHealthBarClientRpc(hitPoints);
+        }
+
     }
 
     /// <summary>

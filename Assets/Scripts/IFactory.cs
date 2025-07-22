@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IFactory : IAbilityUser
+public interface IFactory : IUnitAbilityUser
 {
     FactoryQueueManager FactoryQueueManager { get; }
 }

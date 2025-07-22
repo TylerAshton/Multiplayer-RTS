@@ -98,6 +98,7 @@ MonoBehaviour:
   - tabName: Upgrades
     abilities:
     - {fileID: 11400000, guid: 7725255f9ec4643428a2a0253c6e4f6e, type: 2}
+    - {fileID: 11400000, guid: ffbcba904d7189c4a8a5238455d6006f, type: 2}
   hasUtility: 0
 --- !u!114 &1208016057222027340
 MonoBehaviour:

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ICharacterAbilityUser : IAbilityUser
+public interface ICharacterAbilityUser : IUnitAbilityUser
 {
     NetCodeAnimationManager NAnimator { get; }
     EffectManager EffectManager { get; }
