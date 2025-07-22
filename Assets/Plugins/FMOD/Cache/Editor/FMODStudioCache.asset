@@ -19,14 +19,14 @@ MonoBehaviour:
     Data3: 1554869904
     Data4: 940933785
   Banks:
-  - {fileID: 496332770725941214}
-  IsStream: 1
+  - {fileID: 2908149227627637312}
+  IsStream: 0
   Is3D: 1
   IsOneShot: 0
   Parameters: []
   MinDistance: 0
   MaxDistance: 65
-  Length: 36226
+  Length: 9000
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,24 +40,24 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 3627916380094575623}
-  - {fileID: 496332770725941214}
+  - {fileID: 4136580951941312493}
+  - {fileID: 2908149227627637312}
   EditorEvents:
   - {fileID: 5267252612222049109}
   - {fileID: -8308468013775275821}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 496332770725941214}
+  - {fileID: 2908149227627637312}
   StringsBanks:
-  - {fileID: 3627916380094575623}
+  - {fileID: 4136580951941312493}
   cacheVersion: 131848
-  cacheTime: 638882782124351577
+  cacheTime: 638887044153826603
   SerializableEventsDict:
   - key: event:/Music
     index: 0
   - key: event:/New Event
     index: 1
---- !u!114 &496332770725941214
+--- !u!114 &2908149227627637312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,17 +67,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Name: bank:/Desktop/Master.bank
   m_EditorClassIdentifier: 
-  Path: Multiplayer-RTS-FMOD/Build/Desktop/Master.bank
-  Name: Master
+  Path: Assets/Luke's folder/FMOD/Desktop/Master.bank
+  Name: Desktop/Master
   StudioPath: bank:/Master
-  lastModified: 638882782124301959
-  FileSizes:
-  - Name: Desktop
-    Value: 426432
+  lastModified: 638887044152816122
+  FileSizes: []
   Exists: 1
---- !u!114 &3627916380094575623
+--- !u!114 &4136580951941312493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,14 +85,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
+  m_Name: bank:/Desktop/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: Multiplayer-RTS-FMOD/Build/Desktop/Master.strings.bank
-  Name: Master.strings
+  Path: Assets/Luke's folder/FMOD/Desktop/Master.strings.bank
+  Name: Desktop/Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638882782124351577
+  lastModified: 638887044153826603
   FileSizes:
-  - Name: Desktop
+  - Name: 
     Value: 818
   Exists: 1
 --- !u!114 &5267252612222049109
@@ -116,11 +114,11 @@ MonoBehaviour:
     Data3: 1536218753
     Data4: 432774367
   Banks:
-  - {fileID: 496332770725941214}
-  IsStream: 1
+  - {fileID: 2908149227627637312}
+  IsStream: 0
   Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 36226
+  Length: 13500
