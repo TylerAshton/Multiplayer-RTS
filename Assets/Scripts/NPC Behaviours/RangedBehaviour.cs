@@ -50,7 +50,7 @@ public class RangedBehaviour : NPCBehaviour
 
         // TODO: Impliment checking if target is in line of sight
 
-        _npc.AbilityManager.TryCastAbility(0);
+        _npc.AbilityManager.TryCastAbility(0, 0);
     }
 
     private void UpdateRotation(NPC _npc)

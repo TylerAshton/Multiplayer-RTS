@@ -332,7 +332,7 @@ public class AbilityManager : NetworkBehaviour
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>
-    public void TryCastAbility(int _abilityIndex, int tabIndex = 0)
+    public void TryCastAbility(int _abilityIndex, int tabIndex)
     {
         if (!IsServer)
         {

@@ -175,7 +175,7 @@ public class AbilityUIManager : MonoBehaviour
                 int abilityIndex = _abilityManager.AbilityTabs[tabIndex].Abilities.IndexOf(_ability);
                 if (abilityIndex >= 0)
                 {
-                    _abilityManager.TryCastAbility(abilityIndex);
+                    _abilityManager.TryCastAbility(abilityIndex, tabIndex);
                 }
             }
         });

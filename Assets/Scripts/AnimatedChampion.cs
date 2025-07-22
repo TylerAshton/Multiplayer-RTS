@@ -360,9 +360,9 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// </summary>
     /// <param name="_AbilityIndex"></param>
     [ServerRpc(RequireOwnership = false)]
-    private void CastAbilityServerRpc(int _AbilityIndex)
+    private void CastAbilityServerRpc(int _AbilityIndex) // TODO: Should really be moved into abilityManager or something
     {
-        championAbilityManager.TryCastAbility(_AbilityIndex);
+        championAbilityManager.TryCastAbility(_AbilityIndex, 0);
     }
 
     /// <summary>
