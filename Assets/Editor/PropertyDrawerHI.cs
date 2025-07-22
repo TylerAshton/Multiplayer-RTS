@@ -34,6 +34,9 @@ namespace Editor
                 menu.AddItem(new GUIContent("Projectile Ability"), false, () => ShowNamingWindow($"{typeof(ProjectileAbility).FullName}", property));
                 menu.AddItem(new GUIContent("Summon Ability"), false, () => ShowNamingWindow($"{typeof(SummonAbility).FullName}", property));
                 menu.AddItem(new GUIContent("Radial Heal Ability"), false, () => ShowNamingWindow($"{typeof(RadialHeal).FullName}", property));
+                menu.AddItem(new GUIContent("Placeholder Ability"), false, () => ShowNamingWindow($"{typeof(PlaceholderAbility).FullName}", property));
+                menu.AddItem(new GUIContent("Unit Construction Ability"), false, () => ShowNamingWindow($"{typeof(EnqueueConstruction).FullName}", property));
+
                 menu.AddItem(new GUIContent("DEBUG Ability"), false, () => ShowNamingWindow($"{typeof(DebugAbility).FullName}", property));
 
                 menu.ShowAsContext();
