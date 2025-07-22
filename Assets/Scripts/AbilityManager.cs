@@ -282,13 +282,15 @@ public class AbilityManager : NetworkBehaviour
             return false;
         }
 
+        // Deep search into ALL tabs
         tabIndex = tabIndex == -1 ? FindAbilityTabIndex(_ability) : tabIndex;
 
         if (tabIndex == -1)
         {
-            Debug.LogError("Ability not found in any tab.");
             return false;
         }
+
+        // Directed search into selected tab
 
         if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
         {

@@ -242,7 +242,7 @@ public class AbilityUIManager : MonoBehaviour
 
     private void RecalculateCommonAbilities()
     {
-        //commonAbilityTabs = GetCommonAbilityTabs(abilityManagers);
+        commonAbilityTabs = GetCommonAbilityTabs(abilityManagers);
         RefreshAll();
     }
 
@@ -270,15 +270,23 @@ public class AbilityUIManager : MonoBehaviour
     public void UpdateAbilityTabsWithUnitSelection(List<SelectableObject> _selectedUnits)
     {
         pageIndex = 0;
-        List<AbilityManager> unitAbilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
-
-
-        commonAbilityTabs = GetCommonAbilityTabs(unitAbilityManagers);
         List<AbilityManager> newAbilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
         SetAbilityManagers(newAbilityManagers);
         
     }
 
+    /// <summary>
+    /// Updates the ability grid with the abilities of the passed in ability manager
+    /// </summary>
+    /// <param name="_abilityManager"></param>
+    public void UpdateAbilityTabsWithAbilityManager(AbilityManager _abilityManager)
+    {
+        pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
+        commonAbilityTabs = _abilityManager.AbilityTabs;
+        abilityManagers = new List<AbilityManager>() { _abilityManager };
+
+        RecalculateCommonAbilities();
+    }
     private void SetAbilityManagers(List<AbilityManager> _abilityManagers)
     {
         if (_abilityManagers == null || _abilityManagers.Count == 0)
@@ -308,25 +316,11 @@ public class AbilityUIManager : MonoBehaviour
         abilityManagers = _abilityManagers;
 
         // Refresh UI
-        RefreshAll();
+        RecalculateCommonAbilities();
     }
 
     
 
-    /// <summary>
-    /// Updates the ability grid with the abilities of the passed in ability manager
-    /// </summary>
-    /// <param name="_abilityManager"></param>
-    public void UpdateAbilityTabsWithAbilityManager(AbilityManager _abilityManager)
-    {
-        pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
-        commonAbilityTabs = _abilityManager.AbilityTabs;
-        abilityManagers = new List<AbilityManager>() { _abilityManager };
-
-        RefreshTabButtons();
-        RefreshAbilityGrid();
-        RefreshUtilityButton();
-    }
 
     private void RefreshUtilityButton()
     {
