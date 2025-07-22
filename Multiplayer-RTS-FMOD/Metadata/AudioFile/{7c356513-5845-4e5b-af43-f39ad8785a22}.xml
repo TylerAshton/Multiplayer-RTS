@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
-	<object class="AudioFile" id="{752e5b1d-3a9d-4449-a4a4-b80f5515df8d}">
+	<object class="AudioFile" id="{7c356513-5845-4e5b-af43-f39ad8785a22}">
 		<property name="assetPath">
-			<value>SFX/Crushing Blow trail.wav</value>
-		</property>
-		<property name="isStreaming">
-			<value>true</value>
+			<value>Announcements/ChampionFallen.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
@@ -14,7 +11,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>12.490226757369614</value>
+			<value>1.8991836734693877</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{ac79da2d-cb46-4bad-8988-11fa0855fd32}</destination>

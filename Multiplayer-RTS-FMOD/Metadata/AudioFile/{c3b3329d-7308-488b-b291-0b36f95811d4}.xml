@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
-	<object class="AudioFile" id="{752e5b1d-3a9d-4449-a4a4-b80f5515df8d}">
+	<object class="AudioFile" id="{c3b3329d-7308-488b-b291-0b36f95811d4}">
 		<property name="assetPath">
-			<value>SFX/Crushing Blow trail.wav</value>
-		</property>
-		<property name="isStreaming">
-			<value>true</value>
+			<value>Announcements/VillageLib.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
@@ -14,7 +11,7 @@
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>12.490226757369614</value>
+			<value>1.9272562358276644</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{ac79da2d-cb46-4bad-8988-11fa0855fd32}</destination>

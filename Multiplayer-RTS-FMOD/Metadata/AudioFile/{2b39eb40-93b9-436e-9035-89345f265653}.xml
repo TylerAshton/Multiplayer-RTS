@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{2b39eb40-93b9-436e-9035-89345f265653}">
 		<property name="assetPath">
-			<value>Eldritch Blast.wav</value>
+			<value>SFX/Eldritch Blast.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>

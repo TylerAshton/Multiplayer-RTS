@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{f3415b4a-ac2c-49f7-b889-428549a7aa85}">
 		<property name="assetPath">
-			<value>Hero's Rush.wav</value>
+			<value>SFX/Hero's Rush.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
