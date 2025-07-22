@@ -109,6 +109,15 @@ public class AbilityUIManager : MonoBehaviour
 
     private void ResetUtilityButton()
     {
+        if (utilityCell == null)
+        {
+            if (abilityManagers[0].HasUtility)
+            {
+                Debug.LogError("Utility cell is null but at least one ability manager has utility!");
+            }
+            return;
+        }
+
         utilityCell.ResetCell();
     }
 
@@ -124,7 +133,7 @@ public class AbilityUIManager : MonoBehaviour
             _cell.Slider.value = 0;
         }
 
-        utilityCell.ResetCell();
+        ResetUtilityButton();
     }
 
     /// <summary>
@@ -272,6 +281,15 @@ public class AbilityUIManager : MonoBehaviour
 
     private void RefreshUtilityButton()
     {
+        if (utilityCell == null)
+        {
+            if (abilityManagers[0].HasUtility)
+            {
+                Debug.LogError("Utility cell is null but at least one ability manager has utility!");
+            }
+            return;
+        }
+
         bool allHasUtility = abilityManagers.All(m => m.HasUtility);
 
         if (!allHasUtility)
