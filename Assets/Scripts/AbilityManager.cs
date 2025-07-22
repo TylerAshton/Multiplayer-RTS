@@ -212,11 +212,77 @@ public class AbilityManager : NetworkBehaviour
         abilityTabs[_tabIndex].AddAbility(ability);
     }
 
-    public bool CheckAbility(Ability _ability, int tabIndex = 0)
+    public void RemoveAbility(Ability _ability, int tabIndex = -1)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to remove an ability");
+            return;
+        }
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot remove a null ability");
+            return;
+        }
+
+        tabIndex = tabIndex == -1 ? FindAbilityTabIndex(_ability) : tabIndex;
+
+        if (tabIndex == -1)
+        {
+            Debug.LogError("Ability not found in any tab.");
+            return;
+        }
+
+        if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+        RemoveAbilityRpc(_ability.ID, tabIndex);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void RemoveAbilityRpc(string _abilityID, int tabIndex)
+    {
+        Ability ability = Registry<Ability>.GetItem(_abilityID);
+
+        if (ability == null)
+        {
+            Debug.LogError("abilityID parsed doesn't match an ability!");
+            return;
+        }
+
+        if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+        AbilityTab selectedTab = abilityTabs[tabIndex];
+        Ability abilityToRemove = selectedTab.Abilities.FirstOrDefault(a => a == ability);
+
+        if (abilityToRemove != null)
+        {
+            selectedTab.RemoveAbility(abilityToRemove);
+        }
+        else
+        {
+            Debug.LogError($"Ability with ID {_abilityID} not found in tab {tabIndex}.");
+        }
+    }
+
+    public bool CheckAbility(Ability _ability, int tabIndex = -1)
     {
         if (_ability == null)
         {
             Debug.LogError("Cannot check a null ability");
+            return false;
+        }
+
+        tabIndex = tabIndex == -1 ? FindAbilityTabIndex(_ability) : tabIndex;
+
+        if (tabIndex == -1)
+        {
+            Debug.LogError("Ability not found in any tab.");
             return false;
         }
 
@@ -230,8 +296,25 @@ public class AbilityManager : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Returns the index of the tab that contains the specified ability.
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private int FindAbilityTabIndex(Ability _ability)
+    {
+        for (int i = 0; i < abilityTabs.Count; i++)
+        {
+            if (abilityTabs[i].Abilities.Contains(_ability))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-    
+
+
 
     /// <summary>
     /// Called when the ability animation reaches the frame when the attack part of the ability should be cast. 
