@@ -56,6 +56,8 @@ public class AbilityManager : NetworkBehaviour
     private bool isUtilityEnabled = false;
     public bool IsUtilityEnabled => isUtilityEnabled;
 
+    public event Action OnAbilitiesChanged;
+
 
     protected virtual void Awake()
     {
@@ -141,6 +143,7 @@ public class AbilityManager : NetworkBehaviour
 
 
         abilityTabs[_tabIndex].SetAbility(_abilityIndex, ability);
+        OnAbilitiesChanged?.Invoke();
     }
 
     public virtual void AddAbility(Ability _ability, int _tabIndex)
@@ -210,6 +213,7 @@ public class AbilityManager : NetworkBehaviour
         }
 
         abilityTabs[_tabIndex].AddAbility(ability);
+        OnAbilitiesChanged?.Invoke();
     }
 
     public void RemoveAbility(Ability _ability, int tabIndex = -1)
@@ -260,14 +264,14 @@ public class AbilityManager : NetworkBehaviour
         AbilityTab selectedTab = abilityTabs[tabIndex];
         Ability abilityToRemove = selectedTab.Abilities.FirstOrDefault(a => a == ability);
 
-        if (abilityToRemove != null)
-        {
-            selectedTab.RemoveAbility(abilityToRemove);
-        }
-        else
+        if (abilityToRemove == null)
         {
             Debug.LogError($"Ability with ID {_abilityID} not found in tab {tabIndex}.");
+            return;
         }
+
+        selectedTab.RemoveAbility(abilityToRemove);
+        OnAbilitiesChanged?.Invoke();
     }
 
     public bool CheckAbility(Ability _ability, int tabIndex = -1)

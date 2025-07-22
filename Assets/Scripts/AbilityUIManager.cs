@@ -230,6 +230,22 @@ public class AbilityUIManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Refreshes all ability grid, tab buttons and utility UI with the current commonAbilityTabs
+    /// </summary>
+    private void RefreshAll()
+    {
+        RefreshTabButtons();
+        RefreshAbilityGrid();
+        RefreshUtilityButton();
+    }
+
+    private void RecalculateCommonAbilities()
+    {
+        //commonAbilityTabs = GetCommonAbilityTabs(abilityManagers);
+        RefreshAll();
+    }
+
     public void RefreshTabButtons()
     {
         // Disable all tab buttons
@@ -256,10 +272,41 @@ public class AbilityUIManager : MonoBehaviour
         pageIndex = 0;
         //commonAbilities = GetCommonAbilities(_selectedUnits);
         commonAbilityTabs = GetCommonAbilityTabs(_selectedUnits);
-        abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
-        RefreshTabButtons();
-        RefreshAbilityGrid();
-        RefreshUtilityButton();
+        List<AbilityManager> newAbilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
+        SetAbilityManagers(newAbilityManagers);
+        
+    }
+
+    private void SetAbilityManagers(List<AbilityManager> _abilityManagers)
+    {
+        if (_abilityManagers == null || _abilityManagers.Count == 0)
+        {
+            Debug.LogError("Cannot set ability managers to an empty or null list.");
+            return;
+        }
+
+        // Unsubsribe from old list
+        foreach (AbilityManager _abilityManager in abilityManagers)
+        {
+            _abilityManager.OnAbilitiesChanged -= RecalculateCommonAbilities;
+        }
+
+        // Subscribe to new list
+        foreach (AbilityManager _abilityManager in _abilityManagers)
+        {
+            if (_abilityManager == null)
+            {
+                Debug.LogError("Cannot set a null ability manager.");
+                return;
+            }
+
+            _abilityManager.OnAbilitiesChanged += RecalculateCommonAbilities;
+        }
+
+        abilityManagers = _abilityManagers;
+
+        // Refresh UI
+        RefreshAll();
     }
 
     
