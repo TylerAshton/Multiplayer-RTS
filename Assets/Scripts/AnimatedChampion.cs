@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,45 +13,6 @@ public interface IShopUser
     ShopPurchaseManager ShopPurchaseManager { get; }
 
     ulong PlayerID { get; }
-}
-
-public struct InputPayload : INetworkSerializable
-{
-    public int tick;
-    public DateTime timestamp;
-    public ulong networkObjectId;
-    public Vector3 inputVector;
-    public Vector3 position;
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref tick);
-        serializer.SerializeValue(ref timestamp);
-        serializer.SerializeValue(ref networkObjectId);
-        serializer.SerializeValue(ref inputVector);
-        serializer.SerializeValue(ref position);
-    }
-}
-
-/// <summary>
-/// Representation of the current transformation state within a specific tick
-/// </summary>
-public struct StatePayload : INetworkSerializable
-{
-    public int tick;
-    public ulong networkObjectId;
-    public Vector3 position;
-    public Quaternion rotation;
-    public Vector3 velocity;
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref tick);
-        serializer.SerializeValue(ref networkObjectId);
-        serializer.SerializeValue(ref position);
-        serializer.SerializeValue(ref rotation);
-        serializer.SerializeValue(ref velocity);
-    }
 }
 
 [RequireComponent(typeof(Animator))]
@@ -135,82 +95,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private Health health;
 
-    [SerializeField] InputReader input;
-
-    ClientNetworkTransform clientNetworkTransform;
-
-    // Netcode General Variables
-    [Header("Netcode")]
-    [SerializeField] CountdownTimer reconciliationTimer;
-    [SerializeField] float reconciliationCooldownTime = 1f;
-    [SerializeField] private float reconciliationThreshold = 10f; // Used to be 50f
-    [SerializeField] float extrapolationLimit = 0.5f; // 1f = 1000 Milliseconds therefore 0.5f = 500 milliseconds
-    [SerializeField] float extrapolationMultiplier = 1.2f;
-    NetworkTimer networkTimer;
-    const float k_serverTickRate = 60f;
-    const int k_bufferSize = 1024;
-
-    // Netcode Client Specific Variables
-    [Header("Netcode Client")]
-    CircularBuffer<StatePayload> clientStateBuffer;
-    CircularBuffer<InputPayload> clientInputBuffer;
-    StatePayload lastServerState;
-    StatePayload lastProcessedState;
-
-    // Netcode Server Specific Variables
-    [Header("Netcode Server")]
-    CircularBuffer<StatePayload> serverStateBuffer;
-    Queue<InputPayload> serverInputQueue;
-
-
-    [Header("Netcode Debug")]
-    [SerializeField] GameObject serverCube;
-    [SerializeField] GameObject clientCube;
-
-    StatePayload extrapolationState;
-    CountdownTimer extrapolationTimer;
-
-    private void Awake()
-    {
-        clientNetworkTransform = GetComponent<ClientNetworkTransform>();
-
-        networkTimer = new NetworkTimer(k_serverTickRate);
-        clientStateBuffer = new CircularBuffer<StatePayload>(k_bufferSize);
-        clientInputBuffer = new CircularBuffer<InputPayload>(k_bufferSize);
-
-        serverStateBuffer = new CircularBuffer<StatePayload>(k_bufferSize);
-        serverInputQueue = new Queue<InputPayload>();
-
-        reconciliationTimer = new CountdownTimer(reconciliationCooldownTime);
-        extrapolationTimer = new CountdownTimer(0);  // Replacing "extrapolationLimit" with "0" would disable extrapolation
-
-        reconciliationTimer.OnTimerStart += () =>
-        {
-            extrapolationTimer.Stop();
-        };
-
-        extrapolationTimer.OnTimerStart += () =>
-        {
-            reconciliationTimer.Stop();
-            SwitchAuthorityMode(AuthorityMode.Server);
-        };
-
-        extrapolationTimer.OnTimerStop += () =>
-        {
-            extrapolationState = default;
-            SwitchAuthorityMode(AuthorityMode.Client);
-        };
-    }
-
-    void SwitchAuthorityMode(AuthorityMode mode)
-    {
-        clientNetworkTransform.Auth = mode; // The server should take control when the client is severely lagging and stop syncing position
-        bool shouldSync = mode == AuthorityMode.Client;
-        clientNetworkTransform.SyncPositionX = shouldSync;
-        clientNetworkTransform.SyncPositionY = shouldSync;
-        clientNetworkTransform.SyncPositionZ = shouldSync;
-    }
-
     void Start()
     {
         manager = RelayManager.Instance;
@@ -285,8 +169,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             {
                 Debug.LogError($"{nameof(PlayerInput)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             }
-            //playerInput.enabled = true;
-            input.Enable();
+            playerInput.enabled = true;
+
         }
 
         Cursor.lockState = CursorLockMode.Confined;
@@ -352,8 +236,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// <param name="context"></param>
     public void OnPoint(InputAction.CallbackContext context)
     {
-        //mouseScreenPos = context.ReadValue<Vector2>();
-        mouseScreenPos = input.Point;
+        mouseScreenPos = context.ReadValue<Vector2>();
         worldPosition = new Vector3(0, 0, 0);
 
         Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
@@ -409,236 +292,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     // Update is called once per frame
     void Update()
     {
-        networkTimer.Update(Time.deltaTime);
-        reconciliationTimer.Tick(Time.deltaTime);
-        extrapolationTimer.Tick(Time.deltaTime);
         ServerUpdate();
         OwnerUpdate();
-    }
-
-    private void FixedUpdate()
-    {
-        while (networkTimer.ShouldTick())
-        {
-            HandleClientTick();
-            HandleServerTick();
-        }
-        Extrapolate();
-    }
-
-    void HandleClientTick()
-    {
-        if (!IsClient || !IsOwner) { return; }
-
-        var currentTick = networkTimer.CurrentTick;
-        var bufferIndex = currentTick % k_bufferSize;
-
-        InputPayload inputPayload = new InputPayload()
-        {
-            tick = currentTick,
-            timestamp = DateTime.Now,
-            networkObjectId = NetworkObjectId,
-            inputVector = input.Move,
-            position = transform.position
-        };
-
-        clientInputBuffer.Add(inputPayload, bufferIndex);
-        SendToServerRpc(inputPayload);
-        StatePayload statePayload = ProcessMovement(inputPayload);
-
-        //clientCube.transform.position = new(statePayload.position.x, statePayload.position.y + 5, statePayload.position.z); //Debug Code
-
-        clientStateBuffer.Add(statePayload, bufferIndex);
-
-        HandleServerReconciliation();
-    }
-
-    void HandleServerTick()
-    {
-        if (!IsServer) { return; }
-        var bufferIndex = -1;
-        InputPayload inputPayload = default;
-        while (serverInputQueue.Count > 0)
-        {
-            inputPayload = serverInputQueue.Dequeue();
-
-            bufferIndex = inputPayload.tick % k_bufferSize;
-
-            //StatePayload statePayload = SimulateMovement(inputPayload);
-            if (IsHost)
-            {
-                StatePayload statePay = new StatePayload()
-                {
-                    tick = inputPayload.tick,
-                    networkObjectId = NetworkObjectId,
-                    position = transform.position,
-                    rotation = transform.rotation,
-                    velocity = characterController.velocity
-                };
-                //StatePayload statePay = ProcessMovement(inputPayload);
-                serverStateBuffer.Add(statePay, bufferIndex);
-                SendToClientRpc(statePay);
-                continue;
-            }
-
-            StatePayload statePayload = ProcessMovement(inputPayload);
-            //serverCube.transform.position = new(statePayload.position.x, statePayload.position.y + 5, statePayload.position.z); // DEBUG CUBE
-            serverStateBuffer.Add(statePayload, bufferIndex);
-        }
-
-        if (bufferIndex == -1) { return; }
-        SendToClientRpc(serverStateBuffer.Get(bufferIndex));
-        HandleExtrapolation(serverStateBuffer.Get(bufferIndex), CalculateLatencyInMillis(inputPayload));
-        //SetAnimationParams(serverStateBuffer.Get(bufferIndex).postition);
-    }
-
-    void Extrapolate()
-    {
-        if (IsServer && extrapolationTimer.IsRunning)
-        {
-            Debug.Log("Extrapolating");
-            transform.position += new Vector3(extrapolationState.position.x, 0f, extrapolationState.position.z);
-        }
-    }
-
-    void HandleExtrapolation(StatePayload latest, float latency)
-    {
-        if (ShouldExtrapolate(latency)) // if unacceptable ammount of latency
-        {
-            if (extrapolationState.position != default)
-            {
-                latest = extrapolationState;
-            }
-
-            var posAdjustment = latest.velocity * (1 + latency * extrapolationMultiplier);
-            extrapolationState.position = posAdjustment;
-            //extrapolationState.position = latest.position;
-            extrapolationState.rotation = latest.rotation;
-            extrapolationState.velocity = latest.velocity;
-            extrapolationTimer.Start();
-        }
-        else
-        {
-            extrapolationTimer.Stop();
-        }
-    }
-
-    private bool ShouldExtrapolate(float latency)
-    {
-        return (latency > extrapolationLimit) && (latency > Time.fixedDeltaTime);
-    }
-
-    StatePayload SimulateMovement(InputPayload inputPayload)
-    {
-        Physics.simulationMode = SimulationMode.Script;
-
-        Move(inputPayload.inputVector);
-
-        Physics.Simulate(Time.fixedDeltaTime);
-        Physics.simulationMode = SimulationMode.FixedUpdate;
-
-        return new StatePayload()
-        {
-            tick = inputPayload.tick,
-            networkObjectId = NetworkObjectId,
-            position = transform.position,
-            rotation = transform.rotation,
-            velocity = characterController.velocity
-        };
-    }
-
-    static float CalculateLatencyInMillis(InputPayload inputPayload)
-    {
-        return (DateTime.Now - inputPayload.timestamp).Milliseconds / 1000f; // Returns seconds so divide by 1000 to get milliseconds
-    }
-
-    [Rpc(SendTo.NotServer)]
-    void SendToClientRpc(StatePayload statePayload)
-    {
-        if (!IsOwner) { return; }
-        lastServerState = statePayload;
-    }
-
-
-    bool ShouldReconcile()
-    {
-        bool isNewServerState = !lastServerState.Equals(default);
-        //bool isLastStateUndefinedOrDifferent = lastProcessedState.Equals(obj: default) ||� !lastProcessedState.Equals(lastServerState);
-        bool isLastStateUndefinedOrDifferent;
-        if (lastProcessedState.Equals(default) || !lastProcessedState.Equals(lastServerState))
-        {
-            isLastStateUndefinedOrDifferent = true;
-        }
-        else
-        {
-            isLastStateUndefinedOrDifferent = false;
-        }
-        return isNewServerState && isLastStateUndefinedOrDifferent && !reconciliationTimer.IsRunning && !extrapolationTimer.IsRunning;
-    }
-
-    void HandleServerReconciliation()
-    {
-        if (!ShouldReconcile()) { return; }
-
-        float positionError;
-        int bufferIndex;
-        StatePayload rewindState = default;
-
-        bufferIndex = lastServerState.tick % k_bufferSize;
-        if (bufferIndex - 1 < 0) { return; } // Not enough info to reconcile
-
-        rewindState = IsHost ? serverStateBuffer.Get(bufferIndex - 1) : lastServerState;  // Due to host having 0 latency between rpc we can directly grab the last state if its the host.
-        StatePayload clientState = IsHost ? clientStateBuffer.Get(bufferIndex - 1) : clientStateBuffer.Get(bufferIndex);
-        positionError = Vector3.Distance(rewindState.position, clientState.position);
-
-        if (positionError > reconciliationThreshold)
-        {
-            ReconcileState(rewindState);
-            reconciliationTimer.Start();
-        }
-
-        lastProcessedState = lastServerState;
-    }
-
-    void ReconcileState(StatePayload rewindState)
-    {
-        transform.position = rewindState.position;
-        transform.rotation = rewindState.rotation;
-        characterController.velocity.Set(rewindState.velocity.x, rewindState.velocity.y, rewindState.velocity.z);
-
-        if (!rewindState.Equals(lastServerState)) { return; }
-
-        clientStateBuffer.Add(rewindState, rewindState.tick % k_bufferSize);
-
-        int tickToReplay = lastServerState.tick;
-
-        while (tickToReplay < networkTimer.CurrentTick)
-        {
-            int bufferIndex = tickToReplay % k_bufferSize;
-            StatePayload statePayload = ProcessMovement(clientInputBuffer.Get(bufferIndex));
-            clientStateBuffer.Add(statePayload, bufferIndex);
-            tickToReplay++;
-        }
-    }
-
-    [Rpc(SendTo.Server)]
-    void SendToServerRpc(InputPayload input)
-    {
-        serverInputQueue.Enqueue(input);
-    }
-
-    StatePayload ProcessMovement(InputPayload input)
-    {
-        Move(input.inputVector);
-
-        return new StatePayload()
-        {
-            tick = input.tick,
-            networkObjectId = input.networkObjectId,
-            position = transform.position,
-            rotation = transform.rotation,
-            velocity = characterController.velocity
-        };
     }
 
     /// <summary>
@@ -647,7 +302,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private void ServerUpdate()
     {
         if (!IsServer) { return; }
-        //MoveServerAuth();
+        MoveServerAuth();
     }
 
     /// <summary>
@@ -712,16 +367,15 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// <summary>
     /// This calls all of the Movement based Server-Rpcs
     /// </summary>
-    void Move(Vector2 inputVector)
+    void MoveServerAuth()
     {
-        Vector3 newMovementVector = new Vector3();
-        newMovementVector.x = inputVector.x;
-        newMovementVector.y = 0;
-        newMovementVector.z = inputVector.y;
-        movementVector = newMovementVector;
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to move the player!");
+            return;
+        }
         ChampionMove(movementVector);
         SetAnimationParams(movementVector);
-        RotatePlayer();
     }
 
     /// <summary>
@@ -731,6 +385,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// <param name="serverRpcParams"></param>
     private void ChampionMove(Vector3 _movementVector)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to move the player!");
+            return;
+        }
+
         _movementVector = Quaternion.Euler(movementRotationOffset) * _movementVector;
 
         Vector3 move = Vector3.right * _movementVector.x + Vector3.forward * _movementVector.z;
@@ -760,21 +420,21 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// The unity input system uses this function to capture the input for the player movement
     /// </summary>
     /// <param name="context"></param>
-    //public void CheckMove(InputAction.CallbackContext context)
-    //{
-    //    Vector3 newMovementVector = new Vector3();
-    //    newMovementVector.x = context.ReadValue<Vector2>().x;
-    //    newMovementVector.y = 0;
-    //    newMovementVector.z = context.ReadValue<Vector2>().y;
+    public void CheckMove(InputAction.CallbackContext context)
+    {
+        Vector3 newMovementVector = new Vector3();
+        newMovementVector.x = context.ReadValue<Vector2>().x;
+        newMovementVector.y = 0;
+        newMovementVector.z = context.ReadValue<Vector2>().y;
 
-    //    SetMoveInputServerRpc(newMovementVector);
-    //}
+        SetMoveInputServerRpc(newMovementVector);
+    }
 
-    //[ServerRpc]
-    //private void SetMoveInputServerRpc(Vector3 _newMovementVector)
-    //{
-    //    movementVector = _newMovementVector;
-    //}
+    [ServerRpc]
+    private void SetMoveInputServerRpc(Vector3 _newMovementVector)
+    {
+        movementVector = _newMovementVector;
+    }
 
     /// <summary>
     /// Updates the animator controller with the movement vector relative to the rotation
@@ -783,6 +443,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// 
     private void SetAnimationParams(Vector3 _movementInput)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to update the animations!");
+            return;
+        }
+
         _movementInput = Quaternion.Euler(movementRotationOffset) * _movementInput;
 
         if (_movementInput.sqrMagnitude < 0.001f) // Smooth lerp to zero when idle
@@ -815,7 +481,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// </summary>
     public void RotatePlayer()
     {
-        if (health.IsDying || !IsOwner)
+        if (health.IsDying)
         {
             return;
         }
@@ -908,7 +574,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             return;
         }
 
-        //playerInput.enabled = _value;
-        input.ManualToggle(_value);
+        playerInput.enabled = _value;
     }
 }
