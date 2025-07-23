@@ -1293,6 +1293,8 @@ MonoBehaviour:
   healthBarOffset: {x: 0, y: 0, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 0
+  deathVfx: {fileID: 0}
+  deathVfxScale: 1
 --- !u!114 &9215544652138444917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,6 +1488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd317351aae5f3c4798d1ead39b655c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targettingAngle: 60
 --- !u!114 &4352039317983900972
 MonoBehaviour:
   m_ObjectHideFlags: 0
