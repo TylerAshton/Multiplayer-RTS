@@ -20,6 +20,9 @@ public class Health : NetworkBehaviour
     [SerializeField] private bool showHealthBar = true;
     [SerializeField] private bool showOnOwnerScreen = false;
 
+    [SerializeField] private GameObject deathVfx;
+    [SerializeField] private float deathVfxScale = 1;
+
 
     private Slider healthSlider;
     private StatManager statManager;
@@ -245,6 +248,8 @@ public class Health : NetworkBehaviour
             collider.enabled = false;
         }
 
+        // Destructable handling
+
         IDestructible[] destructibles = GetComponents<IDestructible>();
 
         if (destructibles.Length > 1) // I really don't think we should ever have more than 1 destructible on a single object
@@ -256,10 +261,13 @@ public class Health : NetworkBehaviour
 
         destructibles[0].DestroyObject();
 
+        // Revive destruction blocker
+
         if (destructibles[0] is IRevivable revivable)
         {
             return;
         }
+
 
         Invoke(nameof(Die), corpseLingerTime);
     }
@@ -322,11 +330,23 @@ public class Health : NetworkBehaviour
                 Debug.LogError("FUKED");
             }
 
+            if ((bool)_networkObject.IsSceneObject)
+            {
+                DestroySceneObjectRpc();
+                return;
+            }
+
             _networkObject.Despawn();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void DestroySceneObjectRpc()
+    {
+        Destroy(gameObject);
     }
 }

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: -7361995686064775282}
   - component: {fileID: 5263204415348788824}
   - component: {fileID: -2347531438296029951}
+  - component: {fileID: 7463595034481044694}
   m_Layer: 7
   m_Name: Amalgam Core 1
   m_TagString: Amalgam
@@ -139,6 +140,8 @@ MonoBehaviour:
   healthBarOffset: {x: 0, y: 5, z: 0}
   showHealthBar: 0
   showOnOwnerScreen: 0
+  deathVfx: {fileID: 100004, guid: 1129ca32d1c4f6e40bf53318cb70d03c, type: 3}
+  deathVfxScale: 1
 --- !u!65 &7307479054215237201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -285,6 +288,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7463595034481044694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371476738365510241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1b31e8dab47b39438b6070d3fc1cdef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  vfxPrefab: {fileID: 100004, guid: 1129ca32d1c4f6e40bf53318cb70d03c, type: 3}
+  vfxScale: 5
+  lingertTime: 3
 --- !u!1 &1586717084663442899
 GameObject:
   m_ObjectHideFlags: 0
