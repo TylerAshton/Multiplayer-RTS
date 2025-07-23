@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{4cabd4b4-aa97-4a50-ac75-ba7ce1a4edb6}">
 		<property name="assetPath">
-			<value>Lightning Spear.wav</value>
+			<value>SFX/Lightning Spear.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>48</value>

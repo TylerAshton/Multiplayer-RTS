@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{7c356513-5845-4e5b-af43-f39ad8785a22}">
+		<property name="assetPath">
+			<value>Announcements/ChampionFallen.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.8991836734693877</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ac79da2d-cb46-4bad-8988-11fa0855fd32}</destination>
+		</relationship>
+	</object>
+</objects>

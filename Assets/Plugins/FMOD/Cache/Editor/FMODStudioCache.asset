@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8308468013775275821
+--- !u!114 &-7864006732984584494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,23 +10,239 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/New Event
+  m_Name: event:/SFX/Hero's Rush
   m_EditorClassIdentifier: 
-  Path: event:/New Event
+  Path: event:/SFX/Hero's Rush
   Guid:
-    Data1: 2098785279
-    Data2: 1082083781
-    Data3: 1554869904
-    Data4: 940933785
+    Data1: -1235604584
+    Data2: 1112365953
+    Data3: -488688216
+    Data4: -480083728
   Banks:
-  - {fileID: 496332770725941214}
-  IsStream: 1
+  - {fileID: 3531210739956324184}
+  IsStream: 0
   Is3D: 1
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
-  MinDistance: 0
-  MaxDistance: 65
-  Length: 36226
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-7257267302539920412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Lightning Spear
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Lightning Spear
+  Guid:
+    Data1: -1032056985
+    Data2: 1214263197
+    Data3: -951206217
+    Data4: 1858820983
+  Banks:
+  - {fileID: 3531210739956324184}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6827602185896433971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Minion Summon noise
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Minion Summon noise
+  Guid:
+    Data1: 718040756
+    Data2: 1139665311
+    Data3: 769229981
+    Data4: 1904969927
+  Banks:
+  - {fileID: 3531210739956324184}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6530948022011189288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ice Shard
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ice Shard
+  Guid:
+    Data1: -965081343
+    Data2: 1154511581
+    Data3: 910911389
+    Data4: -1928073037
+  Banks:
+  - {fileID: 3531210739956324184}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-5446462775700399363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Announcements/BetterVictory
+  m_EditorClassIdentifier: 
+  Path: event:/Announcements/BetterVictory
+  Guid:
+    Data1: 327579371
+    Data2: 1133074452
+    Data3: 1095009427
+    Data4: 1167495732
+  Banks:
+  - {fileID: 2346702136438300726}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-3819830687465606297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Announcements/Asunder
+  m_EditorClassIdentifier: 
+  Path: event:/Announcements/Asunder
+  Guid:
+    Data1: 1478425728
+    Data2: 1311935896
+    Data3: -697242481
+    Data4: 1535914621
+  Banks:
+  - {fileID: 2346702136438300726}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2985874372618287834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Announcements/ChampionRisen
+  m_EditorClassIdentifier: 
+  Path: event:/Announcements/ChampionRisen
+  Guid:
+    Data1: -1085819554
+    Data2: 1303886287
+    Data3: -803936330
+    Data4: 7237011
+  Banks:
+  - {fileID: 2346702136438300726}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2872304640757717396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Eldritch Blast
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Eldritch Blast
+  Guid:
+    Data1: 767463075
+    Data2: 1219983358
+    Data3: 1249465227
+    Data4: -1083236246
+  Banks:
+  - {fileID: 3531210739956324184}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-895268392870429830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Swing Sword
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Swing Sword
+  Guid:
+    Data1: 923950870
+    Data2: 1204964942
+    Data3: -1212066385
+    Data4: -16041261
+  Banks:
+  - {fileID: 3531210739956324184}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,24 +256,68 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 3627916380094575623}
-  - {fileID: 496332770725941214}
+  - {fileID: 4136580951941312493}
+  - {fileID: 2908149227627637312}
+  - {fileID: 2346702136438300726}
+  - {fileID: 3531210739956324184}
   EditorEvents:
-  - {fileID: 5267252612222049109}
-  - {fileID: -8308468013775275821}
+  - {fileID: 5086923603398881737}
+  - {fileID: -2985874372618287834}
+  - {fileID: -3819830687465606297}
+  - {fileID: 8233409253577106282}
+  - {fileID: 8481429202382349579}
+  - {fileID: 9060886434000405165}
+  - {fileID: -5446462775700399363}
+  - {fileID: -6530948022011189288}
+  - {fileID: -895268392870429830}
+  - {fileID: -7257267302539920412}
+  - {fileID: -7864006732984584494}
+  - {fileID: -2872304640757717396}
+  - {fileID: -6827602185896433971}
+  - {fileID: 6746285137690610226}
+  - {fileID: 3375178415357312872}
+  - {fileID: 7082471014424287991}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 496332770725941214}
+  - {fileID: 2908149227627637312}
   StringsBanks:
-  - {fileID: 3627916380094575623}
+  - {fileID: 4136580951941312493}
   cacheVersion: 131848
-  cacheTime: 638888788934076679
+  cacheTime: 638888818351635310
   SerializableEventsDict:
-  - key: event:/Music
+  - key: event:/Announcements/ChampionFallen
     index: 0
-  - key: event:/New Event
+  - key: event:/Announcements/ChampionRisen
     index: 1
---- !u!114 &496332770725941214
+  - key: event:/Announcements/Asunder
+    index: 2
+  - key: event:/Announcements/Siege
+    index: 3
+  - key: event:/Announcements/Defeat
+    index: 4
+  - key: event:/Announcements/VillageLib
+    index: 5
+  - key: event:/Announcements/BetterVictory
+    index: 6
+  - key: event:/SFX/Ice Shard
+    index: 7
+  - key: event:/SFX/Swing Sword
+    index: 8
+  - key: event:/SFX/Lightning Spear
+    index: 9
+  - key: event:/SFX/Hero's Rush
+    index: 10
+  - key: event:/SFX/Eldritch Blast
+    index: 11
+  - key: event:/SFX/Minion Summon noise
+    index: 12
+  - key: event:/SFX/Dragon's Breath
+    index: 13
+  - key: event:/SFX/Healing Abilities
+    index: 14
+  - key: event:/SFX/Crushing Blow trail
+    index: 15
+--- !u!114 &2346702136438300726
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,37 +327,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Name: bank:/Desktop/Announcements.bank
   m_EditorClassIdentifier: 
-  Path: Multiplayer-RTS-FMOD/Build/Desktop/Master.bank
-  Name: Master
+  Path: Assets/Luke's folder/FMOD/Desktop/Announcements.bank
+  Name: Desktop/Announcements
+  StudioPath: bank:/Announcements
+  lastModified: 638888818346962109
+  FileSizes: []
+  Exists: 1
+--- !u!114 &2908149227627637312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Desktop/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Luke's folder/FMOD/Desktop/Master.bank
+  Name: Desktop/Master
   StudioPath: bank:/Master
-  lastModified: 638888788934061314
-  FileSizes:
-  - Name: Desktop
-    Value: 426432
+  lastModified: 638888818348307876
+  FileSizes: []
   Exists: 1
---- !u!114 &3627916380094575623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Multiplayer-RTS-FMOD/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638888788934076679
-  FileSizes:
-  - Name: Desktop
-    Value: 818
-  Exists: 1
---- !u!114 &5267252612222049109
+--- !u!114 &3375178415357312872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,20 +363,220 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music
+  m_Name: event:/SFX/Healing Abilities
   m_EditorClassIdentifier: 
-  Path: event:/Music
+  Path: event:/SFX/Healing Abilities
   Guid:
-    Data1: 1966337172
-    Data2: 1299240304
-    Data3: 1536218753
-    Data4: 432774367
+    Data1: 890582721
+    Data2: 1219412625
+    Data3: 61462413
+    Data4: 1312612692
   Banks:
-  - {fileID: 496332770725941214}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
+  - {fileID: 3531210739956324184}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 36226
+  Length: 0
+--- !u!114 &3531210739956324184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Desktop/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Luke's folder/FMOD/Desktop/SFX.bank
+  Name: Desktop/SFX
+  StudioPath: bank:/SFX
+  lastModified: 638888818351635310
+  FileSizes: []
+  Exists: 1
+--- !u!114 &4136580951941312493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Desktop/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Luke's folder/FMOD/Desktop/Master.strings.bank
+  Name: Desktop/Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638888818350018423
+  FileSizes:
+  - Name: 
+    Value: 1582
+  Exists: 1
+--- !u!114 &5086923603398881737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Announcements/ChampionFallen
+  m_EditorClassIdentifier: 
+  Path: event:/Announcements/ChampionFallen
+  Guid:
+    Data1: 1587635804
+    Data2: 1295815312
+    Data3: -1149034817
+    Data4: -586774772
+  Banks:
+  - {fileID: 2346702136438300726}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &6746285137690610226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Dragon's Breath
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Dragon's Breath
+  Guid:
+    Data1: 1852523704
+    Data2: 1262424544
+    Data3: 671944593
+    Data4: -795241957
+  Banks:
+  - {fileID: 3531210739956324184}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &7082471014424287991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Crushing Blow trail
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Crushing Blow trail
+  Guid:
+    Data1: -5981230
+    Data2: 1104867036
+    Data3: 1178387352
+    Data4: 44204374
+  Banks:
+  - {fileID: 3531210739956324184}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8233409253577106282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Announcements/Siege
+  m_EditorClassIdentifier: 
+  Path: event:/Announcements/Siege
+  Guid:
+    Data1: 541632938
+    Data2: 1210705390
+    Data3: 1618681005
+    Data4: -99695025
+  Banks:
+  - {fileID: 2346702136438300726}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8481429202382349579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Announcements/Defeat
+  m_EditorClassIdentifier: 
+  Path: event:/Announcements/Defeat
+  Guid:
+    Data1: -79989310
+    Data2: 1277645218
+    Data3: 46688150
+    Data4: 805056479
+  Banks:
+  - {fileID: 2346702136438300726}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &9060886434000405165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Announcements/VillageLib
+  m_EditorClassIdentifier: 
+  Path: event:/Announcements/VillageLib
+  Guid:
+    Data1: 882153424
+    Data2: 1106600468
+    Data3: 1840000396
+    Data4: 1845590165
+  Banks:
+  - {fileID: 2346702136438300726}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0

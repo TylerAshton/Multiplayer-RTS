@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{752e5b1d-3a9d-4449-a4a4-b80f5515df8d}">
 		<property name="assetPath">
-			<value>Crushing Blow trail.wav</value>
+			<value>SFX/Crushing Blow trail.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

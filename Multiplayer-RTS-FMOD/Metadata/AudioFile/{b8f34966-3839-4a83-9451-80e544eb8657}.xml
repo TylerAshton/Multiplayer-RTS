@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{b8f34966-3839-4a83-9451-80e544eb8657}">
 		<property name="assetPath">
-			<value>Ice Shard.wav</value>
+			<value>SFX/Ice Shard.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>48</value>

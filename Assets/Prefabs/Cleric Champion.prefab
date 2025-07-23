@@ -761,6 +761,8 @@ GameObject:
   - component: {fileID: 4394188322512067527}
   - component: {fileID: -8212970734632235601}
   - component: {fileID: -3697217004477378991}
+  - component: {fileID: -2826286422217555130}
+  - component: {fileID: -7676623500544454892}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -853,7 +855,7 @@ MonoBehaviour:
   acceleration: 30
   deceleration: 40
   smoothSpeed: 15
-  gravity: -9.81
+  gravity: -100
   primaryAbility: {fileID: 0}
   points: {fileID: 7670626761221738459}
   inShop: 0
@@ -1363,6 +1365,51 @@ MonoBehaviour:
   cameraSpawnOffset: {x: 0, y: 0, z: 0}
   isChampion: 0
   cameraTarget: {fileID: 1770477014136216472}
+--- !u!114 &-2826286422217555130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 2434894007857547855}
+--- !u!114 &-7676623500544454892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: Champion
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  EventPlayTrigger: 3
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0

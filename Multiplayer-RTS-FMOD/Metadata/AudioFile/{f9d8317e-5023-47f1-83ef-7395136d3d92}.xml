@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="AudioFile" id="{f9d8317e-5023-47f1-83ef-7395136d3d92}">
 		<property name="assetPath">
-			<value>Minion Summon noise.flac</value>
+			<value>SFX/Minion Summon noise.flac</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>48</value>

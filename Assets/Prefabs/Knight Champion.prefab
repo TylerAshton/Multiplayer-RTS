@@ -2684,7 +2684,7 @@ MonoBehaviour:
   acceleration: 30
   deceleration: 40
   smoothSpeed: 15
-  gravity: -9.81
+  gravity: -100
   primaryAbility: {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
   points: {fileID: 2214856786026772889}
   inShop: 0
@@ -2716,21 +2716,21 @@ MonoBehaviour:
     OriginatingState: 1563094196
     DestinationState: 1780992433
     TransitionDuration: 0.25
-    TriggerNameHash: 1500070530
+    TriggerNameHash: -1423964462
     TransitionIndex: 0
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: 1563094196
     DestinationState: 1208741550
     TransitionDuration: 0.25
-    TriggerNameHash: -316461994
+    TriggerNameHash: -2099449230
     TransitionIndex: 1
   - IsCrossFadeExit: 0
     Layer: 0
     OriginatingState: 1563094196
     DestinationState: -1589269423
     TransitionDuration: 0.25
-    TriggerNameHash: 456179675
+    TriggerNameHash: -1646369314
     TransitionIndex: 2
   - IsCrossFadeExit: 0
     Layer: 0
@@ -2770,6 +2770,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -2829,7 +2839,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 125
-  isImmune: 0
+  isImmune: 1
   animator: {fileID: 8215767443926878751}
   deathAnimationLength: 1
   test: 0
@@ -3044,6 +3054,18 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fd458e1b-85cb-4adb-a648-1f70665075f4
     m_ActionName: 'Player/Debug Revive[/Keyboard/h]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6f0226b5-81d7-435f-946d-0652f5ae9d19
+    m_ActionName: 'UI/M1DoubleTap[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 18b8d62a-07c9-4ad2-b473-a3b17b8cd318
+    m_ActionName: 'UI/M1Hold[/Mouse/leftButton,/Pen/tip]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7494411-9b32-4763-a4c4-2fc173ce8c35
+    m_ActionName: 'UI/Shift[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
