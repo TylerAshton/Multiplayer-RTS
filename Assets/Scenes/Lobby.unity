@@ -65313,6 +65313,7 @@ MonoBehaviour:
     NetworkTopology: 0
     UseCMBService: 0
     AutoSpawnPlayerPrefabClientSide: 1
+    NetworkMessageMetrics: 1
     NetworkProfilingMetrics: 1
     OldPrefabList: []
   RunInBackground: 1
@@ -223582,6 +223583,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSpawner 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6363549527435569601, guid: 720b532224d33de4ca4de3ad05d3d600, type: 3}
+      propertyPath: 'playerList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2434894007857547855, guid: fa6d234b87b68e44b8b7f2ed6050bf56, type: 3}
+    - target: {fileID: 6363549527435569601, guid: 720b532224d33de4ca4de3ad05d3d600, type: 3}
+      propertyPath: 'playerList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
     - target: {fileID: 7300796340958616510, guid: 720b532224d33de4ca4de3ad05d3d600, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 43124273
@@ -272860,7 +272869,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
