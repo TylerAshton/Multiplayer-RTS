@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.VFX;
 
 
-public interface VfxObject
+public interface IVfxObject
 {
     GameObject VfxPrefab { get; }
     Vector3 VfxOffset { get; }
