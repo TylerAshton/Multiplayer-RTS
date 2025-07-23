@@ -80,6 +80,8 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     public IFaction IFaction => this;
 
+    public Vector3 AimPoint => throw new NotImplementedException();
+
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private NetCodeAnimationManager nAnimator;
@@ -671,6 +673,16 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
         this.transform.LookAt(new Vector3(worldPosition.x, this.transform.position.y, worldPosition.z));
     }
 
+    public void SetTarget(Collider castTarget)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ClearTarget()
+    {
+        throw new NotImplementedException();
+    }
+
 
     ///// <summary>
     ///// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
@@ -681,6 +693,6 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     //[ServerRpc(RequireOwnership = false)]
     //private void RotationServerRpc(float x, float y, float z)
     //{
-        
+
     //}
 }
