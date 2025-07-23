@@ -57,6 +57,7 @@ public class AbilityUIManager : MonoBehaviour
 
         for (int i = 0; i < commonAbilities.Count; i++)
         {
+            if (i >= 4) { Debug.LogError("Can't handle cooldowns for multiple pages rn"); continue; }
             Slider slider = abilityCells[i].Slider;
             Ability ability = commonAbilities[i];
 

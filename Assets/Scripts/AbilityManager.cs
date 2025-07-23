@@ -32,7 +32,6 @@ public class AbilityManager : NetworkBehaviour
     private IAbilityUser abilityUser;
 
     protected Ability currentAbility;
-    protected Animator animator;
 
     private Coroutine lockCastingCoroutine = null;
 
@@ -64,11 +63,6 @@ public class AbilityManager : NetworkBehaviour
         if (!TryGetComponent<IAbilityUser>(out abilityUser))
         {
             Debug.LogError("AbilityUser is required for AbilityManager");
-        }
-
-        if (!TryGetComponent<Animator>(out animator))
-        {
-            Debug.LogError("Animator is required for AbilityManager");
         }
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {

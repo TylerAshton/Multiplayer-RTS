@@ -10,7 +10,7 @@ public class Health : NetworkBehaviour
     [SerializeField] private bool isImmune = false;
     private float maxHealth;
     public float MaxHealth => maxHealth;
-    [SerializeField] private float deathAnimationLength = 0;
+    [SerializeField] private float corpseLingerTime = 0;
     [SerializeField] private bool test;
     [SerializeField] private bool isDying = false; 
     public bool IsDying => isDying;
@@ -21,7 +21,6 @@ public class Health : NetworkBehaviour
     [SerializeField] private bool showOnOwnerScreen = false;
 
 
-    private Animator animator;
     private Slider healthSlider;
     private StatManager statManager;
     public event Action OnDeath; 
@@ -30,21 +29,15 @@ public class Health : NetworkBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<Animator>(out animator))
-        {
-            Debug.LogError("Animator is required for Health");
-            return;
-        }
-
         if (!TryGetComponent<StatManager>(out statManager))
         {
             Debug.LogError($"{GetType().Name} requires {nameof(StatManager)} within gameobject: {gameObject.name}!");
             return;
         }
 
-        if (animator != null && deathAnimationLength == 0)
+        if (corpseLingerTime < 0)
         {
-            Debug.LogError("A death animation was set but no length was given");
+            Debug.LogError($"{nameof(corpseLingerTime)} cannot be a null or negative value.");
             return;
         }
 
@@ -177,7 +170,7 @@ public class Health : NetworkBehaviour
             UpdateHealthBarClientRpc(hitPoints);
         }
 
-        animator.SetTrigger("OnHit");
+        OnHit?.Invoke();
 
         if (hitPoints <= 0)
         {
@@ -247,12 +240,6 @@ public class Health : NetworkBehaviour
 
         OnDeath?.Invoke();
 
-        if (animator != null)
-        {
-            animator.Play("Death");
-        }
-
-
         if (TryGetComponent<Collider2D>(out Collider2D collider))
         {
             collider.enabled = false;
@@ -274,7 +261,7 @@ public class Health : NetworkBehaviour
             return;
         }
 
-        Invoke(nameof(Die), deathAnimationLength);
+        Invoke(nameof(Die), corpseLingerTime);
     }
 
     /// <summary>
@@ -297,7 +284,7 @@ public class Health : NetworkBehaviour
 
         isDying = false;
 
-        OnRevive.Invoke();
+        OnRevive?.Invoke();
 
         Heal(maxHealth + Math.Abs(hitPoints));
 

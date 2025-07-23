@@ -107,6 +107,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody>();
 
+        if (!TryGetComponent<AnimationTriggerManager>(out animTriggerManager))
+        {
+            Debug.LogError($"{nameof(AnimationTriggerManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
+        }
+
         if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
         {
             Debug.LogError($"{nameof(CameraSpawner)} is required for {GetType().Name} on gameobject {gameObject.name}!");
@@ -551,13 +557,11 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public void ReviveObject()
     {
-        nAnimator.SetTrigger("Revive");
         ToggleControlsRpc(true);
     }
 
     public void DestroyObject()
     {
-        nAnimator.SetTrigger("Death");
         ToggleControlsRpc(false);
         SpawnSoul();
     }

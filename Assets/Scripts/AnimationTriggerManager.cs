@@ -22,7 +22,7 @@ public readonly struct AnimTriggers
 
 /// <summary>
 /// Used by other scripts to perform standard animations that are commonly shared across multiple in game characters.
-/// However, not all characters will have these animations nor the components used. So it'll bind to whatever is ready.
+/// However, not all characters will have these animations used. So it'll bind to whatever is ready.
 /// It should be noted that all these animations being on every character on in scope hence this sytem.
 /// </summary>
 public class AnimationTriggerManager : MonoBehaviour
@@ -124,14 +124,20 @@ public class AnimationTriggerManager : MonoBehaviour
         animationTriggers = parameters.Where(p => p.type == AnimatorControllerParameterType.Trigger).Select(p => p.name).ToList();
     }
 
-    public void TrySetTrigger(string _triggerName)
+    /// <summary>
+    /// Tries to Set the Trigger of the triggername parsed. If successful it returns true.
+    /// </summary>
+    /// <param name="_triggerName"></param>
+    /// <returns></returns>
+    public bool TrySetTrigger(string _triggerName)
     {
         if (!animationTriggers.Contains(_triggerName))
         {
             Debug.LogWarning($"{_triggerName} was not found in {animationTriggers} within gameobject, {gameObject.name}, and so will not be ran");
-            return;
+            return false;
         }
 
         nAnimator.SetTrigger(_triggerName);
+        return true;
     }
 }
