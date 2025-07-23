@@ -63,7 +63,8 @@ public class FactoryQueueManager : NetworkBehaviour
     private IEnumerator ProduceCurrentUnit()
     {
         Vector3 spawnPos = CalculateSpawnPos(currentProduction);
-        SpawnCurrentProductionSummonVfxRpc(spawnPos);
+        //SpawnCurrentProductionSummonVfxRpc(spawnPos);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SummonVfx.ID, spawnPos);
 
         float timeElapsed = 0f;
         float duration = currentProduction.ConstructionTime;
@@ -76,7 +77,8 @@ public class FactoryQueueManager : NetworkBehaviour
         }
 
         SpawnCurrentProduction(spawnPos);
-        SpawnCurrentProudctionSpawnVfxRpc(spawnPos);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SpawnVfx.ID, spawnPos);
+        //SpawnCurrentProudctionSpawnVfxRpc(spawnPos);
 
         productionQueue.Dequeue();
         // Requeue the current production if the production is set to repeat
@@ -107,13 +109,15 @@ public class FactoryQueueManager : NetworkBehaviour
         summoned.GetComponent<NetworkObject>().Spawn();
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Spawns vfx of the current production at the given position.
     /// </summary>
     /// <param name="_spawnPos"></param>
     [Rpc(SendTo.Everyone)]
     private void SpawnCurrentProudctionSpawnVfxRpc(Vector3 _spawnPos)
     {
+        
+
         GameObject spawnedVfx = Instantiate(currentProduction.SpawnVFX, _spawnPos, Quaternion.identity);
         VFXScaler.ScaleParticles(currentProduction.SpawnVFXScale, spawnedVfx);
 
@@ -130,7 +134,7 @@ public class FactoryQueueManager : NetworkBehaviour
         GameObject spawnedVfx = Instantiate(currentProduction.SummonVFX, _spawnPos, Quaternion.identity);
         VFXScaler.ScaleParticles(currentProduction.SummonVFXScale, spawnedVfx);
         Destroy(spawnedVfx, currentProduction.ConstructionTime);
-    }
+    }*/
 
 
 

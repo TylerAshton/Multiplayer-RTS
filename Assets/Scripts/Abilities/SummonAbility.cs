@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Summon Ability", menuName = "Abilities/Summon")]
-public class SummonAbility : Ability<IAbilityUser>, VfxObject
+public class SummonAbility : Ability<IAbilityUser>, IVfxObject
 {
     [SerializeField] private GameObject spawnee;
     [SerializeField] private GameObject spawnVFX;

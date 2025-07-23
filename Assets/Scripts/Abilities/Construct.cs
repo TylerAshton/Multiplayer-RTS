@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Construct Ability", menuName = "Abilities/Construct")]
-public class Construct : Ability<IConstructionPad>, VfxObject
+public class Construct : Ability<IConstructionPad>, IVfxObject
 {
     [SerializeField] private GameObject spawnee;
     [SerializeField] private GameObject spawnVFX;

@@ -55,7 +55,7 @@ public class VFXSpawner : NetworkBehaviour
             return;
         }
 
-        if (ability is VfxObject vfxObject)
+        if (ability is IVfxObject vfxObject)
         {
             if (vfxObject.VfxPrefab == null)
             {
@@ -68,5 +68,22 @@ public class VFXSpawner : NetworkBehaviour
 
             Destroy(spawnedVfx, vfxObject.VfxDuration);
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawnVfxObjectRpc(string _vfxObjectID, Vector3 _pos)
+    {
+        VfxObject vfxObject = Registry<VfxObject>.GetItem(_vfxObjectID);
+
+        if (vfxObject == null)
+        {
+            Debug.LogError($"VfxObject '{_vfxObjectID}' not found.");
+            return;
+        }
+
+        GameObject spawnedVfx = Instantiate(vfxObject.VfxPrefab, _pos, Quaternion.identity);
+        VFXScaler.ScaleParticles(vfxObject.VfxScale, spawnedVfx);
+
+        Destroy(spawnedVfx, vfxObject.LingerTime);
     }
 }

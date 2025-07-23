@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New RadialHeal Ability", menuName = "Abilities/RadialHeal")]
-public class RadialHeal : Ability<ICharacterAbilityUser>, VfxObject
+public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
 {
     [SerializeField] float radius = 1f;
     [SerializeField] float healAmount = 1f;

@@ -13,17 +13,11 @@ public class ConstructionStats : BaseAbilityStat
     [SerializeField] private GameObject consutrctablePrefab;
     public GameObject ConstructablePrefab => consutrctablePrefab;
 
-
-    [SerializeField] private GameObject spawnVFX;
-    public GameObject SpawnVFX => spawnVFX;
-    [SerializeField] private float spawnVFXScale = 1f;
-    public float SpawnVFXScale => spawnVFXScale;
-
-    [SerializeField] private GameObject summonVFX;
-    public GameObject SummonVFX => summonVFX;
-    [SerializeField] private float summonVFXScale = 1f;
-    public float SummonVFXScale => summonVFXScale;
-    public float VfxDespawnTime => 5f;
+    [SerializeField] private VfxObject spawnVfx;
+    public VfxObject SpawnVfx => spawnVfx;
+    [SerializeField] private VfxObject summonVfx;
+    public VfxObject SummonVfx => summonVfx;
+    
     [SerializeField] private float maxDispersion = 5f;
     public float MaxDispersion => maxDispersion;
     [SerializeField] private float minDisperstion = 5f;
@@ -54,24 +48,9 @@ public class ConstructionStats : BaseAbilityStat
             EditorGUILayout.HelpBox("ConsutrctablePrefab must be assigned.", MessageType.Error);
         }
 
-        SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");
-        fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
-        if (fieldSpawnVFX.objectReferenceValue == null)
-        {
-            EditorGUILayout.HelpBox("Spawn VFX Prefab must be assigned.", MessageType.Error);
-        }
-        SerializedProperty fieldSpawnVfxScale = _so.FindProperty("summonVFXScale");
-        fieldSpawnVfxScale.floatValue = EditorGUILayout.Slider("Portal VFX Scale", fieldSpawnVfxScale.floatValue, minVfxSize, maxVfxSize);
+        BeaconUtility.DrawStat<VfxObject>(_so, "spawnVfx");
 
-        SerializedProperty fieldSummonVFX = _so.FindProperty("summonVFX");
-        fieldSummonVFX.objectReferenceValue = EditorGUILayout.ObjectField("Portal VFX Prefab", fieldSummonVFX.objectReferenceValue, typeof(GameObject), false);
-        if (fieldSummonVFX.objectReferenceValue == null)
-        {
-            EditorGUILayout.HelpBox("Portal VFX Prefab must be assigned.", MessageType.Error);
-        }
-
-        SerializedProperty fieldSummonVfxScale = _so.FindProperty("spawnVFXScale");
-        fieldSummonVfxScale.floatValue = EditorGUILayout.Slider("Spawn VFX Scale", fieldSummonVfxScale.floatValue, minVfxSize, maxVfxSize);
+        BeaconUtility.DrawStat<VfxObject>(_so, "summonVfx");
 
         // Min max slider tom foolery
         SerializedProperty fieldMinDisperstion = _so.FindProperty("minDisperstion");
