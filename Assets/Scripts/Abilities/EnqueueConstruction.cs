@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Enqeuue Ability", menuName = "Abilities/EnqueueConstruction")]
@@ -18,4 +19,15 @@ public class EnqueueConstruction : Ability<IFactory>
     {
 
     }
+
+#if UNITY_EDITOR // Will crash if this is not wrapped in UNITY_EDITOR
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        DrawStat<BaseAbilityStat>(_so, "constructionStats");
+
+
+    }
+#endif
 }
