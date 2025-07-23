@@ -5,6 +5,7 @@ public class RangedBehaviour : NPCBehaviour
 {
     private UnitTargettingManager targettingManager;
     private IAbilityUser abilityUser;
+    [SerializeField] private float targettingAngle = 60f;
     public override void Init()
     {
         base.Init();
@@ -41,6 +42,21 @@ public class RangedBehaviour : NPCBehaviour
         TryAttackTarget(npc);
     }
 
+    private bool IsWithinCone(Vector3 _targetPos)
+    {
+        Vector3 contactDirection = _targetPos - transform.position;
+        contactDirection.y = 0;
+
+        Vector3 forwardDirection = transform.forward;
+        forwardDirection.y = 0;
+
+        float dot = Vector3.Dot(forwardDirection.normalized, contactDirection.normalized);
+
+        float cosAngle = Mathf.Cos(targettingAngle * 0.5f * Mathf.Deg2Rad);
+
+        return dot >= cosAngle;
+    }
+
     private void TryAttackTarget(NPC _npc)
     {
         if (abilityUser.AimPoint == Vector3.zero)
@@ -48,9 +64,15 @@ public class RangedBehaviour : NPCBehaviour
             return;
         }
 
+        // Checking if they're infront of player
+        if (!IsWithinCone(abilityUser.AimPoint))
+        {
+            return;
+        }
+
         // TODO: Impliment checking if target is in line of sight
 
-        _npc.AbilityManager.TryCastAbility(0);
+        _npc.AbilityManager.TryCastAbility(0, 0);
     }
 
     private void UpdateRotation(NPC _npc)

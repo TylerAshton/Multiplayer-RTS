@@ -25,6 +25,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 
     private float bulletVFXScale = 1f;
     private float deathVFXScale = 1f;
+    private float deathVFXDuration = 5f;
     private bool isAOE = false;
     private float aoeRadius = 1f;
     private int penetration = 0;
@@ -390,6 +391,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         GameObject spawnedVfx = Instantiate(deathVFX, transform.position, Quaternion.identity);
         //spawnedVfx.transform.localScale *= deathVFXScale;
         VFXScaler.ScaleParticles(deathVFXScale, spawnedVfx);
+        Destroy(spawnedVfx, deathVFXDuration);
 
     }
 }

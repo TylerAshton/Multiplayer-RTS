@@ -20,7 +20,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
 
     ConstructionPad IConstructionPad.ConstructionPad => this;
 
-    [SerializeField] public bool territoryOwned = false;
+    [SerializeField] public bool isUnlocked = false; //TODO: why tf is this public
 
     protected override void Awake()
     {
@@ -86,7 +86,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     /// <returns></returns>
     private bool shouldDisplay() // TODO: WTF is this
     {
-        if (territoryOwned && occupiedBuilding == null)
+        if (isUnlocked && occupiedBuilding == null)
         {
             return true;
         }

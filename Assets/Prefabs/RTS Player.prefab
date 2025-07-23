@@ -488,6 +488,7 @@ MonoBehaviour:
   allUnits: []
   selectedUnits: []
   AbilityPanelPrefab: {fileID: 2757501461227020302, guid: 5886d62728180d346a7d596a82a04a18, type: 3}
+  ConstructionPanelPrefab: {fileID: 5358625370908105912, guid: 8c8524eef008e484c8e0a0cf897fee77, type: 3}
   unitLayer:
     serializedVersion: 2
     m_Bits: 128

@@ -13,5 +13,7 @@ public static class RegistryManager
         Registry<HitboxStats>.Init("AbilityStats");
         Registry<ProjectileStats>.Init("AbilityStats");
         Registry<ProjectionStats>.Init("AbilityStats");
+        Registry<VfxObject>.Init("VfxObjects");
+
     }
 }

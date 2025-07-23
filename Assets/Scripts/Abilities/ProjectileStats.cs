@@ -117,43 +117,43 @@ public class ProjectileStats : BaseAbilityStat
         return true;
     }
 #if UNITY_EDITOR
-    public override void DrawInspector(SerializedObject so)
+    public override void DrawInspector(SerializedObject _so)
     {
-        base.DrawInspector(so);
+        base.DrawInspector(_so);
 
-        SerializedProperty fieldDetectionRange = so.FindProperty("detectionRange");
+        SerializedProperty fieldDetectionRange = _so.FindProperty("detectionRange");
         fieldDetectionRange.floatValue = EditorGUILayout.FloatField("Detection Range", fieldDetectionRange.floatValue);
         if (fieldDetectionRange.floatValue <= 0)
         {
             EditorGUILayout.HelpBox("Detection Range must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldSpeed = so.FindProperty("speed");
+        SerializedProperty fieldSpeed = _so.FindProperty("speed");
         fieldSpeed.floatValue = EditorGUILayout.FloatField("Speed", fieldSpeed.floatValue);
         if (fieldSpeed.floatValue <= 0)
         {
             EditorGUILayout.HelpBox("Speed must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldDamage = so.FindProperty("damage");
+        SerializedProperty fieldDamage = _so.FindProperty("damage");
         fieldDamage.floatValue = EditorGUILayout.FloatField("Damage", fieldDamage.floatValue);
         if (fieldDamage.floatValue <= 0)
         {
             EditorGUILayout.HelpBox("Damage must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldLifeTime = so.FindProperty("lifeTime");
+        SerializedProperty fieldLifeTime = _so.FindProperty("lifeTime");
         fieldLifeTime.floatValue = EditorGUILayout.FloatField("Life Time", fieldLifeTime.floatValue);
         if (fieldLifeTime.floatValue <= 0)
         {
             EditorGUILayout.HelpBox("Life Time must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldIsAOE = so.FindProperty("isAOE");
+        SerializedProperty fieldIsAOE = _so.FindProperty("isAOE");
         fieldIsAOE.boolValue = EditorGUILayout.Toggle("Is AOE", fieldIsAOE.boolValue);
         if (fieldIsAOE.boolValue)
         {
-            SerializedProperty fieldAOERadius = so.FindProperty("aoeRadius");
+            SerializedProperty fieldAOERadius = _so.FindProperty("aoeRadius");
             fieldAOERadius.floatValue = EditorGUILayout.Slider("AOE Radius", fieldAOERadius.floatValue, minAOERadius, maxAOERadius);
             if (fieldAOERadius.floatValue <= 0)
             {
@@ -161,31 +161,31 @@ public class ProjectileStats : BaseAbilityStat
             }
         }
 
-        SerializedProperty fieldPenetration = so.FindProperty("penetration");
+        SerializedProperty fieldPenetration = _so.FindProperty("penetration");
         fieldPenetration.intValue = EditorGUILayout.IntField("Penetration Amount", fieldPenetration.intValue);
         if (fieldPenetration.intValue < 0)
         {
             EditorGUILayout.HelpBox("Penetration Amount must be 0 or greater!", MessageType.Error);
         }
 
-        SerializedProperty fieldBulletVFX = so.FindProperty("bulletVFX");
+        SerializedProperty fieldBulletVFX = _so.FindProperty("bulletVFX");
         fieldBulletVFX.objectReferenceValue = EditorGUILayout.ObjectField("Bullet VFX", fieldBulletVFX.objectReferenceValue, typeof(GameObject), false);
         if (fieldBulletVFX.objectReferenceValue == null)
         {
             EditorGUILayout.HelpBox("Bullet VFX must be assigned!", MessageType.Error);
         }
 
-        SerializedProperty fieldBulletVFXScale = so.FindProperty("bulletVFXScale");
+        SerializedProperty fieldBulletVFXScale = _so.FindProperty("bulletVFXScale");
         fieldBulletVFXScale.floatValue = EditorGUILayout.Slider("Bullet VFX Scale", fieldBulletVFXScale.floatValue, minVFXRadius, maxVFXRadius);
 
-        SerializedProperty fieldDeathVFX = so.FindProperty("deathVFX");
+        SerializedProperty fieldDeathVFX = _so.FindProperty("deathVFX");
         fieldDeathVFX.objectReferenceValue = EditorGUILayout.ObjectField("Death VFX", fieldDeathVFX.objectReferenceValue, typeof(GameObject), false);
         if (fieldDeathVFX.objectReferenceValue == null)
         {
             EditorGUILayout.HelpBox("Bullet VFX must be assigned!", MessageType.Error);
         }
 
-        SerializedProperty fieldDeathVFXScale = so.FindProperty("deathVFXScale");
+        SerializedProperty fieldDeathVFXScale = _so.FindProperty("deathVFXScale");
         fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, minVFXRadius, maxVFXRadius);
         
     }

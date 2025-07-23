@@ -14,7 +14,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
     {
         if (_user is ICharacterAbilityUser _characterAbilityUser)
         {
-            _characterAbilityUser.NAnimator.SetTrigger($"{animationTrigger}");
+            _characterAbilityUser.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
         }
         else
         {

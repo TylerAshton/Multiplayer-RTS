@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New RadialHeal Ability", menuName = "Abilities/RadialHeal")]
-public class RadialHeal : Ability<ICharacterAbilityUser>, VfxObject
+public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
 {
     [SerializeField] float radius = 1f;
     [SerializeField] float healAmount = 1f;
@@ -29,7 +29,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, VfxObject
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{animationTrigger}");
+        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
         // Apply slow
         StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
@@ -50,8 +50,8 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, VfxObject
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         HealArea(castPositionTransform, _user);
-        //SpawnVFX(castPositionTransform.position + vfxOffset);
-        VFXSpawner.Instance.AbilityVfxRpc(id, castPositionTransform.position);
+        VFXSpawner.Instance.SpawnAbilityVfxRpc(id, castPositionTransform.position);
+
 
 
 

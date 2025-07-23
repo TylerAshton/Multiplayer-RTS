@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AmalgamCore : MonoBehaviour
+public class RuneStoneManager : MonoBehaviour
 {
     private Runestone_Controller runestoneController;
 

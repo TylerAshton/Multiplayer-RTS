@@ -35,6 +35,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public Vector3 WorldPosition => worldPosition;
 
     public NetCodeAnimationManager NAnimator => nAnimator;
+    private NetCodeAnimationManager nAnimator;
+
+    private AnimationTriggerManager animTriggerManager;
+    public AnimationTriggerManager AnimTriggerManager => animTriggerManager;
 
     public Transform Transform => transform;
 
@@ -55,7 +59,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
-    private NetCodeAnimationManager nAnimator;
     private ChampionAbilityManager championAbilityManager;
     private CharacterController characterController;
     private PlayerInput playerInput;
@@ -77,6 +80,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public Vector2 MouseScreenPos => mouseScreenPos;
 
     public ChampionAbilityManager ChampionAbilityManager => championAbilityManager;
+    public AbilityManager AbilityManager => championAbilityManager;
 
     public Health ChampionHealth => health;
 
@@ -94,6 +98,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private Vector3 soulSpawnOffset = Vector3.zero;
 
     private Health health;
+    public Health Health => health;
 
     void Start()
     {
@@ -101,6 +106,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         uiManager = UIManager.Instance;
         playerManager = PlayerManager.Instance;
         rb = GetComponent<Rigidbody>();
+
+        if (!TryGetComponent<AnimationTriggerManager>(out animTriggerManager))
+        {
+            Debug.LogError($"{nameof(AnimationTriggerManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
+        }
 
         if (!TryGetComponent<CameraSpawner>(out cameraSpawner))
         {
@@ -355,13 +366,51 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     }
 
     /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
+    public void Use3rdAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (!context.performed) return;
+
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 3)
+        {
+            Debug.LogWarning("No 3rd ability available.");
+            return;
+        }
+
+        CastAbilityServerRpc(2);
+    }
+
+    /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
+    public void Use4thAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (!context.performed) return;
+
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 4)
+        {
+            Debug.LogWarning("No 4th ability available.");
+            return;
+        }
+
+        CastAbilityServerRpc(3);
+    }
+
+    /// <summary>
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>
     [ServerRpc(RequireOwnership = false)]
-    private void CastAbilityServerRpc(int _AbilityIndex)
+    private void CastAbilityServerRpc(int _AbilityIndex) // TODO: Should really be moved into abilityManager or something
     {
-        championAbilityManager.TryCastAbility(_AbilityIndex);
+        championAbilityManager.TryCastAbility(_AbilityIndex, 0);
     }
 
     /// <summary>
@@ -546,13 +595,11 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public void ReviveObject()
     {
-        nAnimator.SetTrigger("Revive");
         ToggleControlsRpc(true);
     }
 
     public void DestroyObject()
     {
-        nAnimator.SetTrigger("Death");
         ToggleControlsRpc(false);
         SpawnSoul();
     }

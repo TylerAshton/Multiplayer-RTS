@@ -13,6 +13,7 @@ public abstract class Ability : Purchasable, Inspectorable
     [SerializeField] private AbilityPosition castPositionName = AbilityPosition.Centre;
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private float cooldown = 0f;
+    [SerializeField] private Ability successor; [Tooltip("The ability that this ability will be replaced with if its added.")]
     protected virtual string animationTrigger => null;
 
     public float Cooldown => cooldown;
@@ -20,13 +21,14 @@ public abstract class Ability : Purchasable, Inspectorable
     public int AbilityCost => abilityCost;
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
+    public Ability Successor => successor;
 
     //public string PurchaseID => abilityID;
 
-/*    private void OnValidate()
-    {
-        purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
-    }*/
+    /*    private void OnValidate()
+        {
+            purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
+        }*/
 
     public override bool CanPurchase(IShopUser _shopUser)
     {
@@ -108,7 +110,10 @@ public abstract class Ability : Purchasable, Inspectorable
         SerializedProperty fieldCastPos = _so.FindProperty("castPositionName");
         fieldCastPos.enumValueIndex = EditorGUILayout.Popup("Cast Position", fieldCastPos.enumValueIndex, fieldCastPos.enumDisplayNames);
 
-        
+        SerializedProperty fieldSuccessor = _so.FindProperty("successor");
+        EditorGUILayout.PropertyField(fieldSuccessor, new GUIContent("Successor Ability"));
+
+
     }
 #endif
 
