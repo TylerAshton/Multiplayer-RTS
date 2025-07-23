@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 1226387176237966976}
   - component: {fileID: 7718401256683243896}
   - component: {fileID: 3148442278247941698}
-  - component: {fileID: -6379760232198691754}
   - component: {fileID: 5022970313953323295}
   m_Layer: 0
-  m_Name: Bush
+  m_Name: BG Bush
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,28 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-6379760232198691754
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2804115621128797626}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2088877110788299720, guid: da362d715e5cd6d4f99d673c95f62ebe, type: 3}
 --- !u!114 &5022970313953323295
 MonoBehaviour:
   m_ObjectHideFlags: 0
