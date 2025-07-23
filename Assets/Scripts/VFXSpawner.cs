@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.VFX;
 
 
-public interface VfxObject
+public interface IVfxObject
 {
     GameObject VfxPrefab { get; }
     Vector3 VfxOffset { get; }
@@ -11,6 +11,9 @@ public interface VfxObject
     float VfxDuration { get; }
 }
 
+/// <summary>
+/// Static manager that spawns vfx over the network in cases where it cannot be managed by another script
+/// </summary>
 public class VFXSpawner : NetworkBehaviour
 {
     public static VFXSpawner Instance { get; private set; }
@@ -28,8 +31,21 @@ public class VFXSpawner : NetworkBehaviour
         }
     }
 
+    public void RAWR()
+    {
+        Debug.Log("called");
+        MEERpc();
+
+    }
+
     [Rpc(SendTo.Everyone)]
-    public void AbilityVfxRpc(string _abilityID, Vector3 _parentPos)
+    private void MEERpc()
+    {
+        Debug.Log("SERVER");
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawnAbilityVfxRpc(string _abilityID, Vector3 _parentPos)
     {
         Ability ability = Registry<Ability>.GetItem(_abilityID);
 
@@ -39,7 +55,7 @@ public class VFXSpawner : NetworkBehaviour
             return;
         }
 
-        if (ability is VfxObject vfxObject)
+        if (ability is IVfxObject vfxObject)
         {
             if (vfxObject.VfxPrefab == null)
             {
@@ -52,5 +68,22 @@ public class VFXSpawner : NetworkBehaviour
 
             Destroy(spawnedVfx, vfxObject.VfxDuration);
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SpawnVfxObjectRpc(string _vfxObjectID, Vector3 _pos)
+    {
+        VfxObject vfxObject = Registry<VfxObject>.GetItem(_vfxObjectID);
+
+        if (vfxObject == null)
+        {
+            Debug.LogError($"VfxObject '{_vfxObjectID}' not found.");
+            return;
+        }
+
+        GameObject spawnedVfx = Instantiate(vfxObject.VfxPrefab, _pos, Quaternion.identity);
+        VFXScaler.ScaleParticles(vfxObject.VfxScale, spawnedVfx);
+
+        Destroy(spawnedVfx, vfxObject.LingerTime);
     }
 }

@@ -1153,6 +1153,7 @@ GameObject:
   - component: {fileID: 4076452208090559733}
   - component: {fileID: 8995406540848693083}
   - component: {fileID: 4591551783197058553}
+  - component: {fileID: 526022413672829864}
   m_Layer: 7
   m_Name: Ranged Level 3
   m_TagString: Amalgam
@@ -1285,12 +1286,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 100
   isImmune: 0
-  animator: {fileID: 2865285359833913113}
   deathAnimationLength: 0.01
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
-  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43,
+    type: 3}
   healthBarOffset: {x: 0, y: 0, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 0
@@ -1413,6 +1414,7 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: bc1942b6927922d4bacfd68f5a203ae2, type: 2}
+  hasUtility: 0
 --- !u!114 &-8325889620801518248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,6 +1558,18 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &526022413672829864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46635627db90bf4f83f7ca76ea3aae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2453397364068737160
 GameObject:
   m_ObjectHideFlags: 0

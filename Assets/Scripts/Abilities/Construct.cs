@@ -4,17 +4,28 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Construct Ability", menuName = "Abilities/Construct")]
-public class Construct : Ability<IConstructionPad>
+public class Construct : Ability<IConstructionPad>, IVfxObject
 {
     [SerializeField] private GameObject spawnee;
     [SerializeField] private GameObject spawnVFX;
+
+    public GameObject VfxPrefab => spawnVFX;
+
+    public Vector3 VfxOffset => Vector3.zero; // NOTE: In the future perhaps we'd wanna add offsets en such to 
+                                               // Consturctions but wasn't needed.. yet.
+
+    public float VfxScale => 1f;
+
+    public float VfxDuration => 5f;
+
     protected override void ActivateTyped(IConstructionPad _user)
     {
         Vector3 spawnPosition = _user.Transform.position;
 
 
-        GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
-        vfx.GetComponent<NetworkObject>().Spawn();
+        /*GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
+        vfx.GetComponent<NetworkObject>().Spawn();*/
+        VFXSpawner.Instance.SpawnAbilityVfxRpc(this.id, spawnPosition);
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
 

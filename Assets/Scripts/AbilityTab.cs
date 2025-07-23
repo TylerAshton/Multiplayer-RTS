@@ -37,7 +37,30 @@ public class AbilityTab
 
     public void AddAbility(Ability _ability)
     {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot remove a null ability.");
+            return;
+        }
+
         abilities.Add(_ability);
+    }
+
+    public void RemoveAbility(Ability _ability)
+    {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot remove a null ability.");
+            return;
+        }
+        if (abilities.Contains(_ability))
+        {
+            abilities.Remove(_ability);
+        }
+        else
+        {
+            Debug.LogWarning("Attempted to remove an ability that does not exist in this tab.");
+        }
     }
 
     /// <summary>

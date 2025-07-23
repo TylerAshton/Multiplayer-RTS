@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class VFXScaler : MonoBehaviour
@@ -21,5 +22,10 @@ public class VFXScaler : MonoBehaviour
         }
 
         vfxParent.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+    }
+
+    internal static void ScaleParticles(object summonVFXScale, GameObject spawnedVfx)
+    {
+        throw new NotImplementedException();
     }
 }

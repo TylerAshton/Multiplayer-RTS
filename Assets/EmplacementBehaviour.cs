@@ -25,7 +25,7 @@ public class EmplacementBehaviour : UnitBehaviour
     {
         if (abilityUser.AimPoint != Vector3.zero)
         {
-            unit.AbilityManager.TryCastAbility(0);
+            unit.AbilityManager.TryCastAbility(0, 0);
         }
     }
 }

@@ -30,7 +30,7 @@ public class ShopManager : MonoBehaviour // TODO: Honestly I'd rename this scrip
             {
                 if (unit is ConstructionPad constructionPad)
                 {
-                    constructionPad.territoryOwned = true;
+                    constructionPad.isUnlocked = true;
                 }
 
                 else
@@ -45,7 +45,7 @@ public class ShopManager : MonoBehaviour // TODO: Honestly I'd rename this scrip
             {
                 if (unit is ConstructionPad constructionPad)
                 {
-                    constructionPad.territoryOwned = false;
+                    constructionPad.isUnlocked = false;
                 }
 
                 else

@@ -8,44 +8,39 @@ public class Health : NetworkBehaviour
     [SerializeField] private float hitPoints;
     public float HitPoints => hitPoints;
     [SerializeField] private bool isImmune = false;
-
     private float maxHealth;
     public float MaxHealth => maxHealth;
-    [SerializeField] private Animator animator;
-    [SerializeField] private float deathAnimationLength = 0;
+    [SerializeField] private float corpseLingerTime = 0;
     [SerializeField] private bool test;
-
-    [SerializeField] private bool isDying = false;
+    [SerializeField] private bool isDying = false; 
     public bool IsDying => isDying;
-
-    public event Action OnDeath; // Death event, used to begin respawn
-    public event Action OnRevive; // Revive event, used to begin respawn
-
     [SerializeField] private GameObject overlayHealthBar;
     [SerializeField] private GameObject healthBarPrefab;
     [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 0, 0);
-    private Slider healthSlider;
     [SerializeField] private bool showHealthBar = true;
     [SerializeField] private bool showOnOwnerScreen = false;
+
+    [SerializeField] private GameObject deathVfx;
+    [SerializeField] private float deathVfxScale = 1;
+
+
+    private Slider healthSlider;
     private StatManager statManager;
+    public event Action OnDeath; 
+    public event Action OnRevive; 
+    public event Action OnHit;
 
     private void Awake()
     {
-        if (!TryGetComponent<Animator>(out animator))
-        {
-            Debug.LogError("Animator is required for Health");
-            return;
-        }
-
         if (!TryGetComponent<StatManager>(out statManager))
         {
             Debug.LogError($"{GetType().Name} requires {nameof(StatManager)} within gameobject: {gameObject.name}!");
             return;
         }
 
-        if (animator != null && deathAnimationLength == 0)
+        if (corpseLingerTime < 0)
         {
-            Debug.LogError("A death animation was set but no length was given");
+            Debug.LogError($"{nameof(corpseLingerTime)} cannot be a null or negative value.");
             return;
         }
 
@@ -173,9 +168,12 @@ public class Health : NetworkBehaviour
 
         hitPoints -= _damage;
 
-        UpdateHealthBarClientRpc(hitPoints);
+        if (showHealthBar)
+        {
+            UpdateHealthBarClientRpc(hitPoints);
+        }
 
-        animator.SetTrigger("OnHit");
+        OnHit?.Invoke();
 
         if (hitPoints <= 0)
         {
@@ -186,6 +184,11 @@ public class Health : NetworkBehaviour
     [ClientRpc]
     private void UpdateHealthBarClientRpc(float _currentHealth)
     {
+        if (!showHealthBar)
+        {
+            return;
+        }
+
         if (healthSlider == null)
         {
             Debug.LogError($"{nameof(healthSlider)} is null in {GetType()} within gameobject {gameObject.name}! " +
@@ -209,9 +212,13 @@ public class Health : NetworkBehaviour
         hitPoints += _health;
         hitPoints = Mathf.Clamp(hitPoints, 0, maxHealth);
 
-        healthSlider.value = hitPoints;
+        //healthSlider.value = hitPoints;
 
-        UpdateHealthBarClientRpc(hitPoints);
+        if (showHealthBar)
+        {
+            UpdateHealthBarClientRpc(hitPoints);
+        }
+
     }
 
     /// <summary>
@@ -236,16 +243,12 @@ public class Health : NetworkBehaviour
 
         OnDeath?.Invoke();
 
-        if (animator != null)
-        {
-            animator.Play("Death");
-        }
-
-
         if (TryGetComponent<Collider2D>(out Collider2D collider))
         {
             collider.enabled = false;
         }
+
+        // Destructable handling
 
         IDestructible[] destructibles = GetComponents<IDestructible>();
 
@@ -258,12 +261,15 @@ public class Health : NetworkBehaviour
 
         destructibles[0].DestroyObject();
 
+        // Revive destruction blocker
+
         if (destructibles[0] is IRevivable revivable)
         {
             return;
         }
 
-        Invoke(nameof(Die), deathAnimationLength);
+
+        Invoke(nameof(Die), corpseLingerTime);
     }
 
     /// <summary>
@@ -286,7 +292,7 @@ public class Health : NetworkBehaviour
 
         isDying = false;
 
-        OnRevive.Invoke();
+        OnRevive?.Invoke();
 
         Heal(maxHealth + Math.Abs(hitPoints));
 
@@ -324,11 +330,23 @@ public class Health : NetworkBehaviour
                 Debug.LogError("FUKED");
             }
 
+            if ((bool)_networkObject.IsSceneObject)
+            {
+                DestroySceneObjectRpc();
+                return;
+            }
+
             _networkObject.Despawn();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void DestroySceneObjectRpc()
+    {
+        Destroy(gameObject);
     }
 }

@@ -40,7 +40,7 @@ public class ChampionAbilityManager : AbilityManager
         GameObject AbilityUI = Instantiate(AbilityUIPrefab);
         UIAbilityManager = AbilityUI.GetComponentInChildren<AbilityUIManager>();
         UIAbilityManager.Init(true);
-        UIAbilityManager.UpdateGridWithAbilityManager(this);
+        UIAbilityManager.UpdateAbilityTabsWithAbilityManager(this);
     }
 
     public override void AddAbility(Ability _ability, int _tabIndex)
@@ -57,6 +57,6 @@ public class ChampionAbilityManager : AbilityManager
     [Rpc(SendTo.Owner)]
     private void UpdateGridRpc()
     {
-        UIAbilityManager.UpdateGridWithAbilityManager(this);
+        UIAbilityManager.UpdateAbilityTabsWithAbilityManager(this);
     }
 }

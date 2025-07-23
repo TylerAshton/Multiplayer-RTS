@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class AbilityUIManager : MonoBehaviour
 {
+    [SerializeField] private UtilityCell utilityCell;
     [SerializeField] private List<AbilityCell> abilityCells = new List<AbilityCell>();
     [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
@@ -56,6 +57,7 @@ public class AbilityUIManager : MonoBehaviour
 
         for (int i = 0; i < commonAbilities.Count; i++)
         {
+            if (i >= 4) { Debug.LogError("Can't handle cooldowns for multiple pages rn"); continue; }
             Slider slider = abilityCells[i].Slider;
             Ability ability = commonAbilities[i];
 
@@ -64,7 +66,7 @@ public class AbilityUIManager : MonoBehaviour
             if (cooldownStartTime == 0)
             {
                 slider.value = 0;
-                return; // No cooldown needed to calculate
+                continue; // No cooldown needed to calculate
             }
 
             // Calculate remaining time until end of cooldown
@@ -106,6 +108,20 @@ public class AbilityUIManager : MonoBehaviour
         return longestCooldown;
     }
 
+    private void ResetUtilityButton()
+    {
+        if (utilityCell == null)
+        {
+            if (abilityManagers[0].HasUtility)
+            {
+                Debug.LogError("Utility cell is null but at least one ability manager has utility!");
+            }
+            return;
+        }
+
+        utilityCell.ResetCell();
+    }
+
     /// <summary>
     /// Disables and hides all ability cells in the grid
     /// </summary>
@@ -117,6 +133,8 @@ public class AbilityUIManager : MonoBehaviour
             _cell.Button.interactable = false;
             _cell.Slider.value = 0;
         }
+
+        ResetUtilityButton();
     }
 
     /// <summary>
@@ -158,7 +176,7 @@ public class AbilityUIManager : MonoBehaviour
                 int abilityIndex = _abilityManager.AbilityTabs[tabIndex].Abilities.IndexOf(_ability);
                 if (abilityIndex >= 0)
                 {
-                    _abilityManager.TryCastAbility(abilityIndex);
+                    _abilityManager.TryCastAbility(abilityIndex, tabIndex);
                 }
             }
         });
@@ -183,7 +201,7 @@ public class AbilityUIManager : MonoBehaviour
     {
         pageIndex = _newPageIndex;
 
-        RefreshGrid();
+        RefreshAbilityGrid();
     }
 
     public void SetTab(int _newTabIndex)
@@ -196,20 +214,37 @@ public class AbilityUIManager : MonoBehaviour
 
         tabIndex = _newTabIndex;
         pageIndex = 0;
-        RefreshGrid();
+        RefreshAbilityGrid();
     }
 
     /// <summary>
-    /// Resets the selected abilities and tabs
+    /// Updates the ability grid and tab buttons based on the currently selected units.
     /// </summary>
-    public void ResetSelection() // TODO: The amount of repeated code here is insane
+    public void ClearUI() // TODO: The amount of repeated code here is insane
     {
         pageIndex = 0;
         tabIndex = 0;
         commonAbilityTabs = new List<AbilityTab>();
         RefreshTabButtons();
-        RefreshGrid();
-        
+        RefreshAbilityGrid();
+        ResetUtilityButton();
+
+    }
+
+    /// <summary>
+    /// Refreshes all ability grid, tab buttons and utility UI with the current commonAbilityTabs
+    /// </summary>
+    private void RefreshAll()
+    {
+        RefreshTabButtons();
+        RefreshAbilityGrid();
+        RefreshUtilityButton();
+    }
+
+    private void RecalculateCommonAbilities()
+    {
+        commonAbilityTabs = GetCommonAbilityTabs(abilityManagers);
+        RefreshAll();
     }
 
     public void RefreshTabButtons()
@@ -233,35 +268,93 @@ public class AbilityUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateGridWithUnitSelection(List<SelectableObject> _selectedUnits)
+    public void UpdateAbilityTabsWithUnitSelection(List<SelectableObject> _selectedUnits)
     {
         pageIndex = 0;
-        //commonAbilities = GetCommonAbilities(_selectedUnits);
-        commonAbilityTabs = GetCommonAbilityTabs(_selectedUnits);
-        abilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
-        RefreshTabButtons();
-        RefreshGrid();
+        List<AbilityManager> newAbilityManagers = _selectedUnits.Select(i => i.AbilityManager).ToList();
+        SetAbilityManagers(newAbilityManagers);
+        
     }
 
     /// <summary>
     /// Updates the ability grid with the abilities of the passed in ability manager
     /// </summary>
     /// <param name="_abilityManager"></param>
-    public void UpdateGridWithAbilityManager(AbilityManager _abilityManager)
+    public void UpdateAbilityTabsWithAbilityManager(AbilityManager _abilityManager)
     {
         pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
-        //commonAbilities = _abilityManager.AbilityTabs[tabIndex].Abilities;
         commonAbilityTabs = _abilityManager.AbilityTabs;
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
-        RefreshTabButtons();
-        RefreshGrid();
+        RecalculateCommonAbilities();
+    }
+    private void SetAbilityManagers(List<AbilityManager> _abilityManagers)
+    {
+        if (_abilityManagers == null || _abilityManagers.Count == 0)
+        {
+            Debug.LogError("Cannot set ability managers to an empty or null list.");
+            return;
+        }
+
+        // Unsubsribe from old list
+        foreach (AbilityManager _abilityManager in abilityManagers)
+        {
+            _abilityManager.OnAbilitiesChanged -= RecalculateCommonAbilities;
+        }
+
+        // Subscribe to new list
+        foreach (AbilityManager _abilityManager in _abilityManagers)
+        {
+            if (_abilityManager == null)
+            {
+                Debug.LogError("Cannot set a null ability manager.");
+                return;
+            }
+
+            _abilityManager.OnAbilitiesChanged += RecalculateCommonAbilities;
+        }
+
+        abilityManagers = _abilityManagers;
+
+        // Refresh UI
+        RecalculateCommonAbilities();
+    }
+
+    
+
+
+    private void RefreshUtilityButton()
+    {
+        if (utilityCell == null)
+        {
+            if (abilityManagers[0].HasUtility)
+            {
+                Debug.LogError("Utility cell is null but at least one ability manager has utility!");
+            }
+            return;
+        }
+
+        bool allHasUtility = abilityManagers.All(m => m.HasUtility);
+
+        if (!allHasUtility)
+        {
+            ResetUtilityButton();
+            return;
+        }
+
+        utilityCell.Refresh(abilityManagers, () =>
+        {
+            foreach (AbilityManager _abilityManager in abilityManagers)
+            {
+                _abilityManager.ToggleUtility();
+            }
+        });
     }
 
     /// <summary>
     /// Recalculates the ability grid based on the current page and tab index and the common abilities of selected units.
     /// </summary>
-    private void RefreshGrid()
+    private void RefreshAbilityGrid()
     {
         ResetAbilityGrid();
 
@@ -315,12 +408,14 @@ public class AbilityUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
+
+
+    /*/// <summary>
     /// Returns a list of ability tabs that are common across the parsed list of units by running through each tab and checking for common abilities.
     /// </summary>
     /// <param name="_units"></param>
     /// <returns></returns>
-    private List<AbilityTab> GetCommonAbilityTabs(List<SelectableObject> _units)
+    private List<AbilityTab> GetCommonAbilityTabs(List<AbilityManager> _units)
     {
         if (_units == null || _units.Count == 0)
         {
@@ -373,9 +468,75 @@ public class AbilityUIManager : MonoBehaviour
         }
 
         return outputCommonAbilityTabs;
+    }*/
+
+    /// <summary>
+    /// Returns a list of ability tabs that are common across the parsed list of units by running through each tab and checking for common abilities.
+    /// </summary>
+    /// <param name="_abilityManagers"></param>
+    /// <returns></returns>
+    private List<AbilityTab> GetCommonAbilityTabs(List<AbilityManager> _abilityManagers)
+    {
+
+        if (_abilityManagers == null || _abilityManagers.Count == 0)
+        {
+            Debug.LogError("Cannot get common ability tabs from an empty or null abilityManagers list.");
+            return new List<AbilityTab>();
+        }
+
+        AbilityManager firstManager = _abilityManagers[0];
+        List<AbilityTab> commonTabs = firstManager.AbilityTabs;
+
+        for (int i = 0; i < firstManager.AbilityTabs.Count; i++)
+        {
+            commonTabs[i].OverrideList(GetCommonAbilitiesInTab(_abilityManagers, i));
+        }
+
+        for (int i = commonTabs.Count - 1; i >= 0; i--)
+        {
+            if (commonTabs[i].Abilities.Count == 0)
+            {
+                commonTabs.RemoveAt(i);
+            }
+        }
+
+        // Fail safe check for if the selected index is now out of bounds after removing tabs
+        if (commonTabs.Count - 1 < tabIndex)
+        {
+            tabIndex = 0; 
+        }
+
+        return commonTabs;
     }
 
     /// <summary>
+    /// Returns a list of abilities that are common across the parsed list of _abilityManagers in the specified tab index.
+    /// </summary>
+    /// <param name="_abilityManagers"></param>
+    /// <param name="_tabIndex"></param>
+    /// <returns></returns>
+    private List<Ability> GetCommonAbilitiesInTab(List<AbilityManager> _abilityManagers, int _tabIndex)
+    {
+        List<Ability> commonAbilitiesInTab = new List<Ability>();
+        if (_tabIndex < 0)
+        {
+            Debug.LogError("Tab index cannot be negative.");
+            return commonAbilitiesInTab;
+        }
+
+        // Check if the tab exists in all ability managers
+        if (_abilityManagers.Any(am => _tabIndex >= am.AbilityTabs.Count))
+        {
+            return commonAbilitiesInTab;
+        }
+
+        List<List<Ability>> abilityLists = _abilityManagers.Select(am => am.AbilityTabs[_tabIndex].Abilities).ToList();
+        commonAbilitiesInTab = abilityLists.Aggregate((current, next) => current.Intersect(next).ToList());
+
+        return commonAbilitiesInTab;
+    }
+
+    /*/// <summary>
     /// Returns a list of abilities that are common across the parsed list of units
     /// </summary>
     /// <param name="_units"></param>
@@ -411,7 +572,7 @@ public class AbilityUIManager : MonoBehaviour
         }
 
         return commonAbilities;
-    }
+    }*/
 
     
 }

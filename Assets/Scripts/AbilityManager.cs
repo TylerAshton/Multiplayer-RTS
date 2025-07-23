@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,6 @@ public class AbilityManager : NetworkBehaviour
     private IAbilityUser abilityUser;
 
     protected Ability currentAbility;
-    protected Animator animator;
 
     private Coroutine lockCastingCoroutine = null;
 
@@ -50,17 +50,19 @@ public class AbilityManager : NetworkBehaviour
 
     private ulong ownerClientId = 999999;
 
+    [SerializeField] private bool hasUtility = false;
+    public bool HasUtility => hasUtility;
+    private bool isUtilityEnabled = false;
+    public bool IsUtilityEnabled => isUtilityEnabled;
+
+    public event Action OnAbilitiesChanged;
+
 
     protected virtual void Awake()
     {
         if (!TryGetComponent<IAbilityUser>(out abilityUser))
         {
             Debug.LogError("AbilityUser is required for AbilityManager");
-        }
-
-        if (!TryGetComponent<Animator>(out animator))
-        {
-            Debug.LogError("Animator is required for AbilityManager");
         }
         if (!TryGetComponent<NetworkObject>(out networkObject))
         {
@@ -100,35 +102,190 @@ public class AbilityManager : NetworkBehaviour
             Debug.LogError("Client attempted to set an ability");
             return;
         }
+
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot add a null ability");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {_tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
         SetAbilityRpc(_index, _ability.ID, _tabIndex);
     }
 
     [Rpc(SendTo.Everyone)]
-    private void SetAbilityRpc(int _abilityIndex, string _abilityID, int tabIndex)
+    private void SetAbilityRpc(int _abilityIndex, string _abilityID, int _tabIndex)
     {
-        abilityTabs[tabIndex].SetAbility(_abilityIndex, Registry<Ability>.GetItem(_abilityID));
+        Ability ability = Registry<Ability>.GetItem(_abilityID);
+
+        if (ability == null)
+        {
+            Debug.LogError("abilityID parsed doesn't match an ability!");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {_tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
+
+        abilityTabs[_tabIndex].SetAbility(_abilityIndex, ability);
+        OnAbilitiesChanged?.Invoke();
     }
 
     public virtual void AddAbility(Ability _ability, int _tabIndex)
     {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot add a null ability");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: { _tabIndex }. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
         if (!IsServer)
         {
             Debug.LogError("Client attempted to add an ability");
             return;
         }
-        AddAbilityRpc(_ability.ID, _tabIndex);
 
-        // TODO: Harrison please update abilityGrid
+        int predIndex = TryFindPrediscessorIndex(_ability, _tabIndex);
+
+        if (predIndex != -1)
+        {
+            SetAbility(predIndex, _ability, _tabIndex);
+            return;
+        }
+
+        AddAbilityRpc(_ability.ID, _tabIndex);
+    }
+
+    private int TryFindPrediscessorIndex(Ability _ability, int _tabIndex)
+    {
+        if (_ability == null || _tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError("Invalid ability or tab index");
+            return -1;
+        }
+        AbilityTab tab = abilityTabs[_tabIndex];
+        for (int i = 0; i < tab.Abilities.Count; i++)
+        {
+            if (tab.Abilities[i].Successor == _ability)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     [Rpc(SendTo.Everyone)]
     private void AddAbilityRpc(string _abilityID, int _tabIndex)
     {
-        abilityTabs[_tabIndex].AddAbility(Registry<Ability>.GetItem(_abilityID));
+        Ability ability = Registry<Ability>.GetItem(_abilityID);
+
+        if (ability == null)
+        {
+            Debug.LogError("abilityID parsed doesn't match an ability!");
+            return;
+        }
+
+        if (_tabIndex < 0 || _tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid ability index: {_tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+
+        abilityTabs[_tabIndex].AddAbility(ability);
+        OnAbilitiesChanged?.Invoke();
     }
 
-    public bool CheckAbility(Ability _ability, int tabIndex = 0)
+    public void RemoveAbility(Ability _ability, int tabIndex = -1)
     {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to remove an ability");
+            return;
+        }
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot remove a null ability");
+            return;
+        }
+
+        tabIndex = tabIndex == -1 ? FindAbilityTabIndex(_ability) : tabIndex;
+
+        if (tabIndex == -1)
+        {
+            Debug.LogError("Ability not found in any tab.");
+            return;
+        }
+
+        if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+        RemoveAbilityRpc(_ability.ID, tabIndex);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void RemoveAbilityRpc(string _abilityID, int tabIndex)
+    {
+        Ability ability = Registry<Ability>.GetItem(_abilityID);
+
+        if (ability == null)
+        {
+            Debug.LogError("abilityID parsed doesn't match an ability!");
+            return;
+        }
+
+        if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
+        {
+            Debug.LogError($"Invalid tab index: {tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
+            return;
+        }
+        AbilityTab selectedTab = abilityTabs[tabIndex];
+        Ability abilityToRemove = selectedTab.Abilities.FirstOrDefault(a => a == ability);
+
+        if (abilityToRemove == null)
+        {
+            Debug.LogError($"Ability with ID {_abilityID} not found in tab {tabIndex}.");
+            return;
+        }
+
+        selectedTab.RemoveAbility(abilityToRemove);
+        OnAbilitiesChanged?.Invoke();
+    }
+
+    public bool CheckAbility(Ability _ability, int tabIndex = -1)
+    {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot check a null ability");
+            return false;
+        }
+
+        // Deep search into ALL tabs
+        tabIndex = tabIndex == -1 ? FindAbilityTabIndex(_ability) : tabIndex;
+
+        if (tabIndex == -1)
+        {
+            return false;
+        }
+
+        // Directed search into selected tab
+
         if (tabIndex < 0 || tabIndex >= abilityTabs.Count)
         {
             Debug.LogError($"Invalid ability index: {tabIndex}. Must be between 0 and {abilityTabs.Count - 1}.");
@@ -139,8 +296,25 @@ public class AbilityManager : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Returns the index of the tab that contains the specified ability.
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private int FindAbilityTabIndex(Ability _ability)
+    {
+        for (int i = 0; i < abilityTabs.Count; i++)
+        {
+            if (abilityTabs[i].Abilities.Contains(_ability))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-    
+
+
 
     /// <summary>
     /// Called when the ability animation reaches the frame when the attack part of the ability should be cast. 
@@ -158,7 +332,7 @@ public class AbilityManager : NetworkBehaviour
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>
-    public void TryCastAbility(int _abilityIndex, int tabIndex = 0)
+    public void TryCastAbility(int _abilityIndex, int tabIndex)
     {
         if (!IsServer)
         {
@@ -284,5 +458,8 @@ public class AbilityManager : NetworkBehaviour
         cooldownTimers[_abilityID] = Time.time;
     }
 
-
+    public void ToggleUtility()
+    {
+        isUtilityEnabled = !isUtilityEnabled;
+    }
 }
