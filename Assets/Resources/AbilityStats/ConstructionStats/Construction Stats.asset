@@ -16,9 +16,9 @@ MonoBehaviour:
   constructionTime: 5
   consutrctablePrefab: {fileID: 2401997887451976919, guid: 44030ceaa8e63cb42ab47b206a6e8252, type: 3}
   spawnVFX: {fileID: 100004, guid: 1129ca32d1c4f6e40bf53318cb70d03c, type: 3}
-  spawnVFXScale: 6.5
+  spawnVFXScale: 1
   summonVFX: {fileID: 100010, guid: 5bb3ae44215754a4b8d9a94ad088d0fe, type: 3}
-  summonVFXScale: 1.8
+  summonVFXScale: 0.4
   maxDispersion: 5
   minDisperstion: 5
   offset: {x: 0, y: 0, z: 0}

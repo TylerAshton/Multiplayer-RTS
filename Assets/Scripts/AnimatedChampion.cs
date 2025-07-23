@@ -366,6 +366,44 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     }
 
     /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
+    public void Use3rdAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (!context.performed) return;
+
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 3)
+        {
+            Debug.LogWarning("No 3rd ability available.");
+            return;
+        }
+
+        CastAbilityServerRpc(2);
+    }
+
+    /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
+    public void Use4thAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        if (!context.performed) return;
+
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 4)
+        {
+            Debug.LogWarning("No 4th ability available.");
+            return;
+        }
+
+        CastAbilityServerRpc(3);
+    }
+
+    /// <summary>
     /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
     /// </summary>
     /// <param name="_AbilityIndex"></param>

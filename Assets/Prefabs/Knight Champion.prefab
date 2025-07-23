@@ -2841,7 +2841,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 125
   isImmune: 0
-  deathAnimationLength: 1
+  corpseLingerTime: 0
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 2757501461227020302, guid: 0177b71b52bece94d9886a50c80fcf12, type: 3}
@@ -2849,6 +2849,8 @@ MonoBehaviour:
   healthBarOffset: {x: 0, y: 0, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 1
+  deathVfx: {fileID: 0}
+  deathVfxScale: 1
 --- !u!114 &6078025101248540705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3066,6 +3068,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b7494411-9b32-4763-a4c4-2fc173ce8c35
     m_ActionName: 'UI/Shift[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6512302321430887414}
+        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+        m_MethodName: Use3rdAbility
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d6fefbd7-ba76-4d76-9a30-0dddfd5ddd7a
+    m_ActionName: 'Player/Attack3[/Keyboard/3]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6512302321430887414}
+        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+        m_MethodName: Use4thAbility
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9c2c8f13-1957-4b4b-aade-c84be03f24b8
+    m_ActionName: 'Player/Attack4[/Keyboard/4]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
