@@ -8,26 +8,25 @@ public class Health : NetworkBehaviour
     [SerializeField] private float hitPoints;
     public float HitPoints => hitPoints;
     [SerializeField] private bool isImmune = false;
-
     private float maxHealth;
     public float MaxHealth => maxHealth;
-    [SerializeField] private Animator animator;
     [SerializeField] private float deathAnimationLength = 0;
     [SerializeField] private bool test;
-
-    [SerializeField] private bool isDying = false;
+    [SerializeField] private bool isDying = false; 
     public bool IsDying => isDying;
-
-    public event Action OnDeath; // Death event, used to begin respawn
-    public event Action OnRevive; // Revive event, used to begin respawn
-
     [SerializeField] private GameObject overlayHealthBar;
     [SerializeField] private GameObject healthBarPrefab;
     [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 0, 0);
-    private Slider healthSlider;
     [SerializeField] private bool showHealthBar = true;
     [SerializeField] private bool showOnOwnerScreen = false;
+
+
+    private Animator animator;
+    private Slider healthSlider;
     private StatManager statManager;
+    public event Action OnDeath; 
+    public event Action OnRevive; 
+    public event Action OnHit;
 
     private void Awake()
     {
