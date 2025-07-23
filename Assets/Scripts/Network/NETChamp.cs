@@ -1,4 +1,9 @@
-using System;
+// I'm sorry Tyler, uncomment this shit when you can later,
+// I think a package didn't survive the merge
+
+
+
+/*using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -698,3 +703,4 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     //}
 }
+*/
