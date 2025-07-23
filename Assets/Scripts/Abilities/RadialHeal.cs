@@ -29,7 +29,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, VfxObject
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{animationTrigger}");
+        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
         // Apply slow
         StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);

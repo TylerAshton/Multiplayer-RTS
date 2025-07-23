@@ -35,6 +35,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public Vector3 WorldPosition => worldPosition;
 
     public NetCodeAnimationManager NAnimator => nAnimator;
+    private NetCodeAnimationManager nAnimator;
+
+    private AnimationTriggerManager animTriggerManager;
+    public AnimationTriggerManager AnimTriggerManager => animTriggerManager;
 
     public Transform Transform => transform;
 
@@ -55,7 +59,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
-    private NetCodeAnimationManager nAnimator;
     private ChampionAbilityManager championAbilityManager;
     private CharacterController characterController;
     private PlayerInput playerInput;

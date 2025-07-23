@@ -761,6 +761,7 @@ GameObject:
   - component: {fileID: 4394188322512067527}
   - component: {fileID: -8212970734632235601}
   - component: {fileID: -3697217004477378991}
+  - component: {fileID: 4878573307744674690}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -1182,7 +1183,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 75
   isImmune: 0
-  animator: {fileID: 3779843464443528873}
   deathAnimationLength: 1
   test: 0
   isDying: 0
@@ -1366,6 +1366,18 @@ MonoBehaviour:
   cameraSpawnOffset: {x: 0, y: 0, z: 0}
   isChampion: 0
   cameraTarget: {fileID: 1770477014136216472}
+--- !u!114 &4878573307744674690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46635627db90bf4f83f7ca76ea3aae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0

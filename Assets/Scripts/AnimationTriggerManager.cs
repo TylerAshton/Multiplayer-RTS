@@ -102,17 +102,17 @@ public class AnimationTriggerManager : MonoBehaviour
 
     private void Health_OnRevive()
     {
-        RunTrigger(AnimTriggers.OnRevive);
+        TrySetTrigger(AnimTriggers.OnRevive);
     }
 
     private void Health_OnHit()
     {
-        RunTrigger(AnimTriggers.OnHit);
+        TrySetTrigger(AnimTriggers.OnHit);
     }
 
     private void Health_OnDeath()
     {
-        RunTrigger(AnimTriggers.OnDeath);
+        TrySetTrigger(AnimTriggers.OnDeath);
     }
 
     private void GetTriggers()
@@ -124,7 +124,7 @@ public class AnimationTriggerManager : MonoBehaviour
         animationTriggers = parameters.Where(p => p.type == AnimatorControllerParameterType.Trigger).Select(p => p.name).ToList();
     }
 
-    public void RunTrigger(string _triggerName)
+    public void TrySetTrigger(string _triggerName)
     {
         if (!animationTriggers.Contains(_triggerName))
         {

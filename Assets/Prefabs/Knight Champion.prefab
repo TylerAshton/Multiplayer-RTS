@@ -2592,6 +2592,7 @@ GameObject:
   - component: {fileID: -2120661137109214120}
   - component: {fileID: 8446748324278533800}
   - component: {fileID: -4157137206584433700}
+  - component: {fileID: 5634863431641170684}
   m_Layer: 7
   m_Name: Knight Champion
   m_TagString: Champion
@@ -2840,7 +2841,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 125
   isImmune: 0
-  animator: {fileID: 8215767443926878751}
   deathAnimationLength: 1
   test: 0
   isDying: 0
@@ -3140,7 +3140,7 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
-  utilityAbility: {fileID: 0}
+  hasUtility: 0
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 55d9baef825216f4daaccb32394929b0, type: 3}
 --- !u!114 &-8172366779438765040
 MonoBehaviour:
@@ -3246,6 +3246,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &5634863431641170684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393315380538558816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46635627db90bf4f83f7ca76ea3aae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8588891501480843583
 GameObject:
   m_ObjectHideFlags: 0

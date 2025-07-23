@@ -1152,6 +1152,7 @@ GameObject:
   - component: {fileID: 4352039317983900972}
   - component: {fileID: 4076452208090559733}
   - component: {fileID: 8995406540848693083}
+  - component: {fileID: 3464665439350632541}
   m_Layer: 7
   m_Name: Ranged Level 1
   m_TagString: Amalgam
@@ -1284,7 +1285,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 100
   isImmune: 0
-  animator: {fileID: 2865285359833913113}
   deathAnimationLength: 0.01
   test: 0
   isDying: 0
@@ -1412,6 +1412,7 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
+  hasUtility: 0
 --- !u!114 &-8325889620801518248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1522,6 +1523,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d62199f322c82284fbce99902465c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3464665439350632541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46635627db90bf4f83f7ca76ea3aae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2453397364068737160
