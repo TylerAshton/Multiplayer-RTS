@@ -2684,7 +2684,7 @@ MonoBehaviour:
   acceleration: 30
   deceleration: 40
   smoothSpeed: 15
-  gravity: -9.81
+  gravity: -100
   primaryAbility: {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
   points: {fileID: 2214856786026772889}
   inShop: 0
