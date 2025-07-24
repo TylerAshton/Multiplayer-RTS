@@ -44,7 +44,7 @@ public class ShopUI : MonoBehaviour
         }
 
         InitUIVariables();
-        CreatePurchaseSlots();
+        DrawPurchaseSlots();
     }
 
     private void InitUIVariables()
@@ -104,8 +104,10 @@ public class ShopUI : MonoBehaviour
     /// <summary>
     /// Populates the purchaseSlots list with PurchaseSlot objects based on the UI elements defined in the purchaseUIElements list.
     /// </summary>
-    private void CreatePurchaseSlots()
+    private void DrawPurchaseSlots()
     {
+        purchaseSlots.Clear();
+
         if (purchaseUIElements.Count < purchasables.Count)
         {
             Debug.LogError($"Too many {nameof(Purchasable)}s to fit in our {purchaseUIElements.Count} purchase slots!");
@@ -116,6 +118,11 @@ public class ShopUI : MonoBehaviour
         {
             VisualElement purchaseUIElement = purchaseUIElements[i];
             Purchasable purchasable = (i < purchasables.Count) ? purchasables[i] : null; // gotta do this shit or it'll error on empty
+
+            if (purchasable is Ability _abiltiy)
+            {
+                purchasable = TryGetSuccessorAbility(_abiltiy);
+            }
 
             if (purchaseUIElement == null)
             {
@@ -130,10 +137,39 @@ public class ShopUI : MonoBehaviour
                 continue;
             }
 
-            PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasables[i]);
+            PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasable);
 
             purchaseSlots.Add(newPurchaseSlot);
         }
+    }
+
+    private bool IsAbilityAlreadyPurchased(Ability _abiltiy)
+    {
+        return championShopUser.ChampionAbilityManager.CheckAbility(_abiltiy);
+    }
+
+    /// <summary>
+    /// If the ability is already purchased returns the successor of the parsed ability.
+    /// However, if the output is already purchased it will return of the successor of such. However if there is none then returns null.
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private Purchasable TryGetSuccessorAbility(Ability _ability)
+    {
+        if (!IsAbilityAlreadyPurchased(_ability))
+        {
+            return _ability;
+        }
+
+        Ability successorAbility;
+        successorAbility = _ability.Successor;
+
+        if (successorAbility == null)
+        {
+            return null;
+        }
+
+        return TryGetSuccessorAbility(successorAbility);
     }
 
     private void OnEnable()
