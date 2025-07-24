@@ -8,6 +8,14 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions
 
     PlayerInputActions inputActions; // Reference to the players input action. This holds all the binds that the user will implement
 
+    public enum InputForPlayer
+    {
+        Move,
+        Shop
+    }
+
+    public InputForPlayer moveInput = InputForPlayer.Move;
+
     void OnEnable()
     {
         if (inputActions == null)
