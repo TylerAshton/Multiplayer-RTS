@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,7 +25,9 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private List<Purchasable> purchasables = new List<Purchasable>();
     private List<PurchaseSlot> purchaseSlots = new List<PurchaseSlot>();
 
-    
+    private ShopPurchaseManager shopPurchaseManager;
+
+
 
 
     private void Awake()
@@ -39,10 +42,14 @@ public class ShopUI : MonoBehaviour
 
         if (!championGO.TryGetComponent<IShopUser>(out championShopUser))
         {
-            Debug.LogError($"{GetType().Name} requires {nameof(IShopUser)} within gameobject: {gameObject.name}!");
+            Debug.LogError($"{GetType().Name} requires {nameof(IShopUser)} within gameobject: {championGO.name}!");
             return;
         }
-
+        if (!championGO.TryGetComponent<ShopPurchaseManager>(out shopPurchaseManager))
+        {
+            Debug.LogError($"{nameof(ShopPurchaseManager)} is required for {GetType().Name} in gameobject {championGO.name}!");
+            return;
+        }
         InitUIVariables();
         DrawPurchaseSlots();
     }
@@ -108,6 +115,11 @@ public class ShopUI : MonoBehaviour
     {
         purchaseSlots.Clear();
 
+        foreach (VisualElement _purchaseUIElement in purchaseUIElements)
+        {
+            _purchaseUIElement.style.visibility = Visibility.Hidden;
+        }
+
         if (purchaseUIElements.Count < purchasables.Count)
         {
             Debug.LogError($"Too many {nameof(Purchasable)}s to fit in our {purchaseUIElements.Count} purchase slots!");
@@ -132,11 +144,12 @@ public class ShopUI : MonoBehaviour
             // Hide button if we're out of purchasables
             if (purchasable == null)
             {
-                purchaseUIElement.style.visibility = Visibility.Hidden;
+                //purchaseUIElement.style.visibility = Visibility.Hidden;
                 Debug.LogWarning($"Index {i} is null in {nameof(purchasables)}!");
                 continue;
             }
 
+            purchaseUIElement.style.visibility = Visibility.Visible;
             PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasable);
 
             purchaseSlots.Add(newPurchaseSlot);
@@ -145,7 +158,25 @@ public class ShopUI : MonoBehaviour
 
     private bool IsAbilityAlreadyPurchased(Ability _abiltiy)
     {
-        return championShopUser.ChampionAbilityManager.CheckAbility(_abiltiy);
+        bool isOwned = championShopUser.ChampionAbilityManager.CheckAbility(_abiltiy);
+
+        if (isOwned)
+        {
+            return true;
+        }
+
+        if (_abiltiy.Successor == null)
+        {
+            return false;
+        }
+
+        return IsAbilityAlreadyPurchased(_abiltiy.Successor);
+
+        
+
+
+
+
     }
 
     /// <summary>
@@ -161,6 +192,9 @@ public class ShopUI : MonoBehaviour
             return _ability;
         }
 
+        // Is purchased get successor
+
+
         Ability successorAbility;
         successorAbility = _ability.Successor;
 
@@ -175,11 +209,13 @@ public class ShopUI : MonoBehaviour
     private void OnEnable()
     {
         ButtonActionsSubscribe();
+        shopPurchaseManager.OnSuccessfullPurchase += DrawPurchaseSlots;
     }
 
     private void OnDisable()
     {
         ButtonActionsUnsubscribe();
+        shopPurchaseManager.OnSuccessfullPurchase -= DrawPurchaseSlots;
     }
 
     private void ButtonActionsSubscribe()

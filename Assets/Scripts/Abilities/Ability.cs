@@ -46,17 +46,18 @@ public abstract class Ability : Purchasable, Inspectorable
         return true;
     }
 
-    public override void ExecutePurchase(IShopUser _shopUser)
+    public override bool ExecutePurchase(IShopUser _shopUser)
     {
         if (!CanPurchase(_shopUser))
         {
             Debug.LogError("Cannot purchase conditions aren't met!");
-            return;
+            return false;
         }
 
 
         PointManager.Instance.RemovePoints(_shopUser.PlayerID, this.price);
         _shopUser.ChampionAbilityManager.AddAbility(this, 0);
+        return true;
     }
 
     /// <summary>
