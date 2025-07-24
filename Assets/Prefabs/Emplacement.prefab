@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 6210551594263940988}
   - component: {fileID: 9163726061631936640}
   - component: {fileID: -129380659594923015}
+  - component: {fileID: 1214705841254522098}
   m_Layer: 7
   m_Name: Emplacement
   m_TagString: Amalgam
@@ -317,6 +318,7 @@ MonoBehaviour:
   - tabName: 
     abilities:
     - {fileID: 11400000, guid: 56ec75b2a77cbde48a6e411eeb5fedaf, type: 2}
+  hasUtility: 0
 --- !u!114 &3037940194400729435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,8 +361,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 10
   isImmune: 0
-  animator: {fileID: 6210551594263940988}
-  deathAnimationLength: 0.1
+  corpseLingerTime: 0
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
@@ -368,6 +369,8 @@ MonoBehaviour:
   healthBarOffset: {x: 0, y: 0, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 0
+  deathVfx: {fileID: 0}
+  deathVfxScale: 1
 --- !u!95 &6210551594263940988
 Animator:
   serializedVersion: 7
@@ -423,6 +426,37 @@ MonoBehaviour:
   baseStatsList:
   - statType: 2
     value: 0
+--- !u!114 &1214705841254522098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577619868932236165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 718040756
+      Data2: 1139665311
+      Data3: 769229981
+      Data4: 1904969927
+    Path: event:/SFX/Minion Summon noise
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &700275605903198216
 PrefabInstance:
   m_ObjectHideFlags: 0

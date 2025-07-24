@@ -18,8 +18,8 @@ MonoBehaviour:
   castTime: 4
   castPositionName: 4
   abilityCost: 0
-  cooldown: 0
-  successor: {fileID: 0}
+  cooldown: 35
+  successor: {fileID: 11400000, guid: d842363b0fb712c4d9c438738b2698e6, type: 2}
   slowAmount: 4
   channelStats: {fileID: 11400000, guid: 90f0649252b36f84a9af74845d27ab5e, type: 2}
   isAttached: 1

@@ -12,17 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d62222e99b283419c86f103da32a83, type: 3}
   m_Name: Rejuvenating Burst LV1
   m_EditorClassIdentifier: 
-  purchaseID: RejuvenatingBurst
+  id: RejuvenatingBurst
   price: 0
   icon: {fileID: 21300000, guid: b44e8d04f053e234e8bc2467b44c2bae, type: 3}
-  abilityID: RejuvenatingBurst
   castTime: 1
   castPositionName: 0
-  animationTrigger: 
   abilityCost: 0
   cooldown: 48
+  successor: {fileID: 0}
   radius: 5
   healAmount: 100
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  healVFX: {fileID: 100002, guid: 8ac7c51da8481d04281de20a4d9a2015, type: 3}
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxScale: 1
+  vfxDuration: 5
+  slowAmount: 7
