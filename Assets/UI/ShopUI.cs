@@ -113,6 +113,7 @@ public class ShopUI : MonoBehaviour
     /// </summary>
     private void DrawPurchaseSlots()
     {
+        ButtonActionsUnsubscribe();
         purchaseSlots.Clear();
 
         foreach (VisualElement _purchaseUIElement in purchaseUIElements)
@@ -154,6 +155,8 @@ public class ShopUI : MonoBehaviour
 
             purchaseSlots.Add(newPurchaseSlot);
         }
+
+        ButtonActionsSubscribe();
     }
 
     private bool IsAbilityAlreadyPurchased(Ability _abiltiy)
@@ -208,13 +211,13 @@ public class ShopUI : MonoBehaviour
 
     private void OnEnable()
     {
-        ButtonActionsSubscribe();
+        //ButtonActionsSubscribe();
         shopPurchaseManager.OnSuccessfullPurchase += DrawPurchaseSlots;
     }
 
     private void OnDisable()
     {
-        ButtonActionsUnsubscribe();
+        //ButtonActionsUnsubscribe();
         shopPurchaseManager.OnSuccessfullPurchase -= DrawPurchaseSlots;
     }
 
