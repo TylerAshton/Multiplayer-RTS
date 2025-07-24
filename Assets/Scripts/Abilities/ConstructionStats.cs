@@ -63,6 +63,13 @@ public class ConstructionStats : BaseAbilityStat
 
         SerializedProperty fieldOffset = _so.FindProperty("offset");
         EditorGUILayout.PropertyField(fieldOffset, new GUIContent("Offset"));
+
+        SerializedProperty fieldQueueIcon = _so.FindProperty("queueIcon");
+        fieldQueueIcon.objectReferenceValue = EditorGUILayout.ObjectField("Queue Icon", fieldQueueIcon.objectReferenceValue, typeof(Sprite), allowSceneObjects: false);
+        if (fieldQueueIcon.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Icon must be set!", MessageType.Error);
+        }
     }
 #endif
 }
