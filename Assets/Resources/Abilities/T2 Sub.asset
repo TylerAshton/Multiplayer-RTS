@@ -9,17 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b28d32f4a1997914192c5c1efc4ddc64, type: 3}
-  m_Name: Dragon's Breath Lv2
+  m_Script: {fileID: 11500000, guid: 0666d3e63809f4044b7f452bad49af48, type: 3}
+  m_Name: T2 Sub
   m_EditorClassIdentifier: 
-  id: Dragon'sBreath2
+  id: T2 Su
   price: 0
-  icon: {fileID: 21300000, guid: d8ec14304128e45409652899d27a038f, type: 3}
-  castTime: 4
-  castPositionName: 4
+  icon: {fileID: 21300000, guid: b058f64e052d6c142973a01f86c12e8c, type: 3}
+  castTime: 0
+  castPositionName: 0
   abilityCost: 0
   cooldown: 0
   successor: {fileID: 0}
-  slowAmount: 4
-  channelStats: {fileID: 11400000, guid: 90f0649252b36f84a9af74845d27ab5e, type: 2}
-  isAttached: 1
+  constructionStats: {fileID: 11400000, guid: 1b23b3ac2c9cc4b46be0cd48dd18ee68, type: 2}

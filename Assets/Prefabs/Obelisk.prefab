@@ -272,7 +272,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 2dac39bac38c74e408663028b72a724d, type: 2}
   - tabName: Main
     abilities:
-    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    - {fileID: 11400000, guid: 678ac3aa4402a604d90e2a63d2e3d099, type: 2}
     - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
   hasUtility: 1
 --- !u!95 &2878191684668715549
@@ -312,8 +312,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 10
   isImmune: 0
-  animator: {fileID: 2878191684668715549}
-  deathAnimationLength: 0.1
+  corpseLingerTime: 0
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
@@ -321,6 +320,8 @@ MonoBehaviour:
   healthBarOffset: {x: 0, y: 5, z: 0}
   showHealthBar: 0
   showOnOwnerScreen: 0
+  deathVfx: {fileID: 0}
+  deathVfxScale: 1
 --- !u!65 &7307479054215237201
 BoxCollider:
   m_ObjectHideFlags: 0
