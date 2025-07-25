@@ -9,6 +9,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// Creates the host and the clients for the game
@@ -22,6 +23,7 @@ public class RelayManager : NetworkBehaviour
     [SerializeField] Button joinButton; //Button to join the host via the join code
     [SerializeField] TMP_InputField joinInput; //Text input to input the join code
     [SerializeField] TextMeshProUGUI codeText; //Displays the generated lobby code
+    [SerializeField] TextMeshProUGUI errorText; //Displays the error for incorrect code
     [SerializeField] RectTransform mainMenu; //A group of UI elements for the main menu
 
     [SerializeField] RectTransform characterMenu; // A group of UI elements for the player to select a character from
@@ -98,16 +100,24 @@ public class RelayManager : NetworkBehaviour
     /// <param name="joinCode"></param>
     async void JoinRelay(string joinCode)
     {
-        var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
-        var relayServerData = joinAllocation.ToRelayServerData("dtls");
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+        try
+        {
+            var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            var relayServerData = joinAllocation.ToRelayServerData("dtls");
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-        NetworkManager.Singleton.StartClient();
+            NetworkManager.Singleton.StartClient();
 
-        //CoopPlayerManager.Instance.AddPlayer(AuthenticationService.Instance.PlayerId, CoopPlayer);
+            //CoopPlayerManager.Instance.AddPlayer(AuthenticationService.Instance.PlayerId, CoopPlayer);
 
-        mainMenu.gameObject.SetActive(false);
-        characterMenu.gameObject.SetActive(true);
+            mainMenu.gameObject.SetActive(false);
+            characterMenu.gameObject.SetActive(true);
+            errorText.gameObject.SetActive(false);
+        }
+        catch
+        {
+            errorText.gameObject.SetActive(true);
+        }
     }
 
 
