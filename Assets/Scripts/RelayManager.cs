@@ -32,7 +32,10 @@ public class RelayManager : NetworkBehaviour
     [Header("DEBUG Only")]
 
     [Tooltip("Editor only: Forces the ready up button to appear even if there is only 1 player.")]
-    [SerializeField] private bool DEBUGIsSinglePlayer = false; 
+    [SerializeField] private bool DEBUGIsSinglePlayer = false;
+
+    string joinCode;
+
     void Awake()
     {
         if (Instance == null)
@@ -56,15 +59,23 @@ public class RelayManager : NetworkBehaviour
         hostButton.onClick.AddListener(CreateRelay);
         joinButton.onClick.AddListener(() => JoinRelay(joinInput.text));
     }
+
+    public void CopyCode()
+    {
+        GUIUtility.systemCopyBuffer = joinCode;
+    }
+
     /// <summary>
     /// Starts Host and Internal Client as well as generates a join code for other clients
     /// </summary>
     async void CreateRelay()
     {
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
-        string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-        GUIUtility.systemCopyBuffer = joinCode;
+        #if UNITY_EDITOR
+        CopyCode();
+        #endif
 
         codeText.text = "Code: " + joinCode;
 
