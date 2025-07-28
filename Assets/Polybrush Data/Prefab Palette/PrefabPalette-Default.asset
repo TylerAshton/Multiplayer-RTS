@@ -63,7 +63,7 @@ MonoBehaviour:
     name: Fern3
   - gameObject: {fileID: 2153456347341862418, guid: 7358ad30e7ab6be4b8cf21062d019675, type: 3}
     settings:
-      m_Strength: 5.5
+      m_Strength: 25.75
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -95,7 +95,7 @@ MonoBehaviour:
     name: Flower2
   - gameObject: {fileID: 1973268181744308885, guid: ad737f18422ef564aa21b23aab39d274, type: 3}
     settings:
-      m_Strength: 4.7437034
+      m_Strength: 24.993704
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -207,7 +207,7 @@ MonoBehaviour:
     name: Flower9
   - gameObject: {fileID: 8812584711120714047, guid: 91d8d8ad5c541394c80f7cc7e1fd253b, type: 3}
     settings:
-      m_Strength: 79.117645
+      m_Strength: 100
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}
@@ -255,7 +255,7 @@ MonoBehaviour:
     name: Grass3
   - gameObject: {fileID: 5982839853698224172, guid: c00784b589bee494b831054cc54dbf7b, type: 3}
     settings:
-      m_Strength: 68.71849
+      m_Strength: 100
       m_RotationRangeMin: {x: 0, y: 0, z: 0}
       m_RotationRangeMax: {x: 0, y: 0, z: 0}
       m_ScaleRangeMin: {x: 1, y: 1, z: 1}

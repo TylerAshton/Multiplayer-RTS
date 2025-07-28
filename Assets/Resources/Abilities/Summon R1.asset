@@ -15,9 +15,9 @@ MonoBehaviour:
   id: Summon Ranged Lv1
   price: 0
   icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
-  castTime: 1
+  castTime: 0
   castPositionName: 0
   abilityCost: 0
-  cooldown: 0
+  cooldown: 3
   successor: {fileID: 0}
   constructionStats: {fileID: 11400000, guid: 6e8949119e2e3714ebe6432d0bdaadd7, type: 2}

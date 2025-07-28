@@ -12,23 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d281d454f5fa1ef419b48ae868a719f5, type: 3}
   m_Name: Hero's Dance LV2
   m_EditorClassIdentifier: 
-  purchaseID: frenzy2
+  id: frenzy2
   price: 0
   icon: {fileID: 21300000, guid: 84feb4b2801ad034a83fb3b64c4545bb, type: 3}
-  abilityID: frenzy2
   castTime: 3
   castPositionName: 0
-  animationTrigger: Frenzy
   abilityCost: 0
   cooldown: 42
+  successor: {fileID: 11400000, guid: c156532295c01f3428cf5114add983e6, type: 2}
   buffEffects: {fileID: 7155335147208632822, guid: d12255bed4198eb4a8e05e9653396c99, type: 3}
   slowAmount: 7
   effect:
-    duration: 5
+    duration: 8
     statModifyers:
     - statType: 0
       value: 1.1
     - statType: 2
       value: 5
-    - statType: 2
-      value: 2
+    - statType: 1
+      value: 5
