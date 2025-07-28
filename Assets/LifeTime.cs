@@ -8,7 +8,7 @@ public class LifeTime : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (!IsServer) return;
+        if (!IsClient) return;
 
         if (lifeTime <= 0f)
         {
@@ -22,7 +22,7 @@ public class LifeTime : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsServer) return;
+        if (!IsClient) return;
 
         // Lifetimer Check
         if (destroyAtTime < Time.fixedTime)

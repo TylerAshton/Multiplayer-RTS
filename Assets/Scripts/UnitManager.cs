@@ -12,8 +12,10 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private List<SelectableObject> allUnits = new List<SelectableObject>();
     [SerializeField] private List<SelectableObject> selectedUnits = new List<SelectableObject>();
     [SerializeField] private GameObject AbilityPanelPrefab;
+    [SerializeField] private GameObject ConstructionPanelPrefab;
     [SerializeField] private LayerMask unitLayer;
     private AbilityUIManager abilityUIManager;
+    private ConstructionUIManager constructionUIManager;
     private RTSPlayerControls rTSPlayerControls;
     private bool isShiftHeld => rTSPlayerControls.IsShiftPressed;
     public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
@@ -35,6 +37,9 @@ public class UnitManager : NetworkBehaviour
     {
         GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
         abilityUIManager = AbilityPanel.GetComponentInChildren<AbilityUIManager>();
+
+        GameObject ConstructionPanel = Instantiate(ConstructionPanelPrefab);
+        constructionUIManager = ConstructionPanel.GetComponentInChildren<ConstructionUIManager>();
     }
 
     // Update is called once per frame
@@ -134,7 +139,8 @@ public class UnitManager : NetworkBehaviour
         }
 
         selectedUnits.Add(_unit);
-        abilityUIManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        constructionUIManager.UpdateUI(selectedUnits);
         _unit.ShowSelectionIndicator();
     }
 
@@ -160,11 +166,13 @@ public class UnitManager : NetworkBehaviour
 
         if (selectedUnits.Count > 0)
         {
-            abilityUIManager.UpdateGridWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+            abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+            constructionUIManager.UpdateUI(selectedUnits);
         }
         else
         {
             abilityUIManager.ResetAbilityGrid();
+            constructionUIManager.ResetManager();
         }
         _unit.HideSelectionIndicator();
     }
@@ -205,7 +213,8 @@ public class UnitManager : NetworkBehaviour
             DeselectUnit(_unit); // TODO: This is a bit inefficient as it refreshes several times
         }
 
-        abilityUIManager.ResetSelection();
+        abilityUIManager.ClearUI();
+        constructionUIManager.ResetManager();
     }
 
     /// <summary>

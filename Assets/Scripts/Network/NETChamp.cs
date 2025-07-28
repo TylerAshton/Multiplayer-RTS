@@ -82,6 +82,8 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
     public Vector3 AimPoint => throw new NotImplementedException();
 
+    public AbilityManager AbilityManager => throw new NotImplementedException();
+
     private GameObject playerCamera; // the camera that the player will be seeing the game through
 
     private NetCodeAnimationManager nAnimator;
@@ -555,7 +557,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
     [ServerRpc(RequireOwnership = false)]
     private void CastAbilityServerRpc(int _AbilityIndex)
     {
-        abilityManager.TryCastAbility(_AbilityIndex);
+        abilityManager.TryCastAbility(_AbilityIndex, 0);
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
 
     protected override void ActivateTyped(ICharacterAbilityUser _user)
     {
-        _user.NAnimator.SetTrigger($"{animationTrigger}");
+        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
         _user.Lunge(lungeDistance, _user.Transform.forward, lungeDuration);
 

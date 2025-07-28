@@ -27,4 +27,5 @@ MonoBehaviour:
   healVFX: {fileID: 100002, guid: 8ac7c51da8481d04281de20a4d9a2015, type: 3}
   vfxOffset: {x: 0, y: 0, z: 0}
   vfxScale: 0.13
+  vfxDuration: 5
   slowAmount: 7

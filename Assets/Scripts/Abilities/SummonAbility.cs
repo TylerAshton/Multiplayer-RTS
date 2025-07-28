@@ -4,13 +4,22 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Summon Ability", menuName = "Abilities/Summon")]
-public class SummonAbility : Ability<IAbilityUser>
+public class SummonAbility : Ability<IAbilityUser>, IVfxObject
 {
     [SerializeField] private GameObject spawnee;
     [SerializeField] private GameObject spawnVFX;
     [SerializeField] private float maxDispersion = 5f;
     [SerializeField] private float minDisperstion = 5f;
     [SerializeField] private Vector3 offset = Vector3.zero;
+
+    public GameObject VfxPrefab => spawnVFX;
+
+    public Vector3 VfxOffset => Vector3.zero;
+
+    public float VfxScale => 1f;
+
+    public float VfxDuration => 5f;
+
     protected override void ActivateTyped(IAbilityUser _user)
     {
         Vector3 castPosition = _user.Transform.position + offset;
@@ -31,7 +40,8 @@ public class SummonAbility : Ability<IAbilityUser>
             castPosition.y,
             castPosition.z + offsetXZ.y
         );
-        GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
+        //GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
+        VFXSpawner.Instance.SpawnAbilityVfxRpc(this.id, spawnPosition);
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
     }

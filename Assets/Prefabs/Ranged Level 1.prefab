@@ -1153,6 +1153,7 @@ GameObject:
   - component: {fileID: 4076452208090559733}
   - component: {fileID: 8995406540848693083}
   - component: {fileID: 9123696691703575277}
+  - component: {fileID: 3464665439350632541}
   m_Layer: 7
   m_Name: Ranged Level 1
   m_TagString: Amalgam
@@ -1285,15 +1286,17 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 100
   isImmune: 0
-  animator: {fileID: 2865285359833913113}
-  deathAnimationLength: 0.01
+  corpseLingerTime: 0
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
-  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43,
+    type: 3}
   healthBarOffset: {x: 0, y: 0, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 0
+  deathVfx: {fileID: 0}
+  deathVfxScale: 1
 --- !u!114 &9215544652138444917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1413,6 +1416,7 @@ MonoBehaviour:
   - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 11ed58c92d41007448dfcfb6d7479fba, type: 2}
+  hasUtility: 0
 --- !u!114 &-8325889620801518248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,6 +1490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd317351aae5f3c4798d1ead39b655c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targettingAngle: 60
 --- !u!114 &4352039317983900972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,6 +1561,18 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &3464665439350632541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c46635627db90bf4f83f7ca76ea3aae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2453397364068737160
 GameObject:
   m_ObjectHideFlags: 0

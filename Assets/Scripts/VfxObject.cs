@@ -1,0 +1,31 @@
+using UnityEditor;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New VfxObject", menuName = "VfxObject")]
+public class VfxObject : RegistryItem, Inspectorable
+{
+    [SerializeField] private GameObject vfxPrefab;
+    public GameObject VfxPrefab => vfxPrefab;
+    [SerializeField] private float vfxScale = 1f;
+    public float VfxScale => vfxScale;
+    [SerializeField] private float lingerTime = 5f;
+    public float LingerTime => lingerTime;
+    private const float minVfxSize = 0.001f;
+    private const float maxVfxSize = 20;
+
+#if UNITY_EDITOR
+    public override void DrawInspector(SerializedObject _so)
+    {
+        base.DrawInspector(_so);
+
+        SerializedProperty fieldvfxPrefab = _so.FindProperty("vfxPrefab");
+        fieldvfxPrefab.objectReferenceValue = EditorGUILayout.ObjectField("VFX Prefab", fieldvfxPrefab.objectReferenceValue, typeof(GameObject), false);
+        if (fieldvfxPrefab.objectReferenceValue == null)
+        {
+            EditorGUILayout.HelpBox("Spawn VFX Prefab must be assigned.", MessageType.Error);
+        }
+        SerializedProperty fieldVfxScale = _so.FindProperty("vfxScale");
+        fieldVfxScale.floatValue = EditorGUILayout.Slider("VFX Scale", fieldVfxScale.floatValue, minVfxSize, maxVfxSize);
+    }
+#endif
+}

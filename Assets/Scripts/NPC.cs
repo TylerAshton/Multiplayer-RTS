@@ -13,8 +13,8 @@ public class NPC : Unit, ICharacterAbilityUser
     public NavMeshAgent Agent => agent;
 
     private Collider colliderComp;
-    private NetCodeAnimationManager nAnimator;
-    public NetCodeAnimationManager NAnimator => nAnimator;
+    private AnimationTriggerManager animTriggerManager;
+    public AnimationTriggerManager AnimTriggerManager => animTriggerManager;
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
 
@@ -33,9 +33,9 @@ public class NPC : Unit, ICharacterAbilityUser
         {
             Debug.LogError("Collider is required for NPC");
         }
-        if (!TryGetComponent<NetCodeAnimationManager>(out nAnimator))
+        if (!TryGetComponent<AnimationTriggerManager>(out animTriggerManager))
         {
-            Debug.LogError($"{nameof(NetCodeAnimationManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            Debug.LogError($"{nameof(AnimationTriggerManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
         }
         if (!TryGetComponent<EffectManager>(out effectManager))
         {
