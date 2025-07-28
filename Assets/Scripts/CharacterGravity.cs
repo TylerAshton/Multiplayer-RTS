@@ -25,7 +25,7 @@ public class CharacterGravity : MonoBehaviour
 
     private void Update()
     {
-        
+        TryApplyGravity();
     }
 
     private void TryApplyGravity()
@@ -41,7 +41,7 @@ public class CharacterGravity : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics.CheckSphere(GetFeet(), 0.2f, groundMask);
+        return Physics.CheckSphere(GetFeet(), groundDistance, groundMask);
     }
 
     /// <summary>
