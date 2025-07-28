@@ -32,7 +32,7 @@ public class NPC : Unit, ICharacterAbilityUser
         
         if (!TryGetComponent<Collider>(out colliderComp))
         {
-            Debug.LogError("Collider is required for NPC");
+            Debug.LogError($"{nameof(Collider)} is required for {GetType().Name}");
         }
         if (!TryGetComponent<AnimationTriggerManager>(out animTriggerManager))
         {

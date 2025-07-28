@@ -55,7 +55,7 @@ public class MeleeBehaviour : NPCBehaviour
 
     private Vector3 GetPointNearTarget()
     {
-        float distanceOffset = 2f;
+        float distanceOffset = 1f;
         Vector3 targetPosition = abilityUser.AimPoint;
         Vector3 offsetDirection = (transform.position - targetPosition).normalized;
         Vector3 desiredPoint = targetPosition + offsetDirection * (attackRange - distanceOffset);
