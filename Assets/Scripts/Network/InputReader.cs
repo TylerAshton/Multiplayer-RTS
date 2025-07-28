@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "Input Reader", menuName = "Player/Input Reader")]
@@ -53,3 +53,4 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions
         
     }
 }
+*/
