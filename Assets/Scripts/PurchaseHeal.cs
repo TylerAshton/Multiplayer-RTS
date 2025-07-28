@@ -4,9 +4,16 @@ using UnityEngine;
 public class PurchaseHeal : Purchasable
 {
     [SerializeField] private int healAmount;
-    public override void ExecutePurchase(IShopUser _shopUser)
+    public override bool ExecutePurchase(IShopUser _shopUser)
     {
+        // TODO: Add double check for if they have enough points
+        if (PointManager.Instance.GetPoints(_shopUser.PlayerID) < this.price)
+        {
+            return false;
+        }
+
         PointManager.Instance.RemovePoints(_shopUser.PlayerID, this.price);
         _shopUser.ChampionHealth.Heal(healAmount);
+        return true;
     }
 }

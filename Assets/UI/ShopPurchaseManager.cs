@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShopPurchaseManager : NetworkBehaviour
 {
     private IShopUser championShopUser;
+    public Action OnSuccessfullPurchase;
 
     private void Awake()
     {
@@ -20,6 +21,16 @@ public class ShopPurchaseManager : NetworkBehaviour
     {
         Purchasable purchasable = Registry<Purchasable>.GetItem(_purchaseID);
 
-        purchasable.ExecutePurchase(championShopUser);
+        // Refresh the shop if purchase workie
+        if (purchasable.ExecutePurchase(championShopUser))
+        {
+            SignalSuccessfullPurchaseRpc();
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SignalSuccessfullPurchaseRpc()
+    {
+        OnSuccessfullPurchase?.Invoke();
     }
 }

@@ -1,7 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using Unity.Netcode;
-using System.Collections.Generic;
 
 /// <summary>
 /// NPCs are mobile units which use the nav mesh.
@@ -31,7 +32,7 @@ public class NPC : Unit, ICharacterAbilityUser
         
         if (!TryGetComponent<Collider>(out colliderComp))
         {
-            Debug.LogError("Collider is required for NPC");
+            Debug.LogError($"{nameof(Collider)} is required for {GetType().Name}");
         }
         if (!TryGetComponent<AnimationTriggerManager>(out animTriggerManager))
         {
@@ -96,12 +97,28 @@ public class NPC : Unit, ICharacterAbilityUser
         agent.SetDestination(_worldPosition);
     }
 
+    // TODO: Perhaps make a base character class as this is shared with Champions
     public void Lunge(float distance, Vector3 direction, float duration)
     {
-        throw new System.NotImplementedException();
+        StartCoroutine(LungeRoutine(distance, direction.normalized, duration));
     }
 
+    private IEnumerator LungeRoutine(float distance, Vector3 direction, float duration)
+    {
+        float elapsed = 0f;
+        float speed = distance / duration;
+        agent.updatePosition = false;
 
+        while (elapsed < duration)
+        {
+            float step = speed * Time.deltaTime;
+            agent.Move(direction * step);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        agent.updatePosition = true;
+    }
 
     /*    /// <summary>
         /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function

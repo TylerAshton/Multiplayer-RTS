@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,7 +25,9 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private List<Purchasable> purchasables = new List<Purchasable>();
     private List<PurchaseSlot> purchaseSlots = new List<PurchaseSlot>();
 
-    
+    private ShopPurchaseManager shopPurchaseManager;
+
+
 
 
     private void Awake()
@@ -39,12 +42,16 @@ public class ShopUI : MonoBehaviour
 
         if (!championGO.TryGetComponent<IShopUser>(out championShopUser))
         {
-            Debug.LogError($"{GetType().Name} requires {nameof(IShopUser)} within gameobject: {gameObject.name}!");
+            Debug.LogError($"{GetType().Name} requires {nameof(IShopUser)} within gameobject: {championGO.name}!");
             return;
         }
-
+        if (!championGO.TryGetComponent<ShopPurchaseManager>(out shopPurchaseManager))
+        {
+            Debug.LogError($"{nameof(ShopPurchaseManager)} is required for {GetType().Name} in gameobject {championGO.name}!");
+            return;
+        }
         InitUIVariables();
-        CreatePurchaseSlots();
+        DrawPurchaseSlots();
     }
 
     private void InitUIVariables()
@@ -104,8 +111,16 @@ public class ShopUI : MonoBehaviour
     /// <summary>
     /// Populates the purchaseSlots list with PurchaseSlot objects based on the UI elements defined in the purchaseUIElements list.
     /// </summary>
-    private void CreatePurchaseSlots()
+    private void DrawPurchaseSlots()
     {
+        ButtonActionsUnsubscribe();
+        purchaseSlots.Clear();
+
+        foreach (VisualElement _purchaseUIElement in purchaseUIElements)
+        {
+            _purchaseUIElement.style.visibility = Visibility.Hidden;
+        }
+
         if (purchaseUIElements.Count < purchasables.Count)
         {
             Debug.LogError($"Too many {nameof(Purchasable)}s to fit in our {purchaseUIElements.Count} purchase slots!");
@@ -117,6 +132,11 @@ public class ShopUI : MonoBehaviour
             VisualElement purchaseUIElement = purchaseUIElements[i];
             Purchasable purchasable = (i < purchasables.Count) ? purchasables[i] : null; // gotta do this shit or it'll error on empty
 
+            if (purchasable is Ability _abiltiy)
+            {
+                purchasable = TryGetSuccessorAbility(_abiltiy);
+            }
+
             if (purchaseUIElement == null)
             {
                 Debug.LogError($"Index {i} is null in {nameof(purchaseUIElements)}!");
@@ -125,25 +145,80 @@ public class ShopUI : MonoBehaviour
             // Hide button if we're out of purchasables
             if (purchasable == null)
             {
-                purchaseUIElement.style.visibility = Visibility.Hidden;
+                //purchaseUIElement.style.visibility = Visibility.Hidden;
                 Debug.LogWarning($"Index {i} is null in {nameof(purchasables)}!");
                 continue;
             }
 
-            PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasables[i]);
+            purchaseUIElement.style.visibility = Visibility.Visible;
+            PurchaseSlot newPurchaseSlot = new PurchaseSlot(purchaseUIElement, championShopUser, purchasable);
 
             purchaseSlots.Add(newPurchaseSlot);
         }
+
+        ButtonActionsSubscribe();
+    }
+
+    private bool IsAbilityAlreadyPurchased(Ability _abiltiy)
+    {
+        bool isOwned = championShopUser.ChampionAbilityManager.CheckAbility(_abiltiy);
+
+        if (isOwned)
+        {
+            return true;
+        }
+
+        if (_abiltiy.Successor == null)
+        {
+            return false;
+        }
+
+        return IsAbilityAlreadyPurchased(_abiltiy.Successor);
+
+        
+
+
+
+
+    }
+
+    /// <summary>
+    /// If the ability is already purchased returns the successor of the parsed ability.
+    /// However, if the output is already purchased it will return of the successor of such. However if there is none then returns null.
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private Purchasable TryGetSuccessorAbility(Ability _ability)
+    {
+        if (!IsAbilityAlreadyPurchased(_ability))
+        {
+            return _ability;
+        }
+
+        // Is purchased get successor
+
+
+        Ability successorAbility;
+        successorAbility = _ability.Successor;
+
+        if (successorAbility == null)
+        {
+            return null;
+        }
+
+        return TryGetSuccessorAbility(successorAbility);
     }
 
     private void OnEnable()
     {
-        ButtonActionsSubscribe();
+        //ButtonActionsSubscribe();
+        shopPurchaseManager.OnSuccessfullPurchase += DrawPurchaseSlots;
     }
 
     private void OnDisable()
     {
-        ButtonActionsUnsubscribe();
+        //ButtonActionsUnsubscribe();
+        shopPurchaseManager.OnSuccessfullPurchase -= DrawPurchaseSlots;
     }
 
     private void ButtonActionsSubscribe()

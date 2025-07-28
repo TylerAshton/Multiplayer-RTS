@@ -28,7 +28,13 @@ public abstract class Purchasable : RegistryItem
 
         return true;
     }
-    public abstract void ExecutePurchase(IShopUser _shopUser);
+
+    /// <summary>
+    /// Ran by the server to execute the purchase. Returns true if successful
+    /// </summary>
+    /// <param name="_shopUser"></param>
+    /// <returns></returns>
+    public abstract bool ExecutePurchase(IShopUser _shopUser);
 
 #if UNITY_EDITOR 
     public override void DrawInspector(SerializedObject _so)

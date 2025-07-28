@@ -92,5 +92,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   purchasables:
   - {fileID: 11400000, guid: b373251cd48634e48b46d26eaa0bfa4f, type: 2}
+  - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
   - {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
   - {fileID: 11400000, guid: c0217e19d85ef6043afabec4844c05f9, type: 2}

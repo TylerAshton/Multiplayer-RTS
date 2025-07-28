@@ -1154,6 +1154,7 @@ GameObject:
   - component: {fileID: 8995406540848693083}
   - component: {fileID: 9123696691703575277}
   - component: {fileID: 3464665439350632541}
+  - component: {fileID: 2705252561348948487}
   m_Layer: 7
   m_Name: Ranged Level 1
   m_TagString: Amalgam
@@ -1572,6 +1573,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46635627db90bf4f83f7ca76ea3aae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2705252561348948487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8b8c8ba04819843b38a01bf9b96db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -9.81
+  groundDistance: 0.1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &2453397364068737160
 GameObject:
   m_ObjectHideFlags: 0
