@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New RangedBehaviour", menuName = "NPCBehaviours/RangedBehaviour", order = 1)]
 public class RangedBehaviour : NPCBehaviour
 {
-    private UnitTargettingManager targettingManager;
     private IAbilityUser abilityUser;
     [SerializeField] private float targettingAngle = 60f;
     public override void Init()
@@ -13,11 +12,6 @@ public class RangedBehaviour : NPCBehaviour
         if (!npc.IsServer)
         {
             Debug.LogError("Client attempted to initialize NPC behaviour");
-            return;
-        }
-        if (!TryGetComponent<UnitTargettingManager>(out targettingManager))
-        {
-            Debug.LogError($"{nameof(UnitTargettingManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
             return;
         }
         if (!TryGetComponent<IAbilityUser>(out abilityUser))
