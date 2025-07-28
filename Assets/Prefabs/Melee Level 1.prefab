@@ -1349,7 +1349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targettingAngle: 60
-  attackRange: 2
+  attackRange: 4
 --- !u!1 &2733378309634046883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,7 +1938,6 @@ GameObject:
   - component: {fileID: 4216372803558520516}
   - component: {fileID: 6554476684188011697}
   - component: {fileID: 1673954105728507734}
-  - component: {fileID: 698689518838420777}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -1956,7 +1955,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -0.2753, y: 0.1022, z: 0.0249}
-  m_LocalScale: {x: 0.04, y: 0.4, z: 0.04}
+  m_LocalScale: {x: 0.06, y: 0.4, z: 0.06}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7366862343165756967}
@@ -1992,7 +1991,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 0865410022bf43a4e999867933b237a0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2014,29 +2013,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &698689518838420777
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5099233285161151682}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.0000005662441}
 --- !u!1 &5219263085682298007
 GameObject:
   m_ObjectHideFlags: 0

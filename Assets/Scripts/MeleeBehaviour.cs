@@ -40,6 +40,11 @@ public class MeleeBehaviour : NPCBehaviour
 
     private void TryMoveToTarget(NPC _npc)
     {
+        if (abilityUser.AimPoint == Vector3.zero)
+        {
+            return;
+        }
+
         if (_npc.CurrentTask != null)
         {
             return;
@@ -50,10 +55,10 @@ public class MeleeBehaviour : NPCBehaviour
 
     private Vector3 GetPointNearTarget()
     {
+        float distanceOffset = 2f;
         Vector3 targetPosition = abilityUser.AimPoint;
         Vector3 offsetDirection = (transform.position - targetPosition).normalized;
-        float desiredDistance = 2f;
-        Vector3 desiredPoint = targetPosition + offsetDirection * desiredDistance;
+        Vector3 desiredPoint = targetPosition + offsetDirection * (attackRange - distanceOffset);
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(desiredPoint, out hit, 5f, NavMesh.AllAreas))
