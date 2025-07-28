@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MeleeBehaviour : NPCBehaviour
 {
@@ -32,8 +33,39 @@ public class MeleeBehaviour : NPCBehaviour
             return;
         }
 
+        TryMoveToTarget(npc);
         UpdateRotation(npc);
         TryAttackTarget(npc);
+    }
+
+    private void TryMoveToTarget(NPC _npc)
+    {
+        if (_npc.CurrentTask != null)
+        {
+            return;
+        }
+
+        _npc.Agent.SetDestination(GetPointNearTarget());
+    }
+
+    private Vector3 GetPointNearTarget()
+    {
+        Vector3 targetPosition = abilityUser.AimPoint;
+        Vector3 offsetDirection = (transform.position - targetPosition).normalized;
+        float desiredDistance = 2f;
+        Vector3 desiredPoint = targetPosition + offsetDirection * desiredDistance;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(desiredPoint, out hit, 5f, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        else
+        {
+            Debug.LogWarning("Failed to find a valid point near target!");
+            return targetPosition; // Fallback because we couldn't find a valid point
+        }
     }
 
     private bool IsWithinCone(Vector3 _targetPos)
