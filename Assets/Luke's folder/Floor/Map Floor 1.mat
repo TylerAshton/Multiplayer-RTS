@@ -39,19 +39,19 @@ Material:
     m_TexEnvs:
     - _AlbedoTexture1:
         m_Texture: {fileID: 2800000, guid: 5774479a13647324c986666aeac17e52, type: 3}
-        m_Scale: {x: 45, y: 45}
+        m_Scale: {x: 45.1, y: 15}
         m_Offset: {x: 0, y: 0}
     - _AlbedoTexture2:
         m_Texture: {fileID: 2800000, guid: 1b33f6e3d1336bd49b6924dac91dc3d7, type: 3}
-        m_Scale: {x: 49.7, y: 50}
+        m_Scale: {x: 45, y: 15}
         m_Offset: {x: 0, y: 0}
     - _AlbedoTexture3:
         m_Texture: {fileID: 2800000, guid: 4f22167f78aac3c4ba98f9a017741f18, type: 3}
-        m_Scale: {x: 45, y: 45}
+        m_Scale: {x: 45, y: 15}
         m_Offset: {x: 2.58, y: -1.14}
     - _AlbedoTexture4:
         m_Texture: {fileID: 2800000, guid: 682325db20d889049ba4e20442999b89, type: 3}
-        m_Scale: {x: 90, y: 90}
+        m_Scale: {x: 45, y: 15}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
