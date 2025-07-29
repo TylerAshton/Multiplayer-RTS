@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -41,7 +42,10 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     public SelectionHighlighter SelectionHighlighter => selectionHighlighter;
 
     [SerializeField] private string iD = string.Empty;
-    public string ID => iD; 
+    public string ID => iD;
+
+    private StudioEventEmitter studioEventEmitter;
+    public StudioEventEmitter StudioEventEmitter => studioEventEmitter;
 
     protected virtual void Awake()
     {
@@ -61,6 +65,10 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
         if (!TryGetComponent<SelectionHighlighter>(out selectionHighlighter))
         {
             Debug.LogError($"{nameof(SelectionHighlighter)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+        }
+        if (!TryGetComponent<StudioEventEmitter>(out studioEventEmitter))
+        {
+            Debug.LogError($"{nameof(StudioEventEmitter)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
         if (string.IsNullOrEmpty(iD))
         {

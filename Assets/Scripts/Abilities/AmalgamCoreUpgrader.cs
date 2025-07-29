@@ -9,7 +9,7 @@ public class AmalgamCoreUpgrader : Ability<IAmalgamCore>
 {
     private const int _tabIndex = 2; // upgrades should be on 3rd tab
 
-    protected override void ActivateTyped(IAmalgamCore _user)
+    protected override void OnCastTyped(IAmalgamCore _user)
     {
         _user.AmalgamUpgradeManager.Upgrade();
 
@@ -29,7 +29,7 @@ public class AmalgamCoreUpgrader : Ability<IAmalgamCore>
 
     }
 
-    protected override void OnUseTyped(IAmalgamCore _user)
+    protected override void OnApexTyped(IAmalgamCore _user)
     {
 
     }

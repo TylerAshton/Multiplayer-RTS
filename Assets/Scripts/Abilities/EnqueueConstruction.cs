@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnqueueConstruction : Ability<IFactory>
 {
     [SerializeField] private ConstructionStats constructionStats;
-    protected override void ActivateTyped(IFactory _user)
+    protected override void OnCastTyped(IFactory _user)
     {
         _user.FactoryQueueManager.EnqueueUnit(constructionStats);
     }
@@ -15,7 +15,7 @@ public class EnqueueConstruction : Ability<IFactory>
 
     }
 
-    protected override void OnUseTyped(IFactory _user)
+    protected override void OnApexTyped(IFactory _user)
     {
 
     }

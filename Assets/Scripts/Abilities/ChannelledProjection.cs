@@ -11,7 +11,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     [SerializeField] private ProjectionStats channelStats;
     [SerializeField] private bool isAttached = false;
     protected override string animationTrigger => "ProjectionAbility";
-    protected override void ActivateTyped(ICharacterAbilityUser _user)
+    protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
         _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
@@ -29,7 +29,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
         
     }
 
-    protected override void OnUseTyped(ICharacterAbilityUser _user)
+    protected override void OnApexTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         Quaternion rotation = isAttached ? Quaternion.identity : castPositionTransform.rotation; // If we're not attached. Use the cast position rotation

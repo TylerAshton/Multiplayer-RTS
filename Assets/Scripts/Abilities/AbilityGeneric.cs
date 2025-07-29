@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,12 +7,20 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
 {
     
 
-    protected abstract void ActivateTyped(T _user);
-    public override void Activate(IAbilityUser _user)
+    protected abstract void OnCastTyped(T _user);
+    private void OnCastDefault(IAbilityUser _user)
+    {
+        if (!CastSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(CastSound, _user.Transform.position);
+        }
+    }
+    public override void OnCast(IAbilityUser _user)
     {
         if (_user is T tUser)
         {
-            ActivateTyped(tUser);
+            OnCastDefault(_user);
+            OnCastTyped(tUser);
         }
         else
         {
@@ -20,12 +29,20 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
         }
     }
 
-    protected abstract void OnUseTyped(T _user);
-    public override void OnUse(IAbilityUser _user)
+    protected abstract void OnApexTyped(T _user);
+    private void OnApexDefault(IAbilityUser _user)
+    {
+        if (!ApexSound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(ApexSound, _user.Transform.position);
+        }
+    }
+    public override void OnApex(IAbilityUser _user)
     {
         if (_user is T tUser)
         {
-            OnUseTyped(tUser);
+            OnApexDefault(_user);
+            OnApexTyped(tUser);
         }
         else
         {
