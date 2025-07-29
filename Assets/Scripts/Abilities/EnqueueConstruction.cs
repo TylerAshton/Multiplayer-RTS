@@ -26,7 +26,7 @@ public class EnqueueConstruction : Ability<IFactory>
         base.DrawInspector(_so);
 
 
-        BeaconUtility.DrawStat<BaseAbilityStat>(_so, "constructionStats");
+        BeaconUtility.DrawStat<BaseAbilityStat>(_so, "constructionStats", false);
 
 
     }

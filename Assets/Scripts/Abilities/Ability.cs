@@ -15,8 +15,8 @@ public abstract class Ability : Purchasable, Inspectorable
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private float cooldown = 0f;
     [SerializeField] private Ability successor; [Tooltip("The ability that this ability will be replaced with if its added.")]
-    [SerializeField] private EventReference castSound;
-    [SerializeField] private EventReference apexSound;
+    [SerializeField] private SoundObject castSound;
+    [SerializeField] private SoundObject apexSound;
     protected virtual string animationTrigger => null;
 
     public float Cooldown => cooldown;
@@ -25,8 +25,8 @@ public abstract class Ability : Purchasable, Inspectorable
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
     public Ability Successor => successor;
-    public EventReference CastSound => castSound;
-    public EventReference ApexSound => apexSound;
+    public SoundObject CastSound => castSound;
+    public SoundObject ApexSound => apexSound;
 
     //public string PurchaseID => abilityID;
 
@@ -119,15 +119,15 @@ public abstract class Ability : Purchasable, Inspectorable
         SerializedProperty fieldSuccessor = _so.FindProperty("successor");
         EditorGUILayout.PropertyField(fieldSuccessor, new GUIContent("Successor Ability"));
 
-/*        BeaconUtility.DrawStat<VfxObject>(_so, "spawnVfx");
+        BeaconUtility.DrawStat<SoundObject>(_so, "castSound", true);
 
-        BeaconUtility.DrawStat<VfxObject>(_so, "summonVfx");*/
+        BeaconUtility.DrawStat<SoundObject>(_so, "apexSound", true);
 
-        SerializedProperty fieldCastSound = _so.FindProperty("castSound");
-        EditorGUILayout.PropertyField(fieldCastSound, new GUIContent("Cast Sound", "Sound that's played as soon as the user casts the abiltiy."));
+        /*        SerializedProperty fieldCastSound = _so.FindProperty("castSound");
+                EditorGUILayout.PropertyField(fieldCastSound, new GUIContent("Cast Sound", "Sound that's played as soon as the user casts the abiltiy."));
 
-        SerializedProperty fieldApexSound = _so.FindProperty("apexSound");
-        EditorGUILayout.PropertyField(fieldApexSound, new GUIContent("Apex Sound", "Sound that's played once the user reaches the apex point such firing the projectile."));
+                SerializedProperty fieldApexSound = _so.FindProperty("apexSound");
+                EditorGUILayout.PropertyField(fieldApexSound, new GUIContent("Apex Sound", "Sound that's played once the user reaches the apex point such firing the projectile."));*/
 
 
     }

@@ -45,7 +45,7 @@ public class VFXSpawner : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void SpawnAbilityVfxRpc(string _abilityID, Vector3 _parentPos)
+    public void SpawnAbilityVfxRpc(string _abilityID, Vector3 _parentPos) // TODO: Remove this
     {
         Ability ability = Registry<Ability>.GetItem(_abilityID);
 

@@ -10,9 +10,9 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
     protected abstract void OnCastTyped(T _user);
     private void OnCastDefault(IAbilityUser _user)
     {
-        if (!CastSound.IsNull)
+        if (CastSound != null && !CastSound.SoundEvent.IsNull)
         {
-            RuntimeManager.PlayOneShot(CastSound, _user.Transform.position);
+            SoundSpawner.Instance.PlaySoundEffectRpc(CastSound.ID, _user.Transform.position);
         }
     }
     public override void OnCast(IAbilityUser _user)
@@ -32,9 +32,9 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
     protected abstract void OnApexTyped(T _user);
     private void OnApexDefault(IAbilityUser _user)
     {
-        if (!ApexSound.IsNull)
+        if (!ApexSound.SoundEvent.IsNull)
         {
-            RuntimeManager.PlayOneShot(ApexSound, _user.Transform.position);
+            SoundSpawner.Instance.PlaySoundEffectRpc(ApexSound.ID, _user.Transform.position);
         }
     }
     public override void OnApex(IAbilityUser _user)
