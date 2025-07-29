@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   lift:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {x: 1, y: 1, z: 1, w: -0.0135974055}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.17797554}
+    m_Value: {x: 1, y: 1, z: 1, w: -0.075224824}
   gain:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0.099585064}
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0.000000015021014}
 --- !u!114 &-8077542756607571765
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -150,7 +150,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
@@ -187,31 +187,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfbdbb87d3286943a057f7791b43141, type: 3}
   m_Name: ChannelMixer
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   redOutRedIn:
     m_OverrideState: 1
-    m_Value: 1.2
+    m_Value: 110
   redOutGreenIn:
     m_OverrideState: 1
     m_Value: 0
   redOutBlueIn:
     m_OverrideState: 1
-    m_Value: 0.1
+    m_Value: 10
   greenOutRedIn:
     m_OverrideState: 1
     m_Value: 0
   greenOutGreenIn:
     m_OverrideState: 1
-    m_Value: 1.2
+    m_Value: 110
   greenOutBlueIn:
     m_OverrideState: 1
-    m_Value: 0.1
+    m_Value: 10
   blueOutRedIn:
     m_OverrideState: 1
-    m_Value: 0.05
+    m_Value: 10
   blueOutGreenIn:
     m_OverrideState: 1
     m_Value: 0
   blueOutBlueIn:
     m_OverrideState: 1
-    m_Value: 1.2
+    m_Value: 120
