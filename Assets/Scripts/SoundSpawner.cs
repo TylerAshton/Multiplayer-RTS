@@ -21,7 +21,7 @@ public class SoundSpawner : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void PlaySoundEffectRpc(string _vfxObjectID, Vector3 _pos)
+    public void PlaySoundEffectRpc(string _vfxObjectID, Vector3 _pos) // TODO: Make it play without position for the owner if desired
     {
         SoundObject soundObject = Registry<SoundObject>.GetItem(_vfxObjectID);
 

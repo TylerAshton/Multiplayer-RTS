@@ -8,6 +8,10 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
     
 
     protected abstract void OnCastTyped(T _user);
+    /// <summary>
+    /// Default behaviour for OnCast such as playing sounds or running animations.
+    /// </summary>
+    /// <param name="_user"></param>
     private void OnCastDefault(IAbilityUser _user)
     {
         if (CastSound != null && !CastSound.SoundEvent.IsNull)

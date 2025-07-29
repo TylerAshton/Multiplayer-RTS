@@ -16,6 +16,11 @@ public class SoundObject : RegistryItem, Inspectorable
 
         SerializedProperty fieldCastSound = _so.FindProperty("soundEvent");
         EditorGUILayout.PropertyField(fieldCastSound, new GUIContent("Sound Event"));
+
+        if (soundEvent.Guid.IsNull)
+        {
+            EditorGUILayout.HelpBox("Sound Event cannot be null.", MessageType.Error);
+        }
     }
 #endif
 }
