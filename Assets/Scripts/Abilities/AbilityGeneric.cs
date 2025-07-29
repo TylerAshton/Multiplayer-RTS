@@ -36,7 +36,7 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
     protected abstract void OnApexTyped(T _user);
     private void OnApexDefault(IAbilityUser _user)
     {
-        if (!ApexSound.SoundEvent.IsNull)
+        if (ApexSound != null && !ApexSound.SoundEvent.IsNull)
         {
             SoundSpawner.Instance.PlaySoundEffectRpc(ApexSound.ID, _user.Transform.position);
         }
