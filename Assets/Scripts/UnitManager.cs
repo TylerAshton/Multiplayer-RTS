@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
 
 public class UnitManager : NetworkBehaviour
@@ -234,9 +235,28 @@ public class UnitManager : NetworkBehaviour
             if (selectedUnits[i] is NPC _NPC)
             {
                 Vector3 targetPosition = _worldPosition + CalculateFormationOffset(i);
-                MoveTask moveTask = new MoveTask(_NPC, targetPosition);
+                MoveTask moveTask = new MoveTask(_NPC, GetNavPos(targetPosition));
                 _NPC.ImposeNewTask(moveTask);
             }
+        }
+    }
+
+    /// <summary>
+    /// Returns a valid NavMesh position for the given world position.
+    /// </summary>
+    /// <param name="_worldPosition"></param>
+    /// <returns></returns>
+    private Vector3 GetNavPos(Vector3 _worldPosition)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(_worldPosition, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+        else
+        {
+            Debug.LogError($"Failed to find a valid NavMesh position for {_worldPosition}");
+            return _worldPosition;
         }
     }
 
