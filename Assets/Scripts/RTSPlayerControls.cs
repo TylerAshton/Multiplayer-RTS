@@ -125,6 +125,8 @@ public class RTSPlayerControls : MonoBehaviour
         {
             worldPosition = hit.point;
         }
+
+        RTSPlayer.Instance.UnitManager.PointHover(mouseScreenPos);
     }
 
     /// <summary>

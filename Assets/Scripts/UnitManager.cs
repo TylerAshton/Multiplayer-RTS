@@ -15,6 +15,7 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private GameObject AbilityPanelPrefab;
     [SerializeField] private GameObject ConstructionPanelPrefab;
     [SerializeField] private LayerMask unitLayer;
+    private SelectableObject currentHoveredUnit;
     private AbilityUIManager abilityUIManager;
     private ConstructionUIManager constructionUIManager;
     private RTSPlayerControls rTSPlayerControls;
@@ -175,7 +176,17 @@ public class UnitManager : NetworkBehaviour
             abilityUIManager.ResetAbilityGrid();
             constructionUIManager.ResetManager();
         }
-        _unit.SelectionHighlighter.SetSelectionMode(SelectionMode.None);
+
+        SelectionHighlighter selectionHighlighter = _unit.SelectionHighlighter;
+
+        if (currentHoveredUnit == _unit)
+        {
+            selectionHighlighter.SetSelectionMode(SelectionMode.Hover);
+        }
+        else
+        {
+            selectionHighlighter.SetSelectionMode(SelectionMode.None);
+        }
     }
 
     /// <summary>
@@ -281,6 +292,43 @@ public class UnitManager : NetworkBehaviour
         Vector3 offset = new Vector3(Mathf.Cos(radian) * radius, 0, Mathf.Sin(radian) * radius);
 
         return offset;
+    }
+
+    public void PointHover(Vector2 _mouseScreenPos)
+    {
+        SelectableObject hoveredUnit = GetSelectableAtMouse(_mouseScreenPos);
+
+
+        SetHoveredUnit(hoveredUnit);
+    }
+
+    /// <summary>
+    /// Sets the hovered unit to the given unit and updates its selection highlighter
+    /// </summary>
+    /// <param name="_hoveredUnit"></param>
+    private void SetHoveredUnit(SelectableObject _hoveredUnit)
+    {
+        if (_hoveredUnit == currentHoveredUnit)
+        {
+            return;
+        }
+
+        if (currentHoveredUnit != null)
+        {
+            SelectionHighlighter selectionHighlighter = currentHoveredUnit.SelectionHighlighter;
+            if (selectedUnits.Contains(currentHoveredUnit)) selectionHighlighter.SetSelectionMode(SelectionMode.Select);
+            else selectionHighlighter.SetSelectionMode(SelectionMode.None);
+        }
+
+        // If the hovered unit is null, we don't need to do anything
+        currentHoveredUnit = _hoveredUnit;
+        if (_hoveredUnit == null)
+        {
+            return;
+        }
+
+        _hoveredUnit.SelectionHighlighter.SetSelectionMode(SelectionMode.Hover);
+
     }
 
     /// <summary>

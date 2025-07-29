@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 9163726061631936640}
   - component: {fileID: -129380659594923015}
   - component: {fileID: 1214705841254522098}
+  - component: {fileID: 8587435268610383534}
   m_Layer: 7
   m_Name: Emplacement
   m_TagString: Amalgam
@@ -298,7 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  selectionIndiator: {fileID: 6590560809606865843}
   isSelectable: 1
   iD: Emplacement
 --- !u!114 &8282621190444458776
@@ -457,6 +457,24 @@ MonoBehaviour:
   OverrideAttenuation: 1
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &8587435268610383534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577619868932236165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c5d4468d9877740bd8fe269ef13276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverMaterials:
+  - {fileID: 2100000, guid: 336983fbb6fb8c9489c5f18ca677c1b7, type: 2}
+  - {fileID: 2100000, guid: e5b270178c26ee44d8b7a2ffa9ebcbe6, type: 2}
+  selectedMaterials:
+  - {fileID: 2100000, guid: 336983fbb6fb8c9489c5f18ca677c1b7, type: 2}
+  - {fileID: 2100000, guid: 18aa9269ad742e646b1584504a82bdf9, type: 2}
 --- !u!1001 &700275605903198216
 PrefabInstance:
   m_ObjectHideFlags: 0
