@@ -142,7 +142,7 @@ public class UnitManager : NetworkBehaviour
         selectedUnits.Add(_unit);
         abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         constructionUIManager.UpdateUI(selectedUnits);
-        _unit.ShowSelectionIndicator();
+        _unit.SelectionHighlighter.SetSelectionMode(SelectionMode.Select);
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public class UnitManager : NetworkBehaviour
             abilityUIManager.ResetAbilityGrid();
             constructionUIManager.ResetManager();
         }
-        _unit.HideSelectionIndicator();
+        _unit.SelectionHighlighter.SetSelectionMode(SelectionMode.None);
     }
 
     /// <summary>
@@ -256,7 +256,7 @@ public class UnitManager : NetworkBehaviour
         else
         {
             Debug.LogError($"Failed to find a valid NavMesh position for {_worldPosition}");
-            return _worldPosition;
+            return _worldPosition; // I'd return zero but that'd be even worse
         }
     }
 
