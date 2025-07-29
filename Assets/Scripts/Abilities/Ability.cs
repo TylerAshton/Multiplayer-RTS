@@ -123,12 +123,6 @@ public abstract class Ability : Purchasable, Inspectorable
 
         BeaconUtility.DrawStat<SoundObject>(_so, "apexSound", true);
 
-        /*        SerializedProperty fieldCastSound = _so.FindProperty("castSound");
-                EditorGUILayout.PropertyField(fieldCastSound, new GUIContent("Cast Sound", "Sound that's played as soon as the user casts the abiltiy."));
-
-                SerializedProperty fieldApexSound = _so.FindProperty("apexSound");
-                EditorGUILayout.PropertyField(fieldApexSound, new GUIContent("Apex Sound", "Sound that's played once the user reaches the apex point such firing the projectile."));*/
-
 
     }
 #endif
