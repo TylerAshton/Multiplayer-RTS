@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -50,8 +51,26 @@ public class NavAgentAnimator : NetworkBehaviour
         animator.SetFloat("MoveY", Mathf.Lerp(animator.GetFloat("MoveY"), relativeZ, 5.0f * Time.deltaTime));
 
         // Velocity for walk/run diff
-        animator.SetFloat("SpeedX", Vector3.Dot(transform.right, _veloicty));
-        animator.SetFloat("SpeedY", Vector3.Dot(transform.forward, _veloicty));
+        animator.SetFloat("SpeedX", Mathf.Abs(Vector3.Dot(transform.right, _veloicty)));
+        animator.SetFloat("SpeedY", Mathf.Abs(Vector3.Dot(transform.forward, _veloicty)));
+    }
+
+    /// <summary>
+    /// Returns an absolute vector of the parsed
+    /// </summary>
+    /// <param name="_vector"></param>
+    /// <returns></returns>
+    private Vector3 AbsoluteVector(Vector3 _vector)
+    {
+        Vector3 absoluteVector = new Vector3(
+            Mathf.Abs(_vector.x), 
+            Mathf.Abs(_vector.y), 
+            Mathf.Abs(_vector.z)
+        );
+
+        return absoluteVector;
+
+
     }
 
 
