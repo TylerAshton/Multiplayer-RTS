@@ -10,6 +10,8 @@ public interface IAbilityUser
     Vector3 AimPoint { get; }
     IFaction IFaction { get; }
 
+    ulong OwnerID { get; }
+
     public void SetTarget(Collider castTarget);
     public void ClearTarget();
 }

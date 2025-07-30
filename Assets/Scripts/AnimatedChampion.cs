@@ -103,6 +103,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private StudioEventEmitter studioEventEmitter;
     public StudioEventEmitter StudioEventEmitter => studioEventEmitter;
 
+    public ulong OwnerID => networkObject.OwnerClientId;
+
     void Start()
     {
         manager = RelayManager.Instance;
