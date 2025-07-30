@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5403063673077472142}
   - component: {fileID: 2575990395615771724}
   m_Layer: 5
-  m_Name: AMALGAM Campfire Icon
+  m_Name: Amalgam Campfire Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5450225228407928734}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -96.98572, y: 157.70427, z: -169.74283}
   m_LocalScale: {x: 6.5, y: 6.5, z: 6.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &5403063673077472142
 MeshFilter:
   m_ObjectHideFlags: 0
