@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class AmalgamCoreUpgrader : Ability<IAmalgamCore>
 {
-    private const int _tabIndex = 2; // upgrades should be on 3rd tab
+    private const int _tabIndex = 1; // upgrades should be on 2nd tab // TODO: Make it do a search
 
     protected override void OnCastTyped(IAmalgamCore _user)
     {
