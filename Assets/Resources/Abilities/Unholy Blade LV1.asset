@@ -20,9 +20,11 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 0
   successor: {fileID: 0}
+  castSound: {fileID: 0}
+  apexSound: {fileID: 0}
   angleDegrees: 90
   range: 4
   damage: 2
-  hitEffect: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
+  hitEffect: {fileID: 4535006216103734310, guid: bc9b55381daca3545ac0a159bcd321f1, type: 3}
   lungeDistance: 0
   lungeDuration: 0
