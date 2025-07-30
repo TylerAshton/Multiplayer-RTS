@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38202a2d77b34445bd21a5f1e3819f1, type: 3}
+  m_Name: Hero's Dance Placeholder
+  m_EditorClassIdentifier: 
+  id: Hero'sPrayerPlaceholder
+  price: 0
+  icon: {fileID: 21300000, guid: 94a868672133ee440b42e76c5e7d7d4d, type: 3}
+  castTime: 0
+  castPositionName: 0
+  abilityCost: 0
+  cooldown: 0
+  successor: {fileID: 11400000, guid: ce271253e083ee942a2d597667205211, type: 2}
+  castSound: {fileID: 0}
+  apexSound: {fileID: 0}

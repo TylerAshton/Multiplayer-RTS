@@ -88,19 +88,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: Main
+  - tabName: Minions
     abilities:
-    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
-    - {fileID: 11400000, guid: d31f82307161a1648b242d09020e662d, type: 2}
-    - {fileID: 11400000, guid: 511215370d2002640a2eec9fa02936cd, type: 2}
-  - tabName: Main
-    abilities:
-    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
-    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    - {fileID: 11400000, guid: 7075b3f2b5c8fc24788b04fae1b1c25b, type: 2}
+    - {fileID: 11400000, guid: 28669687bffbadf4c8fdba302559f477, type: 2}
+    - {fileID: 11400000, guid: 60fd9f89bdd124f4d996acc99c6ca1a9, type: 2}
+    - {fileID: 11400000, guid: 8c58a17369b24134d9a71c19e61c0dd9, type: 2}
+    - {fileID: 11400000, guid: f4ceceff2c803284599814e963b8e869, type: 2}
+    - {fileID: 11400000, guid: 0608cc9d9e237704bb39348c773b9b30, type: 2}
   - tabName: Upgrades
     abilities:
     - {fileID: 11400000, guid: 7725255f9ec4643428a2a0253c6e4f6e, type: 2}
-    - {fileID: 11400000, guid: ffbcba904d7189c4a8a5238455d6006f, type: 2}
+  - tabName: Repair
+    abilities:
+    - {fileID: 11400000, guid: 7892e89999f30fa4fbd4fb600787a956, type: 2}
   hasUtility: 0
 --- !u!114 &1208016057222027340
 MonoBehaviour:
@@ -130,9 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  hitPoints: 10
+  hitPoints: 750
   isImmune: 0
-  corpseLingerTime: 0
+  corpseLingerTime: 0.1
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
@@ -246,12 +247,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabTarget: 0
-  tier2BuildPads: []
+  tier2BuildPads:
+  - {fileID: 0}
   tier2Abilities:
-  - {fileID: 11400000, guid: 76eb052def7ff7346a29ca6f73829f66, type: 2}
-  tier3BuildPads: []
+  - {fileID: 11400000, guid: c0060574a67ab38469bae54a18eca438, type: 2}
+  - {fileID: 11400000, guid: 6e2b7b91dcf168c4b90302273685730c, type: 2}
+  tier3BuildPads:
+  - {fileID: 0}
   tier3Abilities:
-  - {fileID: 11400000, guid: 188d07e038d14eb4cb1cf67beef57714, type: 2}
+  - {fileID: 11400000, guid: 09261b1eb65b901438f18d17cac57db4, type: 2}
+  - {fileID: 11400000, guid: 4945727270ed76042a28cb43d263b624, type: 2}
 --- !u!114 &5263204415348788824
 MonoBehaviour:
   m_ObjectHideFlags: 0
