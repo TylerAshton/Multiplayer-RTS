@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public abstract class Ability : Purchasable, Inspectorable
     [SerializeField] private int abilityCost = 0;
     [SerializeField] private float cooldown = 0f;
     [SerializeField] private Ability successor; [Tooltip("The ability that this ability will be replaced with if its added.")]
+    [SerializeField] private SoundObject castSound;
+    [SerializeField] private SoundObject apexSound;
     protected virtual string animationTrigger => null;
 
     public float Cooldown => cooldown;
@@ -22,6 +25,8 @@ public abstract class Ability : Purchasable, Inspectorable
     public float CastTime => castTime;
     public AbilityPosition CastPositionName => castPositionName;
     public Ability Successor => successor;
+    public SoundObject CastSound => castSound;
+    public SoundObject ApexSound => apexSound;
 
     //public string PurchaseID => abilityID;
 
@@ -66,7 +71,7 @@ public abstract class Ability : Purchasable, Inspectorable
     /// via a mixed list
     /// </summary>
     /// <param name="_user"></param>
-    public abstract void Activate(IAbilityUser _user);
+    public abstract void OnCast(IAbilityUser _user);
 
     /// <summary>
     /// Phantom function form for OnUse which allows different types of ability classes to type cast
@@ -74,7 +79,7 @@ public abstract class Ability : Purchasable, Inspectorable
     /// via a mixed list
     /// </summary>
     /// <param name="_user"></param>
-    public abstract void OnUse(IAbilityUser _user);
+    public abstract void OnApex(IAbilityUser _user);
 
     /// <summary>
     /// Phantom function form for DebugDrawing which allows different types of ability classes to type cast
@@ -113,6 +118,10 @@ public abstract class Ability : Purchasable, Inspectorable
 
         SerializedProperty fieldSuccessor = _so.FindProperty("successor");
         EditorGUILayout.PropertyField(fieldSuccessor, new GUIContent("Successor Ability"));
+
+        BeaconUtility.DrawStat<SoundObject>(_so, "castSound", true);
+
+        BeaconUtility.DrawStat<SoundObject>(_so, "apexSound", true);
 
 
     }

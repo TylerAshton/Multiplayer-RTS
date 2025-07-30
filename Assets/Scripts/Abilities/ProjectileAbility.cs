@@ -10,7 +10,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
     //[SerializeField] private GameObject projectile;
     [SerializeField] private ProjectileStats projectileStats;
     protected override string animationTrigger => "ProjectileAbility";
-    protected override void ActivateTyped(IAbilityUser _user)
+    protected override void OnCastTyped(IAbilityUser _user)
     {
         if (_user is ICharacterAbilityUser _characterAbilityUser)
         {
@@ -18,7 +18,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
         }
         else
         {
-            OnUseTyped(_user);
+            OnApexTyped(_user);
         }
     }
 
@@ -27,7 +27,7 @@ public class ProjectileAbility : Ability<IAbilityUser>
         
     }
 
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnApexTyped(IAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         GameObject spawnedProjectile = Instantiate(GetProjectileBlueprint(), castPositionTransform.position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?

@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
 
 public class UnitManager : NetworkBehaviour
@@ -14,6 +15,7 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private GameObject AbilityPanelPrefab;
     [SerializeField] private GameObject ConstructionPanelPrefab;
     [SerializeField] private LayerMask unitLayer;
+    private SelectableObject currentHoveredUnit;
     private AbilityUIManager abilityUIManager;
     private ConstructionUIManager constructionUIManager;
     private RTSPlayerControls rTSPlayerControls;
@@ -141,7 +143,7 @@ public class UnitManager : NetworkBehaviour
         selectedUnits.Add(_unit);
         abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         constructionUIManager.UpdateUI(selectedUnits);
-        _unit.ShowSelectionIndicator();
+        _unit.SelectionHighlighter.SetSelectionMode(SelectionMode.Select);
     }
 
     /// <summary>
@@ -174,7 +176,17 @@ public class UnitManager : NetworkBehaviour
             abilityUIManager.ResetAbilityGrid();
             constructionUIManager.ResetManager();
         }
-        _unit.HideSelectionIndicator();
+
+        SelectionHighlighter selectionHighlighter = _unit.SelectionHighlighter;
+
+        if (currentHoveredUnit == _unit)
+        {
+            selectionHighlighter.SetSelectionMode(SelectionMode.Hover);
+        }
+        else
+        {
+            selectionHighlighter.SetSelectionMode(SelectionMode.None);
+        }
     }
 
     /// <summary>
@@ -234,9 +246,28 @@ public class UnitManager : NetworkBehaviour
             if (selectedUnits[i] is NPC _NPC)
             {
                 Vector3 targetPosition = _worldPosition + CalculateFormationOffset(i);
-                MoveTask moveTask = new MoveTask(_NPC, targetPosition);
+                MoveTask moveTask = new MoveTask(_NPC, GetNavPos(targetPosition));
                 _NPC.ImposeNewTask(moveTask);
             }
+        }
+    }
+
+    /// <summary>
+    /// Returns a valid NavMesh position for the given world position.
+    /// </summary>
+    /// <param name="_worldPosition"></param>
+    /// <returns></returns>
+    private Vector3 GetNavPos(Vector3 _worldPosition)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(_worldPosition, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+        else
+        {
+            Debug.LogError($"Failed to find a valid NavMesh position for {_worldPosition}");
+            return _worldPosition; // I'd return zero but that'd be even worse
         }
     }
 
@@ -261,6 +292,43 @@ public class UnitManager : NetworkBehaviour
         Vector3 offset = new Vector3(Mathf.Cos(radian) * radius, 0, Mathf.Sin(radian) * radius);
 
         return offset;
+    }
+
+    public void PointHover(Vector2 _mouseScreenPos)
+    {
+        SelectableObject hoveredUnit = GetSelectableAtMouse(_mouseScreenPos);
+
+
+        SetHoveredUnit(hoveredUnit);
+    }
+
+    /// <summary>
+    /// Sets the hovered unit to the given unit and updates its selection highlighter
+    /// </summary>
+    /// <param name="_hoveredUnit"></param>
+    private void SetHoveredUnit(SelectableObject _hoveredUnit)
+    {
+        if (_hoveredUnit == currentHoveredUnit)
+        {
+            return;
+        }
+
+        if (currentHoveredUnit != null)
+        {
+            SelectionHighlighter selectionHighlighter = currentHoveredUnit.SelectionHighlighter;
+            if (selectedUnits.Contains(currentHoveredUnit)) selectionHighlighter.SetSelectionMode(SelectionMode.Select);
+            else selectionHighlighter.SetSelectionMode(SelectionMode.None);
+        }
+
+        // If the hovered unit is null, we don't need to do anything
+        currentHoveredUnit = _hoveredUnit;
+        if (_hoveredUnit == null)
+        {
+            return;
+        }
+
+        _hoveredUnit.SelectionHighlighter.SetSelectionMode(SelectionMode.Hover);
+
     }
 
     /// <summary>

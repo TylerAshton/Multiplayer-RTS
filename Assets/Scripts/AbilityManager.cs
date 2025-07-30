@@ -325,7 +325,7 @@ public class AbilityManager : NetworkBehaviour
     {
        if (!IsServer) return;
 
-        currentAbility.OnUse(gameObject.GetComponent<IAbilityUser>());
+        currentAbility.OnApex(gameObject.GetComponent<IAbilityUser>());
     }
 
     /// <summary>
@@ -378,7 +378,7 @@ public class AbilityManager : NetworkBehaviour
         currentAbility = selectedAbility;
         StartCooldown(currentAbility);
         PointManager.Instance.RemovePoints(ownerClientId, currentAbility.AbilityCost);
-        currentAbility.Activate(abilityUser);
+        currentAbility.OnCast(abilityUser);
         if (lockCastingCoroutine != null)
         {
             StopCoroutine(lockCastingCoroutine);

@@ -663,7 +663,7 @@
                     "id": "3c7022bf-7922-4f7c-a998-c437916075ad",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Tap(duration=0.1)",
+                    "interactions": "Tap(duration=0.15)",
                     "initialStateCheck": true
                 },
                 {
@@ -672,7 +672,7 @@
                     "id": "6f0226b5-81d7-435f-946d-0652f5ae9d19",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "MultiTap(tapTime=0.1)",
+                    "interactions": "MultiTap(tapTime=0.2,tapDelay=0.3)",
                     "initialStateCheck": false
                 },
                 {
@@ -681,7 +681,7 @@
                     "id": "18b8d62a-07c9-4ad2-b473-a3b17b8cd318",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold(duration=0.1)",
+                    "interactions": "Hold(duration=0.15)",
                     "initialStateCheck": true
                 },
                 {

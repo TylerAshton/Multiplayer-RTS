@@ -27,7 +27,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
 
     public float VfxDuration => vfxDuration;
 
-    protected override void ActivateTyped(ICharacterAbilityUser _user)
+    protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
         _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
@@ -46,7 +46,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
         throw new System.NotImplementedException();
     }
 
-    protected override void OnUseTyped(ICharacterAbilityUser _user)
+    protected override void OnApexTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         HealArea(castPositionTransform, _user);

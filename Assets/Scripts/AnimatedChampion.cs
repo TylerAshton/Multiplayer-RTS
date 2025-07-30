@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -99,6 +100,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private Health health;
     public Health Health => health;
+    private StudioEventEmitter studioEventEmitter;
+    public StudioEventEmitter StudioEventEmitter => studioEventEmitter;
 
     void Start()
     {
@@ -169,6 +172,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         {
             Debug.LogError($"{nameof(ShopPurchaseManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             return;
+        }
+        if (!TryGetComponent<StudioEventEmitter>(out studioEventEmitter))
+        {
+            Debug.LogError($"{nameof(StudioEventEmitter)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
 

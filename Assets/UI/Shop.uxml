@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/ShopStyle.uss?fileID=7433441132597879392&amp;guid=070f74b0d2009da4a88a41151b939383&amp;type=3#ShopStyle" />
-    <engine:VisualElement name="VisualElement" class="shop-container" style="flex-grow: 1; height: 454px; width: 1922px;">
+    <engine:VisualElement name="VisualElement" class="shop-container" style="flex-grow: 1; height: 454px; width: 1922px; background-image: url(&quot;project://database/Assets/@PaulosCreations/RunesAndPortals/Effects/Particles/Sprites/RuneCircle.png?fileID=2800000&amp;guid=f9f79b05190604b4e8f364060da0cbe1&amp;type=3#RuneCircle&quot;); background-size: 55% 100%; background-position-x: right 380px; background-position-y: top 70px;">
         <engine:VisualElement name="AbilitySlots" class="ability-slot-container" style="flex-grow: 1; height: 397px; width: 400px; position: relative;">
             <engine:VisualElement name="Heal" class="ability-slot" style="flex-grow: 1; top: 5%; left: 50%; right: 0; bottom: 0;">
                 <engine:Button name="AbilityButton" class="ability-button">
