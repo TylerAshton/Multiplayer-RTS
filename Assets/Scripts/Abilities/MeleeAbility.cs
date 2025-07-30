@@ -14,9 +14,9 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
     [SerializeField] private float lungeDuration = 0f;
     protected override string animationTrigger => (lungeDistance > 0) ? "MeleeAbilityLunge" : "MeleeAbility";
 
-    protected override void ActivateTyped(ICharacterAbilityUser _user)
+    protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
+        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}"); // TODO: perhaps add a default behaviour function that calls typed instead, so we can avoid repeat here
 
         _user.Lunge(lungeDistance, _user.Transform.forward, lungeDuration);
 
@@ -42,7 +42,7 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
     /// Function called when the animation reaches the peak of its swing
     /// </summary>
     /// <param name="_user"></param>
-    protected override void OnUseTyped(ICharacterAbilityUser _user)
+    protected override void OnApexTyped(ICharacterAbilityUser _user)
     {
         Vector3 origin = _user.Transform.position;
         Vector3 forward = _user.Transform.forward;

@@ -27,7 +27,7 @@ public class MoveTask : NPCTask
     public override bool IsComplete()
     {
         float distance = Vector3.Distance(npc.GetFeet(), destination);
-        Debug.Log($"{distance}, {npc.GetFeet()}, {destination}");
+        //Debug.Log($"{distance}, {npc.GetFeet()}, {destination}");
 
         if (distance < waypointLeniance)
         {

@@ -20,4 +20,18 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 30
   successor: {fileID: 0}
+  castSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  apexSound:
+    Guid:
+      Data1: -1032056985
+      Data2: 1214263197
+      Data3: -951206217
+      Data4: 1858820983
+    Path: event:/SFX/Lightning Spear
   projectileStats: {fileID: 11400000, guid: c5530bb3f2de6234e84e2a5387a31292, type: 2}

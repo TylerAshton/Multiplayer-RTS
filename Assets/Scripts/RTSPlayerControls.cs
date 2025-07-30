@@ -125,6 +125,8 @@ public class RTSPlayerControls : MonoBehaviour
         {
             worldPosition = hit.point;
         }
+
+        RTSPlayer.Instance.UnitManager.PointHover(mouseScreenPos);
     }
 
     /// <summary>
@@ -215,10 +217,10 @@ public class RTSPlayerControls : MonoBehaviour
     /// </summary>
     private void OnMouseHoldEnded()
     {
-        if (isUsingUI(mouseScreenPos))
+/*        if (isUsingUI(mouseScreenPos)) UI shouldn't stop mouse release for held
         {
             return;
-        }
+        }*/
 
         isMouseHeld = false;
         RTSPlayer.Instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());

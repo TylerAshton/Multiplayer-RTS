@@ -12,7 +12,7 @@ public class DebugAbility : Ability<IAbilityUser>
         return clone;
     }*/
 
-    protected override void ActivateTyped(IAbilityUser _user)
+    protected override void OnCastTyped(IAbilityUser _user)
     {
         Debug.Log(this.name);
     }
@@ -21,7 +21,7 @@ public class DebugAbility : Ability<IAbilityUser>
     {
     }
 
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnApexTyped(IAbilityUser _user)
     {
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SelfHeal : Ability<IUnitAbilityUser>
 {
     [SerializeField] private float healAmount = 50f;
-    protected override void ActivateTyped(IUnitAbilityUser _user)
+    protected override void OnCastTyped(IUnitAbilityUser _user)
     {
         _user.Health.Heal(healAmount);
     }
@@ -15,7 +15,7 @@ public class SelfHeal : Ability<IUnitAbilityUser>
         throw new System.NotImplementedException();
     }
 
-    protected override void OnUseTyped(IUnitAbilityUser _user)
+    protected override void OnApexTyped(IUnitAbilityUser _user)
     {
         throw new System.NotImplementedException();
     }
