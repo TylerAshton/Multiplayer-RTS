@@ -29,18 +29,6 @@ public class SelectionHighlighter : MonoBehaviour
         SetupOriginalMaterials();
     }
 
-    private void Update() // TODO: Remove
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            ApplyHighlightShder(selectedMaterials);
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetShaders();
-        }
-    }
-
     public void SetSelectionMode(SelectionMode _selectionMode)
     {
         selectionMode = _selectionMode;
