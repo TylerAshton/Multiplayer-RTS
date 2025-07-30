@@ -23,6 +23,7 @@ public class RelayManager : NetworkBehaviour
     [SerializeField] Button joinButton; //Button to join the host via the join code
     [SerializeField] TMP_InputField joinInput; //Text input to input the join code
     [SerializeField] TextMeshProUGUI codeText; //Displays the generated lobby code
+    [SerializeField] GameObject code; //Displays the generated lobby code
     [SerializeField] TextMeshProUGUI errorText; //Displays the error for incorrect code
     [SerializeField] RectTransform mainMenu; //A group of UI elements for the main menu
 
@@ -90,7 +91,8 @@ public class RelayManager : NetworkBehaviour
         joinButton.gameObject.SetActive(false);
         joinInput.gameObject.SetActive(false);
         hostButton.gameObject.SetActive(false);
-        codeText.gameObject.SetActive(true);
+        //codeText.gameObject.SetActive(true);
+        code.SetActive(true);
         //readyUpMenu.gameObject.SetActive(true);
     }
 
