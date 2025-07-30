@@ -20,3 +20,11 @@ MonoBehaviour:
       Data3: 910911389
       Data4: -1928073037
     Path: event:/SFX/Ice Shard
+  isPlayingLocal: 1
+  soundEvent2D:
+    Guid:
+      Data1: 1478425728
+      Data2: 1311935896
+      Data3: -697242481
+      Data4: 1535914621
+    Path: event:/Announcements/Asunder

@@ -16,7 +16,7 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
     {
         if (CastSound != null && !CastSound.SoundEvent.IsNull)
         {
-            SoundSpawner.Instance.PlaySoundEffectRpc(CastSound.ID, _user.Transform.position);
+            SoundSpawner.Instance.PlaySoundEffectRpc(CastSound.ID, _user.Transform.position, _user.OwnerID);
         }
     }
     public override void OnCast(IAbilityUser _user)
@@ -38,7 +38,7 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
     {
         if (ApexSound != null && !ApexSound.SoundEvent.IsNull)
         {
-            SoundSpawner.Instance.PlaySoundEffectRpc(ApexSound.ID, _user.Transform.position);
+            SoundSpawner.Instance.PlaySoundEffectRpc(ApexSound.ID, _user.Transform.position, _user.OwnerID);
         }
     }
     public override void OnApex(IAbilityUser _user)
