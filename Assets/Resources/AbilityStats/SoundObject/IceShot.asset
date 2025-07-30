@@ -23,8 +23,8 @@ MonoBehaviour:
   isPlayingLocal: 1
   soundEvent2D:
     Guid:
-      Data1: 1478425728
-      Data2: 1311935896
-      Data3: -697242481
-      Data4: 1535914621
-    Path: event:/Announcements/Asunder
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

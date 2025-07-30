@@ -217,10 +217,10 @@ public class RTSPlayerControls : MonoBehaviour
     /// </summary>
     private void OnMouseHoldEnded()
     {
-        if (isUsingUI(mouseScreenPos))
+/*        if (isUsingUI(mouseScreenPos)) UI shouldn't stop mouse release for held
         {
             return;
-        }
+        }*/
 
         isMouseHeld = false;
         RTSPlayer.Instance.UnitManager.AreaSelection(selectionBox.GetScreenRect());
