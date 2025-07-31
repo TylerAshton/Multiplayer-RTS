@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17350ceb7e8528247b32eea4fbcccf05, type: 3}
-  m_Name: Dark Effect 5
+  m_Name: Dark Effect 2 10
   m_EditorClassIdentifier: 
-  id: DE5
-  vfxPrefab: {fileID: 100004, guid: 1129ca32d1c4f6e40bf53318cb70d03c, type: 3}
-  vfxScale: 1
+  id: DE2 10
+  vfxPrefab: {fileID: 100010, guid: 5bb3ae44215754a4b8d9a94ad088d0fe, type: 3}
+  vfxScale: 0.4
   lingerTime: 10
