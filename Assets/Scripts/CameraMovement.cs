@@ -199,6 +199,60 @@ public class CameraMovement : NetworkBehaviour
         );
     }
 
+    private Vector3[] GetCameraCorners()
+    {
+        Vector3[] output = new Vector3[4];
+
+        LayerMask environmentMask = LayerMask.GetMask("BoundsSurface");
+
+        Vector3 topLeft = Vector3.zero;
+        Vector3 topRight = Vector3.zero;
+        Vector3 bottomLeft = Vector3.zero;
+        Vector3 bottomRight = Vector3.zero;
+
+        // 
+        Ray rayBL = Camera.main.ScreenPointToRay(new Vector3(0, 0, 0));
+        Ray rayTL = Camera.main.ScreenPointToRay(new Vector3(0, screenHeight, 0));
+        Ray rayBR = Camera.main.ScreenPointToRay(new Vector3(screenWidth, 0, 0));
+        Ray rayTR = Camera.main.ScreenPointToRay(new Vector3(screenWidth, screenHeight, 0));
+
+        if (Physics.Raycast(rayBL, out RaycastHit hitBL, Mathf.Infinity, environmentMask))
+        {
+            bottomLeft = hitBL.point;
+        }
+        if (Physics.Raycast(rayTL, out RaycastHit hitTL, Mathf.Infinity, environmentMask))
+        {
+            topLeft = hitTL.point;
+        }
+        if (Physics.Raycast(rayBR, out RaycastHit hitBR, Mathf.Infinity, environmentMask))
+        {
+            bottomRight = hitBR.point;
+        }
+        if (Physics.Raycast(rayTR, out RaycastHit hitTR, Mathf.Infinity, environmentMask))
+        {
+            topRight = hitTR.point;
+        }
+
+        output[0] = bottomLeft;
+        output[1] = topLeft;
+        output[2] = bottomRight;
+        output[3] = topRight;
+
+        return output;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3[] corners = GetCameraCorners();
+
+        foreach (Vector3 corr in corners)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(corr, 5);
+        }
+
+    }
+
     /// <summary>
     /// Adds to the zoom target.
     /// </summary>
