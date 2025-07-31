@@ -1,5 +1,7 @@
 using Cinemachine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -177,26 +179,73 @@ public class CameraMovement : NetworkBehaviour
     /// <param name="_panningVector"></param>
     private void ApplyPan(Vector3 _panningVector)
     {
-        panningTarget.position += _panningVector * Time.deltaTime;
+        Vector3 newPosition = panningTarget.position += _panningVector * Time.deltaTime;
 
         // Clamp to bounds
-        panningTarget.position = ClampToBounds(panningTarget.position, MapManager.MapBounds);
+        newPosition = ClampToBounds(newPosition, GetCameraCorners(), MapManager.MapBounds);
+
+        panningTarget.position = newPosition;
 
 
     }
 
     /// <summary>
-    /// Clamps the Vector3 pos within the bounds given. Used to panning clamps
+    /// Returns a clamp pos to keep the corners Vector3[] pos's within the bounds given. Used to panning clamps
     /// </summary>
     /// <param name="_position"></param>
     /// <param name="_bounds"></param>
     /// <returns></returns>
-    private Vector3 ClampToBounds(Vector3 _position, Bounds _bounds)
-    {                   // My day is ruined.... it doesn't slot nicely :(
-        return new Vector3( Mathf.Clamp(_position.x, _bounds.min.x, _bounds.max.x),
-                            Mathf.Clamp(_position.y, _bounds.min.y, _bounds.max.y),
-                            Mathf.Clamp(_position.z, _bounds.min.z, _bounds.max.z)
-        );
+    private Vector3 ClampToBounds(Vector3 _position, Vector3[] _worldCorners, Bounds _bounds)
+    {
+        List<Vector3> adjustmentVectors = new List<Vector3>();
+
+        // All vectors given should be actual valeus
+        if (_worldCorners.Any(n => n == Vector3.zero))
+        {
+            Debug.LogError("Invalid corner position");
+            return Vector3.zero;
+        }
+
+        // Begin churning through the corners to see if they're out of bounds, and if so assign an adjustmentVector to correct the position
+        for (int i = 0; i < _worldCorners.Length; i++)
+        {
+            Vector3 corner = _worldCorners[i];
+            corner.y = _bounds.center.y; // Don't check z bounds
+
+
+            if (_bounds.Contains(corner))
+            {
+                continue;
+            }
+
+            Vector3 closestBound = _bounds.ClosestPoint(corner);
+
+            // Combine vectors together
+            Vector3 adjustmentVector = closestBound - corner;
+            adjustmentVectors.Add(adjustmentVector);
+            
+            Debug.Log($"{adjustmentVector}: Corner {i}!");
+        }
+
+        // Don't fucking bother if there's no adjustment to combine
+        if (adjustmentVectors.Count == 0)
+        {
+            return _position;
+        }
+
+        // Combine all adjustment vectors together so we don't double do things.
+        // We do this by taking highest abs value, but we retain the sign (the + or -)
+        Vector3 combinedVector = Vector3.zero;
+        foreach (Vector3 adjustmentVector in adjustmentVectors)
+        {
+            combinedVector.x = Mathf.Abs(combinedVector.x) > Mathf.Abs(adjustmentVector.x) ? combinedVector.x : adjustmentVector.x;
+            combinedVector.y = Mathf.Abs(combinedVector.y) > Mathf.Abs(adjustmentVector.y) ? combinedVector.y : adjustmentVector.y;
+            combinedVector.z = Mathf.Abs(combinedVector.z) > Mathf.Abs(adjustmentVector.z) ? combinedVector.z : adjustmentVector.z;
+        }
+
+        Vector3 newPosition = _position + combinedVector;
+
+        return newPosition;
     }
 
     private Vector3[] GetCameraCorners()
