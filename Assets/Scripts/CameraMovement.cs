@@ -127,6 +127,9 @@ public class CameraMovement : NetworkBehaviour
         //panningTarget.transform.position = startPosition + (mainCamera.transform.forward * targetZoom);
         Vector3 offset = originalFollowOffset + (mainCamera.transform.forward * currentZoom);
         transposer.m_FollowOffset = offset;
+
+        // Reclamp as corner bounds have changed due to zoom
+        panningTarget.position = ClampToBounds(panningTarget.position, GetCameraCorners(), MapManager.MapBounds);
     }
 
     /// <summary>
