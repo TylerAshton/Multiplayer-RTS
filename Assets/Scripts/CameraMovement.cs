@@ -251,7 +251,7 @@ public class CameraMovement : NetworkBehaviour
         return newPosition;
     }
 
-    private Vector3[] GetCameraCorners()
+    private Vector3[] GetCameraCorners() // This needs to run cinemachine update
     {
         Vector3[] output = new Vector3[4];
 
