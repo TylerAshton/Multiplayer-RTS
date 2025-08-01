@@ -12,7 +12,7 @@ public enum ConstructionState
 
 public class ConstructionPad : SelectableObject, IConstructionPad
 {
-    private MeshRenderer meshRenderer;
+    private MeshRenderer[] meshRenderers;
     private Collider collider;
     private ConstructionState constructionState;
     private Building occupiedBuilding;
@@ -22,13 +22,17 @@ public class ConstructionPad : SelectableObject, IConstructionPad
 
     [SerializeField] public bool isUnlocked = false; //TODO: why tf is this public
 
+    [SerializeField] private SoundObject summonSound;
+    [SerializeField] private VfxObject summonVfx;
+
     protected override void Awake()
     {
         base.Awake();
 
-        if (!TryGetComponent<MeshRenderer>(out meshRenderer))
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        if (meshRenderers == null)
         {
-            Debug.LogError("MeshRenderer is required for ConstructionPad");
+            Debug.LogError("MeshRenderers are required for ConstructionPad");
         }
         if (!TryGetComponent<Collider>(out collider))
         {
@@ -76,6 +80,8 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     /// </summary>
     public void ShowBuildPad()
     {
+        SoundSpawner.Instance.PlaySoundEffectRpc(summonSound.ID, transform.position, 0);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(summonVfx.ID, transform.position);
         ShowbuildPadClientRpc();
         SetIsSelectable(true);
     }
@@ -97,14 +103,20 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     [ClientRpc]
     private void HidebuildPadClientRpc()
     {
-        meshRenderer.enabled = false;
+        foreach (var meshRenderer in meshRenderers)
+        {
+            meshRenderer.enabled = false;
+        }
         collider.enabled = false;
     }
 
     [ClientRpc]
     private void ShowbuildPadClientRpc() // TODO: Build pads are only supposed to be visible for the amalgam player in the future
     {
-        meshRenderer.enabled = true;
+        foreach (var meshRenderer in meshRenderers)
+        {
+            meshRenderer.enabled = true;
+        }
         collider.enabled = true;
     }
 
