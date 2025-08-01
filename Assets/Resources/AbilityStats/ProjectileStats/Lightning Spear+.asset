@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cffe88dae6799a94a8b7ecae488eb09f, type: 3}
-  m_Name: Lightning Spear LV1
+  m_Name: Lightning Spear+
   m_EditorClassIdentifier: 
-  iD: LightningSpear1
+  id: LightningSpear+
   detectionRange: 5
   speed: 7
-  damage: 100
+  damage: 150
   lifeTime: 7
   bulletVFX: {fileID: 100010, guid: c3680525f45d82543be3d8c94fe9b19f, type: 3}
   bulletVFXScale: 5

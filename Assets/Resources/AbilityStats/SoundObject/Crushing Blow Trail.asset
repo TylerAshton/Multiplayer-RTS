@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
-  m_Name: IceShot
+  m_Name: Crushing Blow Trail
   m_EditorClassIdentifier: 
-  id: IceShot
+  id: Crushing Blow
   soundEvent:
     Guid:
-      Data1: -965081343
-      Data2: 1154511581
-      Data3: 910911389
-      Data4: -1928073037
-    Path: event:/SFX/3D/Ice Shard
+      Data1: -1099322475
+      Data2: 1287531451
+      Data3: 111221139
+      Data4: -619197328
+    Path: event:/SFX/3D/Crushing Blow trail
   isPlayingLocal: 1
   soundEvent2D:
     Guid:
-      Data1: 1861130216
-      Data2: 1088629941
-      Data3: 687204791
-      Data4: 314736016
-    Path: event:/SFX/2D/Ice Shard 2D
+      Data1: -419096667
+      Data2: 1296799734
+      Data3: -638257226
+      Data4: -279878539
+    Path: event:/SFX/2D/Crushing Blow trail 2D

@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
-  m_Name: IceShot
+  m_Name: Hero's Prayer
   m_EditorClassIdentifier: 
-  id: IceShot
+  id: herosprayer
   soundEvent:
     Guid:
-      Data1: -965081343
-      Data2: 1154511581
-      Data3: 910911389
-      Data4: -1928073037
-    Path: event:/SFX/3D/Ice Shard
+      Data1: -884814133
+      Data2: 1223857354
+      Data3: -1568584038
+      Data4: 113301349
+    Path: event:/SFX/3D/Healing Low
   isPlayingLocal: 1
   soundEvent2D:
     Guid:
-      Data1: 1861130216
-      Data2: 1088629941
-      Data3: 687204791
-      Data4: 314736016
-    Path: event:/SFX/2D/Ice Shard 2D
+      Data1: 2110216844
+      Data2: 1086997249
+      Data3: -1798554435
+      Data4: 1011092285
+    Path: event:/SFX/2D/Healing Low 2D

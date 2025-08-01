@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
-  m_Name: IceShot
+  m_Name: Sword Swing
   m_EditorClassIdentifier: 
-  id: IceShot
+  id: Sword Swing
   soundEvent:
     Guid:
-      Data1: -965081343
-      Data2: 1154511581
-      Data3: 910911389
-      Data4: -1928073037
-    Path: event:/SFX/3D/Ice Shard
+      Data1: 923950870
+      Data2: 1204964942
+      Data3: -1212066385
+      Data4: -16041261
+    Path: event:/SFX/3D/Swing Sword
   isPlayingLocal: 1
   soundEvent2D:
     Guid:
-      Data1: 1861130216
-      Data2: 1088629941
-      Data3: 687204791
-      Data4: 314736016
-    Path: event:/SFX/2D/Ice Shard 2D
+      Data1: -1825740458
+      Data2: 1237957537
+      Data3: -1752464222
+      Data4: -996349127
+    Path: event:/SFX/2D/Swing Sword 2D

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffe88dae6799a94a8b7ecae488eb09f, type: 3}
   m_Name: IceBolt Lv2
   m_EditorClassIdentifier: 
-  iD: Ice2
+  id: Ice2
   detectionRange: 0.1
   speed: 10
   damage: 45
@@ -23,4 +23,4 @@ MonoBehaviour:
   deathVFXScale: 0.29
   isAOE: 0
   aoeRadius: 1
-  penetration: 1
+  penetration: 0

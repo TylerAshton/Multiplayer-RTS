@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crushing Blow LV3
   m_EditorClassIdentifier: 
   id: CrushingBlow3
-  price: 0
+  price: 3500
   icon: {fileID: 21300000, guid: 1d3d193e3a0938648ae465edc02965ce, type: 3}
   castTime: 1
   castPositionName: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
   cooldown: 20
   successor: {fileID: 0}
   castSound: {fileID: 0}
-  apexSound: {fileID: 0}
+  apexSound: {fileID: 11400000, guid: 926b1c35b70c3cb4ab8261ee7f83a60b, type: 2}
   slowAmount: 7
   channelStats: {fileID: 11400000, guid: b4011fecfb8c2974faeca0bc5df1f946, type: 2}
   isAttached: 0

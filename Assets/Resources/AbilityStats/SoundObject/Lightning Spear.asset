@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
-  m_Name: IceShot
+  m_Name: Lightning Spear
   m_EditorClassIdentifier: 
-  id: IceShot
+  id: LightningSpear
   soundEvent:
     Guid:
-      Data1: -965081343
-      Data2: 1154511581
-      Data3: 910911389
-      Data4: -1928073037
-    Path: event:/SFX/3D/Ice Shard
+      Data1: -1032056985
+      Data2: 1214263197
+      Data3: -951206217
+      Data4: 1858820983
+    Path: event:/SFX/3D/Lightning Spear
   isPlayingLocal: 1
   soundEvent2D:
     Guid:
-      Data1: 1861130216
-      Data2: 1088629941
-      Data3: 687204791
-      Data4: 314736016
-    Path: event:/SFX/2D/Ice Shard 2D
+      Data1: 740439983
+      Data2: 1114192755
+      Data3: 958465451
+      Data4: -874245720
+    Path: event:/SFX/2D/Lightning Spear 2D
