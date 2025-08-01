@@ -120,6 +120,25 @@ public class CameraMovement : NetworkBehaviour
 
         UpdateCurrentZoom();
         ApplyZoom();
+
+    }
+
+    private void LateUpdate()
+    {
+        Vector3[] corners = GetCameraCornersOnTargetPlane();
+        Bounds camBounds = ConvertCornersToBounds(corners);
+
+        Debug.Log($"Distance from panning target to camera bounds (X,Z): {camBounds.extents}");
+
+        Vector3 clampedPos = new Vector3(
+            Mathf.Clamp(panningTarget.position.x, MapManager.MapBounds.min.x + camBounds.extents.x, MapManager.MapBounds.max.x - camBounds.extents.x),
+            panningTarget.position.y,
+            Mathf.Clamp(panningTarget.position.z, MapManager.MapBounds.min.z + camBounds.extents.z, MapManager.MapBounds.max.z - camBounds.extents.z)
+        );
+
+        Debug.DrawLine(panningTarget.position, panningTarget.position + new Vector3(camBounds.extents.x, 0, 0), Color.red);
+
+        panningTarget.position = clampedPos;
     }
 
     private void ApplyZoom()
@@ -129,7 +148,7 @@ public class CameraMovement : NetworkBehaviour
         transposer.m_FollowOffset = offset;
 
         // Reclamp as corner bounds have changed due to zoom
-        panningTarget.position = ClampToBounds(panningTarget.position, GetCameraCorners(), MapManager.MapBounds);
+        //panningTarget.position = ClampToBounds(panningTarget.position, GetCameraCornersOnTargetPlane(), MapManager.MapBounds);
     }
 
     /// <summary>
@@ -183,11 +202,16 @@ public class CameraMovement : NetworkBehaviour
     private void ApplyPan(Vector3 _panningVector)
     {
         Vector3 newPosition = panningTarget.position += _panningVector * Time.deltaTime;
+        panningTarget.position = newPosition;
+
+        //CinemachineCore.Instance.GetActiveBrain(0)?.ManualUpdate();
+        
 
         // Clamp to bounds
-        newPosition = ClampToBounds(newPosition, GetCameraCorners(), MapManager.MapBounds);
+        /*        CinemachineCore.Instance.GetActiveBrain(0)?.ManualUpdate();
+                newPosition = ClampToBounds(newPosition, GetCameraCornersOnTargetPlane(), MapManager.MapBounds);
+                panningTarget.position = newPosition;*/
 
-        panningTarget.position = newPosition;
 
 
     }
@@ -251,7 +275,7 @@ public class CameraMovement : NetworkBehaviour
         return newPosition;
     }
 
-    private Vector3[] GetCameraCorners() // This needs to run cinemachine update
+    /*private Vector3[] GetCameraCorners() // This needs to run cinemachine update
     {
         Vector3[] output = new Vector3[4];
 
@@ -291,11 +315,62 @@ public class CameraMovement : NetworkBehaviour
         output[3] = topRight;
 
         return output;
+    }*/
+
+    private Bounds ConvertCornersToBounds(Vector3[] _corners)
+    {
+        if (_corners.Length != 4)
+        {
+            Debug.LogError("Invalid number of corners provided. Expected 4.");
+            return new Bounds();
+        }
+
+        Vector3 min = _corners[0];
+        Vector3 max = _corners[0];
+        for (int i = 1; i < _corners.Length; i++)
+        {
+            min = Vector3.Min(min, _corners[i]);
+            max = Vector3.Max(max, _corners[i]);
+        }
+
+        Bounds bounds = new Bounds();
+        bounds.SetMinMax(min, max);
+        return bounds;
+    }
+
+    private Vector3[] GetCameraCornersOnTargetPlane()
+    {
+        Plane targetPlane = new Plane(Vector3.up, panningTarget.position);
+        Vector3[] corners = new Vector3[4];
+
+        Vector3[] screenPoints = new Vector3[]
+        {
+        new Vector3(0, 0), // Bottom Left
+        new Vector3(0, Screen.height), // Top Left
+        new Vector3(Screen.width, 0), // Bottom Right
+        new Vector3(Screen.width, Screen.height), // Top Right
+        };
+
+        Camera cam = Camera.main;
+        for (int i = 0; i < 4; i++)
+        {
+            Ray ray = cam.ScreenPointToRay(screenPoints[i]);
+            if (targetPlane.Raycast(ray, out float enter))
+            {
+                corners[i] = ray.GetPoint(enter);
+            }
+            else
+            {
+                Debug.LogError("Ray did not intersect with target plane.");
+            }
+        }
+
+        return corners;
     }
 
     private void OnDrawGizmos()
     {
-        Vector3[] corners = GetCameraCorners();
+        Vector3[] corners = GetCameraCornersOnTargetPlane();
 
         foreach (Vector3 corr in corners)
         {
@@ -303,6 +378,10 @@ public class CameraMovement : NetworkBehaviour
             Gizmos.DrawSphere(corr, 5);
         }
 
+        Gizmos.color = Color.green;
+        Bounds camBounds = ConvertCornersToBounds(corners);
+
+        Debug.Log($"Distance from panning target to camera bounds (X,Z): {camBounds.extents}");
     }
 
     /// <summary>
