@@ -123,12 +123,13 @@ public class CameraMovement : NetworkBehaviour
 
     }
 
-    private void LateUpdate()
+    /// <summary>
+    /// Moves the panning target to a clamped position within the bounds of the map based on how far the camera is zoomed out.
+    /// </summary>
+    private void ClampPanningTargetToBounds() // TODO: This has a minor flaw due to the camera being at an angle. If we could somehow use a 2nd camera or something to get the bounds of the camera view, that would be better. But it's good enough for showcase
     {
         Vector3[] corners = GetCameraCornersOnTargetPlane();
         Bounds camBounds = ConvertCornersToBounds(corners);
-
-        Debug.Log($"Distance from panning target to camera bounds (X,Z): {camBounds.extents}");
 
         Vector3 clampedPos = new Vector3(
             Mathf.Clamp(panningTarget.position.x, MapManager.MapBounds.min.x + camBounds.extents.x, MapManager.MapBounds.max.x - camBounds.extents.x),
@@ -136,7 +137,7 @@ public class CameraMovement : NetworkBehaviour
             Mathf.Clamp(panningTarget.position.z, MapManager.MapBounds.min.z + camBounds.extents.z, MapManager.MapBounds.max.z - camBounds.extents.z)
         );
 
-        Debug.DrawLine(panningTarget.position, panningTarget.position + new Vector3(camBounds.extents.x, 0, 0), Color.red);
+/*        Debug.DrawLine(panningTarget.position, panningTarget.position + new Vector3(camBounds.extents.x, 0, 0), Color.red);*/
 
         panningTarget.position = clampedPos;
     }
@@ -148,7 +149,7 @@ public class CameraMovement : NetworkBehaviour
         transposer.m_FollowOffset = offset;
 
         // Reclamp as corner bounds have changed due to zoom
-        //panningTarget.position = ClampToBounds(panningTarget.position, GetCameraCornersOnTargetPlane(), MapManager.MapBounds);
+        ClampPanningTargetToBounds();
     }
 
     /// <summary>
@@ -204,19 +205,136 @@ public class CameraMovement : NetworkBehaviour
         Vector3 newPosition = panningTarget.position += _panningVector * Time.deltaTime;
         panningTarget.position = newPosition;
 
-        //CinemachineCore.Instance.GetActiveBrain(0)?.ManualUpdate();
-        
-
         // Clamp to bounds
-        /*        CinemachineCore.Instance.GetActiveBrain(0)?.ManualUpdate();
-                newPosition = ClampToBounds(newPosition, GetCameraCornersOnTargetPlane(), MapManager.MapBounds);
-                panningTarget.position = newPosition;*/
-
-
-
+        ClampPanningTargetToBounds();
     }
 
     /// <summary>
+    /// Legit just converts the 4 corners to a Bounds object.
+    /// </summary>
+    /// <param name="_corners"></param>
+    /// <returns></returns>
+    private Bounds ConvertCornersToBounds(Vector3[] _corners)
+    {
+        if (_corners.Length != 4)
+        {
+            Debug.LogError("Invalid number of corners provided. Expected 4.");
+            return new Bounds();
+        }
+
+        Vector3 min = _corners[0];
+        Vector3 max = _corners[0];
+        for (int i = 1; i < _corners.Length; i++)
+        {
+            min = Vector3.Min(min, _corners[i]);
+            max = Vector3.Max(max, _corners[i]);
+        }
+
+        Bounds bounds = new Bounds();
+        bounds.SetMinMax(min, max);
+        return bounds;
+    }
+
+    /// <summary>
+    /// Returns the 4 corners of the camera's view to the cameratarget plane.
+    /// </summary>
+    /// <returns></returns>
+    private Vector3[] GetCameraCornersOnTargetPlane()
+    {
+        Plane targetPlane = new Plane(Vector3.up, panningTarget.position); // Deterministic plane instead of the boundsSurface
+        Vector3[] screenCorners = new Vector3[4];
+        Vector3[] corners = new Vector3[4];
+
+        Vector3 topLeft = new Vector3(0, Screen.height);
+        Vector3 topRight = new Vector3(Screen.width, Screen.height);
+        Vector3 bottomLeft = new Vector3(0, 0);
+        Vector3 bottomRight = new Vector3(Screen.width, 0);
+
+        screenCorners[0] = topLeft;
+        screenCorners[1] = topRight;
+        screenCorners[2] = bottomLeft;
+        screenCorners[3] = bottomRight;
+
+        Camera cam = Camera.main;
+        for (int i = 0; i < 4; i++)
+        {
+            Ray ray = cam.ScreenPointToRay(screenCorners[i]);
+            if (targetPlane.Raycast(ray, out float enter))
+            {
+                corners[i] = ray.GetPoint(enter);
+            }
+            else
+            {
+                Debug.LogError("Ray did not intersect with target plane.");
+            }
+        }
+
+        return corners;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3[] corners = GetCameraCornersOnTargetPlane();
+
+        foreach (Vector3 corr in corners)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(corr, 5);
+        }
+
+        /*Debug.Log($"Distance from panning target to camera bounds (X,Z): {camBounds.extents}");*/
+    }
+
+    /// <summary>
+    /// Adds to the zoom target.
+    /// </summary>
+    /// <param name="_zoomChange"></param>
+    public void AdjustZoomTarget(float _zoomChange)
+    {
+        float newZoom = Mathf.Clamp(targetZoom + (_zoomChange * zoomSensitivity), minZoom, maxZoom);
+        targetZoom = newZoom;
+    }
+
+    private void UpdateCurrentZoom()
+    {
+        currentZoom = Mathf.Lerp(currentZoom, targetZoom, Time.deltaTime * zoomSpeed);
+    }
+
+    /*/// <summary>
+    /// If the mouse is near the screen edge, returns a vector representing which edges. Otherwise returns a Vector3.Zero
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 isMouseNearScreenEdge()
+    {
+        // Check if mouse is near edges
+        bool isNearLeft = screenPosition.x <= panningEdgeThreshold;
+        bool isNearRight = screenPosition.x >= screenWidth - panningEdgeThreshold;
+        bool isNearTop = screenPosition.y >= screenHeight - panningEdgeThreshold;
+        bool isNearBottom = screenPosition.y <= panningEdgeThreshold;
+
+        Vector3 edgeVector = new Vector3 { x = 0, y = 0, z = 0 };
+
+        if (isNearLeft) // TODO: This is dumb
+        {
+            edgeVector.x = -maxPanningSpeed;
+        }
+        if (isNearRight)
+        {
+            edgeVector.x = maxPanningSpeed;
+        }
+        if (isNearTop)
+        {
+            edgeVector.z = maxPanningSpeed;
+        }
+        if (isNearBottom)
+        {
+            edgeVector.z = -maxPanningSpeed;
+        }
+
+        return edgeVector;
+    }*/
+
+    /*/// <summary> A previous approach to clamping that didn't work as it relied on the camera corners which would change constantly
     /// Returns a clamp pos to keep the corners Vector3[] pos's within the bounds given. Used to panning clamps
     /// </summary>
     /// <param name="_position"></param>
@@ -273,9 +391,9 @@ public class CameraMovement : NetworkBehaviour
         Vector3 newPosition = _position + combinedVector;
 
         return newPosition;
-    }
+    }*/
 
-    /*private Vector3[] GetCameraCorners() // This needs to run cinemachine update
+    /*private Vector3[] GetCameraCorners() // This previous approach worked fine but it was a bit dependent on a debug boundsSurface
     {
         Vector3[] output = new Vector3[4];
 
@@ -316,121 +434,5 @@ public class CameraMovement : NetworkBehaviour
 
         return output;
     }*/
-
-    private Bounds ConvertCornersToBounds(Vector3[] _corners)
-    {
-        if (_corners.Length != 4)
-        {
-            Debug.LogError("Invalid number of corners provided. Expected 4.");
-            return new Bounds();
-        }
-
-        Vector3 min = _corners[0];
-        Vector3 max = _corners[0];
-        for (int i = 1; i < _corners.Length; i++)
-        {
-            min = Vector3.Min(min, _corners[i]);
-            max = Vector3.Max(max, _corners[i]);
-        }
-
-        Bounds bounds = new Bounds();
-        bounds.SetMinMax(min, max);
-        return bounds;
-    }
-
-    private Vector3[] GetCameraCornersOnTargetPlane()
-    {
-        Plane targetPlane = new Plane(Vector3.up, panningTarget.position);
-        Vector3[] corners = new Vector3[4];
-
-        Vector3[] screenPoints = new Vector3[]
-        {
-        new Vector3(0, 0), // Bottom Left
-        new Vector3(0, Screen.height), // Top Left
-        new Vector3(Screen.width, 0), // Bottom Right
-        new Vector3(Screen.width, Screen.height), // Top Right
-        };
-
-        Camera cam = Camera.main;
-        for (int i = 0; i < 4; i++)
-        {
-            Ray ray = cam.ScreenPointToRay(screenPoints[i]);
-            if (targetPlane.Raycast(ray, out float enter))
-            {
-                corners[i] = ray.GetPoint(enter);
-            }
-            else
-            {
-                Debug.LogError("Ray did not intersect with target plane.");
-            }
-        }
-
-        return corners;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Vector3[] corners = GetCameraCornersOnTargetPlane();
-
-        foreach (Vector3 corr in corners)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(corr, 5);
-        }
-
-        Gizmos.color = Color.green;
-        Bounds camBounds = ConvertCornersToBounds(corners);
-
-        Debug.Log($"Distance from panning target to camera bounds (X,Z): {camBounds.extents}");
-    }
-
-    /// <summary>
-    /// Adds to the zoom target.
-    /// </summary>
-    /// <param name="_zoomChange"></param>
-    public void AdjustZoomTarget(float _zoomChange)
-    {
-        float newZoom = Mathf.Clamp(targetZoom + (_zoomChange * zoomSensitivity), minZoom, maxZoom);
-        targetZoom = newZoom;
-    }
-
-    private void UpdateCurrentZoom()
-    {
-        currentZoom = Mathf.Lerp(currentZoom, targetZoom, Time.deltaTime * zoomSpeed);
-    }
-
-    /// <summary>
-    /// If the mouse is near the screen edge, returns a vector representing which edges. Otherwise returns a Vector3.Zero
-    /// </summary>
-    /// <returns></returns>
-    private Vector3 isMouseNearScreenEdge()
-    {
-        // Check if mouse is near edges
-        bool isNearLeft = screenPosition.x <= panningEdgeThreshold;
-        bool isNearRight = screenPosition.x >= screenWidth - panningEdgeThreshold;
-        bool isNearTop = screenPosition.y >= screenHeight - panningEdgeThreshold;
-        bool isNearBottom = screenPosition.y <= panningEdgeThreshold;
-
-        Vector3 edgeVector = new Vector3 { x = 0, y = 0, z = 0 };
-
-        if (isNearLeft) // TODO: This is dumb
-        {
-            edgeVector.x = -maxPanningSpeed;
-        }
-        if (isNearRight)
-        {
-            edgeVector.x = maxPanningSpeed;
-        }
-        if (isNearTop)
-        {
-            edgeVector.z = maxPanningSpeed;
-        }
-        if (isNearBottom)
-        {
-            edgeVector.z = -maxPanningSpeed;
-        }
-
-        return edgeVector;
-    }
 
 }
