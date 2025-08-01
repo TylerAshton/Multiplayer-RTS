@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4601051790687055588}
   - component: {fileID: 4149839590012210246}
   - component: {fileID: 1695481169955958113}
-  - component: {fileID: -4437935337302876134}
   m_Layer: 0
   m_Name: Amalgam Camera
   m_TagString: MainCamera
@@ -165,20 +164,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-4437935337302876134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334692810404585016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 1334692810404585016}
 --- !u!1 &1855399276975584748
 GameObject:
   m_ObjectHideFlags: 0

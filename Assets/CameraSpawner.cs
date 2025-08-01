@@ -1,4 +1,5 @@
 using Cinemachine;
+using FMODUnity;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -46,7 +47,6 @@ public class CameraSpawner : MonoBehaviour
             Debug.LogError($"{nameof(CinemachineVirtualCamera)} not found!");
             return;
         }
-
 
         if (cameraTarget)
         {
