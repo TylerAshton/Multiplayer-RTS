@@ -39,16 +39,17 @@ public class SoundSpawner : NetworkBehaviour
 
         if (_castingPlayerID == NetworkManager.LocalClientId && soundObject.IsPlayingLocal)
         {
-            RuntimeManager.PlayOneShot(soundObject.SoundEvent);
+            // If the sound event parsed is NOT 2D this will silently fail and just play in the abyss
+            EventReference soundData = (soundObject.SoundEvent2D.Guid.IsNull) ? soundObject.SoundEvent : soundObject.SoundEvent2D;
+
+            RuntimeManager.PlayOneShot(soundData);
+            
             return;
         }
 
         else
         {
-            // Fallback encase we don't have a 2D sound
-            EventReference soundData = (soundObject.SoundEvent2D.Guid.IsNull) ? soundObject.SoundEvent : soundObject.SoundEvent2D;
-
-            RuntimeManager.PlayOneShot(soundData, _pos);
+            RuntimeManager.PlayOneShot(soundObject.SoundEvent, _pos);
             return;
         }
 

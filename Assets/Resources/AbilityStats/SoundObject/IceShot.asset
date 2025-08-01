@@ -20,11 +20,11 @@ MonoBehaviour:
       Data3: 910911389
       Data4: -1928073037
     Path: event:/SFX/Ice Shard
-  isPlayingLocal: 1
+  isPlayingLocal: 0
   soundEvent2D:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1852523704
+      Data2: 1262424544
+      Data3: 671944593
+      Data4: -795241957
+    Path: event:/SFX/Dragon's Breath
