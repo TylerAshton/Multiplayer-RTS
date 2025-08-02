@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public interface IAbilityUser
     AbilityManager AbilityManager { get; }
     Vector3 AimPoint { get; }
     IFaction IFaction { get; }
+
+    ulong OwnerID { get; }
 
     public void SetTarget(Collider castTarget);
     public void ClearTarget();

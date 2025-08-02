@@ -929,6 +929,7 @@ GameObject:
   - component: {fileID: 9123696691703575277}
   - component: {fileID: 3464665439350632541}
   - component: {fileID: 2253060296666649266}
+  - component: {fileID: 4272817138642199781}
   m_Layer: 7
   m_Name: Melee Level 1
   m_TagString: Amalgam
@@ -1084,7 +1085,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  selectionIndiator: {fileID: 1015896299060538320}
   isSelectable: 1
   iD: Demon1
 --- !u!114 &-7025966385176421984
@@ -1350,6 +1350,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targettingAngle: 60
   attackRange: 4
+--- !u!114 &4272817138642199781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2401997887451976919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c5d4468d9877740bd8fe269ef13276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverMaterials:
+  - {fileID: 2100000, guid: 336983fbb6fb8c9489c5f18ca677c1b7, type: 2}
+  - {fileID: 2100000, guid: e5b270178c26ee44d8b7a2ffa9ebcbe6, type: 2}
+  selectedMaterials:
+  - {fileID: 2100000, guid: 336983fbb6fb8c9489c5f18ca677c1b7, type: 2}
+  - {fileID: 2100000, guid: 18aa9269ad742e646b1584504a82bdf9, type: 2}
 --- !u!1 &2733378309634046883
 GameObject:
   m_ObjectHideFlags: 0

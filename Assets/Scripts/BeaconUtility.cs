@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class BeaconUtility
 {
-    public static void DrawStat<T>(SerializedObject _so, string _fieldName) where T : UnityEngine.Object, Inspectorable
+    public static void DrawStat<T>(SerializedObject _so, string _fieldName, bool _isNullable) where T : UnityEngine.Object, Inspectorable
     {
         SerializedProperty fieldBaseAbilityStat = _so.FindProperty(_fieldName);
 
@@ -20,7 +20,7 @@ public static class BeaconUtility
         {
             DrawStatValues<T>(fieldBaseAbilityStat);
         }
-        else
+        else if (!_isNullable)
         {
             EditorGUILayout.HelpBox($"Stats field cannot be null!", MessageType.Error);
         }

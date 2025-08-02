@@ -12,6 +12,7 @@ public class FactoryQueueManager : NetworkBehaviour
     public Queue<ConstructionStats> ProductionQueue => productionQueue;
     private ConstructionStats currentProduction;
     private AbilityManager abilityManager;
+    private AbilityPositionManager abilityPositionManager;
     private bool isRepeating => abilityManager.IsUtilityEnabled;
 
     private void Awake()
@@ -19,6 +20,10 @@ public class FactoryQueueManager : NetworkBehaviour
         if(!TryGetComponent<AbilityManager>(out abilityManager))
         {
             Debug.LogError($"{GetType().Name} requires a {nameof(AbilityManager)} component.");
+        }
+        if (!TryGetComponent<AbilityPositionManager>(out abilityPositionManager))
+        {
+            Debug.LogError($"{GetType().Name} requires a {nameof(AbilityPositionManager)} component.");
         }
     }
 
@@ -145,7 +150,8 @@ public class FactoryQueueManager : NetworkBehaviour
     /// <returns></returns>
     private Vector3 CalculateSpawnPos(ConstructionStats _constructionStats)
     {
-        Vector3 castPosition = transform.position + _constructionStats.Offset;
+        // TODO: ehhhh spawn pos is a bit iffy
+        Vector3 castPosition = abilityPositionManager.AbilityPositions[AbilityPosition.Centre].position + _constructionStats.Offset;
 
         // Generate random XZ offset within the specified dispersion range
         float offsetX = Random.Range(-_constructionStats.MaxDispersion, _constructionStats.MaxDispersion);

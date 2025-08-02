@@ -16,7 +16,7 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
         throw new System.NotImplementedException();
     }*/
 
-    protected override void ActivateTyped(ICharacterAbilityUser _user)
+    protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
         _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
         StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
@@ -39,7 +39,7 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
 
     }
 
-    protected override void OnUseTyped(ICharacterAbilityUser _user)
+    protected override void OnApexTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         GameObject buffVfx = Instantiate(buffEffects, _user.Transform);

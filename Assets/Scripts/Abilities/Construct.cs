@@ -18,7 +18,7 @@ public class Construct : Ability<IConstructionPad>, IVfxObject
 
     public float VfxDuration => 5f;
 
-    protected override void ActivateTyped(IConstructionPad _user)
+    protected override void OnCastTyped(IConstructionPad _user)
     {
         Vector3 spawnPosition = _user.Transform.position;
 
@@ -41,7 +41,7 @@ public class Construct : Ability<IConstructionPad>, IVfxObject
         
     }
 
-    protected override void OnUseTyped(IConstructionPad _user)
+    protected override void OnApexTyped(IConstructionPad _user)
     {
         
     }

@@ -761,9 +761,9 @@ GameObject:
   - component: {fileID: 4394188322512067527}
   - component: {fileID: -8212970734632235601}
   - component: {fileID: -3697217004477378991}
-  - component: {fileID: -2826286422217555130}
   - component: {fileID: -7676623500544454892}
   - component: {fileID: 4878573307744674690}
+  - component: {fileID: 2836372216517785854}
   m_Layer: 7
   m_Name: Cleric Champion
   m_TagString: Champion
@@ -1278,18 +1278,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: Main
+  - tabName: Cleric
     abilities:
     - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
-    - {fileID: 11400000, guid: 66605a685c0e6fd418f8ae2f5928b28f, type: 2}
-    - {fileID: 11400000, guid: 8ea9b7f22c3198a41b7a23abad849418, type: 2}
-    - {fileID: 11400000, guid: a8c38ba33734fcf48ab9bd4118ed242c, type: 2}
-  - tabName: Main
-    abilities:
-    - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
-    - {fileID: 11400000, guid: e52549d731846804db8d074e1cf8a1d3, type: 2}
-    - {fileID: 11400000, guid: e52549d731846804db8d074e1cf8a1d3, type: 2}
-    - {fileID: 11400000, guid: 012ca2833cb1ee841992851219737049, type: 2}
+    - {fileID: 11400000, guid: 7785565ae7077d844b28c6040dae8052, type: 2}
+    - {fileID: 11400000, guid: 0d05c6247cb877a42871369a45a70631, type: 2}
+    - {fileID: 11400000, guid: f20ce9f31e0551c4b84070a0152b891a, type: 2}
   hasUtility: 0
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 55d9baef825216f4daaccb32394929b0, type: 3}
 --- !u!114 &9122862085660864469
@@ -1420,20 +1414,6 @@ MonoBehaviour:
   cameraSpawnOffset: {x: 0, y: 0, z: 0}
   isChampion: 0
   cameraTarget: {fileID: 1770477014136216472}
---- !u!114 &-2826286422217555130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2434894007857547855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 2434894007857547855}
 --- !u!114 &-7676623500544454892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1477,6 +1457,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46635627db90bf4f83f7ca76ea3aae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2836372216517785854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434894007857547855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b43e5e94bd8f554cab53e28523ab0cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0

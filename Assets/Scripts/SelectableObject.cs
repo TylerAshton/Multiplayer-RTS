@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     protected AbilityManager abilityManager;
     public AbilityManager AbilityManager => abilityManager;
     public Task CurrentTask => currentTask;
-    [SerializeField] private GameObject selectionIndiator;
+/*    [SerializeField] private GameObject selectionIndiator;*/
     private MeshRenderer selectionRenderer;
     protected RTSPlayer rts_Player;
     
@@ -37,16 +38,20 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
 
 
     private Health castTargetHealth;
+    private SelectionHighlighter selectionHighlighter;
+    public SelectionHighlighter SelectionHighlighter => selectionHighlighter;
 
     [SerializeField] private string iD = string.Empty;
-    public string ID => iD; 
+    public string ID => iD;
+
+    public ulong OwnerID => 0; // Owner will always by 0: The host
 
     protected virtual void Awake()
     {
-        if (selectionIndiator == null)
+/*        if (selectionIndiator == null)
         {
             Debug.LogError($"Unit selection indicator is required for {GetType().Name} on gameobject: {gameObject.name}");
-        }
+        }*/
 
         if (!TryGetComponent<AbilityManager>(out abilityManager))
         {
@@ -56,13 +61,17 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
         {
             Debug.LogError($"{nameof(AbilityPositionManager)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
+        if (!TryGetComponent<SelectionHighlighter>(out selectionHighlighter))
+        {
+            Debug.LogError($"{nameof(SelectionHighlighter)} is required for {GetType().Name} on gameobject: {gameObject.name}");
+        }
         if (string.IsNullOrEmpty(iD))
         {
             Debug.LogError($"{nameof(iD)} is null or empty in {gameObject.name}!");
             return;
         }
 
-        selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();
+/*        selectionRenderer = selectionIndiator.GetComponent<MeshRenderer>();*/
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -220,18 +229,12 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
         UpdateTask();
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Shows the glowing sphere above the unit
     /// </summary>
     public virtual void ShowSelectionIndicator()
     {
-        if (selectionIndiator == null)
-        {
-            Debug.LogError("Selection indicator is null!");
-            return;
-        }
-
-        selectionIndiator.SetActive(true);
+        selectionHighlighter.ApplyHighlightShder();
     }
 
     /// <summary>
@@ -239,15 +242,10 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     /// </summary>
     public virtual void HideSelectionIndicator()
     {
-        if (selectionIndiator == null)
-        {
-            Debug.LogError("Selection indicator is null!");
-            return;
-        }
-        selectionIndiator.SetActive(false);
-    }
+        selectionHighlighter.ResetShaders();
+    }*/
 
-    /// <summary>
+    /*/// <summary>
     /// Changes the colour of the glowing sphere above the unit, used for DEBUG purposes
     /// </summary>
     /// <param name="_color"></param>
@@ -259,7 +257,7 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
             return;
         }
         selectionRenderer.material.color = _color;
-    }
+    }*/
     /// <summary>
     /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
     /// </summary>

@@ -14,6 +14,7 @@ public static class RegistryManager
         Registry<ProjectileStats>.Init("AbilityStats");
         Registry<ProjectionStats>.Init("AbilityStats");
         Registry<VfxObject>.Init("AbilityStats");
+        Registry<SoundObject>.Init("AbilityStats");
 
     }
 }

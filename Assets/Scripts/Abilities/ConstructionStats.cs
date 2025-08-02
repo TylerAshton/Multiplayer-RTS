@@ -46,9 +46,9 @@ public class ConstructionStats : BaseAbilityStat
             EditorGUILayout.HelpBox("ConsutrctablePrefab must be assigned.", MessageType.Error);
         }
 
-        BeaconUtility.DrawStat<VfxObject>(_so, "spawnVfx");
+        BeaconUtility.DrawStat<VfxObject>(_so, "spawnVfx", false);
 
-        BeaconUtility.DrawStat<VfxObject>(_so, "summonVfx");
+        BeaconUtility.DrawStat<VfxObject>(_so, "summonVfx", false);
 
         // Min max slider tom foolery
         SerializedProperty fieldMinDisperstion = _so.FindProperty("minDisperstion");

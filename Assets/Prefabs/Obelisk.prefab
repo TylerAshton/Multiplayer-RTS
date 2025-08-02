@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: -7837990067056140694}
   - component: {fileID: -7227062157592243336}
   - component: {fileID: 6614292383248283032}
+  - component: {fileID: 4731973555102115481}
   m_Layer: 7
   m_Name: Obelisk
   m_TagString: Amalgam
@@ -425,7 +426,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  selectionIndiator: {fileID: 4803152115824460874}
   isSelectable: 1
   iD: Obelisk
 --- !u!114 &-7227062157592243336
@@ -473,6 +473,24 @@ MonoBehaviour:
   OverrideAttenuation: 1
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &4731973555102115481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371476738365510241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c5d4468d9877740bd8fe269ef13276, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverMaterials:
+  - {fileID: 2100000, guid: 336983fbb6fb8c9489c5f18ca677c1b7, type: 2}
+  - {fileID: 2100000, guid: e5b270178c26ee44d8b7a2ffa9ebcbe6, type: 2}
+  selectedMaterials:
+  - {fileID: 2100000, guid: 336983fbb6fb8c9489c5f18ca677c1b7, type: 2}
+  - {fileID: 2100000, guid: 18aa9269ad742e646b1584504a82bdf9, type: 2}
 --- !u!1 &490395611759792516
 GameObject:
   m_ObjectHideFlags: 0
@@ -16155,7 +16173,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d0832e36140f4a04c9a2089e31fe1fd4, type: 2}
+  - {fileID: 2100000, guid: f4a3797af152c1f4986eeac7c4879003, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

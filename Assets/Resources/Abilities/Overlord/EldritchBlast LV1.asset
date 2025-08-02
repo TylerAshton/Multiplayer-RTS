@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2e12e273157d5740bf167ce234674c9, type: 3}
+  m_Name: EldritchBlast LV1
+  m_EditorClassIdentifier: 
+  id: eldritchBlast
+  price: 0
+  icon: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
+  castTime: 1
+  castPositionName: 1
+  abilityCost: 0
+  cooldown: 1
+  successor: {fileID: 0}
+  castSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  apexSound:
+    Guid:
+      Data1: 767463075
+      Data2: 1219983358
+      Data3: 1249465227
+      Data4: -1083236246
+    Path: event:/SFX/Eldritch Blast
+  projectileStats: {fileID: 11400000, guid: 678001f397f83ba4eafaae4d147f354b, type: 2}

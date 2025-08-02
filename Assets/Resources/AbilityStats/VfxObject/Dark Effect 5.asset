@@ -15,3 +15,4 @@ MonoBehaviour:
   id: DE5
   vfxPrefab: {fileID: 100004, guid: 1129ca32d1c4f6e40bf53318cb70d03c, type: 3}
   vfxScale: 1
+  lingerTime: 10

@@ -20,7 +20,7 @@ public class SummonAbility : Ability<IAbilityUser>, IVfxObject
 
     public float VfxDuration => 5f;
 
-    protected override void ActivateTyped(IAbilityUser _user)
+    protected override void OnCastTyped(IAbilityUser _user)
     {
         Vector3 castPosition = _user.Transform.position + offset;
 
@@ -51,7 +51,7 @@ public class SummonAbility : Ability<IAbilityUser>, IVfxObject
 
     }
 
-    protected override void OnUseTyped(IAbilityUser _user)
+    protected override void OnApexTyped(IAbilityUser _user)
     {
         throw new System.NotImplementedException();
     }

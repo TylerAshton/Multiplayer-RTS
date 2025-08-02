@@ -13,6 +13,9 @@ public class VfxObject : RegistryItem, Inspectorable
     private const float minVfxSize = 0.001f;
     private const float maxVfxSize = 20;
 
+    private const float minLingerTime = 0.001f;
+    private const float maxLingerTime = 20;
+
 #if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
     {
@@ -26,6 +29,9 @@ public class VfxObject : RegistryItem, Inspectorable
         }
         SerializedProperty fieldVfxScale = _so.FindProperty("vfxScale");
         fieldVfxScale.floatValue = EditorGUILayout.Slider("VFX Scale", fieldVfxScale.floatValue, minVfxSize, maxVfxSize);
+
+        SerializedProperty fieldLingerTime = _so.FindProperty("lingerTime");
+        fieldLingerTime.floatValue = EditorGUILayout.Slider("VFX Duration", fieldLingerTime.floatValue, minLingerTime, maxLingerTime);
     }
 #endif
 }

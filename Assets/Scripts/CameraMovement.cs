@@ -1,5 +1,7 @@
 using Cinemachine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -118,6 +120,26 @@ public class CameraMovement : NetworkBehaviour
 
         UpdateCurrentZoom();
         ApplyZoom();
+
+    }
+
+    /// <summary>
+    /// Moves the panning target to a clamped position within the bounds of the map based on how far the camera is zoomed out.
+    /// </summary>
+    private void ClampPanningTargetToBounds() // TODO: This has a minor flaw due to the camera being at an angle. If we could somehow use a 2nd camera or something to get the bounds of the camera view, that would be better. But it's good enough for showcase
+    {
+        Vector3[] corners = GetCameraCornersOnTargetPlane();
+        Bounds camBounds = ConvertCornersToBounds(corners);
+
+        Vector3 clampedPos = new Vector3(
+            Mathf.Clamp(panningTarget.position.x, MapManager.MapBounds.min.x + camBounds.extents.x, MapManager.MapBounds.max.x - camBounds.extents.x),
+            panningTarget.position.y,
+            Mathf.Clamp(panningTarget.position.z, MapManager.MapBounds.min.z + camBounds.extents.z, MapManager.MapBounds.max.z - camBounds.extents.z)
+        );
+
+/*        Debug.DrawLine(panningTarget.position, panningTarget.position + new Vector3(camBounds.extents.x, 0, 0), Color.red);*/
+
+        panningTarget.position = clampedPos;
     }
 
     private void ApplyZoom()
@@ -125,6 +147,9 @@ public class CameraMovement : NetworkBehaviour
         //panningTarget.transform.position = startPosition + (mainCamera.transform.forward * targetZoom);
         Vector3 offset = originalFollowOffset + (mainCamera.transform.forward * currentZoom);
         transposer.m_FollowOffset = offset;
+
+        // Reclamp as corner bounds have changed due to zoom
+        ClampPanningTargetToBounds();
     }
 
     /// <summary>
@@ -177,26 +202,87 @@ public class CameraMovement : NetworkBehaviour
     /// <param name="_panningVector"></param>
     private void ApplyPan(Vector3 _panningVector)
     {
-        panningTarget.position += _panningVector * Time.deltaTime;
+        Vector3 newPosition = panningTarget.position += _panningVector * Time.deltaTime;
+        panningTarget.position = newPosition;
 
         // Clamp to bounds
-        panningTarget.position = ClampToBounds(panningTarget.position, MapManager.MapBounds);
-
-
+        ClampPanningTargetToBounds();
     }
 
     /// <summary>
-    /// Clamps the Vector3 pos within the bounds given. Used to panning clamps
+    /// Legit just converts the 4 corners to a Bounds object.
     /// </summary>
-    /// <param name="_position"></param>
-    /// <param name="_bounds"></param>
+    /// <param name="_corners"></param>
     /// <returns></returns>
-    private Vector3 ClampToBounds(Vector3 _position, Bounds _bounds)
-    {                   // My day is ruined.... it doesn't slot nicely :(
-        return new Vector3( Mathf.Clamp(_position.x, _bounds.min.x, _bounds.max.x),
-                            Mathf.Clamp(_position.y, _bounds.min.y, _bounds.max.y),
-                            Mathf.Clamp(_position.z, _bounds.min.z, _bounds.max.z)
-        );
+    private Bounds ConvertCornersToBounds(Vector3[] _corners)
+    {
+        if (_corners.Length != 4)
+        {
+            Debug.LogError("Invalid number of corners provided. Expected 4.");
+            return new Bounds();
+        }
+
+        Vector3 min = _corners[0];
+        Vector3 max = _corners[0];
+        for (int i = 1; i < _corners.Length; i++)
+        {
+            min = Vector3.Min(min, _corners[i]);
+            max = Vector3.Max(max, _corners[i]);
+        }
+
+        Bounds bounds = new Bounds();
+        bounds.SetMinMax(min, max);
+        return bounds;
+    }
+
+    /// <summary>
+    /// Returns the 4 corners of the camera's view to the cameratarget plane.
+    /// </summary>
+    /// <returns></returns>
+    private Vector3[] GetCameraCornersOnTargetPlane()
+    {
+        Plane targetPlane = new Plane(Vector3.up, panningTarget.position); // Deterministic plane instead of the boundsSurface
+        Vector3[] screenCorners = new Vector3[4];
+        Vector3[] corners = new Vector3[4];
+
+        Vector3 topLeft = new Vector3(0, Screen.height);
+        Vector3 topRight = new Vector3(Screen.width, Screen.height);
+        Vector3 bottomLeft = new Vector3(0, 0);
+        Vector3 bottomRight = new Vector3(Screen.width, 0);
+
+        screenCorners[0] = topLeft;
+        screenCorners[1] = topRight;
+        screenCorners[2] = bottomLeft;
+        screenCorners[3] = bottomRight;
+
+        Camera cam = Camera.main;
+        for (int i = 0; i < 4; i++)
+        {
+            Ray ray = cam.ScreenPointToRay(screenCorners[i]);
+            if (targetPlane.Raycast(ray, out float enter))
+            {
+                corners[i] = ray.GetPoint(enter);
+            }
+            else
+            {
+                Debug.LogError("Ray did not intersect with target plane.");
+            }
+        }
+
+        return corners;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3[] corners = GetCameraCornersOnTargetPlane();
+
+        foreach (Vector3 corr in corners)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(corr, 5);
+        }
+
+        /*Debug.Log($"Distance from panning target to camera bounds (X,Z): {camBounds.extents}");*/
     }
 
     /// <summary>
@@ -214,7 +300,7 @@ public class CameraMovement : NetworkBehaviour
         currentZoom = Mathf.Lerp(currentZoom, targetZoom, Time.deltaTime * zoomSpeed);
     }
 
-    /// <summary>
+    /*/// <summary>
     /// If the mouse is near the screen edge, returns a vector representing which edges. Otherwise returns a Vector3.Zero
     /// </summary>
     /// <returns></returns>
@@ -246,6 +332,107 @@ public class CameraMovement : NetworkBehaviour
         }
 
         return edgeVector;
-    }
+    }*/
+
+    /*/// <summary> A previous approach to clamping that didn't work as it relied on the camera corners which would change constantly
+    /// Returns a clamp pos to keep the corners Vector3[] pos's within the bounds given. Used to panning clamps
+    /// </summary>
+    /// <param name="_position"></param>
+    /// <param name="_bounds"></param>
+    /// <returns></returns>
+    private Vector3 ClampToBounds(Vector3 _position, Vector3[] _worldCorners, Bounds _bounds)
+    {
+        List<Vector3> adjustmentVectors = new List<Vector3>();
+
+        // All vectors given should be actual valeus
+        if (_worldCorners.Any(n => n == Vector3.zero))
+        {
+            Debug.LogError("Invalid corner position");
+            return Vector3.zero;
+        }
+
+        // Begin churning through the corners to see if they're out of bounds, and if so assign an adjustmentVector to correct the position
+        for (int i = 0; i < _worldCorners.Length; i++)
+        {
+            Vector3 corner = _worldCorners[i];
+            corner.y = _bounds.center.y; // Don't check z bounds
+
+
+            if (_bounds.Contains(corner))
+            {
+                continue;
+            }
+
+            Vector3 closestBound = _bounds.ClosestPoint(corner);
+
+            // Combine vectors together
+            Vector3 adjustmentVector = closestBound - corner;
+            adjustmentVectors.Add(adjustmentVector);
+            
+            Debug.Log($"{adjustmentVector}: Corner {i}!");
+        }
+
+        // Don't fucking bother if there's no adjustment to combine
+        if (adjustmentVectors.Count == 0)
+        {
+            return _position;
+        }
+
+        // Combine all adjustment vectors together so we don't double do things.
+        // We do this by taking highest abs value, but we retain the sign (the + or -)
+        Vector3 combinedVector = Vector3.zero;
+        foreach (Vector3 adjustmentVector in adjustmentVectors)
+        {
+            combinedVector.x = Mathf.Abs(combinedVector.x) > Mathf.Abs(adjustmentVector.x) ? combinedVector.x : adjustmentVector.x;
+            combinedVector.y = Mathf.Abs(combinedVector.y) > Mathf.Abs(adjustmentVector.y) ? combinedVector.y : adjustmentVector.y;
+            combinedVector.z = Mathf.Abs(combinedVector.z) > Mathf.Abs(adjustmentVector.z) ? combinedVector.z : adjustmentVector.z;
+        }
+
+        Vector3 newPosition = _position + combinedVector;
+
+        return newPosition;
+    }*/
+
+    /*private Vector3[] GetCameraCorners() // This previous approach worked fine but it was a bit dependent on a debug boundsSurface
+    {
+        Vector3[] output = new Vector3[4];
+
+        LayerMask environmentMask = LayerMask.GetMask("BoundsSurface");
+
+        Vector3 topLeft = Vector3.zero;
+        Vector3 topRight = Vector3.zero;
+        Vector3 bottomLeft = Vector3.zero;
+        Vector3 bottomRight = Vector3.zero;
+
+        // 
+        Ray rayBL = Camera.main.ScreenPointToRay(new Vector3(0, 0, 0));
+        Ray rayTL = Camera.main.ScreenPointToRay(new Vector3(0, screenHeight, 0));
+        Ray rayBR = Camera.main.ScreenPointToRay(new Vector3(screenWidth, 0, 0));
+        Ray rayTR = Camera.main.ScreenPointToRay(new Vector3(screenWidth, screenHeight, 0));
+
+        if (Physics.Raycast(rayBL, out RaycastHit hitBL, Mathf.Infinity, environmentMask))
+        {
+            bottomLeft = hitBL.point;
+        }
+        if (Physics.Raycast(rayTL, out RaycastHit hitTL, Mathf.Infinity, environmentMask))
+        {
+            topLeft = hitTL.point;
+        }
+        if (Physics.Raycast(rayBR, out RaycastHit hitBR, Mathf.Infinity, environmentMask))
+        {
+            bottomRight = hitBR.point;
+        }
+        if (Physics.Raycast(rayTR, out RaycastHit hitTR, Mathf.Infinity, environmentMask))
+        {
+            topRight = hitTR.point;
+        }
+
+        output[0] = bottomLeft;
+        output[1] = topLeft;
+        output[2] = bottomRight;
+        output[3] = topRight;
+
+        return output;
+    }*/
 
 }
