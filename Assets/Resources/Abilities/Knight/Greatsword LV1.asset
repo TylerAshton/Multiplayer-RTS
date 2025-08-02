@@ -20,6 +20,8 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 0
   successor: {fileID: 11400000, guid: a9a5ae623717ab945970c7cd8c5e309a, type: 2}
+  castSound: {fileID: 0}
+  apexSound: {fileID: 11400000, guid: 02cd17f9af279a243b87bc716c9beac4, type: 2}
   angleDegrees: 60
   range: 3
   damage: 45

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
+  m_Name: Sword Swing
+  m_EditorClassIdentifier: 
+  id: Sword Swing
+  soundEvent:
+    Guid:
+      Data1: 923950870
+      Data2: 1204964942
+      Data3: -1212066385
+      Data4: -16041261
+    Path: event:/SFX/3D/Swing Sword
+  isPlayingLocal: 1
+  soundEvent2D:
+    Guid:
+      Data1: -1825740458
+      Data2: 1237957537
+      Data3: -1752464222
+      Data4: -996349127
+    Path: event:/SFX/2D/Swing Sword 2D
