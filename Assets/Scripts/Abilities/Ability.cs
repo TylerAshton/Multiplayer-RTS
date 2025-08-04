@@ -35,6 +35,25 @@ public abstract class Ability : Purchasable, Inspectorable
             purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
         }*/
 
+    /// <summary>
+    /// Returns true if the user can use this ability. I.e, has enough points
+    /// NOTE: Doesn't take cooldown into account as cooldowns are handled by the user
+    /// </summary>
+    /// <param name="_user"></param>
+    /// <returns></returns>
+    public bool CanUse(IAbilityUser _user)
+    {
+        // Cost checker // TODO: Enable ability cost checking
+        int currentPoints = PointManager.Instance.GetPoints(_user.OwnerID);
+
+        if (currentPoints < this.AbilityCost)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public override bool CanPurchase(IShopUser _shopUser)
     {
         if (base.CanPurchase(_shopUser) == false)

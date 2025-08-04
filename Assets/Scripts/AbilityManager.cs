@@ -404,18 +404,18 @@ public class AbilityManager : NetworkBehaviour
     /// </summary>
     /// <param name="_ability"></param>
     /// <returns></returns>
-    private bool CanCastAbility(Ability _ability)
+    public bool CanCastAbility(Ability _ability)
     {
         // isCasting checker
         if (abilityState == AbilityState.Casting)
         {
             return false;
         }
-        // Cost checker // TODO: Enable ability cost checking
-        int currentPoints = PointManager.Instance.GetPoints(ownerClientId);
+        
 
-        if (currentPoints < _ability.AbilityCost)
+        if (!_ability.CanUse(abilityUser))
         {
+            Debug.LogWarning($"Cannot use ability {_ability.AbilityName} due to insufficient points or other conditions.");
             return false;
         }
 

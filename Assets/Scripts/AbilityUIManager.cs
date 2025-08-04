@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class AbilityUIManager : MonoBehaviour
 {
+    private const double abilPartialThreshold = 0.6;
     [SerializeField] private UtilityCell utilityCell;
     [SerializeField] private List<AbilityCell> abilityCells = new List<AbilityCell>();
     [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
@@ -38,6 +39,67 @@ public class AbilityUIManager : MonoBehaviour
     private void Update()
     {
         ShowCooldowns();
+        ShowAvailability();
+    }
+
+    /// <summary>
+    /// Updates the UI to show if the ability is ready to be casted or not.
+    /// </summary>
+    private void ShowAvailability()
+    {
+        if (abilityManagers.Count <= 0)
+        {
+            return;
+        }
+
+        if (commonAbilities.Count <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < commonAbilities.Count; i++)
+        {
+            if (i >= 4) { Debug.LogError("Can't handle availability for multiple pages rn"); continue; }
+            Image image = abilityCells[i].Image;
+            Ability ability = commonAbilities[i];
+
+            float percentageAvailable = GetPercentageAvailability(ability);
+
+            if (percentageAvailable == 1)
+            {
+                image.color = Color.white; // Ability is available
+            }
+            else if (percentageAvailable > abilPartialThreshold)
+            {
+                image.color = Color.yellow; // Ability is partially available
+            }
+            else
+            {
+                image.color = Color.red; // Ability is not available
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// Returns a percentage(float) of how many ability managers can cast the parsed ability.
+    /// </summary>
+    /// <param name="_ability"></param>
+    /// <returns></returns>
+    private float GetPercentageAvailability(Ability _ability)
+    {
+        float percentageAvailable = 0f;
+        if (!commonAbilities.Contains(_ability))
+        {
+            Debug.LogError($"{_ability.name} is not a common ability!");
+            return 0f;
+        }
+        
+        int availableCount = abilityManagers.Count(am => am.CanCastAbility(_ability));
+
+        percentageAvailable = availableCount / (float)abilityManagers.Count;
+
+        return percentageAvailable;
     }
 
     /// <summary>
