@@ -78,9 +78,6 @@ public class PurchaseSlot
 
     private void UpdatePurchasableColor()
     {
-        /*purchaseButton.style.unityBackgroundImageTintColor = Color.cyan;
-        purchaseButton.style.unityBackgroundImageTintColor = lockedColor;*/
-        //purchaseButton.style.unityBackgroundImageTintColor = lockedColor;
         if (purchasable.CanPurchase(shopUser))
         {
             purchaseButton.style.unityBackgroundImageTintColor = Color.white;

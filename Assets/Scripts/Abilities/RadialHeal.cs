@@ -4,12 +4,12 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New RadialHeal Ability", menuName = "Abilities/RadialHeal")]
-public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
+public class RadialHeal : Ability<ICharacterAbilityUser>
 {
     [SerializeField] float radius = 1f;
     [SerializeField] float healAmount = 1f;
     [SerializeField] private LayerMask layerMask = 1 << 7;
-    [SerializeField] private GameObject healVFX;
+    [SerializeField] private VfxObject healVFX;
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
     [SerializeField] private float vfxScale = 1f;
     [SerializeField] private float vfxDuration = 5f;
@@ -19,7 +19,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
     private const int maxVFXRadius = 10;
     protected override string animationTrigger => "RadialAbility";
 
-    public GameObject VfxPrefab => healVFX;
+    public VfxObject HealVfx => healVFX;
 
     public Vector3 VfxOffset => vfxOffset;
 
@@ -50,7 +50,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
         HealArea(castPositionTransform, _user);
-        VFXSpawner.Instance.SpawnAbilityVfxRpc(id, castPositionTransform.position);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(healVFX.ID, castPositionTransform.position);
 
 
 
@@ -62,23 +62,6 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
         GameObject vfxPrefab = Resources.Load<GameObject>("Blueprints/BPVFX");
         return vfxPrefab;
     }
-
-/*    private void SpawnVFX(Vector3 _spawnPos)
-    {
-        GameObject vfxObj = Instantiate(GetVfxBlueprint(), _spawnPos, Quaternion.identity);
-        vfxObj.GetComponent<NetworkObject>().Spawn();
-        vfxObj.GetComponent<VFXSpawner>().SpawnVFXRpc();
-
-        if (healVFX == null)
-        {
-            Debug.LogError($"{nameof(healVFX)} is null in {this.name}");
-            return;
-        }
-
-        GameObject spawnedVfx = Instantiate(healVFX, _spawnPos, Quaternion.identity);
-        spawnedVfx.transform.position += vfxOffset;
-        VFXScaler.ScaleParticles(vfxScale, spawnedVfx);
-    }*/
 
 #if UNITY_EDITOR
     public override void DrawInspector(SerializedObject _so)
@@ -106,18 +89,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>, IVfxObject
             EditorGUILayout.HelpBox("Heal amount must be greater than 0!", MessageType.Error);
         }
 
-        SerializedProperty fieldHealVFX = _so.FindProperty("healVFX");
-        fieldHealVFX.objectReferenceValue = EditorGUILayout.ObjectField("Heal VFX", fieldHealVFX.objectReferenceValue, typeof(GameObject), false);
-        if (fieldHealVFX.objectReferenceValue == null)
-        {
-            EditorGUILayout.HelpBox("Heal VFX must be assigned!", MessageType.Error);
-        }
-
-        SerializedProperty fieldVFXOffset = _so.FindProperty("vfxOffset");
-        EditorGUILayout.PropertyField(fieldVFXOffset, new GUIContent("Vfx Offset"));
-
-        SerializedProperty fieldHealVFXScale = _so.FindProperty("vfxScale");
-        fieldHealVFXScale.floatValue = EditorGUILayout.Slider("Bullet VFX Scale", fieldHealVFXScale.floatValue, minVFXRadius, maxVFXRadius);
+        BeaconUtility.DrawStat<VfxObject>(_so, "healVFX", false);
     }
 #endif
 

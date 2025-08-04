@@ -9,6 +9,8 @@ public class VfxObject : RegistryItem, Inspectorable
     [SerializeField] private float vfxScale = 1f;
     public float VfxScale => vfxScale;
     [SerializeField] private float lingerTime = 5f;
+    [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+    public Vector3 VfxOffset => vfxOffset;
     public float LingerTime => lingerTime;
     private const float minVfxSize = 0.001f;
     private const float maxVfxSize = 20;
@@ -32,6 +34,13 @@ public class VfxObject : RegistryItem, Inspectorable
 
         SerializedProperty fieldLingerTime = _so.FindProperty("lingerTime");
         fieldLingerTime.floatValue = EditorGUILayout.Slider("VFX Duration", fieldLingerTime.floatValue, minLingerTime, maxLingerTime);
+
+        SerializedProperty fieldVFXOffset = _so.FindProperty("vfxOffset");
+        fieldVFXOffset.vector3Value = EditorGUILayout.Vector3Field("VFX Offset", fieldVFXOffset.vector3Value);
+        if (fieldVFXOffset.vector3Value == null)
+        {
+            EditorGUILayout.HelpBox("VFX Offset must be assigned!", MessageType.Error);
+        }
     }
 #endif
 }

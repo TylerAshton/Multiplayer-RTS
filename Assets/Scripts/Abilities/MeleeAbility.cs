@@ -9,6 +9,7 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
     [SerializeField] private float angleDegrees = 90f;
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
+    [SerializeField] private VfxObject hitVfx;
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private float lungeDistance = 0f;
     [SerializeField] private float lungeDuration = 0f;
@@ -107,6 +108,8 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
         {
             EditorGUILayout.HelpBox("Lunge Duration cannot be negative.", MessageType.Error);
         }
+
+        BeaconUtility.DrawStat<VfxObject>(_so, "hitVfx", false);
 
         SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
         fieldHitEffect.objectReferenceValue = EditorGUILayout.ObjectField("Hit Effect Prefab", fieldHitEffect.objectReferenceValue, typeof(GameObject), false);

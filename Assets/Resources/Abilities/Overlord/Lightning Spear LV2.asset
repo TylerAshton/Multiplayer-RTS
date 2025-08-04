@@ -22,4 +22,4 @@ MonoBehaviour:
   successor: {fileID: 11400000, guid: 224795fbfa0c5cd40b76f5455fb196b3, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: f986565e4d65af843a00d91ca75719c9, type: 2}
-  projectileStats: {fileID: 11400000, guid: 2ea8adf2232a81d4a8436ed4336c1e67, type: 2}
+  projectileStats: {fileID: 0}

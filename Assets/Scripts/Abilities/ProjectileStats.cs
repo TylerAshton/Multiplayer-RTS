@@ -24,6 +24,8 @@ public class ProjectileStats : BaseAbilityStat
     [SerializeField] float bulletVFXScale = 1f;
     public float BulletVFXScale => bulletVFXScale;
 
+    [SerializeField] private VfxObject deathVFXObject;
+
     [SerializeField] private GameObject deathVFX;
     public GameObject DeathVFX => deathVFX;
     [SerializeField] float deathVFXScale = 1f;
@@ -177,6 +179,8 @@ public class ProjectileStats : BaseAbilityStat
 
         SerializedProperty fieldBulletVFXScale = _so.FindProperty("bulletVFXScale");
         fieldBulletVFXScale.floatValue = EditorGUILayout.Slider("Bullet VFX Scale", fieldBulletVFXScale.floatValue, minVFXRadius, maxVFXRadius);
+
+        BeaconUtility.DrawStat<VfxObject>(_so, "deathVFXObject", false);
 
         SerializedProperty fieldDeathVFX = _so.FindProperty("deathVFX");
         fieldDeathVFX.objectReferenceValue = EditorGUILayout.ObjectField("Death VFX", fieldDeathVFX.objectReferenceValue, typeof(GameObject), false);

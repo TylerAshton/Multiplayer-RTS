@@ -24,3 +24,4 @@ MonoBehaviour:
   apexSound: {fileID: 0}
   spawnee: {fileID: 371476738365510241, guid: 5fcd6cd9836275949bfeae72c436339a, type: 3}
   spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
+  vfxObject: {fileID: 11400000, guid: ed406e2ed43b02d40b8f6a3be3ead823, type: 2}

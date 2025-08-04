@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffe88dae6799a94a8b7ecae488eb09f, type: 3}
   m_Name: EldritchBolt LV3
   m_EditorClassIdentifier: 
-  iD: EldritchBoltlv3
+  id: EldritchBoltlv3
   detectionRange: 0.1
   speed: 5
   damage: 25
   lifeTime: 5
   bulletVFX: {fileID: 6724729905619074114, guid: cbeaa1f61e376d64c90ae58b34459d71, type: 3}
   bulletVFXScale: 7
+  deathVFXObject: {fileID: 11400000, guid: dfbcd70be54f98b49b72ab4a5d6a9e7e, type: 2}
   deathVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
   deathVFXScale: 1
   isAOE: 0

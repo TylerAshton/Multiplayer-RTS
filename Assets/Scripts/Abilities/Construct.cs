@@ -4,15 +4,17 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Construct Ability", menuName = "Abilities/Construct")]
-public class Construct : Ability<IConstructionPad>, IVfxObject
+public class Construct : Ability<IConstructionPad>
 {
     [SerializeField] private GameObject spawnee;
     [SerializeField] private GameObject spawnVFX;
 
+    [SerializeField] private VfxObject vfxObject;
     public GameObject VfxPrefab => spawnVFX;
 
-    public Vector3 VfxOffset => Vector3.zero; // NOTE: In the future perhaps we'd wanna add offsets en such to 
-                                               // Consturctions but wasn't needed.. yet.
+    public Vector3 VfxOffset => Vector3.zero; 
+    // NOTE: In the future perhaps we'd wanna add offsets en such to 
+    // Consturctions but wasn't needed.. yet.
 
     public float VfxScale => 1f;
 
@@ -25,7 +27,7 @@ public class Construct : Ability<IConstructionPad>, IVfxObject
 
         /*GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
         vfx.GetComponent<NetworkObject>().Spawn();*/
-        VFXSpawner.Instance.SpawnAbilityVfxRpc(this.id, spawnPosition);
+        //VFXSpawner.Instance.SpawnAbilityVfxRpc(this.id, spawnPosition);
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
 
@@ -57,6 +59,8 @@ public class Construct : Ability<IConstructionPad>, IVfxObject
         {
             EditorGUILayout.HelpBox("Spawnee Prefab must be assigned.", MessageType.Error);
         }
+
+        BeaconUtility.DrawStat<VfxObject>(_so, "vfxObject", false);
 
 
         SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");

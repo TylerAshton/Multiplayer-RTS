@@ -25,6 +25,7 @@ MonoBehaviour:
   angleDegrees: 60
   range: 3
   damage: 45
+  hitVfx: {fileID: 11400000, guid: 4b75b2b55b6bb9843831144a73c5f5a0, type: 2}
   hitEffect: {fileID: 6823302871133167919, guid: 33a967ddf22b41741828b0797077fa49, type: 3}
   lungeDistance: 0
   lungeDuration: 0
