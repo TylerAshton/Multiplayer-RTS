@@ -54,6 +54,9 @@ public class RelayManager : NetworkBehaviour
 
     async void Start()
     {
+        NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = 60; // seconds
+
+
         await UnityServices.InitializeAsync();
         
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
