@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4152224647
+  GlobalObjectIdHash: 3082501208
   InScenePlacedSourceGlobalObjectIdHash: 3082501208
   DeferredDespawnTick: 0
   Ownership: 1
@@ -84,6 +84,27 @@ MonoBehaviour:
   amalgs: 0
   minChamps: 1
   minAmalgs: 5
+  ChampselectSound:
+    Guid:
+      Data1: 882153424
+      Data2: 1106600468
+      Data3: 1840000396
+      Data4: 1845590165
+    Path: event:/Announcements/VillageLib
+  AmalgselectSound:
+    Guid:
+      Data1: 1478425728
+      Data2: 1311935896
+      Data3: -697242481
+      Data4: 1535914621
+    Path: event:/Announcements/Asunder
+  ContestselectSound:
+    Guid:
+      Data1: 541632938
+      Data2: 1210705390
+      Data3: 1618681005
+      Data4: -99695025
+    Path: event:/Announcements/Siege
   circle: {fileID: 8768507414282470780}
   bonfire: {fileID: 1822217176419311534}
   bonfireObj: {fileID: 3173700271377119470}
