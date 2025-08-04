@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 872596042
+  GlobalObjectIdHash: 3436060701
   InScenePlacedSourceGlobalObjectIdHash: 3436060701
   DeferredDespawnTick: 0
   Ownership: 1
@@ -137,11 +137,11 @@ MonoBehaviour:
   corpseLingerTime: 0.1
   test: 0
   isDying: 0
-  overlayHealthBar: {fileID: 0}
+  overlayHealthBar: {fileID: 2757501461227020302, guid: 0177b71b52bece94d9886a50c80fcf12, type: 3}
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
-  healthBarOffset: {x: 0, y: 5, z: 0}
-  showHealthBar: 0
-  showOnOwnerScreen: 0
+  healthBarOffset: {x: 0, y: 2.414978, z: 0}
+  showHealthBar: 1
+  showOnOwnerScreen: 1
   deathVfx: {fileID: 100004, guid: 1129ca32d1c4f6e40bf53318cb70d03c, type: 3}
   deathVfxScale: 1
 --- !u!65 &7307479054215237201

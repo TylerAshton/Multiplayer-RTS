@@ -23,7 +23,7 @@ public class Health : NetworkBehaviour
     [SerializeField] private GameObject deathVfx;
     [SerializeField] private float deathVfxScale = 1;
 
-
+    GameObject healthBar;
     private Slider healthSlider;
     private StatManager statManager;
     public event Action OnDeath; 
@@ -129,7 +129,7 @@ public class Health : NetworkBehaviour
     /// </summary>
     private void ShowHoverBar()
     {
-        GameObject healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
+        healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
         healthBar.transform.position += healthBarOffset;
         healthSlider = healthBar.GetComponentInChildren<Slider>();
 
@@ -143,7 +143,7 @@ public class Health : NetworkBehaviour
             return;
         }
 
-        straightener.Init(transform);
+        straightener.Init(this);
     }
 
     /// <summary>
@@ -151,7 +151,7 @@ public class Health : NetworkBehaviour
     /// </summary>
     private void ShowOverlayHealthBar()
     {
-        GameObject healthBar = Instantiate(overlayHealthBar);
+        healthBar = Instantiate(overlayHealthBar);
         healthSlider = healthBar.GetComponentInChildren<Slider>();
 
         healthSlider.maxValue = maxHealth;
@@ -257,6 +257,8 @@ public class Health : NetworkBehaviour
             collider.enabled = false;
         }
 
+        DestroyHealthRpc();
+
         // Destructable handling
 
         IDestructible[] destructibles = GetComponents<IDestructible>();
@@ -279,6 +281,17 @@ public class Health : NetworkBehaviour
 
 
         Invoke(nameof(Die), corpseLingerTime);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void DestroyHealthRpc()
+    {
+        if (healthBar == null)
+        {
+            return;
+        }
+
+        Destroy(healthBar);
     }
 
     /// <summary>

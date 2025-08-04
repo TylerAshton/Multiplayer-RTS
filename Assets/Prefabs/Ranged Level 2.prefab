@@ -1292,7 +1292,7 @@ MonoBehaviour:
   isDying: 0
   overlayHealthBar: {fileID: 0}
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
-  healthBarOffset: {x: 0, y: 0, z: 0}
+  healthBarOffset: {x: 0, y: 2.414978, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 0
   deathVfx: {fileID: 0}
