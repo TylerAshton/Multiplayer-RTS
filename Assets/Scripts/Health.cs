@@ -143,7 +143,7 @@ public class Health : NetworkBehaviour
             return;
         }
 
-        straightener.Init(this);
+        straightener.Init(transform);
     }
 
     /// <summary>
