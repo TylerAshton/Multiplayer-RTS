@@ -28,7 +28,7 @@
             </engine:VisualElement>
             <engine:VisualElement name="Ability4" class="ability-slot" style="flex-grow: 1; top: 50%; left: 40%; right: 0; bottom: 0;">
                 <engine:Button name="AbilityButton" class="ability-button">
-                    <engine:VisualElement class="icon" style="flex-grow: 1; background-image: none; background-color: rgba(255, 255, 255, 0); opacity: 1;" />
+                    <engine:VisualElement class="icon" style="flex-grow: 1; background-image: none; background-color: rgba(255, 255, 255, 0); opacity: 1; -unity-background-image-tint-color: rgb(255, 255, 255);" />
                 </engine:Button>
                 <engine:Label text="Ice Bolt" name="AbilityLabel" class="label" />
             </engine:VisualElement>
