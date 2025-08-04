@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
+  m_Name: RTS Click noise
+  m_EditorClassIdentifier: 
+  id: RTSClickNoise
+  soundEvent:
+    Guid:
+      Data1: 1367471118
+      Data2: 1129964957
+      Data3: 224377493
+      Data4: -1404509902
+    Path: event:/Silence
+  isPlayingLocal: 1
+  soundEvent2D:
+    Guid:
+      Data1: 1572611743
+      Data2: 1317650797
+      Data3: 1674909097
+      Data4: 1612445780
+    Path: event:/SFX/2D/RTS Click noise

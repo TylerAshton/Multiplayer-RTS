@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{9770f22d-6e8d-4275-ba06-28f0ee4c8df3}">
+		<property name="assetPath">
+			<value>SFX/Crystal Upgrade - Heal.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.2652380952380953</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ac79da2d-cb46-4bad-8988-11fa0855fd32}</destination>
+		</relationship>
+	</object>
+</objects>

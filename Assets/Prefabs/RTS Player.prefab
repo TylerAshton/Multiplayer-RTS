@@ -546,7 +546,7 @@ MonoBehaviour:
   maxPanningSpeed: 120
   maxZoomedPanningSpeed: 25
   panningEdgeThreshold: 125
-  maxZoom: 70
+  maxZoom: 64
   targetZoom: 10
   zoomSensitivity: 3
   zoomSpeed: 5

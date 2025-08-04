@@ -20,7 +20,7 @@ MonoBehaviour:
       Data3: 769229981
       Data4: 1904969927
     Path: event:/SFX/Minion Summon noise
-  isPlayingLocal: 0
+  isPlayingLocal: 1
   soundEvent2D:
     Guid:
       Data1: 0

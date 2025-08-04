@@ -19,8 +19,11 @@ MonoBehaviour:
   castPositionName: 0
   abilityCost: 0
   cooldown: 0
-  radius: 14.78
-  healAmount: 117.72
+  successor: {fileID: 0}
+  castSound: {fileID: 11400000, guid: 62814eea7d531e7468c2a9264423f0a8, type: 2}
+  apexSound: {fileID: 0}
+  radius: 1
+  healAmount: 375
   layerMask:
     serializedVersion: 2
     m_Bits: 128

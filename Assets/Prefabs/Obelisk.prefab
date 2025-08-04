@@ -461,7 +461,7 @@ MonoBehaviour:
       Data2: 1139665311
       Data3: 769229981
       Data4: 1904969927
-    Path: event:/SFX/Minion Summon noise
+    Path: event:/SFX/3D/Minion Summon noise
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 0
@@ -472,7 +472,7 @@ MonoBehaviour:
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
-  OverrideMaxDistance: 20
+  OverrideMaxDistance: 10
 --- !u!114 &4731973555102115481
 MonoBehaviour:
   m_ObjectHideFlags: 0

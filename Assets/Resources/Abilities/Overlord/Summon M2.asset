@@ -20,6 +20,6 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 0.5
   successor: {fileID: 0}
-  castSound: {fileID: 0}
+  castSound: {fileID: 11400000, guid: 1669eaa692448f9488f21e65c1c8f5de, type: 2}
   apexSound: {fileID: 0}
   constructionStats: {fileID: 11400000, guid: 33380b61c0815534ab36122cca5ab039, type: 2}

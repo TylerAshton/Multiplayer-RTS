@@ -20,7 +20,7 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 1
   successor: {fileID: 0}
-  castSound: {fileID: 0}
-  apexSound: {fileID: 0}
+  castSound: {fileID: 11400000, guid: 1669eaa692448f9488f21e65c1c8f5de, type: 2}
+  apexSound: {fileID: 11400000, guid: 30ad7f9876eafc940a5b6e2b7c1aea6c, type: 2}
   spawnee: {fileID: 371476738365510241, guid: 5fcd6cd9836275949bfeae72c436339a, type: 3}
   spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
