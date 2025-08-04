@@ -129,12 +129,21 @@ public class Health : NetworkBehaviour
     /// </summary>
     private void ShowHoverBar()
     {
-        GameObject healthBar = Instantiate(healthBarPrefab, transform);
+        GameObject healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
         healthBar.transform.position += healthBarOffset;
         healthSlider = healthBar.GetComponentInChildren<Slider>();
 
         healthSlider.maxValue = maxHealth;
         healthSlider.value = hitPoints;
+
+        UIStraightener straightener;
+        if (!healthBar.TryGetComponent<UIStraightener>(out straightener))
+        {
+            Debug.LogError($"{nameof(UIStraightener)} not found on {healthBar.name}!");
+            return;
+        }
+
+        straightener.Init(transform);
     }
 
     /// <summary>

@@ -54,7 +54,7 @@ public class RelayManager : NetworkBehaviour
 
     async void Start()
     {
-        NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = 60; // seconds
+        
 
 
         await UnityServices.InitializeAsync();
@@ -87,6 +87,8 @@ public class RelayManager : NetworkBehaviour
         var relayServerData = allocation.ToRelayServerData("dtls");
 
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+        NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = 60;
 
         NetworkManager.Singleton.StartHost();
 
