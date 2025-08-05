@@ -67,9 +67,12 @@ public class AbilityCell : UIActionCell
 
         button.onClick.AddListener(() =>
         {
-            foreach (AbilityManager _abilityManager in _abilityManagers)
+            Ability castingAbility = ability; 
+            List<AbilityManager> castingAbilityManagers = new List<AbilityManager>(abilityManagers); 
+
+            foreach (AbilityManager __abilityManager in castingAbilityManagers)
             {
-                _abilityManager.TryCastAbility(ability);
+                __abilityManager.TryCastAbility(castingAbility);
             }
         });
 

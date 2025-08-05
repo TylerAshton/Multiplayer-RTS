@@ -375,6 +375,12 @@ public class AbilityManager : NetworkBehaviour
 
     public void TryCastAbility(Ability _ability)
     {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot cast a null ability");
+            return;
+        }
+
         if (!IsServer)
         {
             Debug.LogError("Client attempted to cast an ability");
