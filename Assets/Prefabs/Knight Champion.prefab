@@ -2699,6 +2699,7 @@ MonoBehaviour:
   aimPositionUpdateTolerance: 0.1
   soulPrefab: {fileID: 457788855046869235, guid: 9e21631c1b352d649ab8564ad83e549d, type: 3}
   soulSpawnOffset: {x: 0, y: 4, z: 0}
+  rotationSpeed: 1000
 --- !u!114 &1083379821118792553
 MonoBehaviour:
   m_ObjectHideFlags: 0
