@@ -99,7 +99,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private Vector3 soulSpawnOffset = Vector3.zero;
 
     private Health health;
-    [SerializeField] private float rotationSpeed = 10;
 
     public Health Health => health;
 
@@ -565,8 +564,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             return;
         }
 
+        float RotationSpeed = statManager.CurrentStats[StatType.RotationSpeed];
+
         Quaternion targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
-        Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
         Vector3 newEuler = newRotation.eulerAngles;
 
         //Vector3 currentEuler = transform.rotation.eulerAngles;

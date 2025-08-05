@@ -18,14 +18,7 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
 
     protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
-        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
-        List<StatModifyer> statModifyers = new List<StatModifyer>();
-        statModifyers.Add(statModifyer);
 
-        Effect newEffect = new Effect(CastTime, statModifyers); 
-        
-        _user.EffectManager.AddEffect(newEffect);
     }
 
 /*    protected override void CopySubclassTo(Ability _target)

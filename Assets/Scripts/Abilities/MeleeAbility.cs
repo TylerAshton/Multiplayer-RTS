@@ -16,8 +16,6 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
 
     protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}"); // TODO: perhaps add a default behaviour function that calls typed instead, so we can avoid repeat here
-
         _user.Lunge(lungeDistance, _user.Transform.forward, lungeDuration);
 
 

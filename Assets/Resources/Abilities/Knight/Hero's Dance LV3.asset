@@ -22,6 +22,8 @@ MonoBehaviour:
   successor: {fileID: 0}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 3b8c9bd51510ecb4abd3457f6c2f0128, type: 2}
+  castMoveSpeedModifer: -7
+  castRotationSpeedModifer: -950
   buffEffects: {fileID: 7155335147208632822, guid: d12255bed4198eb4a8e05e9653396c99, type: 3}
   slowAmount: 7
   effect:

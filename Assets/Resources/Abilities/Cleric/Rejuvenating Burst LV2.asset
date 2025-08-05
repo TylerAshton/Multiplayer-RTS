@@ -15,13 +15,15 @@ MonoBehaviour:
   id: RejuvenatingBurst2
   price: 2000
   icon: {fileID: 21300000, guid: b44e8d04f053e234e8bc2467b44c2bae, type: 3}
-  castTime: 1
+  castTime: 2
   castPositionName: 0
   abilityCost: 0
   cooldown: 48
   successor: {fileID: 11400000, guid: d8ae53e752f00564aa6649a4f16a3d0b, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 6f61eeee80807f84c887ea6d6deeee40, type: 2}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   radius: 8
   healAmount: 100
   layerMask:

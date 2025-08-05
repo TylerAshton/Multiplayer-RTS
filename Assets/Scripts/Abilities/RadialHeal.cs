@@ -29,16 +29,7 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
 
     protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
-        // Apply slow
-        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
-        List<StatModifyer> statModifyers = new List<StatModifyer>();
-        statModifyers.Add(statModifyer);
-
-        Effect newEffect = new Effect(CastTime, statModifyers);
-
-        _user.EffectManager.AddEffect(newEffect);
     }
 
     protected override void DebugDrawingTyped(ICharacterAbilityUser _user)

@@ -13,15 +13,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     protected override string animationTrigger => "ProjectionAbility";
     protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
-        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
-        List<StatModifyer> statModifyers = new List<StatModifyer>();
-        statModifyers.Add(statModifyer);
-
-        Effect newEffect = new Effect(CastTime, statModifyers);
-
-        _user.EffectManager.AddEffect(newEffect);
     }
 
     protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
