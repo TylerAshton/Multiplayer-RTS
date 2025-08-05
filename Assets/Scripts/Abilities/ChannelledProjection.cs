@@ -53,13 +53,6 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldSlowAmount = _so.FindProperty("slowAmount");
-        EditorGUILayout.PropertyField(fieldSlowAmount);
-        if (fieldSlowAmount.floatValue < 0)
-        {
-            EditorGUILayout.HelpBox("Slow amount must be a positive value!", MessageType.Error);
-        }
-
         SerializedProperty fieldIsAttached = _so.FindProperty("isAttached");
         fieldIsAttached.boolValue = EditorGUILayout.Toggle("Attach?", fieldIsAttached.boolValue);
 

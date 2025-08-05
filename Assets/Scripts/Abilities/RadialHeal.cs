@@ -13,7 +13,6 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
     [SerializeField] private float vfxScale = 1f;
     [SerializeField] private float vfxDuration = 5f;
-    [SerializeField] private float slowAmount = 7;
 
     private const int minVFXRadius = 0;
     private const int maxVFXRadius = 10;
@@ -58,13 +57,6 @@ public class RadialHeal : Ability<ICharacterAbilityUser>
     public override void DrawInspector(SerializedObject _so)
     {
         base.DrawInspector(_so);
-
-        SerializedProperty fieldSlowAmount = _so.FindProperty("slowAmount");
-        EditorGUILayout.PropertyField(fieldSlowAmount);
-        if (fieldSlowAmount.floatValue < 0)
-        {
-            EditorGUILayout.HelpBox("Slow amount must be a positive value!", MessageType.Error);
-        }
 
         SerializedProperty fieldRadius = _so.FindProperty("radius");
         fieldRadius.floatValue = EditorGUILayout.FloatField("Radius", fieldRadius.floatValue);

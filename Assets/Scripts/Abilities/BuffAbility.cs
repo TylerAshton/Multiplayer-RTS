@@ -8,7 +8,6 @@ using UnityEngine;
 public class BuffAbility : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private GameObject buffEffects;
-    [SerializeField] private float slowAmount;
     [SerializeField] private Effect effect;
     protected override string animationTrigger => "BuffAbility";
 /*    public override Ability Clone()
