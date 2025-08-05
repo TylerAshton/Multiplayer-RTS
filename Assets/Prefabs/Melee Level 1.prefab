@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  hitPoints: 100
+  hitPoints: 60
   isImmune: 0
   corpseLingerTime: 0
   test: 0

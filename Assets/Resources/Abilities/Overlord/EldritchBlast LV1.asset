@@ -14,24 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: eldritchBlast
   price: 0
-  icon: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
+  icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
   castTime: 1
   castPositionName: 1
   abilityCost: 0
   cooldown: 1
   successor: {fileID: 0}
-  castSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  apexSound:
-    Guid:
-      Data1: 767463075
-      Data2: 1219983358
-      Data3: 1249465227
-      Data4: -1083236246
-    Path: event:/SFX/Eldritch Blast
+  castSound: {fileID: 0}
+  apexSound: {fileID: 11400000, guid: 01d5efa2cb92d1a4daea74745c6330f3, type: 2}
   projectileStats: {fileID: 11400000, guid: 678001f397f83ba4eafaae4d147f354b, type: 2}
