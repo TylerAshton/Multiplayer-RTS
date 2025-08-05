@@ -368,14 +368,32 @@ public class AbilityManager : NetworkBehaviour
 
         Ability selectedAbility = selectedTab.Abilities[_abilityIndex];
 
+        TryCastAbility(selectedAbility);
 
-        if (!CanCastAbility(selectedAbility))
+        
+    }
+
+    public void TryCastAbility(Ability _ability)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to cast an ability");
+            return;
+        }
+
+        if (!CheckAbility(_ability))
+        {
+            Debug.LogError($"Ability {_ability.AbilityName} was attempted to be cast but isn't in the abilityList!");
+            return;
+        }
+
+        if (!CanCastAbility(_ability))
         {
             Debug.LogWarning("Cannot cast ability due to checks failing");
             return;
         }
 
-        currentAbility = selectedAbility;
+        currentAbility = _ability;
         StartCooldown(currentAbility);
         PointManager.Instance.RemovePoints(ownerClientId, currentAbility.AbilityCost);
         currentAbility.OnCast(abilityUser);

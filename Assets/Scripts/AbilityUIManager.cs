@@ -8,14 +8,18 @@ using UnityEngine.UI;
 
 public class AbilityUIManager : MonoBehaviour
 {
-    private const double abilPartialThreshold = 0.6;
+    
     [SerializeField] private UtilityCell utilityCell;
     [SerializeField] private List<AbilityCell> abilityCells = new List<AbilityCell>();
     [SerializeField] private List<GameObject> abilityTabButtons = new List<GameObject>();
     [SerializeField] private Sprite forwardSprite;
+    public Sprite ForwardSprite => forwardSprite;
     [SerializeField] private Sprite backSprite;
+    public Sprite BackSprite => backSprite;
     private int pageIndex = 0;
+    public int PageIndex => pageIndex;
     private int tabIndex = 0;
+    public int TabIndex => tabIndex;
     private List<AbilityTab> commonAbilityTabs;
     private List<Ability> commonAbilities
     {   
@@ -38,8 +42,19 @@ public class AbilityUIManager : MonoBehaviour
 
     private void Update()
     {
-        ShowCooldowns();
-        ShowAvailability();
+        UpdateAbilityCells();
+    }
+
+    private void UpdateAbilityCells()
+    {
+        foreach (AbilityCell cell in abilityCells)
+        {
+            if (cell == null)
+            {
+                continue;
+            }
+            cell.OnUpdate();
+        }
     }
 
     /// <summary>
@@ -47,7 +62,7 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     private void ShowAvailability()
     {
-        if (abilityManagers.Count <= 0)
+/*        if (abilityManagers.Count <= 0)
         {
             return;
         }
@@ -78,7 +93,7 @@ public class AbilityUIManager : MonoBehaviour
                 image.color = Color.red; // Ability is not available
             }
 
-        }
+        }*/
     }
 
     /// <summary>
@@ -107,7 +122,7 @@ public class AbilityUIManager : MonoBehaviour
     /// </summary>
     private void ShowCooldowns() // TODO: Self contain abilityCells if we have time
     {
-        if (abilityManagers.Count <= 0)
+        /*if (abilityManagers.Count <= 0)
         {
             return;
         }
@@ -139,17 +154,17 @@ public class AbilityUIManager : MonoBehaviour
             float timeRemaining = ability.Cooldown - timePassed;
 
             slider.value = timeRemaining;
-        }
+        }*/
     }
 
-    /// <summary>
+/*    /// <summary>
     /// Returns the longest cooldown value among the abilityManagers with the parsed Ability
     /// </summary>
     /// <param name="_ability"></param>
     /// <returns></returns>
     private float GetLongestCooldown(Ability _ability)
     {
-        if (!commonAbilities.Contains(_ability))
+*//*        if (!commonAbilities.Contains(_ability))
         {
             Debug.LogError($"{_ability.name} is not a common abiltiy!");
             return 0;
@@ -167,8 +182,8 @@ public class AbilityUIManager : MonoBehaviour
             }
         }
 
-        return longestCooldown;
-    }
+        return longestCooldown;*//*
+    }*/
 
     private void ResetUtilityButton()
     {
@@ -191,9 +206,7 @@ public class AbilityUIManager : MonoBehaviour
     {
         foreach (AbilityCell _cell in abilityCells)
         {
-            _cell.Image.enabled = false;
-            _cell.Button.interactable = false;
-            _cell.Slider.value = 0;
+            _cell.ResetCell();
         }
 
         ResetUtilityButton();
@@ -206,7 +219,9 @@ public class AbilityUIManager : MonoBehaviour
     /// <param name="_cell"></param>
     private void SetAbilityCell(Ability _ability, AbilityCell _cell, List<AbilityManager> _abilityManagers)
     {
-        if (_ability == null)
+        _cell.SetAbility(_ability, _abilityManagers, !isChampionUI);
+
+        /*if (_ability == null)
         {
             Debug.LogError($"{nameof(_ability)} was null in {gameObject.name}!");
             return;
@@ -241,22 +256,23 @@ public class AbilityUIManager : MonoBehaviour
                     _abilityManager.TryCastAbility(abilityIndex, tabIndex);
                 }
             }
-        });
+        });*/
     }
 
     private void SetPageCell(AbilityCell _cell, int _pageIndex)
     {
-        _cell.Image.enabled = true;
-        _cell.Button.interactable = true;
+        _cell.SetPageCell(_pageIndex);
+        /*        _cell.Image.enabled = true;
+                _cell.Button.interactable = true;
 
-        _cell.Image.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
+                _cell.Image.sprite = (_pageIndex > pageIndex) ? forwardSprite: backSprite;
 
-        _cell.Button.onClick.RemoveAllListeners();
+                _cell.Button.onClick.RemoveAllListeners();
 
-        _cell.Button.onClick.AddListener(() =>
-        {
-            this.SetPage(_pageIndex);
-        });
+                _cell.Button.onClick.AddListener(() =>
+                {
+                    this.SetPage(_pageIndex);
+                });*/
     }
 
     public void SetPage(int _newPageIndex)
