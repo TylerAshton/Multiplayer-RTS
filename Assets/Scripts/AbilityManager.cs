@@ -407,7 +407,11 @@ public class AbilityManager : NetworkBehaviour
         {
             StopCoroutine(lockCastingCoroutine);
         }
-        lockCastingCoroutine = StartCoroutine(LockCastingUntil(currentAbility.CastTime));
+
+        if (currentAbility.CastTime > 0)
+        {
+            lockCastingCoroutine = StartCoroutine(LockCastingUntil(currentAbility.CastTime));
+        }
     }
 
     /// <summary>
