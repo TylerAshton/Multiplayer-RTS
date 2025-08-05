@@ -315,7 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: 
+  - tabName: Turret
     abilities:
     - {fileID: 11400000, guid: 56ec75b2a77cbde48a6e411eeb5fedaf, type: 2}
   hasUtility: 0
