@@ -7,18 +7,9 @@ using UnityEngine;
 public class Construct : Ability<IConstructionPad>
 {
     [SerializeField] private GameObject spawnee;
-    [SerializeField] private GameObject spawnVFX;
 
     [SerializeField] private VfxObject vfxObject;
-    public GameObject VfxPrefab => spawnVFX;
-
-    public Vector3 VfxOffset => Vector3.zero; 
-    // NOTE: In the future perhaps we'd wanna add offsets en such to 
-    // Consturctions but wasn't needed.. yet.
-
-    public float VfxScale => 1f;
-
-    public float VfxDuration => 5f;
+    public VfxObject VfxPrefab => vfxObject;
 
     protected override void OnCastTyped(IConstructionPad _user)
     {
@@ -36,6 +27,8 @@ public class Construct : Ability<IConstructionPad>
 
         // Select new unit
         RTSPlayer.Instance.UnitManager.SelectUnit(summoned.GetComponent<SelectableObject>());
+
+        VFXSpawner.Instance.SpawnVfxObjectRpc(vfxObject.ID, spawnPosition);
     }
 
     protected override void DebugDrawingTyped(IConstructionPad _user)
@@ -61,14 +54,6 @@ public class Construct : Ability<IConstructionPad>
         }
 
         BeaconUtility.DrawStat<VfxObject>(_so, "vfxObject", false);
-
-
-        SerializedProperty fieldSpawnVFX = _so.FindProperty("spawnVFX");
-        fieldSpawnVFX.objectReferenceValue = EditorGUILayout.ObjectField("Spawn VFX Prefab", fieldSpawnVFX.objectReferenceValue, typeof(GameObject), false);
-        if (fieldSpawnVFX.objectReferenceValue == null)
-        {
-            EditorGUILayout.HelpBox("Spawn VFX Prefab must be assigned.", MessageType.Error);
-        }
     }
 #endif
 }

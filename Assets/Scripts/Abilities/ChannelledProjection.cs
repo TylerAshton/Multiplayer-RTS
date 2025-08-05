@@ -72,7 +72,6 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
         fieldIsAttached.boolValue = EditorGUILayout.Toggle("Attach?", fieldIsAttached.boolValue);
 
         DrawStat<BaseAbilityStat>(_so, "channelStats");
-
     }
 #endif
 }

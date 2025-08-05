@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17350ceb7e8528247b32eea4fbcccf05, type: 3}
   m_Name: LightningBoom
   m_EditorClassIdentifier: 
-  id: 
-  vfxPrefab: {fileID: 0}
+  id: LightningBoom
+  vfxPrefab: {fileID: 100012, guid: 517d26ab6aa4e1d4082a18f6d6d73814, type: 3}
   vfxScale: 1
   lingerTime: 5
   vfxOffset: {x: 0, y: 0, z: 0}

@@ -10,7 +10,6 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
     [SerializeField] private VfxObject hitVfx;
-    [SerializeField] private GameObject hitEffect;
     [SerializeField] private float lungeDistance = 0f;
     [SerializeField] private float lungeDuration = 0f;
     protected override string animationTrigger => (lungeDistance > 0) ? "MeleeAbilityLunge" : "MeleeAbility";
@@ -70,8 +69,7 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
                 if (hit.TryGetComponent(out Health _health))
                 {
                     _health.Damage(damage);
-                    GameObject hitVFX = Instantiate(hitEffect, hit.transform);
-                    hitVFX.GetComponent<NetworkObject>().Spawn();
+                    VFXSpawner.Instance.SpawnVfxObjectRpc(hitVfx.ID, hit.gameObject.GetComponent<Collider>().bounds.center);
                 }
             }
         }
@@ -110,13 +108,6 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
         }
 
         BeaconUtility.DrawStat<VfxObject>(_so, "hitVfx", false);
-
-        SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
-        fieldHitEffect.objectReferenceValue = EditorGUILayout.ObjectField("Hit Effect Prefab", fieldHitEffect.objectReferenceValue, typeof(GameObject), false);
-        if (fieldHitEffect.objectReferenceValue == null)
-        {
-            EditorGUILayout.HelpBox("Hit Effect Prefab must be assigned.", MessageType.Error);
-        }
     }
 #endif
 }

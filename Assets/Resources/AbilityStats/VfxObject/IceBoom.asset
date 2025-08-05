@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17350ceb7e8528247b32eea4fbcccf05, type: 3}
   m_Name: IceBoom
   m_EditorClassIdentifier: 
-  id: 
+  id: IceBoom
   vfxPrefab: {fileID: 100004, guid: a538c26b827a66e45a17c1f359fbd88b, type: 3}
   vfxScale: 0.29
   lingerTime: 5

@@ -16,12 +16,12 @@ public static class Registry<T> where T : RegistryItem
         string itemID = _newItem.ID;
         if (items.ContainsKey(itemID))
         {
-            Debug.LogError($"Attempted to register an ability ({itemID}) that is alrady registered");
+            Debug.LogError($"Attempted to register an registryItem ({itemID}) that is alrady registered");
             return;
         }
         if (itemID == null || itemID == string.Empty)
         {
-            Debug.LogError($"Ability ID of {_newItem.name} | {itemID} is null or empty.");
+            Debug.LogError($"Registry ID of {_newItem.name} | {itemID} is null or empty.");
             return;
         }
 

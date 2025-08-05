@@ -25,11 +25,7 @@ public class ProjectileStats : BaseAbilityStat
     public float BulletVFXScale => bulletVFXScale;
 
     [SerializeField] private VfxObject deathVFXObject;
-
-    [SerializeField] private GameObject deathVFX;
-    public GameObject DeathVFX => deathVFX;
-    [SerializeField] float deathVFXScale = 1f;
-    public float DeathVFXScale => deathVFXScale;
+    public VfxObject DeathVFX => deathVFXObject;
 
     [SerializeField] private bool isAOE = false;
     public bool IsAOE => isAOE;
@@ -91,12 +87,6 @@ public class ProjectileStats : BaseAbilityStat
         if (this.DeathVFX == null)
         {
             Debug.LogError($"{this.name} has no DeathVFX assigned.");
-            return false;
-        }
-
-        if (this.deathVFXScale <= 0)
-        {
-            Debug.LogError($"{this.name} has a zero or negative death vfx scale: {this.deathVFXScale}");
             return false;
         }
 
@@ -181,16 +171,6 @@ public class ProjectileStats : BaseAbilityStat
         fieldBulletVFXScale.floatValue = EditorGUILayout.Slider("Bullet VFX Scale", fieldBulletVFXScale.floatValue, minVFXRadius, maxVFXRadius);
 
         BeaconUtility.DrawStat<VfxObject>(_so, "deathVFXObject", false);
-
-        SerializedProperty fieldDeathVFX = _so.FindProperty("deathVFX");
-        fieldDeathVFX.objectReferenceValue = EditorGUILayout.ObjectField("Death VFX", fieldDeathVFX.objectReferenceValue, typeof(GameObject), false);
-        if (fieldDeathVFX.objectReferenceValue == null)
-        {
-            EditorGUILayout.HelpBox("Bullet VFX must be assigned!", MessageType.Error);
-        }
-
-        SerializedProperty fieldDeathVFXScale = _so.FindProperty("deathVFXScale");
-        fieldDeathVFXScale.floatValue = EditorGUILayout.Slider("Death VFX Scale", fieldDeathVFXScale.floatValue, minVFXRadius, maxVFXRadius);
         
     }
 #endif

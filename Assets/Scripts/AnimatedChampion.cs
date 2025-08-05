@@ -100,8 +100,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     private Health health;
     public Health Health => health;
-    private StudioEventEmitter studioEventEmitter;
-    public StudioEventEmitter StudioEventEmitter => studioEventEmitter;
 
     public ulong OwnerID => networkObject.OwnerClientId;
 
@@ -174,10 +172,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         {
             Debug.LogError($"{nameof(ShopPurchaseManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             return;
-        }
-        if (!TryGetComponent<StudioEventEmitter>(out studioEventEmitter))
-        {
-            Debug.LogError($"{nameof(StudioEventEmitter)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
 
