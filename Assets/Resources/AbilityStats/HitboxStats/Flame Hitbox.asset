@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3577e87eafc4341b3ea4ffaa443a34, type: 3}
   m_Name: Flame Hitbox
   m_EditorClassIdentifier: 
-  iD: flamehit
+  id: flamehit
   offset: {x: 0, y: 0, z: 0}
-  sizeChangeTime: 9.29
+  sizeChangeTime: 1.5
   hitboxType: 2
   boxStartSize: {x: 1, y: 1, z: 1}
   boxForwardExtension: 0
   boxWidthExtension: 0
-  sphereStartRadius: 10
-  sphereEndRadius: 10
+  sphereStartRadius: 0.1
+  sphereEndRadius: 9
   coneAngle: 45
