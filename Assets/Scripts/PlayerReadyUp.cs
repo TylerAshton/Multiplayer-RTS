@@ -17,6 +17,9 @@ public class PlayerReadyUp : NetworkBehaviour
     [Tooltip("Editor only: Toggles the match to instead use scene OldMainWorld as opposed to MainWorld")]
     [SerializeField] private bool DEBUGUseSceneOld = false;
 
+    [SerializeField] private GameObject LoadingScreen;
+    [SerializeField] private List<GameObject> NotLoadingScreen;
+
     private void Awake()
     {
         Instance = this;
@@ -56,8 +59,19 @@ public class PlayerReadyUp : NetworkBehaviour
                     Loader.LoadNetwork(Loader.Scene.MainWorldOLD);
                     return;
                 }
-            #endif
+#endif
+            ShowLoadingScreenRpc();
             Loader.LoadNetwork(Loader.Scene.MainWorld);
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void ShowLoadingScreenRpc()
+    {
+        foreach (GameObject go in NotLoadingScreen)
+        {
+            go.SetActive(false);
+        }
+        LoadingScreen.SetActive(true);
     }
 }
