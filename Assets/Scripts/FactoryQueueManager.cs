@@ -69,7 +69,7 @@ public class FactoryQueueManager : NetworkBehaviour
     {
         Vector3 spawnPos = CalculateSpawnPos(currentProduction);
         //SpawnCurrentProductionSummonVfxRpc(spawnPos);
-        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SummonVfx.ID, spawnPos);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SummonVfx.ID, spawnPos, 99);
 
         float timeElapsed = 0f;
         float duration = currentProduction.ConstructionTime;
@@ -82,7 +82,7 @@ public class FactoryQueueManager : NetworkBehaviour
         }
 
         SpawnCurrentProduction(spawnPos);
-        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SpawnVfx.ID, spawnPos);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SpawnVfx.ID, spawnPos, 99);
         //SpawnCurrentProudctionSpawnVfxRpc(spawnPos);
 
         productionQueue.Dequeue();

@@ -258,7 +258,8 @@ public class UnitManager : NetworkBehaviour
             }
         }
 
-        VFXSpawner.Instance.SpawnVfxObjectRpc(moveVFX.ID, _worldPosition);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(moveVFX.ID, _worldPosition, 0);
+        SoundSpawner.Instance.PlaySoundEffectRpc(moveSound.ID, _worldPosition, 0);
     }
 
     /// <summary>

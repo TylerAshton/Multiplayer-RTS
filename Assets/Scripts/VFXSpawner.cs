@@ -22,7 +22,7 @@ public class VFXSpawner : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void SpawnVfxObjectRpc(string _vfxObjectID, Vector3 _pos)
+    public void SpawnVfxObjectRpc(string _vfxObjectID, Vector3 _pos, ulong _castingPlayerID = 99)
     {
         VfxObject vfxObject = Registry<VfxObject>.GetItem(_vfxObjectID);
 
@@ -31,6 +31,11 @@ public class VFXSpawner : NetworkBehaviour
             Debug.LogError($"VfxObject '{_vfxObjectID}' not found.");
             return;
         }
+
+/*        if (vfxObject.)
+        {
+            
+        }*/
 
         GameObject spawnedVfx = Instantiate(vfxObject.VfxPrefab, _pos + vfxObject.VfxOffset, Quaternion.identity);
         VFXScaler.ScaleParticles(vfxObject.VfxScale, spawnedVfx);

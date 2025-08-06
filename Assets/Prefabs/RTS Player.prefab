@@ -515,7 +515,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   moveVFX: {fileID: 11400000, guid: 8a9641b306a2b4f4fb5980c7913e78bb, type: 2}
-  moveSound: {fileID: 0}
+  moveSound: {fileID: 11400000, guid: 1669eaa692448f9488f21e65c1c8f5de, type: 2}
 --- !u!114 &3909084894797125082
 MonoBehaviour:
   m_ObjectHideFlags: 0

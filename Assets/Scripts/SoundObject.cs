@@ -6,8 +6,10 @@ public class SoundObject : RegistryItem, Inspectorable
 {
     [SerializeField] private EventReference soundEvent;
     public EventReference SoundEvent => soundEvent;
-    [SerializeField] private bool isPlayingLocal = true;
-    public bool IsPlayingLocal => isPlayingLocal;
+    [SerializeField] private bool has2DVariant = true;
+    public bool Has2DVariant => has2DVariant;
+    [SerializeField] private bool onlyPlayForCaster = false;
+    public bool OnlyPlayForCaster => onlyPlayForCaster;
     [SerializeField] private EventReference soundEvent2D;
     public EventReference SoundEvent2D => soundEvent2D;
 
@@ -26,10 +28,19 @@ public class SoundObject : RegistryItem, Inspectorable
             EditorGUILayout.HelpBox("Sound Event cannot be null.", MessageType.Error);
         }
 
-        SerializedProperty fieldLocalPlay = _so.FindProperty("isPlayingLocal");
-        fieldLocalPlay.boolValue = EditorGUILayout.Toggle("Local play", fieldLocalPlay.boolValue);
+        SerializedProperty fieldOnlyPlayForCaster = _so.FindProperty("onlyPlayForCaster");
+        fieldOnlyPlayForCaster.boolValue = EditorGUILayout.Toggle("Only play for caster", fieldOnlyPlayForCaster.boolValue);
 
-        if (isPlayingLocal)
+        if (onlyPlayForCaster)
+        {
+            EditorGUILayout.HelpBox("This sound will only play for the caster, not for other players.", MessageType.Info);
+            return;
+        }
+
+        SerializedProperty fieldLocalPlay = _so.FindProperty("has2DVariant");
+        fieldLocalPlay.boolValue = EditorGUILayout.Toggle("Play 2D variant for caster", fieldLocalPlay.boolValue);
+
+        if (has2DVariant)
         {
             SerializedProperty fieldCastSound2D = _so.FindProperty("soundEvent2D");
             EditorGUILayout.PropertyField(fieldCastSound2D, new GUIContent("2D Sound Variant"));
