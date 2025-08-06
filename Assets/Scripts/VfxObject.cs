@@ -11,6 +11,9 @@ public class VfxObject : RegistryItem, Inspectorable
     [SerializeField] private float lingerTime = 5f;
     [SerializeField] private Vector3 vfxOffset = Vector3.zero;
     public Vector3 VfxOffset => vfxOffset;
+
+    [SerializeField] private bool onlyShowForCaster = false;
+    public bool OnlyShowForCaster => onlyShowForCaster;
     public float LingerTime => lingerTime;
     private const float minVfxSize = 0.001f;
     private const float maxVfxSize = 20;
@@ -41,6 +44,9 @@ public class VfxObject : RegistryItem, Inspectorable
         {
             EditorGUILayout.HelpBox("VFX Offset must be assigned!", MessageType.Error);
         }
+
+        SerializedProperty fieldOnlyShowForCaster = _so.FindProperty("onlyShowForCaster");
+        fieldOnlyShowForCaster.boolValue = EditorGUILayout.Toggle("Only Show for caster", fieldOnlyShowForCaster.boolValue);
     }
 #endif
 }
