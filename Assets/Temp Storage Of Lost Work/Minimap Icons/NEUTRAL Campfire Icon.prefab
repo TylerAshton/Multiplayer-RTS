@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2451911115349067056}
   - component: {fileID: 3425202201886710568}
   - component: {fileID: 6540912492749909036}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: NEUTRAL Campfire Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
