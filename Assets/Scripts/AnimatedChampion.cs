@@ -99,9 +99,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     [SerializeField] private Vector3 soulSpawnOffset = Vector3.zero;
 
     private Health health;
+
     public Health Health => health;
-    private StudioEventEmitter studioEventEmitter;
-    public StudioEventEmitter StudioEventEmitter => studioEventEmitter;
 
     public ulong OwnerID => networkObject.OwnerClientId;
 
@@ -174,10 +173,6 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         {
             Debug.LogError($"{nameof(ShopPurchaseManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             return;
-        }
-        if (!TryGetComponent<StudioEventEmitter>(out studioEventEmitter))
-        {
-            Debug.LogError($"{nameof(StudioEventEmitter)} is required for {GetType().Name} on gameobject: {gameObject.name}");
         }
 
 
@@ -544,33 +539,39 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
             return;
         }
 
-        RaycastHit hit;
-        Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector3 direction = (worldPosition - transform.position).normalized;
 
-        LayerMask environmentMask = LayerMask.GetMask("Environment");
-        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, environmentMask)) // TODO: wtf is this doing here, we have a mouse pos var and world pos var
+        if (direction == Vector3.zero)
         {
-            worldPosition = hit.point;
-        };
+            return;
+        }
 
-        RotationServerRpc(worldPosition.x, worldPosition.y, worldPosition.z);
+        RotateCharacterYRpc(direction);
     }
 
 
     /// <summary>
     /// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    [ServerRpc(RequireOwnership = false)]
-    private void RotationServerRpc(float x, float y, float z)
+    /// <param name="_x"></param>
+    /// <param name="_y"></param>
+    /// <param name="_z"></param>
+    [Rpc(SendTo.Server)]
+    private void RotateCharacterYRpc(Vector3 _direction)
     {
         if (health.IsDying) // TODO: This being ran in the first place when dying is a bit iffy
         {
             return;
         }
-        this.transform.LookAt(new Vector3(x, this.transform.position.y, z));
+
+        float RotationSpeed = statManager.CurrentStats[StatType.RotationSpeed];
+
+        Quaternion targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
+        Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+        Vector3 newEuler = newRotation.eulerAngles;
+
+        //Vector3 currentEuler = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(0, newEuler.y, 0);
     }
 
     public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H

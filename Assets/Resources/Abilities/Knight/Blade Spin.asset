@@ -22,9 +22,12 @@ MonoBehaviour:
   successor: {fileID: 11400000, guid: e20426052367d0048a8562b81ce562ad, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 40f6afe442d2ffe468efeeeb6dfc6fd3, type: 2}
+  castMoveSpeedModifer: -7
+  castRotationSpeedModifer: -950
   angleDegrees: 360
   range: 5
   damage: 60
   hitEffect: {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
+  hitVfx: {fileID: 11400000, guid: 4b75b2b55b6bb9843831144a73c5f5a0, type: 2}
   lungeDistance: 6
   lungeDuration: 1.2

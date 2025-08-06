@@ -54,6 +54,9 @@ public class RelayManager : NetworkBehaviour
 
     async void Start()
     {
+        
+
+
         await UnityServices.InitializeAsync();
         
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
@@ -84,6 +87,8 @@ public class RelayManager : NetworkBehaviour
         var relayServerData = allocation.ToRelayServerData("dtls");
 
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
+        NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = 60;
 
         NetworkManager.Singleton.StartHost();
 

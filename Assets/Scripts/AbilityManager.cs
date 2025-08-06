@@ -368,14 +368,38 @@ public class AbilityManager : NetworkBehaviour
 
         Ability selectedAbility = selectedTab.Abilities[_abilityIndex];
 
+        TryCastAbility(selectedAbility);
 
-        if (!CanCastAbility(selectedAbility))
+        
+    }
+
+    public void TryCastAbility(Ability _ability)
+    {
+        if (_ability == null)
+        {
+            Debug.LogError("Cannot cast a null ability");
+            return;
+        }
+
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to cast an ability");
+            return;
+        }
+
+        if (!CheckAbility(_ability))
+        {
+            Debug.LogError($"Ability {_ability.AbilityName} was attempted to be cast but isn't in the abilityList!");
+            return;
+        }
+
+        if (!CanCastAbility(_ability))
         {
             Debug.LogWarning("Cannot cast ability due to checks failing");
             return;
         }
 
-        currentAbility = selectedAbility;
+        currentAbility = _ability;
         StartCooldown(currentAbility);
         PointManager.Instance.RemovePoints(ownerClientId, currentAbility.AbilityCost);
         currentAbility.OnCast(abilityUser);
@@ -383,7 +407,11 @@ public class AbilityManager : NetworkBehaviour
         {
             StopCoroutine(lockCastingCoroutine);
         }
-        lockCastingCoroutine = StartCoroutine(LockCastingUntil(currentAbility.CastTime));
+
+        if (currentAbility.CastTime > 0)
+        {
+            lockCastingCoroutine = StartCoroutine(LockCastingUntil(currentAbility.CastTime));
+        }
     }
 
     /// <summary>
@@ -404,18 +432,18 @@ public class AbilityManager : NetworkBehaviour
     /// </summary>
     /// <param name="_ability"></param>
     /// <returns></returns>
-    private bool CanCastAbility(Ability _ability)
+    public bool CanCastAbility(Ability _ability)
     {
         // isCasting checker
         if (abilityState == AbilityState.Casting)
         {
             return false;
         }
-        // Cost checker // TODO: Enable ability cost checking
-        int currentPoints = PointManager.Instance.GetPoints(ownerClientId);
+        
 
-        if (currentPoints < _ability.AbilityCost)
+        if (!_ability.CanUse(abilityUser))
         {
+            Debug.LogWarning($"Cannot use ability {_ability.AbilityName} due to insufficient points or other conditions.");
             return false;
         }
 

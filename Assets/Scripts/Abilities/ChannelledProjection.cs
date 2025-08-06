@@ -13,15 +13,7 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     protected override string animationTrigger => "ProjectionAbility";
     protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
 
-        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
-        List<StatModifyer> statModifyers = new List<StatModifyer>();
-        statModifyers.Add(statModifyer);
-
-        Effect newEffect = new Effect(CastTime, statModifyers);
-
-        _user.EffectManager.AddEffect(newEffect);
     }
 
     protected override void DebugDrawingTyped(ICharacterAbilityUser _user)
@@ -61,18 +53,10 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldSlowAmount = _so.FindProperty("slowAmount");
-        EditorGUILayout.PropertyField(fieldSlowAmount);
-        if (fieldSlowAmount.floatValue < 0)
-        {
-            EditorGUILayout.HelpBox("Slow amount must be a positive value!", MessageType.Error);
-        }
-
         SerializedProperty fieldIsAttached = _so.FindProperty("isAttached");
         fieldIsAttached.boolValue = EditorGUILayout.Toggle("Attach?", fieldIsAttached.boolValue);
 
         DrawStat<BaseAbilityStat>(_so, "channelStats");
-
     }
 #endif
 }

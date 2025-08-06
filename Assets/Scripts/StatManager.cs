@@ -5,7 +5,8 @@ public enum StatType
 {
     AttackSpeed,
     MoveSpeed,
-    HealthRegeneration
+    HealthRegeneration,
+    RotationSpeed
 }
 
 /// <summary>
@@ -22,7 +23,14 @@ public class StatManager : MonoBehaviour
     [SerializeField]
     private List<StatEntry> baseStatsList = new();
 
-    private Dictionary<StatType, float> baseStats = new();
+    private Dictionary<StatType, float> baseStats = new Dictionary<StatType, float>
+    {   // Default values
+        { StatType.AttackSpeed, 1f },
+        { StatType.MoveSpeed, 5f },
+        { StatType.RotationSpeed, 1000f },
+        { StatType.HealthRegeneration, 0f }
+    };
+
     private Dictionary<StatType , float> currentStats = new();
     private List<StatModifyer> statModifyers = new List<StatModifyer>();
     private Animator animator;
@@ -41,7 +49,6 @@ public class StatManager : MonoBehaviour
 
     private void Start()
     {
-        baseStats.Clear();
         foreach (var entry in baseStatsList)
         {
             baseStats[entry.statType] = entry.value;

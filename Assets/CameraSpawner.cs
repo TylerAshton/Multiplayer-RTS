@@ -67,7 +67,8 @@ public class CameraSpawner : MonoBehaviour
 
         foreach(Camera camera in allCameras)
         {
-            if (camera != spawnedCameraComponent)
+            // This is no longer needed
+            /*if (camera != spawnedCameraComponent)
             {
                 camera.enabled = false;
             }
@@ -75,7 +76,7 @@ public class CameraSpawner : MonoBehaviour
             if (camera.CompareTag("Minimap Cam"))
             {
                 camera.enabled = true;
-            }
+            }*/
 
             Camera.main.tag = "Untagged";
             spawnedCameraComponent.tag = "MainCamera";

@@ -17,6 +17,10 @@ public abstract class Ability : Purchasable, Inspectorable
     [SerializeField] private Ability successor; [Tooltip("The ability that this ability will be replaced with if its added.")]
     [SerializeField] private SoundObject castSound;
     [SerializeField] private SoundObject apexSound;
+    [SerializeField] private float castMoveSpeedModifer = 0f; [Tooltip("The speed modifier applied to the user when casting this ability. Base speed is normally 7.")]
+    [SerializeField] private float castRotationSpeedModifer = 0f; [Tooltip("The rotation speed modifier applied to the user when casting this ability. Base speed is normaly 1000")]
+    public float CastRotationSpeedModifer => castRotationSpeedModifer;
+    public float CastMoveSpeedModifer => castMoveSpeedModifer;
     protected virtual string animationTrigger => null;
 
     public float Cooldown => cooldown;
@@ -34,6 +38,25 @@ public abstract class Ability : Purchasable, Inspectorable
         {
             purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
         }*/
+
+    /// <summary>
+    /// Returns true if the user can use this ability. I.e, has enough points
+    /// NOTE: Doesn't take cooldown into account as cooldowns are handled by the user
+    /// </summary>
+    /// <param name="_user"></param>
+    /// <returns></returns>
+    public bool CanUse(IAbilityUser _user)
+    {
+        // Cost checker // TODO: Enable ability cost checking
+        int currentPoints = PointManager.Instance.GetPoints(_user.OwnerID);
+
+        if (currentPoints < this.AbilityCost)
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public override bool CanPurchase(IShopUser _shopUser)
     {
@@ -122,6 +145,12 @@ public abstract class Ability : Purchasable, Inspectorable
         BeaconUtility.DrawStat<SoundObject>(_so, "castSound", true);
 
         BeaconUtility.DrawStat<SoundObject>(_so, "apexSound", true);
+
+        SerializedProperty fieldMoveSpeedModif = _so.FindProperty("castMoveSpeedModifer");
+        fieldMoveSpeedModif.floatValue = EditorGUILayout.Slider("Move Speed Modifier", fieldMoveSpeedModif.floatValue, -7, 7);
+
+        SerializedProperty fieldRotationSpeedModif = _so.FindProperty("castRotationSpeedModifer");
+        fieldRotationSpeedModif.floatValue = EditorGUILayout.Slider("Rotation Speed Modifier", fieldRotationSpeedModif.floatValue, -1000, 1000);
 
 
     }

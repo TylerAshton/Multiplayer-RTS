@@ -37,7 +37,7 @@ public class UtilityCell : UIActionCell
 
     public void ResetCell()
     {
-        Image.enabled = false;
-        Button.interactable = false;
+        image.enabled = false;
+        button.interactable = false;
     }
 }

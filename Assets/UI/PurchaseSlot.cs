@@ -9,6 +9,7 @@ public class PurchaseSlot
     protected Label purchaseLabel;
     protected IShopUser shopUser;
     protected Purchasable purchasable;
+    private StyleColor lockedColor = new StyleColor(new Color(1, 0.34f, 0.34f, 1f));
 
     protected EventCallback<MouseEnterEvent> onHoverEnter;
     protected EventCallback<ClickEvent> onClickEvent;
@@ -62,9 +63,29 @@ public class PurchaseSlot
         purchaseButton.style.backgroundImage = null;
         purchaseButton.style.backgroundImage = new StyleBackground(purchasable.Icon); // TODO: This fucks hover colour somehow
 
+        
+
+
         purchaseLabel.text = purchasable.name;
 
 
+    }
+
+    public void OnUpdate()
+    {
+        UpdatePurchasableColor();
+    }
+
+    private void UpdatePurchasableColor()
+    {
+        if (purchasable.CanPurchase(shopUser))
+        {
+            purchaseButton.style.unityBackgroundImageTintColor = Color.white;
+        }
+        else
+        {
+            purchaseButton.style.unityBackgroundImageTintColor = lockedColor;
+        }
     }
 
     protected void SubmitPurchaseRequest()

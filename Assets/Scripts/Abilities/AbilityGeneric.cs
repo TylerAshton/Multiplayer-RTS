@@ -18,12 +18,37 @@ public abstract class Ability<T> : Ability where T : IAbilityUser
         {
             SoundSpawner.Instance.PlaySoundEffectRpc(CastSound.ID, _user.Transform.position, _user.OwnerID);
         }
+
+        
+
+    }
+
+    private void OnCastCharacterDefault(ICharacterAbilityUser _user)
+    {
+        /// Set animation
+        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
+
+        // Set slow and rotation speed modifs
+        StatModifyer statModifyerMoveSpeed = new StatModifyer(StatType.MoveSpeed, CastMoveSpeedModifer);
+        StatModifyer statModifyerRotationSpeed = new StatModifyer(StatType.RotationSpeed, CastRotationSpeedModifer);
+        List<StatModifyer> statModifyers = new List<StatModifyer>();
+        statModifyers.Add(statModifyerMoveSpeed);
+        statModifyers.Add(statModifyerRotationSpeed);
+
+        Effect newEffect = new Effect(CastTime, statModifyers);
+        _user.EffectManager.AddEffect(newEffect);
     }
     public override void OnCast(IAbilityUser _user)
     {
         if (_user is T tUser)
         {
             OnCastDefault(_user);
+
+            if (_user is ICharacterAbilityUser characterUser)
+            {
+                OnCastCharacterDefault(characterUser);
+                
+            }
             OnCastTyped(tUser);
         }
         else
