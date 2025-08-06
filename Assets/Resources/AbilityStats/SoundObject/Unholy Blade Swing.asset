@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
   m_Name: Unholy Blade Swing
   m_EditorClassIdentifier: 
-  id: Sword Swing
+  id: Unholy Sword Swing
   soundEvent:
     Guid:
       Data1: 923950870
