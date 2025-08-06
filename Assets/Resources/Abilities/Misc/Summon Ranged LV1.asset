@@ -20,8 +20,12 @@ MonoBehaviour:
   abilityCost: 0
   cooldown: 3
   successor: {fileID: 0}
+  castSound: {fileID: 0}
+  apexSound: {fileID: 0}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   spawnee: {fileID: 2401997887451976919, guid: 44030ceaa8e63cb42ab47b206a6e8252, type: 3}
-  spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
+  spawnVFX: {fileID: 11400000, guid: 0c0b9e95991b15445b5cd8632ef0387f, type: 2}
   maxDispersion: 5
   minDisperstion: 5
   offset: {x: 0, y: 1, z: 0}
