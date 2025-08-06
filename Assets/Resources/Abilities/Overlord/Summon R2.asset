@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Summon R2
   m_EditorClassIdentifier: 
   id: Summon R2
-  price: 0
+  price: 1500
   icon: {fileID: 21300000, guid: b058f64e052d6c142973a01f86c12e8c, type: 3}
   castTime: 0
   castPositionName: 0
-  abilityCost: 0
+  abilityCost: 1500
   cooldown: 0.5
   successor: {fileID: 0}
   castSound: {fileID: 11400000, guid: 1669eaa692448f9488f21e65c1c8f5de, type: 2}
   apexSound: {fileID: 0}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   constructionStats: {fileID: 11400000, guid: aa6bc299b6dac2c4ab64cdf413d63179, type: 2}

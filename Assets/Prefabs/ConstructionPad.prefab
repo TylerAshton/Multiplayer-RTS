@@ -380,7 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: Main
+  - tabName: Construction Pad
     abilities:
     - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
     - {fileID: 11400000, guid: 6cd903247b359e1469a849c76118dfee, type: 2}

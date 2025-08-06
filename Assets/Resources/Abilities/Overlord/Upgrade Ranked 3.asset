@@ -17,8 +17,10 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 21c2411b1ea09654e9f1dc7034227968, type: 3}
   castTime: 0
   castPositionName: 0
-  abilityCost: 0
+  abilityCost: 10000
   cooldown: 0
   successor: {fileID: 0}
   castSound: {fileID: 11400000, guid: 62814eea7d531e7468c2a9264423f0a8, type: 2}
   apexSound: {fileID: 0}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
