@@ -301,6 +301,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
   iD: Emplacement
+  selectionIcon: {fileID: 21300000, guid: 670bd076470157144a64b17a2f102011, type: 3}
 --- !u!114 &8282621190444458776
 MonoBehaviour:
   m_ObjectHideFlags: 0

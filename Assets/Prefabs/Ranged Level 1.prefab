@@ -1313,6 +1313,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
   iD: Demon1
+  selectionIcon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0

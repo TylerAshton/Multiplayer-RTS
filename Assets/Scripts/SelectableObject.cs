@@ -44,6 +44,9 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     [SerializeField] private string iD = string.Empty;
     public string ID => iD;
 
+    [SerializeField] private Sprite selectionIcon;
+    public Sprite SelectionIcon => selectionIcon;
+
     public ulong OwnerID => 0; // Owner will always by 0: The host
 
     protected virtual void Awake()

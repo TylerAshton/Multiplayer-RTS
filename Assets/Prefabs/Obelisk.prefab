@@ -425,6 +425,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
   iD: Obelisk
+  selectionIcon: {fileID: 21300000, guid: 9cf961f022a2c4048be49d0d2a20d93c, type: 3}
 --- !u!114 &-7227062157592243336
 MonoBehaviour:
   m_ObjectHideFlags: 0

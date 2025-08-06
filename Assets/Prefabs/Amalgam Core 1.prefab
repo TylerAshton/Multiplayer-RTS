@@ -119,6 +119,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
   iD: Idol
+  selectionIcon: {fileID: 1955300519, guid: 07300a68224d82546883a8f69541be97, type: 3}
 --- !u!114 &2979249116016831883
 MonoBehaviour:
   m_ObjectHideFlags: 0
