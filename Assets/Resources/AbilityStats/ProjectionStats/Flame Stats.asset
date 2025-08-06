@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326c203d0d1ea6641880bbde83a826bd, type: 3}
   m_Name: Flame Stats
   m_EditorClassIdentifier: 
-  iD: ergeg
+  id: ergeg
   vfxPrefab: {fileID: 6631761922747683013, guid: 28e2d8c08a0117841ba65ce212813fa3, type: 3}
   vfxOffset: {x: 0, y: 0, z: 0}
   vfxRotation: {x: 0, y: 0, z: 0, w: 1}
