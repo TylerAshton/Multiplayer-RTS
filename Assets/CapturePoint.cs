@@ -16,6 +16,17 @@ public class CapturePoint : NetworkBehaviour
     [SerializeField] private int minAmalgs = 0;
 
     [SerializeField]
+    FMODUnity.EventReference ChampselectSound;
+    [SerializeField]
+    FMODUnity.EventReference AmalgselectSound;
+    [SerializeField]
+    FMODUnity.EventReference ContestselectSound;
+
+    FMOD.Studio.EventInstance ChampsoundEvent;
+    FMOD.Studio.EventInstance AmalgsoundEvent;
+    FMOD.Studio.EventInstance ContestsoundEvent;
+
+
     public enum owners
     {
         AMALGAM,
@@ -41,6 +52,8 @@ public class CapturePoint : NetworkBehaviour
 
     [SerializeField] GameObject icon;
 
+    owners previousOwner;
+
     private void Awake()
     {
         circle.transform.localScale = new Vector3(r, 1, r);
@@ -49,6 +62,9 @@ public class CapturePoint : NetworkBehaviour
         SphereCollider trigger = GetComponent<SphereCollider>();
         trigger.radius = r;
         trigger.center += offset;
+        ChampsoundEvent = FMODUnity.RuntimeManager.CreateInstance(ChampselectSound);
+        AmalgsoundEvent = FMODUnity.RuntimeManager.CreateInstance(AmalgselectSound);
+        ContestsoundEvent = FMODUnity.RuntimeManager.CreateInstance(ContestselectSound);
         //networkObj = GetComponent<NetworkObject>();
     }
 
@@ -172,6 +188,7 @@ public class CapturePoint : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!IsHost) { return; }
+        if (other.gameObject.layer != 7) { return; }
         if (other.CompareTag("Champion"))
         {
             AddChampRpc(other.GetComponent<NetworkObject>());
@@ -186,8 +203,11 @@ public class CapturePoint : NetworkBehaviour
             //targetHealth.OnDeath += ClearTarget;
         }
 
+        SetPreviousOwnerRpc();
         CheckOwner();
-        if (owner == owners.CHAMPION) // TODO: Delete this? as CheckOwner does this already
+        EnteredPointRpc();
+
+        if (owner == owners.CHAMPION) // TODO: Delete this? as CheckOwner does this already  // Not the same thing :)
         {
             if (other.CompareTag("Champion"))
             {
@@ -205,6 +225,31 @@ public class CapturePoint : NetworkBehaviour
                     CloseShopRpc(CheckChampion(go));
                 }
             }
+        }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetPreviousOwnerRpc()
+    {
+        previousOwner = owner;
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void EnteredPointRpc()
+    {
+        CheckOwner();
+        if (owner == owners.AMALGAM && previousOwner != owners.AMALGAM)
+        {
+            AmalgsoundEvent.start();
+        }
+        else if (owner == owners.CHAMPION && previousOwner != owners.CHAMPION)
+        {
+            
+            ChampsoundEvent.start();
+        }
+        else if (owner == owners.CONTESTED && previousOwner != owners.CONTESTED)
+        {
+            ContestsoundEvent.start();
         }
     }
 

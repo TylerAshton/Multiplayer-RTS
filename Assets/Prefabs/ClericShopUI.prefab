@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6064164141262311439}
   - component: {fileID: -8130628226513115743}
   - component: {fileID: 1991467521374962832}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ClericShopUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
