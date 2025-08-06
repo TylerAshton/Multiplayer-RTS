@@ -17,3 +17,4 @@ MonoBehaviour:
   vfxScale: 0.6
   lingerTime: 5
   vfxOffset: {x: 0, y: 0, z: 0}
+  onlyShowForCaster: 1

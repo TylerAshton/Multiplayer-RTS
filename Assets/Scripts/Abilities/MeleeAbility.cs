@@ -67,7 +67,7 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
                 if (hit.TryGetComponent(out Health _health))
                 {
                     _health.Damage(damage);
-                    VFXSpawner.Instance.SpawnVfxObjectRpc(hitVfx.ID, hit.gameObject.GetComponent<Collider>().bounds.center);
+                    VFXSpawner.Instance.SpawnVfxObjectRpc(hitVfx.ID, hit.gameObject.GetComponent<Collider>().bounds.center, _user.OwnerID);
                 }
             }
         }

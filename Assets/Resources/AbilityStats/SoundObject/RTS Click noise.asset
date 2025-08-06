@@ -15,16 +15,17 @@ MonoBehaviour:
   id: RTSClickNoise
   soundEvent:
     Guid:
-      Data1: 1367471118
-      Data2: 1129964957
-      Data3: 224377493
-      Data4: -1404509902
-    Path: event:/Silence
-  isPlayingLocal: 1
-  soundEvent2D:
-    Guid:
       Data1: 1572611743
       Data2: 1317650797
       Data3: 1674909097
       Data4: 1612445780
     Path: event:/SFX/2D/RTS Click noise
+  has2DVariant: 0
+  onlyPlayForCaster: 1
+  soundEvent2D:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

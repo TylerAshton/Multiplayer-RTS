@@ -28,7 +28,7 @@ public class Construct : Ability<IConstructionPad>
         // Select new unit
         RTSPlayer.Instance.UnitManager.SelectUnit(summoned.GetComponent<SelectableObject>());
 
-        VFXSpawner.Instance.SpawnVfxObjectRpc(vfxObject.ID, spawnPosition);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(vfxObject.ID, spawnPosition, _user.OwnerID);
     }
 
     protected override void DebugDrawingTyped(IConstructionPad _user)

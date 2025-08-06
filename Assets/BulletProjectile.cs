@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
 {
@@ -379,7 +380,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             return;
         }
 
-        VFXSpawner.Instance.SpawnVfxObjectRpc(deathVFX.ID, transform.position);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(deathVFX.ID, transform.position, 99);
 
     }
 }

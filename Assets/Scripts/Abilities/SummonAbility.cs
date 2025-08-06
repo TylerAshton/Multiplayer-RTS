@@ -41,7 +41,7 @@ public class SummonAbility : Ability<IAbilityUser>
             castPosition.z + offsetXZ.y
         );
         //GameObject vfx = Instantiate(spawnVFX, spawnPosition, Quaternion.identity);
-        VFXSpawner.Instance.SpawnVfxObjectRpc(spawnVFX.ID, spawnPosition);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(spawnVFX.ID, spawnPosition, _user.OwnerID);
         GameObject summoned = Instantiate(spawnee, spawnPosition, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
     }

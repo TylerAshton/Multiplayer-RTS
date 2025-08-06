@@ -81,7 +81,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     public void ShowBuildPad()
     {
         SoundSpawner.Instance.PlaySoundEffectRpc(summonSound.ID, transform.position, 0);
-        VFXSpawner.Instance.SpawnVfxObjectRpc(summonVfx.ID, transform.position);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(summonVfx.ID, transform.position, 0);
         ShowbuildPadClientRpc();
         SetIsSelectable(true);
     }
