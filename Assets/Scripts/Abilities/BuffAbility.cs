@@ -8,7 +8,6 @@ using UnityEngine;
 public class BuffAbility : Ability<ICharacterAbilityUser>
 {
     [SerializeField] private GameObject buffEffects;
-    [SerializeField] private float slowAmount;
     [SerializeField] private Effect effect;
     protected override string animationTrigger => "BuffAbility";
 /*    public override Ability Clone()
@@ -18,14 +17,7 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
 
     protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}");
-        StatModifyer statModifyer = new StatModifyer(StatType.MoveSpeed, -slowAmount);
-        List<StatModifyer> statModifyers = new List<StatModifyer>();
-        statModifyers.Add(statModifyer);
 
-        Effect newEffect = new Effect(CastTime, statModifyers); 
-        
-        _user.EffectManager.AddEffect(newEffect);
     }
 
 /*    protected override void CopySubclassTo(Ability _target)
@@ -52,7 +44,7 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldBuffEffects = _so.FindProperty("buffEffects");
+        SerializedProperty fieldBuffEffects = _so.FindProperty("buffEffects"); // TODO: Changing this to a VfxObject would be better but it requires us handling parented prefabs
         fieldBuffEffects.objectReferenceValue = EditorGUILayout.ObjectField("Buff Effects Prefab", fieldBuffEffects.objectReferenceValue, typeof(GameObject), false);
         if (fieldBuffEffects.objectReferenceValue == null)
         {

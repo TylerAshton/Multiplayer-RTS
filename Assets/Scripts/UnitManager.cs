@@ -15,6 +15,8 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private GameObject AbilityPanelPrefab;
     [SerializeField] private GameObject ConstructionPanelPrefab;
     [SerializeField] private LayerMask unitLayer;
+    [SerializeField] private VfxObject moveVFX;
+    [SerializeField] private SoundObject moveSound;
     private SelectableObject currentHoveredUnit;
     private AbilityUIManager abilityUIManager;
     private ConstructionUIManager constructionUIManager;
@@ -241,6 +243,11 @@ public class UnitManager : NetworkBehaviour
             return;
         }
 
+        if (selectedUnits.Count == 0)
+        {
+            return;
+        }
+
         for (int i = 0; i < selectedUnits.Count; i++)
         {
             if (selectedUnits[i] is NPC _NPC)
@@ -250,6 +257,8 @@ public class UnitManager : NetworkBehaviour
                 _NPC.ImposeNewTask(moveTask);
             }
         }
+
+        VFXSpawner.Instance.SpawnVfxObjectRpc(moveVFX.ID, _worldPosition);
     }
 
     /// <summary>

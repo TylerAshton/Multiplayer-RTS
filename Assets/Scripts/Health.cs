@@ -23,7 +23,7 @@ public class Health : NetworkBehaviour
     [SerializeField] private GameObject deathVfx;
     [SerializeField] private float deathVfxScale = 1;
 
-
+    GameObject healthBar;
     private Slider healthSlider;
     private StatManager statManager;
     public event Action OnDeath; 
@@ -129,12 +129,21 @@ public class Health : NetworkBehaviour
     /// </summary>
     private void ShowHoverBar()
     {
-        GameObject healthBar = Instantiate(healthBarPrefab, transform);
+        healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
         healthBar.transform.position += healthBarOffset;
         healthSlider = healthBar.GetComponentInChildren<Slider>();
 
         healthSlider.maxValue = maxHealth;
         healthSlider.value = hitPoints;
+
+        UIStraightener straightener;
+        if (!healthBar.TryGetComponent<UIStraightener>(out straightener))
+        {
+            Debug.LogError($"{nameof(UIStraightener)} not found on {healthBar.name}!");
+            return;
+        }
+
+        straightener.Init(transform);
     }
 
     /// <summary>
@@ -142,7 +151,7 @@ public class Health : NetworkBehaviour
     /// </summary>
     private void ShowOverlayHealthBar()
     {
-        GameObject healthBar = Instantiate(overlayHealthBar);
+        healthBar = Instantiate(overlayHealthBar);
         healthSlider = healthBar.GetComponentInChildren<Slider>();
 
         healthSlider.maxValue = maxHealth;
@@ -248,6 +257,8 @@ public class Health : NetworkBehaviour
             collider.enabled = false;
         }
 
+        DestroyHealthRpc();
+
         // Destructable handling
 
         IDestructible[] destructibles = GetComponents<IDestructible>();
@@ -270,6 +281,17 @@ public class Health : NetworkBehaviour
 
 
         Invoke(nameof(Die), corpseLingerTime);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void DestroyHealthRpc()
+    {
+        if (healthBar == null)
+        {
+            return;
+        }
+
+        Destroy(healthBar);
     }
 
     /// <summary>

@@ -9,15 +9,13 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
     [SerializeField] private float angleDegrees = 90f;
     [SerializeField] private float range = 4f;
     [SerializeField] private float damage = 1f;
-    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private VfxObject hitVfx;
     [SerializeField] private float lungeDistance = 0f;
     [SerializeField] private float lungeDuration = 0f;
     protected override string animationTrigger => (lungeDistance > 0) ? "MeleeAbilityLunge" : "MeleeAbility";
 
     protected override void OnCastTyped(ICharacterAbilityUser _user)
     {
-        _user.AnimTriggerManager.TrySetTrigger($"{animationTrigger}"); // TODO: perhaps add a default behaviour function that calls typed instead, so we can avoid repeat here
-
         _user.Lunge(lungeDistance, _user.Transform.forward, lungeDuration);
 
 
@@ -69,8 +67,7 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
                 if (hit.TryGetComponent(out Health _health))
                 {
                     _health.Damage(damage);
-                    GameObject hitVFX = Instantiate(hitEffect, hit.transform);
-                    hitVFX.GetComponent<NetworkObject>().Spawn();
+                    VFXSpawner.Instance.SpawnVfxObjectRpc(hitVfx.ID, hit.gameObject.GetComponent<Collider>().bounds.center);
                 }
             }
         }
@@ -108,12 +105,7 @@ public class MeleeAbility : Ability<ICharacterAbilityUser>
             EditorGUILayout.HelpBox("Lunge Duration cannot be negative.", MessageType.Error);
         }
 
-        SerializedProperty fieldHitEffect = _so.FindProperty("hitEffect");
-        fieldHitEffect.objectReferenceValue = EditorGUILayout.ObjectField("Hit Effect Prefab", fieldHitEffect.objectReferenceValue, typeof(GameObject), false);
-        if (fieldHitEffect.objectReferenceValue == null)
-        {
-            EditorGUILayout.HelpBox("Hit Effect Prefab must be assigned.", MessageType.Error);
-        }
+        BeaconUtility.DrawStat<VfxObject>(_so, "hitVfx", false);
     }
 #endif
 }

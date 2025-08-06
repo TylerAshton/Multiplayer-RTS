@@ -54,6 +54,14 @@ public class ShopUI : MonoBehaviour
         DrawPurchaseSlots();
     }
 
+    private void Update()
+    {
+        foreach (PurchaseSlot slot in purchaseSlots)
+        {
+            slot.OnUpdate();
+        }
+    }
+
     private void InitUIVariables()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;

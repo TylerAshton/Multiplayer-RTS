@@ -22,6 +22,8 @@ MonoBehaviour:
   successor: {fileID: 11400000, guid: 1d1d81a28e5ea6740ac80a44393869a0, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 926b1c35b70c3cb4ab8261ee7f83a60b, type: 2}
+  castMoveSpeedModifer: -7
+  castRotationSpeedModifer: -950
   slowAmount: 7
   channelStats: {fileID: 11400000, guid: ad6a4663b2f86a14d8d72a4cc4a7fc99, type: 2}
   isAttached: 0

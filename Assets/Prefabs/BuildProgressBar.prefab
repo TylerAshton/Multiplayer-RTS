@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7660039534088495170}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 6034516648844178403}
   - component: {fileID: 3175250581283614290}
   - component: {fileID: 4476142902413151946}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8650062678844617639}
   - component: {fileID: 8466011264577499191}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 8529648645921127584}
   - component: {fileID: 4084540790396842410}
   - component: {fileID: 616433948323150950}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: BuildProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4084540790396842410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 3465261020344613881}
   - component: {fileID: 2464413320935465056}
   - component: {fileID: 3936876658228512616}
-  m_Layer: 5
+  m_Layer: 14
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

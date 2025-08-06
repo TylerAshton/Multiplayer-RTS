@@ -271,7 +271,7 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Main
     abilities:
-    - {fileID: 11400000, guid: 10b979752ba388d4692df7415cd66e7b, type: 2}
+    - {fileID: 11400000, guid: 7075b3f2b5c8fc24788b04fae1b1c25b, type: 2}
   hasUtility: 1
 --- !u!95 &2878191684668715549
 Animator:
@@ -315,8 +315,8 @@ MonoBehaviour:
   isDying: 0
   overlayHealthBar: {fileID: 0}
   healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
-  healthBarOffset: {x: 0, y: 5, z: 0}
-  showHealthBar: 0
+  healthBarOffset: {x: 0, y: 2.414978, z: 0}
+  showHealthBar: 1
   showOnOwnerScreen: 0
   deathVfx: {fileID: 0}
   deathVfxScale: 1
@@ -20454,6 +20454,10 @@ PrefabInstance:
     - target: {fileID: 8650062678844617639, guid: 19037ff92d921854398c5cbf5dcdfb93, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -2.312
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650062678844617639, guid: 19037ff92d921854398c5cbf5dcdfb93, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.235
       objectReference: {fileID: 0}
     - target: {fileID: 8650062678844617639, guid: 19037ff92d921854398c5cbf5dcdfb93, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
