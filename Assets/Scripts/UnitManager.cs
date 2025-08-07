@@ -202,7 +202,7 @@ public class UnitManager : NetworkBehaviour
         {
             abilityUIManager.ResetAbilityGrid();
             constructionUIManager.ResetManager();
-            selectionUIManager.ClearSelectionGrid();
+            selectionUIManager.ClearSelectionUI();
         }
 
         SelectionHighlighter selectionHighlighter = _unit.SelectionHighlighter;
@@ -255,7 +255,7 @@ public class UnitManager : NetworkBehaviour
 
         abilityUIManager.ClearUI();
         constructionUIManager.ResetManager();
-        selectionUIManager.ClearSelectionGrid();
+        selectionUIManager.ClearSelectionUI();
     }
 
     /// <summary>
