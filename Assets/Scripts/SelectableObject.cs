@@ -44,6 +44,11 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     [SerializeField] private string iD = string.Empty;
     public string ID => iD;
 
+    [SerializeField] private Sprite selectionIcon;
+    public Sprite SelectionIcon => selectionIcon;
+    [SerializeField] private string description;
+    public string Description => description;
+
     public ulong OwnerID => 0; // Owner will always by 0: The host
 
     protected virtual void Awake()
@@ -68,6 +73,16 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
         if (string.IsNullOrEmpty(iD))
         {
             Debug.LogError($"{nameof(iD)} is null or empty in {gameObject.name}!");
+            return;
+        }
+        if (selectionIcon == null)
+        {
+            Debug.LogError($"{nameof(selectionIcon)} is null or empty in {gameObject.name}!");
+            return;
+        }
+        if (string.IsNullOrEmpty(description))
+        {
+            Debug.LogError($"{nameof(description)} is null or empty in {gameObject.name}!");
             return;
         }
 

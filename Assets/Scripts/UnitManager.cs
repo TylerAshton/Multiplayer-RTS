@@ -14,12 +14,14 @@ public class UnitManager : NetworkBehaviour
     [SerializeField] private List<SelectableObject> selectedUnits = new List<SelectableObject>();
     [SerializeField] private GameObject AbilityPanelPrefab;
     [SerializeField] private GameObject ConstructionPanelPrefab;
+    [SerializeField] private GameObject SelectionGridPrefab;
     [SerializeField] private LayerMask unitLayer;
     [SerializeField] private VfxObject moveVFX;
     [SerializeField] private SoundObject moveSound;
     private SelectableObject currentHoveredUnit;
     private AbilityUIManager abilityUIManager;
     private ConstructionUIManager constructionUIManager;
+    private SelectionUIManager selectionUIManager;
     private RTSPlayerControls rTSPlayerControls;
     private bool isShiftHeld => rTSPlayerControls.IsShiftPressed;
     public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
@@ -42,8 +44,29 @@ public class UnitManager : NetworkBehaviour
         GameObject AbilityPanel = Instantiate(AbilityPanelPrefab);
         abilityUIManager = AbilityPanel.GetComponentInChildren<AbilityUIManager>();
 
+        if (abilityUIManager == null)
+        {
+            Debug.LogError($"{nameof(AbilityUIManager)} component not found in children of {nameof(AbilityPanelPrefab)}");
+            return;
+        }
+
         GameObject ConstructionPanel = Instantiate(ConstructionPanelPrefab);
         constructionUIManager = ConstructionPanel.GetComponentInChildren<ConstructionUIManager>();
+
+        if (constructionUIManager == null)
+        {
+            Debug.LogError($"{nameof(ConstructionUIManager)} component not found in children of {nameof(ConstructionPanelPrefab)}");
+            return;
+        }
+
+        GameObject SelectionGrid = Instantiate(SelectionGridPrefab);
+        selectionUIManager = SelectionGrid.GetComponentInChildren<SelectionUIManager>();
+
+        if (selectionUIManager == null)
+        {
+            Debug.LogError($"{nameof(SelectionUIManager)} component not found in children of {nameof(SelectionGridPrefab)}");
+            return;
+        }
     }
 
     // Update is called once per frame
@@ -145,6 +168,7 @@ public class UnitManager : NetworkBehaviour
         selectedUnits.Add(_unit);
         abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
         constructionUIManager.UpdateUI(selectedUnits);
+        selectionUIManager.UpdateSelection(selectedUnits);
         _unit.SelectionHighlighter.SetSelectionMode(SelectionMode.Select);
     }
 
@@ -172,11 +196,13 @@ public class UnitManager : NetworkBehaviour
         {
             abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
             constructionUIManager.UpdateUI(selectedUnits);
+            selectionUIManager.UpdateSelection(selectedUnits);
         }
         else
         {
             abilityUIManager.ResetAbilityGrid();
             constructionUIManager.ResetManager();
+            selectionUIManager.ClearSelectionUI();
         }
 
         SelectionHighlighter selectionHighlighter = _unit.SelectionHighlighter;
@@ -229,6 +255,7 @@ public class UnitManager : NetworkBehaviour
 
         abilityUIManager.ClearUI();
         constructionUIManager.ResetManager();
+        selectionUIManager.ClearSelectionUI();
     }
 
     /// <summary>

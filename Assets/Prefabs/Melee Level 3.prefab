@@ -1086,7 +1086,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
-  iD: Demon1
+  iD: Melee3
+  selectionIcon: {fileID: 21300000, guid: 21c2411b1ea09654e9f1dc7034227968, type: 3}
+  description: Tier 3 Melee Minion
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0
