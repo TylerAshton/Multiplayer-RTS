@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0666d3e63809f4044b7f452bad49af48, type: 3}
-  m_Name: Summon R3
+  m_Name: Free Summon M1
   m_EditorClassIdentifier: 
-  id: Summon R3
+  id: Summon Melee1
   price: 0
-  icon: {fileID: 21300000, guid: 21c2411b1ea09654e9f1dc7034227968, type: 3}
+  icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
   castTime: 0
   castPositionName: 0
-  abilityCost: 2100
+  abilityCost: 0
   cooldown: 0.5
   successor: {fileID: 0}
   castSound: {fileID: 11400000, guid: 1669eaa692448f9488f21e65c1c8f5de, type: 2}
   apexSound: {fileID: 0}
-  castMoveSpeedModifer: 0
-  castRotationSpeedModifer: 0
-  constructionStats: {fileID: 11400000, guid: 797a04e8665ea324d84f1c2a525e1fbf, type: 2}
+  constructionStats: {fileID: 11400000, guid: fdaa27f690163f9489eb8b8f66ccfe8b, type: 2}

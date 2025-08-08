@@ -17,11 +17,12 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 9cf961f022a2c4048be49d0d2a20d93c, type: 3}
   castTime: 1
   castPositionName: 0
-  abilityCost: 0
+  abilityCost: 3500
   cooldown: 1
   successor: {fileID: 0}
   castSound: {fileID: 11400000, guid: 1669eaa692448f9488f21e65c1c8f5de, type: 2}
   apexSound: {fileID: 11400000, guid: 30ad7f9876eafc940a5b6e2b7c1aea6c, type: 2}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   spawnee: {fileID: 371476738365510241, guid: 5fcd6cd9836275949bfeae72c436339a, type: 3}
-  spawnVFX: {fileID: 4535006216103734310, guid: f605cfa72b13f1c41a614d251df8eacc, type: 3}
   vfxObject: {fileID: 11400000, guid: ed406e2ed43b02d40b8f6a3be3ead823, type: 2}

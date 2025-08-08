@@ -91,10 +91,10 @@ MonoBehaviour:
   abilityTabs:
   - tabName: Minions
     abilities:
-    - {fileID: 11400000, guid: 7075b3f2b5c8fc24788b04fae1b1c25b, type: 2}
+    - {fileID: 11400000, guid: 2ed25650747637346b04c73826fcd030, type: 2}
     - {fileID: 11400000, guid: 28669687bffbadf4c8fdba302559f477, type: 2}
     - {fileID: 11400000, guid: 60fd9f89bdd124f4d996acc99c6ca1a9, type: 2}
-    - {fileID: 11400000, guid: 8c58a17369b24134d9a71c19e61c0dd9, type: 2}
+    - {fileID: 11400000, guid: b0e8e61a4841b9e4db75c1aa17df0b3c, type: 2}
     - {fileID: 11400000, guid: f4ceceff2c803284599814e963b8e869, type: 2}
     - {fileID: 11400000, guid: 0608cc9d9e237704bb39348c773b9b30, type: 2}
   - tabName: Upgrades
