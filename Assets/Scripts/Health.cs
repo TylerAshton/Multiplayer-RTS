@@ -257,8 +257,6 @@ public class Health : NetworkBehaviour
             collider.enabled = false;
         }
 
-        DestroyHealthRpc();
-
         // Destructable handling
 
         IDestructible[] destructibles = GetComponents<IDestructible>();
@@ -279,7 +277,7 @@ public class Health : NetworkBehaviour
             return;
         }
 
-
+        DestroyHealthRpc();
         Invoke(nameof(Die), corpseLingerTime);
     }
 
