@@ -25,6 +25,7 @@ public class AbilityCell : UIActionCell
 
     private AbilityUIManager abilityUIManager;
 
+    private Color lockedColour = new Color(1, 0.34f, 0.34f, 1f);
     private void Awake()
     {
         abilityUIManager = GetComponentInParent<AbilityUIManager>();
@@ -144,7 +145,7 @@ public class AbilityCell : UIActionCell
         }
         else
         {
-            image.color = Color.red; // Ability is not available
+            image.color = lockedColour; // Ability is not available
         }
     }
 
