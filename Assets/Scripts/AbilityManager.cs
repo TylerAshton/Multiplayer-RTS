@@ -76,20 +76,6 @@ public class AbilityManager : NetworkBehaviour
         ownerClientId = networkObject.OwnerClientId;
     }
 
-    protected void OnDrawGizmos()
-    {
-        #if UNITY_EDITOR
-/*            if (abilities != null && abilities.Count > 0) TODO: Reenable me and fix nullRef for abilityUser
-            {
-                foreach (var ability in abilities)
-                {
-                    ability.DebugDrawing(abilityUser);
-                }
-            }*/
-            
-        #endif
-    }
-
     private List<AbilityTab> GetAbilityTabs()
     {
         return abilityTabs.Select(tab => tab.Clone()).ToList();
@@ -301,7 +287,7 @@ public class AbilityManager : NetworkBehaviour
     /// </summary>
     /// <param name="_ability"></param>
     /// <returns></returns>
-    private int FindAbilityTabIndex(Ability _ability)
+    public int FindAbilityTabIndex(Ability _ability)
     {
         for (int i = 0; i < abilityTabs.Count; i++)
         {

@@ -32,13 +32,6 @@ public abstract class Ability : Purchasable, Inspectorable
     public SoundObject CastSound => castSound;
     public SoundObject ApexSound => apexSound;
 
-    //public string PurchaseID => abilityID;
-
-    /*    private void OnValidate()
-        {
-            purchaseID = abilityID; // NOTE: this is temp until we merge the IDs together
-        }*/
-
     /// <summary>
     /// Returns true if the user can use this ability. I.e, has enough points
     /// NOTE: Doesn't take cooldown into account as cooldowns are handled by the user
@@ -47,7 +40,6 @@ public abstract class Ability : Purchasable, Inspectorable
     /// <returns></returns>
     public bool CanUse(IAbilityUser _user)
     {
-        // Cost checker // TODO: Enable ability cost checking
         int currentPoints = PointManager.Instance.GetPoints(_user.OwnerID);
 
         if (currentPoints < this.AbilityCost)

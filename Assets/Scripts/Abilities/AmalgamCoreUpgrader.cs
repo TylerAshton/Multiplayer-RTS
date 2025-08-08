@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class AmalgamCoreUpgrader : Ability<IAmalgamCore>
 {
-    private const int _tabIndex = 1; // upgrades should be on 2nd tab // TODO: Make it do a search
 
     protected override void OnCastTyped(IAmalgamCore _user)
     {
@@ -15,7 +14,8 @@ public class AmalgamCoreUpgrader : Ability<IAmalgamCore>
 
         if (Successor != null)
         {
-            _user.AbilityManager.AddAbility(Successor, _tabIndex);
+            int tabIndex = _user.AbilityManager.FindAbilityTabIndex(this);
+            _user.AbilityManager.AddAbility(Successor, tabIndex);
         }
 
         else

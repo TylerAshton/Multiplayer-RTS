@@ -57,134 +57,6 @@ public class AbilityUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Updates the UI to show if the ability is ready to be casted or not.
-    /// </summary>
-    private void ShowAvailability()
-    {
-/*        if (abilityManagers.Count <= 0)
-        {
-            return;
-        }
-
-        if (commonAbilities.Count <= 0)
-        {
-            return;
-        }
-
-        for (int i = 0; i < commonAbilities.Count; i++)
-        {
-            if (i >= 4) { Debug.LogError("Can't handle availability for multiple pages rn"); continue; }
-            Image image = abilityCells[i].Image;
-            Ability ability = commonAbilities[i];
-
-            float percentageAvailable = GetPercentageAvailability(ability);
-
-            if (percentageAvailable == 1)
-            {
-                image.color = Color.white; // Ability is available
-            }
-            else if (percentageAvailable > abilPartialThreshold)
-            {
-                image.color = Color.yellow; // Ability is partially available
-            }
-            else
-            {
-                image.color = Color.red; // Ability is not available
-            }
-
-        }*/
-    }
-
-    /// <summary>
-    /// Returns a percentage(float) of how many ability managers can cast the parsed ability.
-    /// </summary>
-    /// <param name="_ability"></param>
-    /// <returns></returns>
-    private float GetPercentageAvailability(Ability _ability)
-    {
-        float percentageAvailable = 0f;
-        if (!commonAbilities.Contains(_ability))
-        {
-            Debug.LogError($"{_ability.name} is not a common ability!");
-            return 0f;
-        }
-        
-        int availableCount = abilityManagers.Count(am => am.CanCastAbility(_ability));
-
-        percentageAvailable = availableCount / (float)abilityManagers.Count;
-
-        return percentageAvailable;
-    }
-
-    /// <summary>
-    /// Updates the UI to show the cooldowns of the common abilities. Or at least the 
-    /// </summary>
-    private void ShowCooldowns() // TODO: Self contain abilityCells if we have time
-    {
-        /*if (abilityManagers.Count <= 0)
-        {
-            return;
-        }
-
-        if (commonAbilities.Count <= 0)
-        {
-            return;
-        }
-
-        for (int i = 0; i < commonAbilities.Count; i++)
-        {
-            if (i >= 4) { Debug.LogError("Can't handle cooldowns for multiple pages rn"); continue; }
-            Slider slider = abilityCells[i].Slider;
-            Ability ability = commonAbilities[i];
-
-            float cooldownStartTime = GetLongestCooldown(ability);
-
-            if (cooldownStartTime == 0)
-            {
-                slider.value = 0;
-                continue; // No cooldown needed to calculate
-            }
-
-            // Calculate remaining time until end of cooldown
-            slider.maxValue = ability.Cooldown;
-
-            float cooldownEndTime = ability.Cooldown + cooldownStartTime;
-            float timePassed = Time.time - cooldownStartTime;
-            float timeRemaining = ability.Cooldown - timePassed;
-
-            slider.value = timeRemaining;
-        }*/
-    }
-
-/*    /// <summary>
-    /// Returns the longest cooldown value among the abilityManagers with the parsed Ability
-    /// </summary>
-    /// <param name="_ability"></param>
-    /// <returns></returns>
-    private float GetLongestCooldown(Ability _ability)
-    {
-*//*        if (!commonAbilities.Contains(_ability))
-        {
-            Debug.LogError($"{_ability.name} is not a common abiltiy!");
-            return 0;
-        }
-
-        float longestCooldown = 0f;
-
-        foreach (AbilityManager abilityManager in abilityManagers)
-        {
-            float cooldownStartTime = abilityManager.CooldownTimers.TryGetValue(_ability.ID, out float value) ? value : 0f;
-
-            if (value > longestCooldown)
-            {
-                longestCooldown = value;
-            }
-        }
-
-        return longestCooldown;*//*
-    }*/
-
     private void ResetUtilityButton()
     {
         if (utilityCell == null)
@@ -298,7 +170,7 @@ public class AbilityUIManager : MonoBehaviour
     /// <summary>
     /// Updates the ability grid and tab buttons based on the currently selected units.
     /// </summary>
-    public void ClearUI() // TODO: The amount of repeated code here is insane
+    public void ClearUI()
     {
         pageIndex = 0;
         tabIndex = 0;
@@ -360,7 +232,7 @@ public class AbilityUIManager : MonoBehaviour
     /// <param name="_abilityManager"></param>
     public void UpdateAbilityTabsWithAbilityManager(AbilityManager _abilityManager)
     {
-        pageIndex = 0; // TODO: Unsure about setting it to zero straight up?
+        pageIndex = 0; // Set page index to 0 as we are changing the ability manager
         commonAbilityTabs = _abilityManager.AbilityTabs;
         abilityManagers = new List<AbilityManager>() { _abilityManager };
 
@@ -454,99 +326,35 @@ public class AbilityUIManager : MonoBehaviour
 
         for (int cellIndex = 0; cellIndex < abilityCells.Count && abilitiesInPage.Count > 0; cellIndex++)
         {
-            switch (cellIndex) // TODO this is hard coed for 4 cells perhaps just do a case for first and last then add a default for the rest?
+            if (cellIndex == 0)
             {
-                case 0:
-                    if (pageIndex > 0)
-                    {
-                        SetPageCell(abilityCells[cellIndex], pageIndex - 1);
-                    }
-                    else
-                    {
-                        SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
-                    }
-                    break;
-                case 1:
+                if (pageIndex > 0)
+                {
+                    SetPageCell(abilityCells[cellIndex], pageIndex - 1);
+                }
+                else
+                {
                     SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
-                    break;
-                case 2:
+                }
+            }
+
+            else if (cellIndex == abilityCells.Count - 1)
+            {
+                if (abilitiesInPage.Count > 1)
+                {
+                    SetPageCell(abilityCells[cellIndex], pageIndex + 1);
+                }
+                else
+                {
                     SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
-                    break;
-                case 3:
-                    if (abilitiesInPage.Count > 1)
-                    {
-                        SetPageCell(abilityCells[cellIndex], pageIndex + 1);
-                    }
-                    else
-                    {
-                        SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
-                    }
-                    break;
+                }
+            }
+            else
+            {
+                SetAbilityCell(abilitiesInPage.Dequeue(), abilityCells[cellIndex], abilityManagers);
             }
         }
     }
-
-
-
-    /*/// <summary>
-    /// Returns a list of ability tabs that are common across the parsed list of units by running through each tab and checking for common abilities.
-    /// </summary>
-    /// <param name="_units"></param>
-    /// <returns></returns>
-    private List<AbilityTab> GetCommonAbilityTabs(List<AbilityManager> _units)
-    {
-        if (_units == null || _units.Count == 0)
-        {
-            Debug.LogError("Cannot get common ability tabs from an empty or null unit list.");
-            return new List<AbilityTab>();
-        }
-        List<AbilityTab> outputCommonAbilityTabs = _units[0].AbilityManager.AbilityTabs;
-
-        if (_units.Count == 1) // If there's only 1 unit no need to scan for common
-        {
-            return outputCommonAbilityTabs;
-        }
-
-        // Eliminate uncommon tabs in all other units to our list of commonAbilityTabs
-        for (int i = 1; i < _units.Count; i++)
-        {
-            SelectableObject unit = _units[i];
-
-            // Iterate backwards to correctly remove unfound ability tabs while looping
-            for (int x = outputCommonAbilityTabs.Count - 1; x >= 0; x--)
-            {
-                // Check 0: Check if it exists
-
-                if (unit.AbilityManager.AbilityTabs.Count - 1 < x)
-                {
-                    outputCommonAbilityTabs.RemoveAt(x);
-                    continue;
-                }
-
-                // Check 1: Check for name match
-
-                if (unit.AbilityManager.AbilityTabs[x].tabName != outputCommonAbilityTabs[x].tabName)
-                {
-                    outputCommonAbilityTabs.RemoveAt(x);
-                    continue;
-                }
-
-                // Check 2: Check for common abilities in the tab
-
-                outputCommonAbilityTabs[x].OverrideList(GetCommonAbilities(_units, x));
-
-                // Check 3: If the tab has no abilities left, remove it
-
-                if (outputCommonAbilityTabs[x].Abilities.Count == 0)
-                {
-                    outputCommonAbilityTabs.RemoveAt(x);
-                    continue;
-                }
-            }
-        }
-
-        return outputCommonAbilityTabs;
-    }*/
 
     /// <summary>
     /// Returns a list of ability tabs that are common across the parsed list of units by running through each tab and checking for common abilities.
@@ -612,45 +420,5 @@ public class AbilityUIManager : MonoBehaviour
         commonAbilitiesInTab = abilityLists.Aggregate((current, next) => current.Intersect(next).ToList());
 
         return commonAbilitiesInTab;
-    }
-
-    /*/// <summary>
-    /// Returns a list of abilities that are common across the parsed list of units
-    /// </summary>
-    /// <param name="_units"></param>
-    /// <returns></returns>
-    private List<Ability> GetCommonAbilities(List<SelectableObject> _units, int _tabIndex = 0)
-    {
-        if (_units == null || _units.Count == 0)
-        {
-            Debug.LogError("Cannot get common abilities from an empty or null unit list.");
-            return new List<Ability>();
-        }
-
-        List<Ability> commonAbilities = _units[0].AbilityManager.AbilityTabs[_tabIndex].Abilities;
-
-        if (_units.Count == 1) // If there's only 1 unit no need to scan for common
-        {
-            return commonAbilities;
-        }
-
-        // Eliminate uncommon abilities in all other units to our list of commonAbilities
-        for (int i = 1; i < _units.Count; i++)
-        {
-            SelectableObject unit = _units[i];
-
-            // Iterate backwards to correctly remove unfound abilities while looping
-            for (int x = commonAbilities.Count - 1; x >= 0; x--)
-            {
-                if (!unit.AbilityManager.AbilityTabs[_tabIndex].Abilities.Contains(commonAbilities[x]))
-                {
-                    commonAbilities.RemoveAt(x);
-                }
-            }
-        }
-
-        return commonAbilities;
-    }*/
-
-    
+    }    
 }
