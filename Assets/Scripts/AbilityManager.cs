@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -407,9 +408,15 @@ public class AbilityManager : NetworkBehaviour
     /// <returns></returns>
     protected IEnumerator LockCastingUntil(float _timer)
     {
-        abilityState = AbilityState.Casting;
+        SetAbilityStateRpc(AbilityState.Casting);
         yield return new WaitForSeconds(_timer);
-        abilityState = AbilityState.Ready;
+        SetAbilityStateRpc(AbilityState.Ready);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetAbilityStateRpc(AbilityState _newState)
+    {
+        abilityState = _newState;
     }
 
     /// <summary>

@@ -22,4 +22,6 @@ MonoBehaviour:
   successor: {fileID: 11400000, guid: 0443e4caf07da2640a5a6c8927879642, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 92f2233e91baf2b48a92439c40bf57b8, type: 2}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   projectileStats: {fileID: 11400000, guid: 39c0d1f459e9c9d4384d5d4279529eae, type: 2}
