@@ -103,6 +103,7 @@ MonoBehaviour:
   - tabName: Repair
     abilities:
     - {fileID: 11400000, guid: 7892e89999f30fa4fbd4fb600787a956, type: 2}
+    - {fileID: 11400000, guid: 36ac3fcd9fdb0e04692e9917c0521d18, type: 2}
   hasUtility: 0
 --- !u!114 &1208016057222027340
 MonoBehaviour:
