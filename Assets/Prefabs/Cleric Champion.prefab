@@ -277,7 +277,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8474651742996372913, guid: 09e1cda8c69111f44bd1730900cc4e2d, type: 3}
+  - {fileID: 2100000, guid: 46ebaa2752e983f4eb261f79b236b9dd, type: 2}
+  - {fileID: 2100000, guid: bacc282c8f8ea7248bbc6016ecc6d5a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -869,7 +870,6 @@ MonoBehaviour:
   aimPositionUpdateTolerance: 0.1
   soulPrefab: {fileID: 457788855046869235, guid: 9e21631c1b352d649ab8564ad83e549d, type: 3}
   soulSpawnOffset: {x: 0, y: 4, z: 0}
-  rotationSpeed: 100
 --- !u!114 &2885188943381047520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3372,7 +3372,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7557540490364101082, guid: 09e1cda8c69111f44bd1730900cc4e2d, type: 3}
+  - {fileID: 2100000, guid: fa42baa426a0b8b4e9e75517a74f764a, type: 2}
+  - {fileID: 2100000, guid: bacc282c8f8ea7248bbc6016ecc6d5a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
