@@ -30,12 +30,12 @@ public class ProjectileAbility : Ability<IAbilityUser>
     protected override void OnApexTyped(IAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
-        GameObject spawnedProjectile = Instantiate(GetProjectileBlueprint(), castPositionTransform.position, Quaternion.identity); // TODO: Change the index of ability positions and in fact how we store said positions. Dict?
+        GameObject spawnedProjectile = Instantiate(GetProjectileBlueprint(), castPositionTransform.position, Quaternion.identity);
         spawnedProjectile.GetComponent<NetworkObject>().Spawn();
         BulletProjectile bulletProjectile = spawnedProjectile.GetComponent<BulletProjectile>();
         bulletProjectile.ApplyProjectileStatsWithID(projectileStats.ID);
 
-        if (_user.AimPoint != Vector3.zero) // TODO: I might make this mandatory in the future once we add aim assist later to players
+        if (_user.AimPoint != Vector3.zero)
         {
             bulletProjectile.LaunchProjectileAtTarget(_user.AimPoint);
         }

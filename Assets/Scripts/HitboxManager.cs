@@ -89,7 +89,7 @@ public class HitboxManager : MonoBehaviour, IFaction
         }
     }
 
-/*    private void OnTriggerStay(Collider _other) // TODO: Rework the whole thing to use phyisics instead
+/*    private void OnTriggerStay(Collider _other)
     {
         if (!_other.TryGetComponent<IFaction>(out IFaction _faction))
         {

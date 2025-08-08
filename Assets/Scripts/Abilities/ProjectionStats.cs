@@ -98,53 +98,7 @@ public class ProjectionStats : BaseAbilityStat
         }
 
         SerializedProperty fieldHitbox = _so.FindProperty("hitboxStats");
-        DrawStat(_so, "hitboxStats");
-    }
-
-#endif
-
-#if UNITY_EDITOR // TODO: This should really be in a static helper class
-    protected void DrawStat(SerializedObject _so, string _fieldName)
-    {
-        SerializedProperty fieldBaseAbilityStat = _so.FindProperty(_fieldName);
-
-        if (fieldBaseAbilityStat == null)
-        {
-            Debug.LogError($"SerializedProperty is null in {GetType().Name}. Please assign a valid SerializedProperty.");
-            return;
-        }
-
-        EditorGUILayout.PropertyField(fieldBaseAbilityStat);
-
-        if (fieldBaseAbilityStat.objectReferenceValue != null)
-        {
-            DrawStatValues(fieldBaseAbilityStat);
-        }
-        else
-        {
-            EditorGUILayout.HelpBox($"Stats field cannot be null!", MessageType.Error);
-        }
-
-    }
-
-    protected void DrawStatValues(SerializedProperty _sp)
-    {
-        if (_sp.objectReferenceValue == null)
-        {
-            Debug.LogError($"SerializedProperty is null in {GetType().Name}. Please assign a valid SerializedProperty.");
-        }
-
-        SerializedObject statsSO = new SerializedObject(_sp.objectReferenceValue);
-        BaseAbilityStat stat = (BaseAbilityStat)_sp.objectReferenceValue;
-
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField($"{stat.name}", EditorStyles.boldLabel);
-
-        statsSO.Update();
-
-        stat.DrawInspector(statsSO);
-
-        statsSO.ApplyModifiedProperties();
+        BeaconUtility.DrawStat<HitboxStats>(_so, "hitboxStats", false);
     }
 
 #endif

@@ -6,7 +6,6 @@ public class PurchaseHeal : Purchasable
     [SerializeField] private int healAmount;
     public override bool ExecutePurchase(IShopUser _shopUser)
     {
-        // TODO: Add double check for if they have enough points
         if (PointManager.Instance.GetPoints(_shopUser.PlayerID) < this.price)
         {
             return false;

@@ -28,28 +28,26 @@ public class RTSPlayer : NetworkBehaviour
 
         networkObject = GetComponent<NetworkObject>();
 
-        if (networkObject.IsOwner) // TODO: Refactor with try get comps
+        if (networkObject.IsOwner)
         {
-            rtsPlayerControls = GetComponent<RTSPlayerControls>();
+            if (!TryGetComponent<RTSPlayerControls>(out rtsPlayerControls))
+            {
+                Debug.LogError($"{nameof(RTSPlayerControls)} is required for {GetType().Name}");
+                return;
+            }
             rtsPlayerControls.Init();
-            unitManager = GetComponent<UnitManager>();
+            if (!TryGetComponent<UnitManager>(out unitManager))
+            {
+                Debug.LogError($"{nameof(UnitManager)} is required for {GetType().Name}");
+                return;
+            }
             UnitManager.Init();
-            playerInput = GetComponent<PlayerInput>();
+            if (!TryGetComponent<PlayerInput>(out playerInput))
+            {
+                Debug.LogError($"{nameof(PlayerInput)} is required for {GetType().Name}");
+                return;
+            }
             playerInput.enabled = true;
         }
-        
-
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

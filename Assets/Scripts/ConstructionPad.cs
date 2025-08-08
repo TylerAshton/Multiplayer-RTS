@@ -20,7 +20,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
 
     ConstructionPad IConstructionPad.ConstructionPad => this;
 
-    [SerializeField] public bool isUnlocked = false; //TODO: why tf is this public
+    [SerializeField] public bool isUnlocked = false;
 
     [SerializeField] private SoundObject summonSound;
     [SerializeField] private VfxObject summonVfx;
@@ -90,7 +90,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     /// Returns true if the construction pad should be visible and selectable
     /// </summary>
     /// <returns></returns>
-    private bool shouldDisplay() // TODO: WTF is this
+    private bool shouldDisplay()
     {
         if (isUnlocked && occupiedBuilding == null)
         {
@@ -111,7 +111,7 @@ public class ConstructionPad : SelectableObject, IConstructionPad
     }
 
     [ClientRpc]
-    private void ShowbuildPadClientRpc() // TODO: Build pads are only supposed to be visible for the amalgam player in the future
+    private void ShowbuildPadClientRpc()
     {
         foreach (var meshRenderer in meshRenderers)
         {

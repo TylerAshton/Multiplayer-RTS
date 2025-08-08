@@ -106,7 +106,7 @@ public class StatManager : MonoBehaviour
         {
             currentStats[_stat.Key] = _stat.Value;
 
-            if (_stat.Key == StatType.AttackSpeed) // TODO: We'll have to optimise this later
+            if (_stat.Key == StatType.AttackSpeed)
             {
                 SetAttackSpeed(_stat.Value);
             }
@@ -127,7 +127,7 @@ public class StatManager : MonoBehaviour
             // Save
             currentStats[_modifier.StatType] = newStat;
 
-            if (_modifier.StatType == StatType.AttackSpeed) // TODO: We'll have to optimise this later
+            if (_modifier.StatType == StatType.AttackSpeed)
             {
                 SetAttackSpeed(newStat);
             }

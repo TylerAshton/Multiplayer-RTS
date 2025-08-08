@@ -204,7 +204,7 @@ public class Health : NetworkBehaviour
                 $"This might be caused by someone setting HealthRegen to a value before the start function is called.");
             return;
         }
-        healthSlider.value = _currentHealth; // TODO: Make a setter
+        healthSlider.value = _currentHealth;
     }
 
     /// <summary>

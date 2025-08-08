@@ -61,7 +61,9 @@ public class PurchaseSlot
         purchaseButton = purchaseSlot.Q<Button>("AbilityButton");
 
         purchaseButton.style.backgroundImage = null;
-        purchaseButton.style.backgroundImage = new StyleBackground(purchasable.Icon); // TODO: This fucks hover colour somehow
+        purchaseButton.style.backgroundImage = new StyleBackground(purchasable.Icon);
+
+
 
         
 

@@ -97,7 +97,6 @@ public class NPC : Unit, ICharacterAbilityUser
         agent.SetDestination(_worldPosition);
     }
 
-    // TODO: Perhaps make a base character class as this is shared with Champions
     public void Lunge(float distance, Vector3 direction, float duration)
     {
         StartCoroutine(LungeRoutine(distance, direction.normalized, duration));

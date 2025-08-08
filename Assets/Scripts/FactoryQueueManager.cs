@@ -150,7 +150,6 @@ public class FactoryQueueManager : NetworkBehaviour
     /// <returns></returns>
     private Vector3 CalculateSpawnPos(ConstructionStats _constructionStats)
     {
-        // TODO: ehhhh spawn pos is a bit iffy
         Vector3 castPosition = abilityPositionManager.AbilityPositions[AbilityPosition.Centre].position + _constructionStats.Offset;
 
         // Generate random XZ offset within the specified dispersion range

@@ -126,7 +126,7 @@ public class CameraMovement : NetworkBehaviour
     /// <summary>
     /// Moves the panning target to a clamped position within the bounds of the map based on how far the camera is zoomed out.
     /// </summary>
-    private void ClampPanningTargetToBounds() // TODO: This has a minor flaw due to the camera being at an angle. If we could somehow use a 2nd camera or something to get the bounds of the camera view, that would be better. But it's good enough for showcase
+    private void ClampPanningTargetToBounds() // TODO: This has a minor flaw due to the camera being at an angle, we will get different corners. If we could somehow use a 2nd camera or something to get the bounds of the camera view, that would be better. But it's good enough for showcase
     {
         Vector3[] corners = GetCameraCornersOnTargetPlane();
         Bounds camBounds = ConvertCornersToBounds(corners);
@@ -314,7 +314,7 @@ public class CameraMovement : NetworkBehaviour
 
         Vector3 edgeVector = new Vector3 { x = 0, y = 0, z = 0 };
 
-        if (isNearLeft) // TODO: This is dumb
+        if (isNearLeft) 
         {
             edgeVector.x = -maxPanningSpeed;
         }

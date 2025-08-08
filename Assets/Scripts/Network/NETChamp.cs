@@ -599,7 +599,7 @@ public class NETChamp : NetworkBehaviour, IAbilityUser, IFaction
 
         if (characterController.isGrounded && velocity.y < 0)
         {
-            velocity.y = -1f; // TODO: Magic number
+            velocity.y = -1f; //: Magic number
         }
         else
         {

@@ -207,7 +207,7 @@ public class CapturePoint : NetworkBehaviour
         CheckOwner();
         EnteredPointRpc();
 
-        if (owner == owners.CHAMPION) // TODO: Delete this? as CheckOwner does this already  // Not the same thing :)
+        if (owner == owners.CHAMPION) // Delete this? as CheckOwner does this already  // Not the same thing :)
         {
             if (other.CompareTag("Champion"))
             {
@@ -416,8 +416,8 @@ public class CapturePoint : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.Everyone)]
-    void CloseShopRpc(ulong _ID) // TODO: This needs polishing as UI only exists on the client
+    [Rpc(SendTo.NotServer)]
+    void CloseShopRpc(ulong _ID)
     {
         NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.GetComponent<AnimatedChampion>().CloseShopUI();
     }

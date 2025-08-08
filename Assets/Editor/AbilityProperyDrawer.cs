@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace Editor
 {
     [CustomPropertyDrawer(typeof(Ability))]
-    public class PropertyDrawerHI : PropertyDrawer
+    public class AbilityProperyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -104,7 +104,7 @@ namespace Editor
         /// </summary>
         /// <param name="_typeName"></param>
         /// <returns></returns>
-        private Type GetAbilityType(string _typeName) // TODO: wtf is this, is there not a better way to do this?
+        private Type GetAbilityType(string _typeName)
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(asm => asm.GetTypes())

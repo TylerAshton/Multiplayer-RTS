@@ -3,7 +3,7 @@ using UnityEngine;
 
 class KnightShop : Shop
 {
-    protected override void Awake()
+    /*protected override void Awake()
     {
         base.Awake();
         ID = NetworkManager.Singleton.LocalClientId;
@@ -17,7 +17,7 @@ class KnightShop : Shop
     }
 
     [Rpc(SendTo.Server)]
-    private void PurchaseOption2Rpc(ulong _clientID, int _selectedOptionIndex) // TODO: This is botched af
+    private void PurchaseOption2Rpc(ulong _clientID, int _selectedOptionIndex) 
     {
         Ability selectedAbility = null;
 
@@ -115,7 +115,7 @@ class KnightShop : Shop
                 itemCostText.text = string.Empty;
                 break;
         }
-    }
+    }*/
 }
 
 

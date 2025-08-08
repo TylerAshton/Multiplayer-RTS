@@ -64,8 +64,6 @@ public class RangedBehaviour : NPCBehaviour
             return;
         }
 
-        // TODO: Impliment checking if target is in line of sight
-
         _npc.AbilityManager.TryCastAbility(0, 0);
     }
 

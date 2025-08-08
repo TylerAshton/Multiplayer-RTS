@@ -166,7 +166,7 @@ public class UnitManager : NetworkBehaviour
         }
 
         selectedUnits.Add(_unit);
-        abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+        abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits);
         constructionUIManager.UpdateUI(selectedUnits);
         selectionUIManager.UpdateSelection(selectedUnits);
         _unit.SelectionHighlighter.SetSelectionMode(SelectionMode.Select);
@@ -194,7 +194,7 @@ public class UnitManager : NetworkBehaviour
 
         if (selectedUnits.Count > 0)
         {
-            abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits); // TODO: This is a bit inefficeint
+            abilityUIManager.UpdateAbilityTabsWithUnitSelection(selectedUnits);
             constructionUIManager.UpdateUI(selectedUnits);
             selectionUIManager.UpdateSelection(selectedUnits);
         }
@@ -250,7 +250,7 @@ public class UnitManager : NetworkBehaviour
 
         foreach(SelectableObject _unit in cacheSelectedUnits)
         {
-            DeselectUnit(_unit); // TODO: This is a bit inefficient as it refreshes several times
+            DeselectUnit(_unit);
         }
 
         abilityUIManager.ClearUI();

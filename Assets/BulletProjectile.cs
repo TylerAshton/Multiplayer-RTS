@@ -70,9 +70,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [Rpc(SendTo.Everyone)]
     private void ApplyProjectileStatsRpc(string _projectileStatsID)
     {
-        ProjectileStats _projectileStats = Registry<ProjectileStats>.GetItem(_projectileStatsID);
-
-        
+        ProjectileStats _projectileStats = Registry<ProjectileStats>.GetItem(_projectileStatsID);   
 
         if (_projectileStats == null)
         {
@@ -85,8 +83,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
             Debug.LogError("ProjectileStats is not valid, check the console for more information");
             return;
         }
-
-
 
         detectionRange = _projectileStats.DetectionRange;
         speed = _projectileStats.Speed;
@@ -110,8 +106,6 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
     [Rpc(SendTo.Everyone)]
     public void SpawmBulletVFXRpc()
     {
-        // TODO: Check if VFX is in networked prefab pool,
-
         if (bulletVFX == null)
         {
             Debug.LogError("Attempted to spawn bullet vfx when it's null!");
@@ -285,7 +279,7 @@ public class BulletProjectile : NetworkBehaviour, IDestructible, IFaction
         {
             penetration--;
             hitTagets.Add(_hitCollider.gameObject);
-            SpawnDeathVFXRpc(); // TODO: Perhaps use a different vfx than death 
+            SpawnDeathVFXRpc();
         }
         else
         {
