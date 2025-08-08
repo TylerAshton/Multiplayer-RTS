@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0666d3e63809f4044b7f452bad49af48, type: 3}
   m_Name: Free Summon R1
   m_EditorClassIdentifier: 
-  id: Summon Ranged Lv1
+  id: Summon FRanged Lv1
   price: 0
   icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
   castTime: 0
@@ -22,4 +22,6 @@ MonoBehaviour:
   successor: {fileID: 0}
   castSound: {fileID: 11400000, guid: 1669eaa692448f9488f21e65c1c8f5de, type: 2}
   apexSound: {fileID: 0}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   constructionStats: {fileID: 11400000, guid: 6e8949119e2e3714ebe6432d0bdaadd7, type: 2}
