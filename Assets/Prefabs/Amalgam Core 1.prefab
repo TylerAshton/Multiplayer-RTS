@@ -102,7 +102,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7725255f9ec4643428a2a0253c6e4f6e, type: 2}
   - tabName: Repair
     abilities:
-    - {fileID: 11400000, guid: 7892e89999f30fa4fbd4fb600787a956, type: 2}
+    - {fileID: 11400000, guid: 14eb5ef64eec67a4ea2df8da90fd0ff5, type: 2}
   hasUtility: 0
 --- !u!114 &1208016057222027340
 MonoBehaviour:
@@ -120,7 +120,8 @@ MonoBehaviour:
   isSelectable: 1
   iD: Idol
   selectionIcon: {fileID: 1955300519, guid: 07300a68224d82546883a8f69541be97, type: 3}
-  description: The Idol, the core of the Amalgams.
+  description: The Crystal, The Overlord's source of power in the land.                                                                  
+    Summons Minions from the other side with varying strengths.
 --- !u!114 &2979249116016831883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +141,7 @@ MonoBehaviour:
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 2757501461227020302, guid: 0177b71b52bece94d9886a50c80fcf12, type: 3}
-  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarPrefab: {fileID: 8639866075871327399, guid: d4b3b9e41e200334a870147c87b5a3a3, type: 3}
   healthBarOffset: {x: 0.2112122, y: 2.414978, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 1
