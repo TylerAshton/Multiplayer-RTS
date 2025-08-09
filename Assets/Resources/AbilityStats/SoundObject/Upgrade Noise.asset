@@ -20,7 +20,8 @@ MonoBehaviour:
       Data3: 224377493
       Data4: -1404509902
     Path: event:/Silence
-  isPlayingLocal: 1
+  has2DVariant: 1
+  onlyPlayForCaster: 0
   soundEvent2D:
     Guid:
       Data1: 648222452

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
+  m_Name: Crystal Heal
+  m_EditorClassIdentifier: 
+  id: CryHeal
+  soundEvent:
+    Guid:
+      Data1: -884814133
+      Data2: 1223857354
+      Data3: -1568584038
+      Data4: 113301349
+    Path: event:/SFX/3D/Healing Low
+  has2DVariant: 1
+  onlyPlayForCaster: 1
+  soundEvent2D:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

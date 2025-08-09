@@ -869,7 +869,6 @@ MonoBehaviour:
   aimPositionUpdateTolerance: 0.1
   soulPrefab: {fileID: 457788855046869235, guid: 9e21631c1b352d649ab8564ad83e549d, type: 3}
   soulSpawnOffset: {x: 0, y: 4, z: 0}
-  rotationSpeed: 100
 --- !u!114 &2885188943381047520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1176,12 +1175,12 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
+  SyncRotAngleX: 1
   SyncRotAngleY: 1
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -1234,7 +1233,7 @@ MonoBehaviour:
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 2757501461227020302, guid: 0177b71b52bece94d9886a50c80fcf12, type: 3}
-  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarPrefab: {fileID: 8639866075871327399, guid: d4b3b9e41e200334a870147c87b5a3a3, type: 3}
   healthBarOffset: {x: 0, y: 2.414978, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 1

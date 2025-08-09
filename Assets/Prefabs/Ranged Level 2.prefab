@@ -1291,7 +1291,7 @@ MonoBehaviour:
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
-  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarPrefab: {fileID: 8639866075871327399, guid: d4b3b9e41e200334a870147c87b5a3a3, type: 3}
   healthBarOffset: {x: 0, y: 2.414978, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 0
@@ -1312,6 +1312,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
   iD: Demon2
+  selectionIcon: {fileID: 21300000, guid: b058f64e052d6c142973a01f86c12e8c, type: 3}
+  description: Ranged Minion - Lv 2                                                                                       
+    A minion that strikes at champions with magic in ranged combat, boasting higher
+    health and damage
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1412,7 +1416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: Main
+  - tabName: Minions
     abilities:
     - {fileID: 11400000, guid: 7545daeae7ba45846b58ba792fe20050, type: 2}
   hasUtility: 0

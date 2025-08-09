@@ -1066,7 +1066,7 @@ MonoBehaviour:
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
-  healthBarPrefab: {fileID: 6650702840836786384, guid: b1abc245f205f8948b96689870d46f43, type: 3}
+  healthBarPrefab: {fileID: 8639866075871327399, guid: d4b3b9e41e200334a870147c87b5a3a3, type: 3}
   healthBarOffset: {x: 0, y: 2.414978, z: 0}
   showHealthBar: 1
   showOnOwnerScreen: 0
@@ -1086,7 +1086,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
-  iD: Demon1
+  iD: Melee1
+  selectionIcon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
+  description: Melee Minion - Lv 1                                                               
+    A minion that strikes at champions with their weapon in melee combat
 --- !u!114 &-7025966385176421984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1187,7 +1190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: Main
+  - tabName: Minions
     abilities:
     - {fileID: 11400000, guid: b1a605baec6889445a4086a322b3c73d, type: 2}
   hasUtility: 0
