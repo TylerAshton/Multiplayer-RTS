@@ -1296,7 +1296,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 45
   isImmune: 0
-  corpseLingerTime: 0
+  corpseLingerTime: 4
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}
