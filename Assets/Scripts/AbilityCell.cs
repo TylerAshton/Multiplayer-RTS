@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ public class AbilityCell : UIActionCell
     private const double abilPartialThreshold = 0.6;
 
     [SerializeField] private Slider slider;
+    [SerializeField] private TextMeshProUGUI priceText;
 
     private Ability ability;
 
@@ -62,6 +64,16 @@ public class AbilityCell : UIActionCell
 
         image.enabled = true;
         image.sprite = _newAbility.Icon;
+
+        if (ability.AbilityCost > 0)
+        {
+            priceText.text = ability.AbilityCost.ToString();
+
+            if (abilityManagers.Count > 1)
+            {
+                priceText.text = priceText.text + "+";
+            }
+        }
 
         // Add Event bindings to button pressed. This is server only so no need to convert for clients
         button.onClick.RemoveAllListeners();
@@ -113,6 +125,7 @@ public class AbilityCell : UIActionCell
         abilityManagers = null;
         image.enabled = false;
         image.sprite = null;
+        priceText.text = string.Empty;
         slider.value = 0;
         button.onClick.RemoveAllListeners();
         button.interactable = false;
@@ -137,15 +150,15 @@ public class AbilityCell : UIActionCell
 
         if (percentageAvailable == 1)
         {
-            image.color = Color.white; // Ability is available
+            image.color = Color.white;
         }
         else if (percentageAvailable > abilPartialThreshold)
         {
-            image.color = Color.yellow; // Ability is partially available
+            image.color = Color.yellow; 
         }
         else
         {
-            image.color = lockedColour; // Ability is not available
+            image.color = lockedColour;
         }
     }
 
