@@ -7,7 +7,8 @@ public class EnqueueConstruction : Ability<IFactory>
     [SerializeField] private ConstructionStats constructionStats;
     protected override void OnCastTyped(IFactory _user)
     {
-        _user.FactoryQueueManager.EnqueueUnit(constructionStats);
+        ConstructionItem constructionItem = new ConstructionItem(constructionStats, AbilityCost, true);
+        _user.FactoryQueueManager.EnqueueUnit(constructionItem);
     }
 
     protected override void DebugDrawingTyped(IFactory _user)

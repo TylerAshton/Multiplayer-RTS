@@ -7,8 +7,8 @@ public class ConstructionUIManager : MonoBehaviour
 {
     List<Factory> factories = new List<Factory>();
     [SerializeField] private GameObject QueueCellPrefab;
-    private Queue<ConstructionStats> productionQueue;
-    private Queue<ConstructionStats> lastDrawnQueue;
+    private Queue<ConstructionItem> productionQueue;
+    private Queue<ConstructionItem> lastDrawnQueue;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class ConstructionUIManager : MonoBehaviour
             TryDrawConstructionQueue();
         }
 
-        lastDrawnQueue = new Queue<ConstructionStats>(productionQueue);
+        lastDrawnQueue = new Queue<ConstructionItem>(productionQueue);
     }
 
     public void UpdateUI(List<SelectableObject> _selectableObjects)
@@ -76,9 +76,9 @@ public class ConstructionUIManager : MonoBehaviour
 
         ClearPanel();
 
-        foreach (ConstructionStats _constructionStats in productionQueue)
+        foreach (ConstructionItem _constructionItem in productionQueue)
         {
-            if (_constructionStats == null)
+            if (_constructionItem == null)
             {
                 Debug.LogError($"{GetType().Name} received a null ConstructionStats in the production queue.");
                 continue;
@@ -93,11 +93,11 @@ public class ConstructionUIManager : MonoBehaviour
                 continue;
             }
 
-            queueCell.SetQueueCell(_constructionStats);
+            queueCell.SetQueueCell(_constructionItem);
         }
     }
 
-    private Queue<ConstructionStats> GetConstructionQueue(List<Factory> factories)
+    private Queue<ConstructionItem> GetConstructionQueue(List<Factory> factories)
     {
         if (factories == null || factories.Count == 0)
         {
@@ -106,7 +106,7 @@ public class ConstructionUIManager : MonoBehaviour
         }
 
         // Use first queue as reference
-        Queue<ConstructionStats> newQueue = factories[0].FactoryQueueManager.ProductionQueue;
+        Queue<ConstructionItem> newQueue = factories[0].FactoryQueueManager.ProductionQueue;
 
         bool allIdentical = factories.All(f =>f.FactoryQueueManager.ProductionQueue.SequenceEqual(newQueue)); // If all queues are identical
 
