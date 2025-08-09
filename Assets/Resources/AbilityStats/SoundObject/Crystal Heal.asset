@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d380bdf12c659534aa00bef3a2c19972, type: 3}
-  m_Name: Upgrade Noise
+  m_Name: Crystal Heal
   m_EditorClassIdentifier: 
-  id: UpgradeNoise
+  id: CryHeal
   soundEvent:
     Guid:
-      Data1: 1367471118
-      Data2: 1129964957
-      Data3: 224377493
-      Data4: -1404509902
-    Path: event:/Silence
+      Data1: -884814133
+      Data2: 1223857354
+      Data3: -1568584038
+      Data4: 113301349
+    Path: event:/SFX/3D/Healing Low
   has2DVariant: 1
-  onlyPlayForCaster: 0
+  onlyPlayForCaster: 1
   soundEvent2D:
     Guid:
-      Data1: 648222452
-      Data2: 1167527858
-      Data3: -1346481739
-      Data4: 1081202346
-    Path: event:/SFX/2D/Crystal Upgrade - Heal
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

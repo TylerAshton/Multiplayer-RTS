@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 647039141128773953}
   - component: {fileID: 2455738941523695714}
   - component: {fileID: 5904507780441738113}
+  - component: {fileID: 8421777741279998563}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -35,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -350}
-  m_SizeDelta: {x: 200, y: 700}
+  m_AnchoredPosition: {x: -153.3, y: -279.74}
+  m_SizeDelta: {x: 310, y: 410}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &647039141128773953
 CanvasRenderer:
@@ -59,10 +60,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
@@ -83,6 +84,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   QueueCellPrefab: {fileID: 3949749918759672055, guid: 702caf25dd6127c46943169100f34ca6, type: 3}
+--- !u!114 &8421777741279998563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2510518833504739194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: dc2bad25834e9de49b7768336ed252ef, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5358625370908105912
 GameObject:
   m_ObjectHideFlags: 0

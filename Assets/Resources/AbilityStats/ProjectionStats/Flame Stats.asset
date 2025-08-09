@@ -16,7 +16,7 @@ MonoBehaviour:
   vfxPrefab: {fileID: 6631761922747683013, guid: 28e2d8c08a0117841ba65ce212813fa3, type: 3}
   vfxOffset: {x: 0, y: 0, z: 0}
   vfxRotation: {x: 0, y: 0, z: 0, w: 1}
-  damage: 18
+  damage: 10
   damageOnce: 0
   duration: 2.7
   hitboxStats: {fileID: 11400000, guid: 15a815527292ead47ba4a7d7e600015c, type: 2}

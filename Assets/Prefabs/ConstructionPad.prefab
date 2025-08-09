@@ -380,7 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: Construction Pad
+  - tabName: Construct
     abilities:
     - {fileID: 11400000, guid: 5366f22b00e35404a938454d99c94b43, type: 2}
     - {fileID: 11400000, guid: 6cd903247b359e1469a849c76118dfee, type: 2}
@@ -423,7 +423,8 @@ MonoBehaviour:
   isSelectable: 1
   iD: ConstructionPad
   selectionIcon: {fileID: 21300000, guid: 859fbc8486cc55646866eec839beedd0, type: 3}
-  description: Construction Pad, can be converted to an Emplacement or Obelisk
+  description: Construction Pad                                                                                                                     
+    Allows the Overlord to create Obelisks and Rune Turrets
   isUnlocked: 1
   summonSound: {fileID: 11400000, guid: 30ad7f9876eafc940a5b6e2b7c1aea6c, type: 2}
   summonVfx: {fileID: 11400000, guid: 0c0b9e95991b15445b5cd8632ef0387f, type: 2}
