@@ -20,6 +20,11 @@ public class ConstructionItem
         cost = _cost;
         isPaid = _isPaid;
     }
+
+    public void SetPaid(bool _value)
+    {
+        isPaid = _value;
+    }
 }
 
 public class FactoryQueueManager : NetworkBehaviour
@@ -84,6 +89,12 @@ public class FactoryQueueManager : NetworkBehaviour
 
     private IEnumerator ProduceCurrentUnit()
     {
+        while (!currentProduction.IsPaid)
+        {
+            currentProduction.SetPaid(TryPurchaseConstruction(currentProduction));
+            yield return null;
+        }
+
         Vector3 spawnPos = CalculateSpawnPos(currentProduction.ConstructionStats);
         //SpawnCurrentProductionSummonVfxRpc(spawnPos);
         VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.ConstructionStats.SummonVfx.ID, spawnPos, 99);
@@ -111,6 +122,9 @@ public class FactoryQueueManager : NetworkBehaviour
                 currentProduction.Cost,
                 false
             );
+
+            TryPurchaseConstruction(constructionItem);
+
             productionQueue.Enqueue(constructionItem);
         }
         currentProduction = null;
@@ -124,6 +138,32 @@ public class FactoryQueueManager : NetworkBehaviour
         {
             progressBar.gameObject.SetActive(false);
         }
+    }
+
+    private bool TryPurchaseConstruction(ConstructionItem _constructionItem)
+    {
+        if (_constructionItem == null)
+        {
+            Debug.LogError("Tried to purchase item that was null!");
+            return false;
+        }
+        if (_constructionItem.IsPaid)
+        {
+            Debug.LogError("Tried to purchase and item that was already purchased");
+            return false;
+        }
+
+        ulong id = NetworkManager.LocalClientId;
+        int points = PointManager.Instance.GetPoints(id);
+
+        if (points >= _constructionItem.Cost)
+        {
+            PointManager.Instance.RemovePoints(id, _constructionItem.Cost);
+            _constructionItem.SetPaid(true);
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
