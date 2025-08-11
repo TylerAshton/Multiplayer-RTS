@@ -274,6 +274,7 @@ MonoBehaviour:
   image: {fileID: 8832563624867213146}
   button: {fileID: 1766793153594196742}
   slider: {fileID: 6794096692020421809}
+  priceText: {fileID: 0}
 --- !u!1 &1018571648336979085
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,6 +945,7 @@ MonoBehaviour:
   image: {fileID: 5357406477590127222}
   button: {fileID: 4457037970297108183}
   slider: {fileID: 5733429079976992686}
+  priceText: {fileID: 0}
 --- !u!1 &2689296506190844668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2844,6 +2846,7 @@ MonoBehaviour:
   image: {fileID: 6030432292856139958}
   button: {fileID: 8411829949456264634}
   slider: {fileID: 7346318778111085296}
+  priceText: {fileID: 0}
 --- !u!1 &5967133905848429554
 GameObject:
   m_ObjectHideFlags: 0
@@ -3681,6 +3684,7 @@ MonoBehaviour:
   image: {fileID: 392644360414048628}
   button: {fileID: 285528153730829012}
   slider: {fileID: 2366677263102629394}
+  priceText: {fileID: 0}
 --- !u!1 &8816430568029524772
 GameObject:
   m_ObjectHideFlags: 0
@@ -3826,6 +3830,7 @@ MonoBehaviour:
   image: {fileID: 7155236979704784313}
   button: {fileID: 365825045268948260}
   slider: {fileID: 1040668356190342340}
+  priceText: {fileID: 0}
 --- !u!1 &8887434938658943272
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,6 +4150,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2479095311725388241, guid: 2512c3829be145c42a4718f49732521a, type: 3}
+      propertyPath: m_fontSize
+      value: 40.75
+      objectReference: {fileID: 0}
     - target: {fileID: 3601622332245100007, guid: 2512c3829be145c42a4718f49732521a, type: 3}
       propertyPath: m_Name
       value: AbilityCell (1)
@@ -4281,6 +4290,10 @@ PrefabInstance:
     - target: {fileID: 2226515603466836547, guid: 2512c3829be145c42a4718f49732521a, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2479095311725388241, guid: 2512c3829be145c42a4718f49732521a, type: 3}
+      propertyPath: m_fontSize
+      value: 40.75
       objectReference: {fileID: 0}
     - target: {fileID: 3601622332245100007, guid: 2512c3829be145c42a4718f49732521a, type: 3}
       propertyPath: m_Name
@@ -4419,6 +4432,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2479095311725388241, guid: 2512c3829be145c42a4718f49732521a, type: 3}
+      propertyPath: m_fontSize
+      value: 40.75
+      objectReference: {fileID: 0}
     - target: {fileID: 3601622332245100007, guid: 2512c3829be145c42a4718f49732521a, type: 3}
       propertyPath: m_Name
       value: AbilityCell (2)
@@ -4539,6 +4556,10 @@ PrefabInstance:
     - target: {fileID: 2226515603466836547, guid: 2512c3829be145c42a4718f49732521a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2479095311725388241, guid: 2512c3829be145c42a4718f49732521a, type: 3}
+      propertyPath: m_fontSize
+      value: 40.75
       objectReference: {fileID: 0}
     - target: {fileID: 3601622332245100007, guid: 2512c3829be145c42a4718f49732521a, type: 3}
       propertyPath: m_Name
