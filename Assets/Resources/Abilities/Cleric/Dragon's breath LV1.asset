@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dragon's breath LV1
   m_EditorClassIdentifier: 
   id: DragonsBreath1
-  price: 1500
+  price: 3500
   icon: {fileID: 21300000, guid: d8ec14304128e45409652899d27a038f, type: 3}
   castTime: 4
   castPositionName: 4

@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 9a8e023b5e66b0d478386a07d1627765, type: 3}
   castTime: 1
   castPositionName: 0
-  abilityCost: 5000
+  abilityCost: 3500
   cooldown: 45
   successor: {fileID: 0}
   castSound: {fileID: 0}

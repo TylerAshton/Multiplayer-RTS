@@ -3185,7 +3185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: Knight
+  - tabName: 
     abilities:
     - {fileID: 11400000, guid: b3ec3c35ad4340b408c18d44dce129d9, type: 2}
     - {fileID: 11400000, guid: 2feabee7c43345e4193e2ee6c26e802b, type: 2}

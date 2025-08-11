@@ -26,7 +26,7 @@ MonoBehaviour:
   castRotationSpeedModifer: 0
   angleDegrees: 90
   range: 4
-  damage: 20
-  hitVfx: {fileID: 0}
+  damage: 30
+  hitVfx: {fileID: 11400000, guid: dfbcd70be54f98b49b72ab4a5d6a9e7e, type: 2}
   lungeDistance: 0
   lungeDuration: 0

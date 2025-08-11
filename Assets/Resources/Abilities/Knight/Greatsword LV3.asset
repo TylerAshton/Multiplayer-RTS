@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Greatsword LV3
   m_EditorClassIdentifier: 
   id: greatsword3
-  price: 2000
+  price: 6500
   icon: {fileID: 21300000, guid: a049b1daccd7dab48a8c17e135660d32, type: 3}
   castTime: 0.5
   castPositionName: 0
@@ -22,10 +22,11 @@ MonoBehaviour:
   successor: {fileID: 0}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 02cd17f9af279a243b87bc716c9beac4, type: 2}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   angleDegrees: 60
   range: 3
   damage: 75
   hitVfx: {fileID: 11400000, guid: 4b75b2b55b6bb9843831144a73c5f5a0, type: 2}
-  hitEffect: {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
   lungeDistance: 0
   lungeDuration: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crushing Blow LV1
   m_EditorClassIdentifier: 
   id: CrushingBlow
-  price: 1500
+  price: 3500
   icon: {fileID: 21300000, guid: 1d3d193e3a0938648ae465edc02965ce, type: 3}
   castTime: 4.5
   castPositionName: 0
