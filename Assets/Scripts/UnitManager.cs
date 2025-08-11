@@ -25,6 +25,7 @@ public class UnitManager : NetworkBehaviour
     private RTSPlayerControls rTSPlayerControls;
     private bool isShiftHeld => rTSPlayerControls.IsShiftPressed;
     public List<SelectableObject> SelectedUnits => new List<SelectableObject>(selectedUnits);
+    private SelectableObject lastClickedUnit; 
 
     private readonly float moveSpacing = 2;
     private readonly int moveLayerCapciaty = 8;
@@ -158,6 +159,7 @@ public class UnitManager : NetworkBehaviour
             Debug.LogError("Attempted to select a null unit");
             return;
         }
+
 
         if (selectedUnits.Contains(_unit))
         {
@@ -395,6 +397,11 @@ public class UnitManager : NetworkBehaviour
         SelectUnit(clickedUnit);
     }
 
+    public void SetLastClickedUnit(Vector2 _mouseScreenPos)
+    {
+        lastClickedUnit = GetSelectableAtMouse(_mouseScreenPos);
+    }
+
     private SelectableObject GetSelectableAtMouse(Vector3 _mouseScreenPos)
     {
         Ray ray = Camera.main.ScreenPointToRay(_mouseScreenPos);
@@ -430,6 +437,11 @@ public class UnitManager : NetworkBehaviour
         SelectableObject clickedUnit = GetSelectableAtMouse(_mouseScreenPos);
 
         if (clickedUnit == null)
+        {
+            return;
+        }
+
+        if (lastClickedUnit != clickedUnit)
         {
             return;
         }
