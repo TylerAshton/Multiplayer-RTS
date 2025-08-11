@@ -226,7 +226,7 @@ public class ChampionControls : NetworkBehaviour
     }
 
     [Rpc(SendTo.Owner)]
-    private void ToggleControlsRpc(bool _value)
+    public void ToggleControlsRpc(bool _value)
     {
         if (!IsOwner)
         {

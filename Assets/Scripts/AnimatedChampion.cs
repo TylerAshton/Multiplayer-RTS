@@ -6,15 +6,15 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public interface IShopUser
-{
-    ChampionAbilityManager ChampionAbilityManager { get; }
-    Health ChampionHealth { get; }
-    int Points { get; } 
-    ShopPurchaseManager ShopPurchaseManager { get; }
+//public interface IShopUser
+//{
+//    ChampionAbilityManager ChampionAbilityManager { get; }
+//    Health ChampionHealth { get; }
+//    int Points { get; } 
+//    ShopPurchaseManager ShopPurchaseManager { get; }
 
-    ulong PlayerID { get; }
-}
+//    ulong PlayerID { get; }
+//}
 
 [RequireComponent(typeof(Animator))]
 public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable, IShopUser
@@ -317,7 +317,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private void ServerUpdate()
     {
         if (!IsServer) { return; }
-        MoveServerAuth();
+        //MoveServerAuth();
     }
 
     /// <summary>
@@ -326,9 +326,9 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private void OwnerUpdate()
     {
         if (!IsOwner) { return; }
-        RotatePlayer();
+        //RotatePlayer();
         updatePointsUI();
-        TryApplyAimPosition();
+        //TryApplyAimPosition();
     }
 
     
@@ -574,15 +574,15 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     //    transform.rotation = Quaternion.Euler(0, newEuler.y, 0);
     //}
 
-    public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H
-    {
-        throw new System.NotImplementedException();
-    }
+    //public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H
+    //{
+    //    throw new System.NotImplementedException();
+    //}
 
-    public void ClearTarget()
-    {
-        throw new System.NotImplementedException();
-    }
+    //public void ClearTarget()
+    //{
+    //    throw new System.NotImplementedException();
+    //}
 
     //public void Lunge(float distance, Vector3 direction, float duration)
     //{
@@ -603,24 +603,24 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     //    }
     //}
 
-    public void ReviveObject()
-    {
-        ToggleControlsRpc(true);
-    }
+    //public void ReviveObject()
+    //{
+    //    ToggleControlsRpc(true);
+    //}
 
-    public void DestroyObject()
-    {
-        ToggleControlsRpc(false);
-        SpawnSoul();
-    }
+    //public void DestroyObject()
+    //{
+    //    ToggleControlsRpc(false);
+    //    SpawnSoul();
+    //}
 
-    private void SpawnSoul()
-    {
-        GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
-        soul.GetComponent<NetworkObject>().Spawn();
-        soul.GetComponent<ReviveSoul>().Init(gameObject);
+    //private void SpawnSoul()
+    //{
+    //    GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
+    //    soul.GetComponent<NetworkObject>().Spawn();
+    //    soul.GetComponent<ReviveSoul>().Init(gameObject);
         
-    }
+    //}
 
     [Rpc(SendTo.Owner)]
     private void ToggleControlsRpc(bool _value)
@@ -632,5 +632,30 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         }
 
         playerInput.enabled = _value;
+    }
+
+    public void Lunge(float distance, Vector3 direction, float lungeDuration)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetTarget(Collider castTarget)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ClearTarget()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ReviveObject()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DestroyObject()
+    {
+        throw new System.NotImplementedException();
     }
 }

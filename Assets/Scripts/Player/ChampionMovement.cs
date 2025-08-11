@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Globalization;
-using Unity.Android.Gradle.Manifest;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -25,7 +23,7 @@ public class ChampionMovement : NetworkBehaviour
     private StatManager statManager;
 
     private CharacterController characterController;
-    private Health health => ChampionManager.health;
+    private Health health => champManager.ChampionHealth;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
