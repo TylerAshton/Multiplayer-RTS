@@ -16,7 +16,7 @@ MonoBehaviour:
   price: 1500
   icon: {fileID: 21300000, guid: b44e8d04f053e234e8bc2467b44c2bae, type: 3}
   castTime: 2
-  castPositionName: 0
+  castPositionName: 4
   abilityCost: 0
   cooldown: 0
   successor: {fileID: 11400000, guid: f517bac09e84f204cad522acae25f5e6, type: 2}
@@ -33,4 +33,3 @@ MonoBehaviour:
   vfxOffset: {x: 0, y: 0, z: 0}
   vfxScale: 1
   vfxDuration: 5
-  slowAmount: 7
