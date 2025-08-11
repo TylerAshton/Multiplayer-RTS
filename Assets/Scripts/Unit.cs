@@ -40,6 +40,11 @@ public class Unit : SelectableObject, IDestructible
             return;
         }
 
+        if (health.IsDying)
+        {
+            return;
+        }
+
         if (unitBehaviour != null)
         {
             unitBehaviour.Tick();
