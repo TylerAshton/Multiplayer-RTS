@@ -712,9 +712,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityPositionsEntries:
   - key: 1
-    value: {fileID: 0}
+    value: {fileID: 3991088217406843442}
   - key: 4
-    value: {fileID: 0}
+    value: {fileID: 3991088217406843442}
   - key: 2
     value: {fileID: 0}
   - key: 0
@@ -1413,5 +1413,10 @@ PrefabInstance:
 --- !u!4 &2980296780754629137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c769f4a50af1e2943b1433f8144958da, type: 3}
+  m_PrefabInstance: {fileID: 3375057992455280122}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3991088217406843442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: c769f4a50af1e2943b1433f8144958da, type: 3}
   m_PrefabInstance: {fileID: 3375057992455280122}
   m_PrefabAsset: {fileID: 0}
