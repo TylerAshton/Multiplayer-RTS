@@ -5,12 +5,13 @@ using UnityEngine;
 public class ChampionMovement : NetworkBehaviour
 {
     [Header("Movement Values")]
-    public Vector3 movementVector; // SERVER ONLY the movement vector to be added to the transform
+    [HideInInspector]public Vector3 movementVector; // SERVER ONLY the movement vector to be added to the transform
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 15f;
     [SerializeField] private float gravity = -9.81f;
-    public Vector3 worldPosition => champControls.WorldPosition;
+    [HideInInspector] public Vector3 worldPosition => champControls.WorldPosition;
     private Vector3 velocity; // used for gravity shit
+    [HideInInspector] public Vector3 Velocity => velocity;
 
     [Header("Rotation")]
     [SerializeField] private Vector3 movementRotationOffset = Vector3.zero;
@@ -20,9 +21,9 @@ public class ChampionMovement : NetworkBehaviour
 
     [Header("Managers")]
     public ChampionManager champManager;
-    private StatManager statManager;
+    [HideInInspector] public StatManager statManager;
 
-    private CharacterController characterController;
+    [HideInInspector] public CharacterController characterController;
     private Health health => champManager.ChampionHealth;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

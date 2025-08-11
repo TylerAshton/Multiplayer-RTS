@@ -11,9 +11,10 @@ public class ChampionControls : NetworkBehaviour
     private NetworkObject networkObject;
 
     private ChampionMovement champMove;
+    private ChampionManager championManager;
 
     [Header("Ability")]
-    private ChampionAbilityManager championAbilityManager;
+    private ChampionAbilityManager championAbilityManager => championManager.ChampionAbilityManager;
 
     [Header("Mouse Aiming")]
     [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
@@ -35,7 +36,7 @@ public class ChampionControls : NetworkBehaviour
             return;
         }
 
-        if (!networkObject.IsOwner) { return; }
+        if (!IsOwner) { return; }
         if (!TryGetComponent<PlayerInput>(out playerInput))
         {
             Debug.LogError($"{nameof(PlayerInput)} is required for {GetType().Name} on gameobject {gameObject.name}!");
@@ -94,6 +95,11 @@ public class ChampionControls : NetworkBehaviour
     public void OnPoint(InputAction.CallbackContext context)
     {
         mouseScreenPos = context.ReadValue<Vector2>();
+        //GetWorldPosition();
+    }
+
+    private void GetWorldPosition()
+    {
         worldPosition = new Vector3(0, 0, 0);
 
         Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
@@ -124,6 +130,7 @@ public class ChampionControls : NetworkBehaviour
     private void OwnerUpdate()
     {
         if (!IsOwner) { return; }
+        GetWorldPosition();
         TryApplyAimPosition();
     }
 
@@ -216,7 +223,7 @@ public class ChampionControls : NetworkBehaviour
         newMovementVector.y = 0;
         newMovementVector.z = context.ReadValue<Vector2>().y;
 
-        SetMoveInputServerRpc(newMovementVector); //----------- This will be in the movement script
+        SetMoveInputServerRpc(newMovementVector);
     }
 
     [ServerRpc]

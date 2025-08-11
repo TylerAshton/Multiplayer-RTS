@@ -1,16 +1,20 @@
+using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PointDisplayManager : MonoBehaviour
+public class PointDisplayManager : NetworkBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [Header("Managers")]
+    [SerializeField] private ChampionManager championManager;
 
-    // Update is called once per frame
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI pointsUI;
+
+    private int points => championManager.Points;
+
     void Update()
     {
-        
+        if (!IsOwner) { return; }
+        pointsUI.text = points.ToString();
     }
 }
