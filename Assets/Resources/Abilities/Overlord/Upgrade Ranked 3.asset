@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Upgrade Tier 3
   price: 0
-  icon: {fileID: 21300000, guid: 21c2411b1ea09654e9f1dc7034227968, type: 3}
+  icon: {fileID: 21300000, guid: 257b69ba05c0e4f46a863dc9b6a84543, type: 3}
   castTime: 0
   castPositionName: 0
   abilityCost: 7500
