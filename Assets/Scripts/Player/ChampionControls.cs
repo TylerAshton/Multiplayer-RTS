@@ -13,9 +13,6 @@ public class ChampionControls : NetworkBehaviour
     private ChampionMovement champMove;
     private ChampionManager championManager;
 
-    [Header("Ability")]
-    private ChampionAbilityManager championAbilityManager => championManager.ChampionAbilityManager;
-
     [Header("Mouse Aiming")]
     [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
     public Vector3 AimPoint => aimPoint;
@@ -141,7 +138,7 @@ public class ChampionControls : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void CastAbilityServerRpc(int _AbilityIndex) // TODO: Should really be moved into abilityManager or something
     {
-        championAbilityManager.TryCastAbility(_AbilityIndex, 0);
+        championManager.ChampionAbilityManager.TryCastAbility(_AbilityIndex, 0);
     }
 
     /// <summary>
@@ -165,7 +162,7 @@ public class ChampionControls : NetworkBehaviour
 
         if (!context.performed) return;
 
-        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 2)
+        if (championManager.ChampionAbilityManager.AbilityTabs[0].Abilities.Count < 2)
         {
             Debug.LogWarning("No secondary ability available.");
             return;
@@ -184,7 +181,7 @@ public class ChampionControls : NetworkBehaviour
 
         if (!context.performed) return;
 
-        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 3)
+        if (championManager.ChampionAbilityManager.AbilityTabs[0].Abilities.Count < 3)
         {
             Debug.LogWarning("No 3rd ability available.");
             return;
@@ -203,7 +200,7 @@ public class ChampionControls : NetworkBehaviour
 
         if (!context.performed) return;
 
-        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 4)
+        if (championManager.ChampionAbilityManager.AbilityTabs[0].Abilities.Count < 4)
         {
             Debug.LogWarning("No 4th ability available.");
             return;

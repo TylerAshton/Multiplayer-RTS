@@ -22,7 +22,8 @@ public class ChampionAnimationManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!IsServer) { return; }
+        SetAnimationParams(championMovement.movementVector);
     }
 
     private void SetAnimationParams(Vector3 _movementInput)

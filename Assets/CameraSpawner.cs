@@ -34,7 +34,6 @@ public class CameraSpawner : MonoBehaviour
     protected virtual void SpawnCamera()
     {
         spawnedCamera = Instantiate(cameraPrefab, transform.position, cameraPrefab.transform.rotation);
-        Debug.Log(spawnedCamera.name);
         if (!spawnedCamera.TryGetComponent<Camera>(out spawnedCameraComponent))
         {
             Debug.LogError($"{nameof(Camera)} was not found on {spawnedCamera.name}!");

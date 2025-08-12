@@ -856,6 +856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  inShop: 0
   soulPrefab: {fileID: 457788855046869235, guid: 9e21631c1b352d649ab8564ad83e549d, type: 3}
   soulSpawnOffset: {x: 0, y: 4, z: 0}
   championControls: {fileID: 1321385075354946923}
@@ -899,6 +900,8 @@ MonoBehaviour:
   gravity: -9.81
   movementRotationOffset: {x: 0, y: -90, z: 0}
   champManager: {fileID: 6612287468335098732}
+  statManager: {fileID: 0}
+  characterController: {fileID: 0}
 --- !u!114 &5657152546536435724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,8 +961,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+      - m_Target: {fileID: 1321385075354946923}
+        m_TargetAssemblyTypeName: ChampionControls, Assembly-CSharp
         m_MethodName: CheckMove
         m_Mode: 0
         m_Arguments:
@@ -978,7 +981,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/XInputControllerWindows/rightStick,/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1321385075354946923}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: UsePrimaryAbility
         m_Mode: 0
@@ -1074,7 +1077,7 @@ MonoBehaviour:
     m_ActionName: 'UI/Esc[/Keyboard/escape]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1321385075354946923}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: UseSecondaryAbility
         m_Mode: 0
@@ -1090,8 +1093,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack2[/Keyboard/2]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
+      - m_Target: {fileID: 6612287468335098732}
+        m_TargetAssemblyTypeName: ChampionManager, Assembly-CSharp
         m_MethodName: AttemptToggleUI
         m_Mode: 1
         m_Arguments:
@@ -1106,7 +1109,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Shop[/Keyboard/h]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1321385075354946923}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: OnPoint
         m_Mode: 0
@@ -1150,7 +1153,7 @@ MonoBehaviour:
     m_ActionName: 'UI/Shift[/Keyboard/leftShift]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1321385075354946923}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: Use3rdAbility
         m_Mode: 0
@@ -1166,7 +1169,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack3[/Keyboard/3]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1321385075354946923}
         m_TargetAssemblyTypeName: AnimatedChampion, Assembly-CSharp
         m_MethodName: Use4thAbility
         m_Mode: 0

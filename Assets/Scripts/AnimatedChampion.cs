@@ -6,16 +6,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-//public interface IShopUser
-//{
-//    ChampionAbilityManager ChampionAbilityManager { get; }
-//    Health ChampionHealth { get; }
-//    int Points { get; } 
-//    ShopPurchaseManager ShopPurchaseManager { get; }
-
-//    ulong PlayerID { get; }
-//}
-
 [RequireComponent(typeof(Animator))]
 public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable, IShopUser
 {
@@ -199,67 +189,67 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         Gizmos.color = Color.red;
 
         Gizmos.DrawWireSphere(aimPoint, 0.5f); // Draw a wire sphere at the aim point for debugging
-/*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
+        /*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
     }
 
-    //private void TryApplyAimPosition()
-    //{
-    //    if (!IsOwner) { return; }
-    //    Vector3 newAimPosition = GetAimPosition();
+    private void TryApplyAimPosition()
+    {
+        if (!IsOwner) { return; }
+        Vector3 newAimPosition = GetAimPosition();
 
-    //    if (newAimPosition != aimPoint && Vector3.Distance(newAimPosition, AimPoint) >= aimPositionUpdateTolerance)
-    //    {
-    //        aimPoint = newAimPosition;
-    //        ApplyAimPositionRpc(newAimPosition);
-    //    }
-    //}
+        if (newAimPosition != aimPoint && Vector3.Distance(newAimPosition, AimPoint) >= aimPositionUpdateTolerance)
+        {
+            aimPoint = newAimPosition;
+            ApplyAimPositionRpc(newAimPosition);
+        }
+    }
 
-    ///// <summary>
-    ///// Raycasts to the mousePosition and returns the center Position of the hit object if it is an enemy or player. Otherwise returns the worldPosition with the y coordinate set to the player's y coordinate.
-    ///// </summary>
-    ///// <returns></returns>
-    //private Vector3 GetAimPosition()
-    //{
-    //    if (!IsOwner) 
-    //    { 
-    //        Debug.LogError($"{nameof(GetAimPosition)} called on non-owner client in gameobject: {gameObject.name}!");
-    //        return aimPoint; 
-    //    }
+    /// <summary>
+    /// Raycasts to the mousePosition and returns the center Position of the hit object if it is an enemy or player. Otherwise returns the worldPosition with the y coordinate set to the player's y coordinate.
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetAimPosition()
+    {
+        if (!IsOwner)
+        {
+            Debug.LogError($"{nameof(GetAimPosition)} called on non-owner client in gameobject: {gameObject.name}!");
+            return aimPoint;
+        }
 
-    //    Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
+        Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
 
-    //    if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, characterMask))
-    //    {
-    //        if (hit.collider.gameObject != gameObject && hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
-    //        {
-    //            return hit.collider.bounds.center;
-    //        }
-    //    }
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, characterMask))
+        {
+            if (hit.collider.gameObject != gameObject && hit.collider.CompareTag("Amalgam") || hit.collider.CompareTag("Champion"))
+            {
+                return hit.collider.bounds.center;
+            }
+        }
 
-    //    return new Vector3(worldPosition.x, worldPosition.y, worldPosition.z);
-    //}
+        return new Vector3(worldPosition.x, worldPosition.y, worldPosition.z);
+    }
 
-    //[Rpc(SendTo.Server)]
-    //private void ApplyAimPositionRpc(Vector3 _newAimPosition)
-    //{
-    //    aimPoint = _newAimPosition;
-    //}
+    [Rpc(SendTo.Server)]
+    private void ApplyAimPositionRpc(Vector3 _newAimPosition)
+    {
+        aimPoint = _newAimPosition;
+    }
 
-    ///// <summary>
-    ///// This is called all the time to aquire screen position and update the mouseScreenPos variable
-    ///// </summary>
-    ///// <param name="context"></param>
-    //public void OnPoint(InputAction.CallbackContext context)
-    //{
-    //    mouseScreenPos = context.ReadValue<Vector2>();
-    //    worldPosition = new Vector3(0, 0, 0);
+    /// <summary>
+    /// This is called all the time to aquire screen position and update the mouseScreenPos variable
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnPoint(InputAction.CallbackContext context)
+    {
+        mouseScreenPos = context.ReadValue<Vector2>();
+        worldPosition = new Vector3(0, 0, 0);
 
-    //    Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
-    //    if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
-    //    {
-    //        worldPosition = hit.point;
-    //    }
-    //}
+        Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
+        {
+            worldPosition = hit.point;
+        }
+    }
 
     public void AttemptToggleUI() // TODO: This should really be reworked into ShopDisplayManager
     {
@@ -283,12 +273,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public void ToggleUI()
     {
-/*        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
-        playerShop.enabled = !playerShop.enabled;
-        foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
-        {
-            child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
-        }*/
+        /*        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
+                playerShop.enabled = !playerShop.enabled;
+                foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
+                {
+                    child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
+                }*/
         ShopDisplayManager.ToggleShopUI();
     }
 
@@ -317,7 +307,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private void ServerUpdate()
     {
         if (!IsServer) { return; }
-        //MoveServerAuth();
+        MoveServerAuth();
     }
 
     /// <summary>
@@ -326,12 +316,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private void OwnerUpdate()
     {
         if (!IsOwner) { return; }
-        //RotatePlayer();
+        RotatePlayer();
         updatePointsUI();
-        //TryApplyAimPosition();
+        TryApplyAimPosition();
     }
 
-    
+
 
     private void updatePointsUI()
     {
@@ -339,155 +329,155 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         points.text = PointManager.Instance.GetPoints(NetworkManager.Singleton.LocalClientId).ToString();
     }
 
-    ///// <summary>
-    ///// Calls the server to use the primary ability the champion has
-    ///// </summary>
-    ///// <param name="context"></param>
-    //public void UsePrimaryAbility(InputAction.CallbackContext context)
-    //{
-    //    if (!IsOwner) return;
-    //    if (!context.performed) return;
-    //    CastAbilityServerRpc(0);
-    //}
+    /// <summary>
+    /// Calls the server to use the primary ability the champion has
+    /// </summary>
+    /// <param name="context"></param>
+    public void UsePrimaryAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+        if (!context.performed) return;
+        CastAbilityServerRpc(0);
+    }
 
-    ///// <summary>
-    ///// Casts the units secondary ability in tab 0 if it exists.
-    ///// </summary>
-    ///// <param name="context"></param>
-    //public void UseSecondaryAbility(InputAction.CallbackContext context)
-    //{
-    //    if (!IsOwner) return;
+    /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
+    public void UseSecondaryAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
 
-    //    if (!context.performed) return;
+        if (!context.performed) return;
 
-    //    if (championAbilityManager.AbilityTabs[0].Abilities.Count < 2)
-    //    {
-    //        Debug.LogWarning("No secondary ability available.");
-    //        return;
-    //    }
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 2)
+        {
+            Debug.LogWarning("No secondary ability available.");
+            return;
+        }
 
-    //    CastAbilityServerRpc(1);
-    //}
+        CastAbilityServerRpc(1);
+    }
 
-    ///// <summary>
-    ///// Casts the units secondary ability in tab 0 if it exists.
-    ///// </summary>
-    ///// <param name="context"></param>
-    //public void Use3rdAbility(InputAction.CallbackContext context)
-    //{
-    //    if (!IsOwner) return;
+    /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
+    public void Use3rdAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
 
-    //    if (!context.performed) return;
+        if (!context.performed) return;
 
-    //    if (championAbilityManager.AbilityTabs[0].Abilities.Count < 3)
-    //    {
-    //        Debug.LogWarning("No 3rd ability available.");
-    //        return;
-    //    }
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 3)
+        {
+            Debug.LogWarning("No 3rd ability available.");
+            return;
+        }
 
-    //    CastAbilityServerRpc(2);
-    //}
+        CastAbilityServerRpc(2);
+    }
 
-    ///// <summary>
-    ///// Casts the units secondary ability in tab 0 if it exists.
-    ///// </summary>
-    ///// <param name="context"></param>
-    //public void Use4thAbility(InputAction.CallbackContext context)
-    //{
-    //    if (!IsOwner) return;
+    /// <summary>
+    /// Casts the units secondary ability in tab 0 if it exists.
+    /// </summary>
+    /// <param name="context"></param>
+    public void Use4thAbility(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
 
-    //    if (!context.performed) return;
+        if (!context.performed) return;
 
-    //    if (championAbilityManager.AbilityTabs[0].Abilities.Count < 4)
-    //    {
-    //        Debug.LogWarning("No 4th ability available.");
-    //        return;
-    //    }
+        if (championAbilityManager.AbilityTabs[0].Abilities.Count < 4)
+        {
+            Debug.LogWarning("No 4th ability available.");
+            return;
+        }
 
-    //    CastAbilityServerRpc(3);
-    //}
+        CastAbilityServerRpc(3);
+    }
 
-    ///// <summary>
-    ///// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
-    ///// </summary>
-    ///// <param name="_AbilityIndex"></param>
-    //[ServerRpc(RequireOwnership = false)]
-    //private void CastAbilityServerRpc(int _AbilityIndex) // TODO: Should really be moved into abilityManager or something
-    //{
-    //    championAbilityManager.TryCastAbility(_AbilityIndex, 0);
-    //}
+    /// <summary>
+    /// Casts the ability relevant to the parsed index. By calling the Ability's Activate() function
+    /// </summary>
+    /// <param name="_AbilityIndex"></param>
+    [ServerRpc(RequireOwnership = false)]
+    private void CastAbilityServerRpc(int _AbilityIndex) // TODO: Should really be moved into abilityManager or something
+    {
+        championAbilityManager.TryCastAbility(_AbilityIndex, 0);
+    }
 
-    ///// <summary>
-    ///// This calls all of the Movement based Server-Rpcs
-    ///// </summary>
-    //void MoveServerAuth()
-    //{
-    //    if (!IsServer)
-    //    {
-    //        Debug.LogError("Client attempted to move the player!");
-    //        return;
-    //    }
-    //    ChampionMove(movementVector);
-    //    SetAnimationParams(movementVector);
-    //}
+    /// <summary>
+    /// This calls all of the Movement based Server-Rpcs
+    /// </summary>
+    void MoveServerAuth()
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to move the player!");
+            return;
+        }
+        ChampionMove(movementVector);
+        SetAnimationParams(movementVector);
+    }
 
-    ///// <summary>
-    ///// This attempts to move the player transform by adding the movementVector to its current transform
-    ///// </summary>
-    ///// <param name="_movementVector"></param>
-    ///// <param name="serverRpcParams"></param>
-    //private void ChampionMove(Vector3 _movementVector)
-    //{
-    //    if (!IsServer)
-    //    {
-    //        Debug.LogError("Client attempted to move the player!");
-    //        return;
-    //    }
+    /// <summary>
+    /// This attempts to move the player transform by adding the movementVector to its current transform
+    /// </summary>
+    /// <param name="_movementVector"></param>
+    /// <param name="serverRpcParams"></param>
+    private void ChampionMove(Vector3 _movementVector)
+    {
+        if (!IsServer)
+        {
+            Debug.LogError("Client attempted to move the player!");
+            return;
+        }
 
-    //    _movementVector = Quaternion.Euler(movementRotationOffset) * _movementVector;
+        _movementVector = Quaternion.Euler(movementRotationOffset) * _movementVector;
 
-    //    Vector3 move = Vector3.right * _movementVector.x + Vector3.forward * _movementVector.z;
+        Vector3 move = Vector3.right * _movementVector.x + Vector3.forward * _movementVector.z;
 
-    //    Vector3 targetVelocity = move * statManager.CurrentStats[StatType.MoveSpeed];
+        Vector3 targetVelocity = move * statManager.CurrentStats[StatType.MoveSpeed];
 
-    //    float lerpSpeed = (_movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
+        float lerpSpeed = (_movementVector.magnitude > 0.1f) ? acceleration : deceleration; // Lerp speed changes based on if we're accelerating or decelerating
 
-    //    // lerp towards targetVelocity
-    //    velocity = Vector3.MoveTowards(velocity, targetVelocity, lerpSpeed * Time.deltaTime);
+        // lerp towards targetVelocity
+        velocity = Vector3.MoveTowards(velocity, targetVelocity, lerpSpeed * Time.deltaTime);
 
-    //    if (characterController.isGrounded && velocity.y < 0)
-    //    {
-    //        velocity.y = -1f; // TODO: Magic number
-    //    }
-    //    else
-    //    {
-    //        velocity.y += gravity * Time.deltaTime;
-    //    }
+        if (characterController.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -1f; // TODO: Magic number
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
 
-    //    // Movement application
-    //    characterController.Move(velocity * Time.deltaTime);
-    //    //Debug.Log(velocity);
-    //}
+        // Movement application
+        characterController.Move(velocity * Time.deltaTime);
+        //Debug.Log(velocity);
+    }
 
-    ///// <summary>
-    ///// The unity input system uses this function to capture the input for the player movement
-    ///// </summary>
-    ///// <param name="context"></param>
-    //public void CheckMove(InputAction.CallbackContext context)
-    //{
-    //    Vector3 newMovementVector = new Vector3();
-    //    newMovementVector.x = context.ReadValue<Vector2>().x;
-    //    newMovementVector.y = 0;
-    //    newMovementVector.z = context.ReadValue<Vector2>().y;
+    /// <summary>
+    /// The unity input system uses this function to capture the input for the player movement
+    /// </summary>
+    /// <param name="context"></param>
+    public void CheckMove(InputAction.CallbackContext context)
+    {
+        Vector3 newMovementVector = new Vector3();
+        newMovementVector.x = context.ReadValue<Vector2>().x;
+        newMovementVector.y = 0;
+        newMovementVector.z = context.ReadValue<Vector2>().y;
 
-    //    SetMoveInputServerRpc(newMovementVector);
-    //}
+        SetMoveInputServerRpc(newMovementVector);
+    }
 
-    //[ServerRpc]
-    //private void SetMoveInputServerRpc(Vector3 _newMovementVector)
-    //{
-    //    movementVector = _newMovementVector;
-    //}
+    [ServerRpc]
+    private void SetMoveInputServerRpc(Vector3 _newMovementVector)
+    {
+        movementVector = _newMovementVector;
+    }
 
     /// <summary>
     /// Updates the animator controller with the movement vector relative to the rotation
@@ -529,98 +519,98 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     }
 
 
-    ///// <summary>
-    ///// This function rotates the player to face the current position of the mouse
-    ///// </summary>
-    //public void RotatePlayer()
-    //{
-    //    if (health.IsDying)
-    //    {
-    //        return;
-    //    }
+    /// <summary>
+    /// This function rotates the player to face the current position of the mouse
+    /// </summary>
+    public void RotatePlayer()
+    {
+        if (health.IsDying)
+        {
+            return;
+        }
 
-    //    Vector3 direction = (worldPosition - transform.position).normalized;
+        Vector3 direction = (worldPosition - transform.position).normalized;
 
-    //    if (direction == Vector3.zero)
-    //    {
-    //        return;
-    //    }
+        if (direction == Vector3.zero)
+        {
+            return;
+        }
 
-    //    RotateCharacterYRpc(direction);
-    //}
+        RotateCharacterYRpc(direction);
+    }
 
 
-    ///// <summary>
-    ///// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
-    ///// </summary>
-    ///// <param name="_x"></param>
-    ///// <param name="_y"></param>
-    ///// <param name="_z"></param>
-    //[Rpc(SendTo.Server)]
-    //private void RotateCharacterYRpc(Vector3 _direction)
-    //{
-    //    if (health.IsDying) // TODO: This being ran in the first place when dying is a bit iffy
-    //    {
-    //        return;
-    //    }
+    /// <summary>
+    /// This Server-Rpc runs TransformLookAt for the inputted floats as a vector3
+    /// </summary>
+    /// <param name="_x"></param>
+    /// <param name="_y"></param>
+    /// <param name="_z"></param>
+    [Rpc(SendTo.Server)]
+    private void RotateCharacterYRpc(Vector3 _direction)
+    {
+        if (health.IsDying) // TODO: This being ran in the first place when dying is a bit iffy
+        {
+            return;
+        }
 
-    //    float RotationSpeed = statManager.CurrentStats[StatType.RotationSpeed];
+        float RotationSpeed = statManager.CurrentStats[StatType.RotationSpeed];
 
-    //    Quaternion targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
-    //    Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
-    //    Vector3 newEuler = newRotation.eulerAngles;
+        Quaternion targetRotation = Quaternion.LookRotation(_direction, Vector3.up);
+        Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+        Vector3 newEuler = newRotation.eulerAngles;
 
-    //    //Vector3 currentEuler = transform.rotation.eulerAngles;
-    //    transform.rotation = Quaternion.Euler(0, newEuler.y, 0);
-    //}
+        //Vector3 currentEuler = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(0, newEuler.y, 0);
+    }
 
-    //public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H
-    //{
-    //    throw new System.NotImplementedException();
-    //}
+    public void SetTarget(Collider castTarget) // TODO: this will be updated in I believe 0.7?? - H
+    {
+        throw new System.NotImplementedException();
+    }
 
-    //public void ClearTarget()
-    //{
-    //    throw new System.NotImplementedException();
-    //}
+    public void ClearTarget()
+    {
+        throw new System.NotImplementedException();
+    }
 
-    //public void Lunge(float distance, Vector3 direction, float duration)
-    //{
-    //    StartCoroutine(LungeRoutine(distance, direction.normalized, duration));
-    //}
+    public void Lunge(float distance, Vector3 direction, float duration)
+    {
+        StartCoroutine(LungeRoutine(distance, direction.normalized, duration));
+    }
 
-    //private IEnumerator LungeRoutine(float distance, Vector3 direction, float duration)
-    //{
-    //    float elapsed = 0f;
-    //    float speed = distance / duration;
+    private IEnumerator LungeRoutine(float distance, Vector3 direction, float duration)
+    {
+        float elapsed = 0f;
+        float speed = distance / duration;
 
-    //    while (elapsed < duration)
-    //    {
-    //        float step = speed * Time.deltaTime;
-    //        characterController.Move(direction * step);
-    //        elapsed += Time.deltaTime;
-    //        yield return null;
-    //    }
-    //}
+        while (elapsed < duration)
+        {
+            float step = speed * Time.deltaTime;
+            characterController.Move(direction * step);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
 
-    //public void ReviveObject()
-    //{
-    //    ToggleControlsRpc(true);
-    //}
+    public void ReviveObject()
+    {
+        ToggleControlsRpc(true);
+    }
 
-    //public void DestroyObject()
-    //{
-    //    ToggleControlsRpc(false);
-    //    SpawnSoul();
-    //}
+    public void DestroyObject()
+    {
+        ToggleControlsRpc(false);
+        SpawnSoul();
+    }
 
-    //private void SpawnSoul()
-    //{
-    //    GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
-    //    soul.GetComponent<NetworkObject>().Spawn();
-    //    soul.GetComponent<ReviveSoul>().Init(gameObject);
-        
-    //}
+    private void SpawnSoul()
+    {
+        GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
+        soul.GetComponent<NetworkObject>().Spawn();
+        soul.GetComponent<ReviveSoul>().Init(gameObject);
+
+    }
 
     [Rpc(SendTo.Owner)]
     private void ToggleControlsRpc(bool _value)
@@ -632,30 +622,5 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         }
 
         playerInput.enabled = _value;
-    }
-
-    public void Lunge(float distance, Vector3 direction, float lungeDuration)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void SetTarget(Collider castTarget)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void ClearTarget()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void ReviveObject()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void DestroyObject()
-    {
-        throw new System.NotImplementedException();
     }
 }

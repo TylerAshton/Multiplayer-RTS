@@ -14,6 +14,9 @@ public class PointManager : NetworkBehaviour
 
     [SerializeField] private List<int> DEBUGplayerPoints;
 
+    [SerializeField] private int ChampMaxPoints = 10000;
+    [SerializeField] private int AmalgMaxPoints = 15000;
+
     void Awake()
     {
         if (Instance == null)
@@ -89,7 +92,14 @@ public class PointManager : NetworkBehaviour
 
     public void AddPoints(ulong id, int points)
     {
-        AddPointsToPlayerRpc(id, points);
+        if(id == 0)
+        {
+            AddPointsToPlayerRpc(id, Mathf.Clamp(GetPoints(id) + points, 0, AmalgMaxPoints));
+        }
+        else
+        {
+            AddPointsToPlayerRpc(id, Mathf.Clamp(GetPoints(id) + points, 0, ChampMaxPoints));
+        }
     }
 
     public void RemovePoints(ulong id, int points)

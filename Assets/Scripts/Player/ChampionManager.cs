@@ -20,8 +20,8 @@ public class ChampionManager : NetworkBehaviour, ICharacterAbilityUser, IFaction
     public AnimationTriggerManager AnimTriggerManager => animTriggerManager;
     private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
-    public Health ChampionHealth => health;
     private Health health;
+    public Health ChampionHealth => health;
     public Health Health => health;
     public Transform Transform => transform;
     private AbilityPositionManager abilityPositionManager;
