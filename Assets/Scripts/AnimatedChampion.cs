@@ -6,16 +6,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public interface IShopUser
-{
-    ChampionAbilityManager ChampionAbilityManager { get; }
-    Health ChampionHealth { get; }
-    int Points { get; } 
-    ShopPurchaseManager ShopPurchaseManager { get; }
-
-    ulong PlayerID { get; }
-}
-
 [RequireComponent(typeof(Animator))]
 public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFaction, IRevivable, IShopUser
 {
@@ -199,7 +189,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         Gizmos.color = Color.red;
 
         Gizmos.DrawWireSphere(aimPoint, 0.5f); // Draw a wire sphere at the aim point for debugging
-/*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
+        /*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
     }
 
     private void TryApplyAimPosition()
@@ -220,10 +210,10 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     /// <returns></returns>
     private Vector3 GetAimPosition()
     {
-        if (!IsOwner) 
-        { 
+        if (!IsOwner)
+        {
             Debug.LogError($"{nameof(GetAimPosition)} called on non-owner client in gameobject: {gameObject.name}!");
-            return aimPoint; 
+            return aimPoint;
         }
 
         Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
@@ -283,12 +273,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
     public void ToggleUI()
     {
-/*        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
-        playerShop.enabled = !playerShop.enabled;
-        foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
-        {
-            child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
-        }*/
+        /*        Shop playerShop = gameObject.GetComponentInChildren<Shop>(true);
+                playerShop.enabled = !playerShop.enabled;
+                foreach (RectTransform child in playerShop.GetComponentInChildren<RectTransform>(true))
+                {
+                    child.gameObject.SetActive(!child.gameObject.activeInHierarchy);
+                }*/
         ShopDisplayManager.ToggleShopUI();
     }
 
@@ -331,7 +321,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         TryApplyAimPosition();
     }
 
-    
+
 
     private void updatePointsUI()
     {
@@ -619,7 +609,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
         GameObject soul = Instantiate(soulPrefab, transform.position + soulSpawnOffset, Quaternion.identity);
         soul.GetComponent<NetworkObject>().Spawn();
         soul.GetComponent<ReviveSoul>().Init(gameObject);
-        
+
     }
 
     [Rpc(SendTo.Owner)]

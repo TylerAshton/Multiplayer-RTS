@@ -10,6 +10,7 @@ TagManager:
   - CinemachineTarget
   - PointAwarder
   - Minimap Cam
+  - Minimap
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Post Processing
   - BoundsSurface
   - WorldUI
-  - 
+  - Minimap
   - 
   - 
   - 

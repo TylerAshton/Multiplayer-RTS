@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8499252358176347402}
   - component: {fileID: 1310818713924299470}
   - component: {fileID: 1026331153918045879}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Sub Amalgam Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

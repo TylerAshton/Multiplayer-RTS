@@ -57,6 +57,7 @@ public class MinimapHandler : MonoBehaviour
     public GameObject changeCampfire(GameObject icon, string owner)
     {
         GameObject Newicon = (GameObject)Instantiate(Resources.Load($"Icons/{owner} Campfire Icon"), icon.transform.position, Quaternion.Euler(0,90,0), icon.transform.parent);
+        SetLayer(Newicon);
         //Debug.Log(icon.GetComponentInParent<Transform>().gameObject.name);
         Destroy(icon);
         return Newicon;
@@ -77,20 +78,23 @@ public class MinimapHandler : MonoBehaviour
         {
             if (unit.GetComponent<NetworkObject>().IsOwner)
             {
-                GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Main Champion Icon"), new(unit.transform.position.x, unit.transform.position.y + 190, unit.transform.position.z), Quaternion.identity, unit.transform);
+                GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Main Champion Icon"), new(unit.transform.position.x, unit.transform.position.y - 190, unit.transform.position.z), Quaternion.identity, unit.transform);
+                SetLayer(icon);
                 icons.Add(icon);
                 UnitToIcon.Add(unit, icon);
             }
             else
             {
-                GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Sub Champion Icon"), new(unit.transform.position.x, unit.transform.position.y + 190, unit.transform.position.z), Quaternion.identity, unit.transform);
+                GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Sub Champion Icon"), new(unit.transform.position.x, unit.transform.position.y - 190, unit.transform.position.z), Quaternion.identity, unit.transform);
+                SetLayer(icon);
                 icons.Add(icon);
                 UnitToIcon.Add(unit, icon);
             }
         }
         else if (unit.CompareTag("Amalgam"))
         {
-            GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Sub Amalgam Icon"), new(unit.transform.position.x, unit.transform.position.y + 190, unit.transform.position.z), Quaternion.identity, unit.transform);
+            GameObject icon = (GameObject)Instantiate(Resources.Load("Icons/Sub Amalgam Icon"), new(unit.transform.position.x, unit.transform.position.y - 190, unit.transform.position.z), Quaternion.identity, unit.transform);
+            SetLayer(icon);
             icons.Add(icon);
             UnitToIcon.Add(unit, icon);
             Action handler = () => deleteIcon(unit);
@@ -100,6 +104,11 @@ public class MinimapHandler : MonoBehaviour
         {
             Debug.LogError($"UNIT WITHOUT CORRECT TAG : {unit.name}");
         }
+    }
+
+    private void SetLayer(GameObject go)
+    {
+        go.layer = LayerMask.NameToLayer("Icon");
     }
 
     private void deleteAllIcons()

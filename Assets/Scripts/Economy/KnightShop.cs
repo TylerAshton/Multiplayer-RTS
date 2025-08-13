@@ -83,7 +83,7 @@ class KnightShop : Shop
                     if (Input.GetMouseButtonDown(0))
                     {
                         PurchaseOption1Rpc(ID);
-                        this.GetComponentInParent<AnimatedChampion>().ToggleUI();
+                        this.GetComponentInParent<ChampionManager>().ToggleUI();
                     }
                 }
                 else
@@ -102,7 +102,7 @@ class KnightShop : Shop
                         {
                             Debug.Log("awergawrg");
                             PurchaseOption2Rpc(ID, selectedOption);
-                            this.GetComponentInParent<AnimatedChampion>().ToggleUI();
+                            this.GetComponentInParent<ChampionManager>().ToggleUI();
                         }
                     }
                 }

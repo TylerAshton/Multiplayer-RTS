@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6462459500394576787}
   - component: {fileID: 4484282538069420981}
   - component: {fileID: 699421849754938289}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Sub Champion Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

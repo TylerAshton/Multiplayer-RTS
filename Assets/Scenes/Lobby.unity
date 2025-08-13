@@ -17580,8 +17580,8 @@ MonoBehaviour:
   mainMenu: {fileID: 1490115342}
   characterMenu: {fileID: 1969261676}
   readyUpMenu: {fileID: 1499743751}
-  spawner: {fileID: 0}
-  DEBUGIsSinglePlayer: 1
+  spawner: {fileID: 722904323}
+  DEBUGIsSinglePlayer: 0
 --- !u!4 &142975211
 Transform:
   m_ObjectHideFlags: 0
@@ -97265,7 +97265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 603921d9d81738e449a18b3b175fdc8a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bcd08f0773ffc2c41bb68cf3d27cdfaf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

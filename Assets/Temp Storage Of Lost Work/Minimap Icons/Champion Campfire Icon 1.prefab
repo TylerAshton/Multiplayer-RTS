@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5123431153134219430}
   - component: {fileID: 5403063673077472142}
   - component: {fileID: 2575990395615771724}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Champion Campfire Icon 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
