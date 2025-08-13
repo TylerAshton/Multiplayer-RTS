@@ -12,7 +12,7 @@ public class ChampionControls : NetworkBehaviour
 
     private ChampionMovement champMove;
     private ChampionManager championManager;
-    public ChampionAbilityManager championAbilityManager;
+    public ChampionAbilityManager championAbilityManager => championManager.ChampionAbilityManager;
 
     [Header("Mouse Aiming")]
     [SerializeField] private float aimPositionUpdateTolerance = 0.1f;
@@ -31,6 +31,12 @@ public class ChampionControls : NetworkBehaviour
         if (!TryGetComponent<ChampionMovement>(out champMove))
         {
             Debug.LogError($"{nameof(ChampionMovement)} is required for {GetType().Name} on gameobject {gameObject.name}!");
+            return;
+        }
+
+        if (!TryGetComponent<ChampionManager>(out championManager))
+        {
+            Debug.LogError($"{nameof(ChampionManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             return;
         }
 
