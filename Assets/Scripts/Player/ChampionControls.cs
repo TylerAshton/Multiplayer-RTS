@@ -170,6 +170,7 @@ public class ChampionControls : NetworkBehaviour
     {
         if (!IsOwner) return;
         if (!context.performed) return;
+        TryApplyAimPosition();
         CastAbilityServerRpc(0);
     }
 
@@ -189,6 +190,7 @@ public class ChampionControls : NetworkBehaviour
             return;
         }
 
+        TryApplyAimPosition();
         CastAbilityServerRpc(1);
     }
 
@@ -208,6 +210,7 @@ public class ChampionControls : NetworkBehaviour
             return;
         }
 
+        TryApplyAimPosition();
         CastAbilityServerRpc(2);
     }
 
@@ -227,6 +230,7 @@ public class ChampionControls : NetworkBehaviour
             return;
         }
 
+        TryApplyAimPosition();
         CastAbilityServerRpc(3);
     }
 
