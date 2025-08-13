@@ -170,7 +170,7 @@ public class CapturePoint : NetworkBehaviour
         {
             return;
         }
-        icon = MinimapHandler.Instance.changeCampfire(icon, owner.ToString());
+        
     }
 
     [Rpc(SendTo.Everyone)]
@@ -188,7 +188,7 @@ public class CapturePoint : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!IsHost) { return; }
-        if (other.gameObject.layer != 7) { return; }
+        if (!(LayerMask.LayerToName(other.gameObject.layer) == "Unit")) { return; }
         if (other.CompareTag("Champion"))
         {
             AddChampRpc(other.GetComponent<NetworkObject>());
@@ -237,6 +237,7 @@ public class CapturePoint : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void EnteredPointRpc()
     {
+        icon = MinimapHandler.Instance.changeCampfire(icon, owner.ToString());
         CheckOwner();
         if (owner == owners.AMALGAM && previousOwner != owners.AMALGAM)
         {

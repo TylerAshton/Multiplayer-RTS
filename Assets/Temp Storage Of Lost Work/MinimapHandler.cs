@@ -23,12 +23,12 @@ public class MinimapHandler : MonoBehaviour
         {
             Destroy(this);
         }
+        Init();
     }
 
-    private void Start()
+    private void Init()
     {
-        //updateList();
-        //createIcon();
+        icons = LayerList.FindGameObjectsWithLayer("Icon");
     }
 
     public void updateList()
@@ -58,9 +58,22 @@ public class MinimapHandler : MonoBehaviour
     {
         GameObject Newicon = (GameObject)Instantiate(Resources.Load($"Icons/{owner} Campfire Icon"), icon.transform.position, Quaternion.Euler(0,90,0), icon.transform.parent);
         SetLayer(Newicon);
+        icons.Add(Newicon);
         //Debug.Log(icon.GetComponentInParent<Transform>().gameObject.name);
         Destroy(icon);
+        icons.Remove(icon);
         return Newicon;
+    }
+
+    public void rotateCampfire(Vector3 rotation)
+    {
+        foreach (GameObject go in icons)
+        {
+            if (go.name.ToUpper().Contains("CAMPFIRE"))
+            {
+                go.transform.rotation = Quaternion.Euler(rotation);
+            }
+        }
     }
 
 
