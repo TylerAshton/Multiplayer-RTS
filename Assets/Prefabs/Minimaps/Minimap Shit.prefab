@@ -334,7 +334,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 32930
+  m_VersionIndex: 32936
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -535,6 +535,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3368919239727138046}
   - component: {fileID: 464384847685434528}
+  - component: {fileID: 3489124177060438968}
   m_Layer: 15
   m_Name: Minimap Handler
   m_TagString: Untagged
@@ -570,6 +571,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icons: []
+--- !u!114 &3489124177060438968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8578849760097728728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf7f1d9ddca4e64eb115a0e14cb99b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &14959049492099401
 PrefabInstance:
   m_ObjectHideFlags: 0
