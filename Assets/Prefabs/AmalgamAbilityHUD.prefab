@@ -127,8 +127,8 @@ MonoBehaviour:
   - {fileID: 7359095978017352132}
   - {fileID: 5568067266346212267}
   - {fileID: 4402040244540000328}
-  forwardSprite: {fileID: 394215961, guid: 07300a68224d82546883a8f69541be97, type: 3}
-  backSprite: {fileID: 1560476065, guid: 07300a68224d82546883a8f69541be97, type: 3}
+  forwardSprite: {fileID: 21300000, guid: 247a9b7e1406b394e95ddb61c3d0ca86, type: 3}
+  backSprite: {fileID: 21300000, guid: 7d0fda2e68a94e64c926de479789051a, type: 3}
 --- !u!1 &591030321875207972
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Summon R2
   price: 1500
-  icon: {fileID: 21300000, guid: b058f64e052d6c142973a01f86c12e8c, type: 3}
+  icon: {fileID: 21300000, guid: 42a84c390458fa84194a45dd42b24464, type: 3}
   castTime: 0
   castPositionName: 0
   abilityCost: 1200

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Construction Stats M3
   m_EditorClassIdentifier: 
   id: Construct M3
-  constructionTime: 10
+  constructionTime: 7
   consutrctablePrefab: {fileID: 2401997887451976919, guid: b72b11a3aaca2c64dab1a7444c6168a1, type: 3}
   spawnVfx: {fileID: 11400000, guid: 0c0b9e95991b15445b5cd8632ef0387f, type: 2}
   summonVfx: {fileID: 11400000, guid: 2486f8affe51f0a40914cb6dede832bf, type: 2}

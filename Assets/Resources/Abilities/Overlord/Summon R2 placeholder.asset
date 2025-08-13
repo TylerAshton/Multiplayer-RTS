@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Summon R2 Placeholder
   price: 0
-  icon: {fileID: 21300000, guid: 857d4f73ba36c294db4fb12d9715c601, type: 3}
+  icon: {fileID: 21300000, guid: 1b118e892f853fa44a35ea011194f887, type: 3}
   castTime: 1
   castPositionName: 0
   abilityCost: 0
@@ -22,3 +22,5 @@ MonoBehaviour:
   successor: {fileID: 11400000, guid: c0060574a67ab38469bae54a18eca438, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 0}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0

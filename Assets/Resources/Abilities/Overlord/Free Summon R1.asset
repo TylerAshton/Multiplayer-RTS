@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Summon FRanged Lv1
   price: 0
-  icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
+  icon: {fileID: 21300000, guid: 6b3abf2da2b2fe0479ff9c32e8a863dc, type: 3}
   castTime: 0
   castPositionName: 0
   abilityCost: 0
