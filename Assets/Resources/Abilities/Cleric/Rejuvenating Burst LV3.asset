@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rejuvenating Burst LV3
   m_EditorClassIdentifier: 
   id: RejuvenatingBurst 3
-  price: 2500
+  price: 7500
   icon: {fileID: 21300000, guid: b44e8d04f053e234e8bc2467b44c2bae, type: 3}
   castTime: 2
   castPositionName: 4

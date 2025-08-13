@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Upgrade Ranked 2
   price: 0
-  icon: {fileID: 21300000, guid: b058f64e052d6c142973a01f86c12e8c, type: 3}
+  icon: {fileID: 21300000, guid: aa11a4ac014be4c429e879bf2f76de0e, type: 3}
   castTime: 0
   castPositionName: 0
-  abilityCost: 7500
+  abilityCost: 5000
   cooldown: 0
   successor: {fileID: 11400000, guid: 2d9fca11096b96f4e878385e15a23fdb, type: 2}
   castSound: {fileID: 11400000, guid: 62814eea7d531e7468c2a9264423f0a8, type: 2}

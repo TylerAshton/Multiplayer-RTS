@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Construction Stats M1
   m_EditorClassIdentifier: 
   id: Construct Melee L1
-  constructionTime: 7
+  constructionTime: 5
   consutrctablePrefab: {fileID: 2401997887451976919, guid: c9399d7c836f72647902d83678e3441b, type: 3}
   spawnVfx: {fileID: 11400000, guid: 0c0b9e95991b15445b5cd8632ef0387f, type: 2}
   summonVfx: {fileID: 11400000, guid: 09023a8f2f23c0a459474cb8eedd2bc9, type: 2}

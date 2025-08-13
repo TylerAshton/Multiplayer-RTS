@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52167b63a06be94980a9db1fb1fd1e4, type: 3}
-  m_Name: Blade Spin
+  m_Name: Hero's Rush LV2
   m_EditorClassIdentifier: 
-  id: BladeSpin1
-  price: 1500
+  id: BladeSpin2
+  price: 5000
   icon: {fileID: 21300000, guid: 5bd52df91b684164cbb6fb6327cbd6c5, type: 3}
   castTime: 1
   castPositionName: 3
   abilityCost: 0
-  cooldown: 23
-  successor: {fileID: 11400000, guid: e20426052367d0048a8562b81ce562ad, type: 2}
+  cooldown: 18
+  successor: {fileID: 11400000, guid: 045eccd0fcc4bd2468d87a714198980c, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 40f6afe442d2ffe468efeeeb6dfc6fd3, type: 2}
   castMoveSpeedModifer: -7
@@ -27,7 +27,6 @@ MonoBehaviour:
   angleDegrees: 360
   range: 5
   damage: 60
-  hitEffect: {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
   hitVfx: {fileID: 11400000, guid: 4b75b2b55b6bb9843831144a73c5f5a0, type: 2}
   lungeDistance: 6
   lungeDuration: 1.2

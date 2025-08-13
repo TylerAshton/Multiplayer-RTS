@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lightning Spear LV1
   m_EditorClassIdentifier: 
   id: LightningSpear1
-  price: 1500
+  price: 3500
   icon: {fileID: 21300000, guid: 40ab1470029bcfa48a2fe193476c7dd7, type: 3}
   castTime: 2
   castPositionName: 1
@@ -22,4 +22,6 @@ MonoBehaviour:
   successor: {fileID: 11400000, guid: 82d42da15c9f1514785e512989528075, type: 2}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: f986565e4d65af843a00d91ca75719c9, type: 2}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   projectileStats: {fileID: 11400000, guid: c5530bb3f2de6234e84e2a5387a31292, type: 2}
