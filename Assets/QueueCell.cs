@@ -11,14 +11,16 @@ public class QueueCell : MonoBehaviour
             Debug.LogError($"{GetType().Name} requires an Image component to be assigned in gameobject {gameObject.name}!");
         }
     }
-    public void SetQueueCell(ConstructionStats constructionStats)
+    public void SetQueueCell(ConstructionItem _constructionItem)
     {
-        if (constructionStats == null)
+        if (_constructionItem == null)
         {
             Debug.LogError($"{GetType().Name} received a null ConstructionStats.");
             return;
         }
 
-        image.sprite = constructionStats.QueueIcon; 
+        image.sprite = _constructionItem.ConstructionStats.QueueIcon; 
+
+        image.color = _constructionItem.IsPaid ? Color.white : Color.red;
     }
 }

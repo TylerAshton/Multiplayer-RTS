@@ -13,6 +13,8 @@ public class HitboxStats : BaseAbilityStat
 {
     [SerializeField] private Vector3 offset = Vector3.zero;
     [SerializeField] private float sizeChangeTime = 0f;
+    [SerializeField] bool hitFirstOnly = false;
+    public bool HitFirstOnly => hitFirstOnly;
     [SerializeField] private HitboxType hitboxType = HitboxType.Box;
 
     public Vector3 Offset => offset;
@@ -54,6 +56,9 @@ public class HitboxStats : BaseAbilityStat
         {
             EditorGUILayout.HelpBox($"{nameof(sizeChangeTime)} must be a positive value!", MessageType.Error);
         }
+
+        SerializedProperty fieldHitFirstOnly = so.FindProperty("hitFirstOnly");
+        EditorGUILayout.PropertyField(fieldHitFirstOnly, new GUIContent("Hit First Only"));
 
         SerializedProperty fieldHitboxType = so.FindProperty("hitboxType");
         EditorGUILayout.PropertyField(fieldHitboxType, new GUIContent("Hitbox Type"));

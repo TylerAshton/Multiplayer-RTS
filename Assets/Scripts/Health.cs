@@ -30,6 +30,12 @@ public class Health : NetworkBehaviour
     public event Action OnRevive; 
     public event Action OnHit;
 
+    [ContextMenu("KILLME")]
+    void KILLME()
+    {
+        Damage(hitPoints);
+    }
+
     private void Awake()
     {
         if (!TryGetComponent<StatManager>(out statManager))
@@ -204,7 +210,7 @@ public class Health : NetworkBehaviour
                 $"This might be caused by someone setting HealthRegen to a value before the start function is called.");
             return;
         }
-        healthSlider.value = _currentHealth; // TODO: Make a setter
+        healthSlider.value = _currentHealth;
     }
 
     /// <summary>
@@ -257,8 +263,6 @@ public class Health : NetworkBehaviour
             collider.enabled = false;
         }
 
-        DestroyHealthRpc();
-
         // Destructable handling
 
         IDestructible[] destructibles = GetComponents<IDestructible>();
@@ -279,7 +283,7 @@ public class Health : NetworkBehaviour
             return;
         }
 
-
+        DestroyHealthRpc();
         Invoke(nameof(Die), corpseLingerTime);
     }
 

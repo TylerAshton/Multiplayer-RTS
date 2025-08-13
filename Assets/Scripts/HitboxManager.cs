@@ -24,6 +24,8 @@ public class HitboxManager : MonoBehaviour, IFaction
     // Current sphere variables
     float currentSphereRadius = 0f;
 
+    bool HitFirstOnly = false;
+
     Vector3 ColliderCenter => transform.position + transform.rotation * (hitboxStats.Offset + extensionOffset);
     Vector3 extensionOffset = Vector3.zero;
 
@@ -89,7 +91,7 @@ public class HitboxManager : MonoBehaviour, IFaction
         }
     }
 
-/*    private void OnTriggerStay(Collider _other) // TODO: Rework the whole thing to use phyisics instead
+/*    private void OnTriggerStay(Collider _other)
     {
         if (!_other.TryGetComponent<IFaction>(out IFaction _faction))
         {
@@ -156,6 +158,12 @@ public class HitboxManager : MonoBehaviour, IFaction
                 Debug.Log($"{hit.gameObject.name} is a friendly");
                 continue;
             }
+            if (hitboxStats.HitFirstOnly && !IsFirstHit(hit))
+            {
+                Debug.Log($"{hit.gameObject.name} is not the first hit");
+                continue;
+            }
+            // Filter for the first hit only
             // Cone filter, if the collider is not within the cone ignore it
             if (hitboxStats.HitboxType == HitboxType.Cone && !IsWithinCone(hit))
             {
@@ -163,6 +171,21 @@ public class HitboxManager : MonoBehaviour, IFaction
             }
             OnHitboxTriggerStay?.Invoke(hit);
         }
+    }
+
+    private bool IsFirstHit(Collider _hit)
+    {
+        Vector3 currentCenter = ColliderCenter;
+        Vector3 targetPoint = _hit.bounds.center;
+        Vector3 direction = (targetPoint - currentCenter).normalized;
+        float distance = Vector3.Distance(currentCenter, targetPoint);
+
+        if (Physics.Raycast(currentCenter, direction, out RaycastHit hitInfo , distance))
+        {
+            return hitInfo.collider == _hit;
+        }
+
+        return false;
     }
 
     /// <summary>

@@ -44,7 +44,8 @@ public class BuffAbility : Ability<ICharacterAbilityUser>
     {
         base.DrawInspector(_so);
 
-        SerializedProperty fieldBuffEffects = _so.FindProperty("buffEffects"); // TODO: Changing this to a VfxObject would be better but it requires us handling parented prefabs
+        SerializedProperty fieldBuffEffects = _so.FindProperty("buffEffects"); //
+                                                                               // Changing this to a VfxObject would be better but it requires us handling parented prefabs
         fieldBuffEffects.objectReferenceValue = EditorGUILayout.ObjectField("Buff Effects Prefab", fieldBuffEffects.objectReferenceValue, typeof(GameObject), false);
         if (fieldBuffEffects.objectReferenceValue == null)
         {

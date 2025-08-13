@@ -409,8 +409,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  detectionRange: 15
-  forgivenessRange: 16
+  detectionRange: 25
+  forgivenessRange: 31
   unitLayer:
     serializedVersion: 2
     m_Bits: 128

@@ -6,7 +6,7 @@ namespace Editor.ProjectileEditor
 {
     public class ProjectileEditorWindow : EditorWindow
     {
-        private ProjectileStats selectedProjectile; // TODO: We could use a generic type here to allow editing of any ScriptableObject that has a DrawInspector method
+/*        private ProjectileStats selectedProjectile;
 
         public static void Open(ProjectileStats _projectileStats)
         {
@@ -32,6 +32,6 @@ namespace Editor.ProjectileEditor
 
             so.ApplyModifiedProperties();
 
-        }
+        }*/
     }
 }

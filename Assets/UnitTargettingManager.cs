@@ -94,7 +94,7 @@ public class UnitTargettingManager : NetworkBehaviour
             {
                 if (collider.TryGetComponent<Health>(out var _health))
                 {
-                    if (_health.IsDying) // TODO: Sloppy af
+                    if (_health.IsDying)
                     {
                         continue;
                     }

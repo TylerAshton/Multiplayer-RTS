@@ -5,12 +5,34 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
+public class ConstructionItem
+{
+    private ConstructionStats constructionStats;
+    public ConstructionStats ConstructionStats => constructionStats;
+    private int cost;
+    public int Cost => cost;
+    private bool isPaid;
+    public bool IsPaid => isPaid;
+
+    public ConstructionItem(ConstructionStats _constructionStats, int _cost, bool _isPaid)
+    {
+        constructionStats = _constructionStats;
+        cost = _cost;
+        isPaid = _isPaid;
+    }
+
+    public void SetPaid(bool _value)
+    {
+        isPaid = _value;
+    }
+}
+
 public class FactoryQueueManager : NetworkBehaviour
 {
     [SerializeField] private ConstructionProgressBar progressBar;
-    private Queue<ConstructionStats> productionQueue = new Queue<ConstructionStats>();
-    public Queue<ConstructionStats> ProductionQueue => productionQueue;
-    private ConstructionStats currentProduction;
+    private Queue<ConstructionItem> productionQueue = new Queue<ConstructionItem>();
+    public Queue<ConstructionItem> ProductionQueue => productionQueue;
+    private ConstructionItem currentProduction;
     private AbilityManager abilityManager;
     private AbilityPositionManager abilityPositionManager;
     private bool isRepeating => abilityManager.IsUtilityEnabled;
@@ -27,17 +49,17 @@ public class FactoryQueueManager : NetworkBehaviour
         }
     }
 
-    public void EnqueueUnit(ConstructionStats _constructionStats)
+    public void EnqueueUnit(ConstructionItem _constructionItem)
     {
         if (!IsServer)
         {
             Debug.LogWarning($"{nameof(EnqueueUnit)} can only be called on the server.");
             return;
         }
-        Debug.Log($"{_constructionStats.name} has been enqueued for production.");
+/*        Debug.Log($"{_constructionItem.name} has been enqueued for production.");*/
 
         // Add the construction stats to the queue
-        productionQueue.Enqueue(_constructionStats);
+        productionQueue.Enqueue(_constructionItem);
 
 
         // If there's no queue, start production immediately
@@ -61,18 +83,24 @@ public class FactoryQueueManager : NetworkBehaviour
         currentProduction = productionQueue.Peek();
 
         progressBar.gameObject.SetActive(true);
-        progressBar.Slider.maxValue = currentProduction.ConstructionTime;
+        progressBar.Slider.maxValue = currentProduction.ConstructionStats.ConstructionTime;
         StartCoroutine(ProduceCurrentUnit());
     }
 
     private IEnumerator ProduceCurrentUnit()
     {
-        Vector3 spawnPos = CalculateSpawnPos(currentProduction);
+        while (!currentProduction.IsPaid)
+        {
+            currentProduction.SetPaid(TryPurchaseConstruction(currentProduction));
+            yield return null;
+        }
+
+        Vector3 spawnPos = CalculateSpawnPos(currentProduction.ConstructionStats);
         //SpawnCurrentProductionSummonVfxRpc(spawnPos);
-        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SummonVfx.ID, spawnPos, 99);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.ConstructionStats.SummonVfx.ID, spawnPos, 99);
 
         float timeElapsed = 0f;
-        float duration = currentProduction.ConstructionTime;
+        float duration = currentProduction.ConstructionStats.ConstructionTime;
 
         while (timeElapsed < duration)
         {
@@ -82,14 +110,22 @@ public class FactoryQueueManager : NetworkBehaviour
         }
 
         SpawnCurrentProduction(spawnPos);
-        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.SpawnVfx.ID, spawnPos, 99);
+        VFXSpawner.Instance.SpawnVfxObjectRpc(currentProduction.ConstructionStats.SpawnVfx.ID, spawnPos, 99);
         //SpawnCurrentProudctionSpawnVfxRpc(spawnPos);
 
         productionQueue.Dequeue();
         // Requeue the current production if the production is set to repeat
         if (isRepeating)
         {
-            productionQueue.Enqueue(currentProduction);
+            ConstructionItem constructionItem = new ConstructionItem(
+                currentProduction.ConstructionStats,
+                currentProduction.Cost,
+                false
+            );
+
+            TryPurchaseConstruction(constructionItem);
+
+            productionQueue.Enqueue(constructionItem);
         }
         currentProduction = null;
 
@@ -104,13 +140,39 @@ public class FactoryQueueManager : NetworkBehaviour
         }
     }
 
+    private bool TryPurchaseConstruction(ConstructionItem _constructionItem)
+    {
+        if (_constructionItem == null)
+        {
+            Debug.LogError("Tried to purchase item that was null!");
+            return false;
+        }
+        if (_constructionItem.IsPaid)
+        {
+            Debug.LogError("Tried to purchase and item that was already purchased");
+            return false;
+        }
+
+        ulong id = NetworkManager.LocalClientId;
+        int points = PointManager.Instance.GetPoints(id);
+
+        if (points >= _constructionItem.Cost)
+        {
+            PointManager.Instance.RemovePoints(id, _constructionItem.Cost);
+            _constructionItem.SetPaid(true);
+            return true;
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Spawns the actual prefab of the current production at the given position.
     /// </summary>
     /// <param name="_spawnPos"></param>
     private void SpawnCurrentProduction(Vector3 _spawnPos)
     {
-        GameObject summoned = Instantiate(currentProduction.ConstructablePrefab, _spawnPos, Quaternion.identity);
+        GameObject summoned = Instantiate(currentProduction.ConstructionStats.ConstructablePrefab, _spawnPos, Quaternion.identity);
         summoned.GetComponent<NetworkObject>().Spawn();
     }
 
@@ -150,7 +212,6 @@ public class FactoryQueueManager : NetworkBehaviour
     /// <returns></returns>
     private Vector3 CalculateSpawnPos(ConstructionStats _constructionStats)
     {
-        // TODO: ehhhh spawn pos is a bit iffy
         Vector3 castPosition = abilityPositionManager.AbilityPositions[AbilityPosition.Centre].position + _constructionStats.Offset;
 
         // Generate random XZ offset within the specified dispersion range

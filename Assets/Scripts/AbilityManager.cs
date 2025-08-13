@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,20 +75,6 @@ public class AbilityManager : NetworkBehaviour
     protected virtual void Start()
     {
         ownerClientId = networkObject.OwnerClientId;
-    }
-
-    protected void OnDrawGizmos()
-    {
-        #if UNITY_EDITOR
-/*            if (abilities != null && abilities.Count > 0) TODO: Reenable me and fix nullRef for abilityUser
-            {
-                foreach (var ability in abilities)
-                {
-                    ability.DebugDrawing(abilityUser);
-                }
-            }*/
-            
-        #endif
     }
 
     private List<AbilityTab> GetAbilityTabs()
@@ -301,7 +288,7 @@ public class AbilityManager : NetworkBehaviour
     /// </summary>
     /// <param name="_ability"></param>
     /// <returns></returns>
-    private int FindAbilityTabIndex(Ability _ability)
+    public int FindAbilityTabIndex(Ability _ability)
     {
         for (int i = 0; i < abilityTabs.Count; i++)
         {
@@ -421,9 +408,15 @@ public class AbilityManager : NetworkBehaviour
     /// <returns></returns>
     protected IEnumerator LockCastingUntil(float _timer)
     {
-        abilityState = AbilityState.Casting;
+        SetAbilityStateRpc(AbilityState.Casting);
         yield return new WaitForSeconds(_timer);
-        abilityState = AbilityState.Ready;
+        SetAbilityStateRpc(AbilityState.Ready);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetAbilityStateRpc(AbilityState _newState)
+    {
+        abilityState = _newState;
     }
 
     /// <summary>

@@ -60,7 +60,8 @@ public class LobbyManager : NetworkBehaviour
     /// <param name="clientId"></param>
     /// <param name="sceneName"></param>
     /// <param name="loadSceneMode"></param>
-    private void SpawnAllPlayers(ulong clientId, string sceneName, LoadSceneMode loadSceneMode) // TODO: Remove args
+    private void SpawnAllPlayers(ulong clientId, string sceneName, LoadSceneMode loadSceneMode) //
+                                                                                                // Remove args
                                                                                                 // TODO: Use player dict
     {
 

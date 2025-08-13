@@ -277,7 +277,7 @@ public class SelectableObject : NetworkBehaviour, IFaction, IAbilityUser
     /// Sets the gameobject parsed as the Target, while also subscribing to it's onDeath event to the ClearTarget function
     /// </summary>
     /// <param name="_newTarget"></param>
-    public void SetTarget(Collider _newTarget) // TODO: Move all setTarget shit to Unit
+    public void SetTarget(Collider _newTarget)
     {
         if (!IsServer)
         {

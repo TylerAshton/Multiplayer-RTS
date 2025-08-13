@@ -3,7 +3,7 @@ using UnityEngine;
 
 class ClericShop : Shop
 {
-    protected override void Awake()
+    /*protected override void Awake()
     {
         base.Awake();
         ID = NetworkManager.Singleton.LocalClientId;
@@ -17,7 +17,7 @@ class ClericShop : Shop
     }
 
     [Rpc(SendTo.Server)]
-    private void PurchaseOption2Rpc(ulong _clientID, int _selectedOptionIndex) // TODO: This is botched af
+    private void PurchaseOption2Rpc(ulong _clientID, int _selectedOptionIndex) 
     {
         Ability selectedAbility = null;
 
@@ -35,7 +35,7 @@ class ClericShop : Shop
             Debug.LogError($"Ability missmatch: {options[_selectedOptionIndex].text}");
         }
 
-        // TODO: Add return statement if selectedAbility == null
+        // : Add return statement if selectedAbility == null
 
         // THIS CODE WAS ALSO WORKED ON BY HARRISON ON MY ACCOUNT, THIS IS HERE TO GIVE CREDIT DESPITE WHAT GITBLAME MIGHT REFLECT. SIGNED : TALINNETT
 
@@ -113,6 +113,6 @@ class ClericShop : Shop
                 itemCostText.text = string.Empty;
                 break;
         }
-    }
+    }*/
 }
 

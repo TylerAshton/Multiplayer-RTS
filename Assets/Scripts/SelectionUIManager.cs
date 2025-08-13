@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SelectionUIManager : MonoBehaviour
@@ -102,7 +101,7 @@ public class SelectionUIManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(_selectableObject.Description))
         {
-            Debug.LogError($"{nameof(SelectableObject)} has no {nameof(Description)}!");
+            Debug.LogError($"{nameof(SelectableObject)} has no {nameof(_selectableObject.Description)}!");
             return;
         }
 

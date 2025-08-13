@@ -161,6 +161,11 @@ public class RTSPlayerControls : MonoBehaviour
         {
             OnMouseDoubleClickPerformed();
         }
+
+        else
+        {
+            RTSPlayer.Instance.UnitManager.SetLastClickedUnit(mouseScreenPos);
+        }
     }
 
     private void OnMouseDoubleClickPerformed()
@@ -170,15 +175,15 @@ public class RTSPlayerControls : MonoBehaviour
 
     public void OnMouseHeld(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started) // TODO: Just use context?
+        if (context.started)
         {
             mousetStartPosition = mouseScreenPos;
         }
-        else if (context.phase == InputActionPhase.Performed)
+        else if (context.performed)
         {
             OnMouseHoldStarted();
         }
-        else if (context.phase == InputActionPhase.Canceled)
+        else if (context.canceled)
         {
             if (!isMouseHeld)
             {
@@ -395,9 +400,9 @@ public class RTSPlayerControls : MonoBehaviour
 
         List<RaycastResult> results = new List<RaycastResult>();
         // Scan all GraphicRaycasters in the scene
-        foreach (GraphicRaycaster raycaster in FindObjectsByType<GraphicRaycaster>(FindObjectsSortMode.None)) // TODO This is very performance intensive to find stuff every frame
+        foreach (GraphicRaycaster raycaster in FindObjectsByType<GraphicRaycaster>(FindObjectsSortMode.None))
         {
-            if (raycaster.gameObject.name == "RTS SelectionCanvas(Clone)") // TODO: This it yet another reason why this this function is shit
+            if (raycaster.gameObject.name == "RTS SelectionCanvas(Clone)") 
             {
                 continue;
             }

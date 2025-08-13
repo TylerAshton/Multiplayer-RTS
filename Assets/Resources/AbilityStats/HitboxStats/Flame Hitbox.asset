@@ -15,6 +15,7 @@ MonoBehaviour:
   id: flamehit
   offset: {x: 0, y: 0, z: 0}
   sizeChangeTime: 1.5
+  hitFirstOnly: 1
   hitboxType: 2
   boxStartSize: {x: 1, y: 1, z: 1}
   boxForwardExtension: 0

@@ -24,7 +24,8 @@ public class ChannelledProjection : Ability<ICharacterAbilityUser>
     protected override void OnApexTyped(ICharacterAbilityUser _user)
     {
         Transform castPositionTransform = GetCastPositionTransform(_user);
-        Quaternion rotation = isAttached ? Quaternion.identity : castPositionTransform.rotation; // If we're not attached. Use the cast position rotation
+        //Quaternion rotation = isAttached ? Quaternion.identity : castPositionTransform.rotation; // If we're not attached. Use the cast position rotation
+        Quaternion rotation = castPositionTransform.rotation;
 
         GameObject newProjection = Instantiate(GetProjectionBlueprint(), castPositionTransform.position, rotation);
         newProjection.GetComponent<NetworkObject>().Spawn();

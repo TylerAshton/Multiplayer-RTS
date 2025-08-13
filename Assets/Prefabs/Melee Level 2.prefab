@@ -513,6 +513,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: ef7b5cb0a7a958b4e935546b64989629, type: 2}
+  - {fileID: 2100000, guid: 166d54860944c96439ad4b6194f0b77d, type: 2}
   - {fileID: 2100000, guid: f2660a7aec3e5014797483ca7cbc4f44, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -1062,7 +1064,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitPoints: 75
   isImmune: 0
-  corpseLingerTime: 0
+  corpseLingerTime: 3
   test: 0
   isDying: 0
   overlayHealthBar: {fileID: 0}

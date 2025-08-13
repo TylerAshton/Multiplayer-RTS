@@ -46,6 +46,12 @@ public class NPC : Unit, ICharacterAbilityUser
 
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
+        Health.OnDeath += OnDeath;
+    }
+
+    private void OnDeath()
+    {
+        agent.isStopped = true;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -97,7 +103,6 @@ public class NPC : Unit, ICharacterAbilityUser
         agent.SetDestination(_worldPosition);
     }
 
-    // TODO: Perhaps make a base character class as this is shared with Champions
     public void Lunge(float distance, Vector3 direction, float duration)
     {
         StartCoroutine(LungeRoutine(distance, direction.normalized, duration));
