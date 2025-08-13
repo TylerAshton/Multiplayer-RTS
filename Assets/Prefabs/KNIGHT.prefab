@@ -640,7 +640,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5894761299338272916}
         m_TargetAssemblyTypeName: ChampionManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: AttemptToggleUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1293,6 +1293,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9185715316422301683, guid: 7482ea425fff22e47957749ccbf4fe84, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185715316422301683, guid: 7482ea425fff22e47957749ccbf4fe84, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185715316422301683, guid: 7482ea425fff22e47957749ccbf4fe84, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185715316422301683, guid: 7482ea425fff22e47957749ccbf4fe84, type: 3}
+      propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9185715316422301683, guid: 7482ea425fff22e47957749ccbf4fe84, type: 3}

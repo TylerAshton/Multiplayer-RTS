@@ -170,7 +170,6 @@ GameObject:
   - component: {fileID: -7676623500544454892}
   - component: {fileID: 4878573307744674690}
   - component: {fileID: 2836372216517785854}
-  - component: {fileID: -3203999094908498050}
   m_Layer: 7
   m_Name: CLERIC
   m_TagString: Champion
@@ -948,22 +947,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &-3203999094908498050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2434894007857547855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bcb73061987173478becc54fca36672, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 1334692810404585016, guid: dee39760faef89c4db1407d57a65ede8, type: 3}
-  cameraSpawnOffset: {x: 0, y: 10, z: -10}
-  isChampion: 1
-  cameraTarget: {fileID: 8695154952966607106, guid: bd1bd2329bba7524693f600fec9b73b1, type: 3}
 --- !u!1 &2538534302092128813
 GameObject:
   m_ObjectHideFlags: 0

@@ -49,6 +49,14 @@ public class ChampionControls : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Confined;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(aimPoint, 0.5f); // Draw a wire sphere at the aim point for debugging
+        /*        Gizmos.DrawLine(abilityPositionManager.AbilityPositions[AbilityPosition.RightHand].position, aimPoint); // Draw a line from the player to the aim point*/
+    }
+
     private void TryApplyAimPosition()
     {
         if (!IsOwner) { return; }
@@ -99,7 +107,7 @@ public class ChampionControls : NetworkBehaviour
     public void OnPoint(InputAction.CallbackContext context)
     {
         mouseScreenPos = context.ReadValue<Vector2>();
-        //GetWorldPosition();
+        GetWorldPosition();
     }
 
     private void GetWorldPosition()
