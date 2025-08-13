@@ -107,7 +107,13 @@ public class ChampionControls : NetworkBehaviour
     public void OnPoint(InputAction.CallbackContext context)
     {
         mouseScreenPos = context.ReadValue<Vector2>();
-        GetWorldPosition();
+        worldPosition = new Vector3(0, 0, 0);
+
+        Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
+        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity, environmentMask))
+        {
+            worldPosition = hit.point;
+        }
     }
 
     private void GetWorldPosition()
@@ -142,7 +148,7 @@ public class ChampionControls : NetworkBehaviour
     private void OwnerUpdate()
     {
         if (!IsOwner) { return; }
-        GetWorldPosition();
+        //GetWorldPosition();
         TryApplyAimPosition();
     }
 

@@ -30,7 +30,7 @@ public class ChampionManager : NetworkBehaviour, ICharacterAbilityUser, IFaction
     public ChampionAbilityManager ChampionAbilityManager => championAbilityManager;
     public AbilityManager AbilityManager => championAbilityManager;
     private Vector3 aimPoint;
-    [HideInInspector] public Vector3 AimPoint => aimPoint;
+    [SerializeField] public Vector3 AimPoint => championControls.AimPoint;
     public ulong OwnerID => networkObject.OwnerClientId;
     private Faction faction = Faction.Champion;
     Faction IFaction.Faction { get => faction; set => faction = value; }
