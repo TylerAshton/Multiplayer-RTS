@@ -46,6 +46,12 @@ public class NPC : Unit, ICharacterAbilityUser
 
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
+        Health.OnDeath += OnDeath;
+    }
+
+    private void OnDeath()
+    {
+        agent.isStopped = true;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -11,6 +11,7 @@ public class DeathVfxSpawner : NetworkBehaviour
 
     private NetworkObject networkObject;
     [SerializeField] private GameObject vfxPrefab;
+    [SerializeField] private GameObject vfxStatic;
     [SerializeField] private float vfxScale = 1f;
     [SerializeField] private float lingertTime = 1f;
 
@@ -62,5 +63,7 @@ public class DeathVfxSpawner : NetworkBehaviour
         VFXScaler.ScaleParticles(vfxScale, spawnedVfx);
 
         Destroy(spawnedVfx, lingertTime);
+
+        GameObject spawnedStatic = Instantiate(vfxStatic, transform.position, Quaternion.identity);
     }
 }

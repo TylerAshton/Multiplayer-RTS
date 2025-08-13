@@ -30,6 +30,12 @@ public class Health : NetworkBehaviour
     public event Action OnRevive; 
     public event Action OnHit;
 
+    [ContextMenu("KILLME")]
+    void KILLME()
+    {
+        Damage(hitPoints);
+    }
+
     private void Awake()
     {
         if (!TryGetComponent<StatManager>(out statManager))

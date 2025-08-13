@@ -161,6 +161,11 @@ public class RTSPlayerControls : MonoBehaviour
         {
             OnMouseDoubleClickPerformed();
         }
+
+        else
+        {
+            RTSPlayer.Instance.UnitManager.SetLastClickedUnit(mouseScreenPos);
+        }
     }
 
     private void OnMouseDoubleClickPerformed()
