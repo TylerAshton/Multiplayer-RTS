@@ -128,7 +128,7 @@ public class ChampionManager : NetworkBehaviour, ICharacterAbilityUser, IFaction
             Debug.LogError($"{nameof(EffectManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             return;
         }
-        if (!TryGetComponent<ChampionAbilityManager>(out championAbilityManager))
+        if (!TryGetComponent<ChampionAbilityManager>(out championControls.championAbilityManager))
         {
             Debug.LogError($"{nameof(ChampionAbilityManager)} is required for {GetType().Name} on gameobject {gameObject.name}!");
             return;

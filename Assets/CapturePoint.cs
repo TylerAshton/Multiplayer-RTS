@@ -256,7 +256,7 @@ public class CapturePoint : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void setShopStateRpc(ulong _ID, bool _state) // HERE
     {
-        NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.gameObject.GetComponent<AnimatedChampion>().inShop = _state;
+        NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.gameObject.GetComponent<ChampionManager>().inShop = _state;
     }
 
     [Rpc(SendTo.Everyone)]
@@ -419,7 +419,7 @@ public class CapturePoint : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void CloseShopRpc(ulong _ID) // TODO: This needs polishing as UI only exists on the client
     {
-        NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.GetComponent<AnimatedChampion>().CloseShopUI();
+        NetworkManager.Singleton.ConnectedClients[_ID].PlayerObject.GetComponent<ChampionManager>().CloseShopUI();
     }
 
 }

@@ -138720,7 +138720,7 @@ PrefabInstance:
     - target: {fileID: 6363549527435569601, guid: 720b532224d33de4ca4de3ad05d3d600, type: 3}
       propertyPath: 'playerList.Array.data[1]'
       value: 
-      objectReference: {fileID: 8393315380538558816, guid: a37438882438a9442b1c7fec4fea1aaa, type: 3}
+      objectReference: {fileID: 8393315380538558816, guid: 4cd3b3c6d0997ea40b337138e767bdcf, type: 3}
     - target: {fileID: 7300796340958616510, guid: 720b532224d33de4ca4de3ad05d3d600, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 43124273

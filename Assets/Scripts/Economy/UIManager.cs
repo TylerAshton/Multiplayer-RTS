@@ -51,13 +51,13 @@ public class UIManager : NetworkBehaviour
         try
         {
             PlayerInShop.Add(_ID, _InShop);
-            PlayerManager.Instance.getPlayerGameObject(_ID).GetComponent<AnimatedChampion>().inShop = _InShop;
+            PlayerManager.Instance.getPlayerGameObject(_ID).GetComponent<ChampionManager>().inShop = _InShop;
         }
         catch (ArgumentException)
         {
             PlayerInShop.Remove(_ID);
             PlayerInShop.Add(_ID, _InShop);
-            PlayerManager.Instance.getPlayerGameObject(_ID).GetComponent<AnimatedChampion>().inShop = _InShop;
+            PlayerManager.Instance.getPlayerGameObject(_ID).GetComponent<ChampionManager>().inShop = _InShop;
         }
     }
 

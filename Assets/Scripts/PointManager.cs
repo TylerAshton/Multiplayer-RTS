@@ -92,14 +92,33 @@ public class PointManager : NetworkBehaviour
 
     public void AddPoints(ulong id, int points)
     {
-        if(id == 0)
+        int MaxPoints;
+        if (id == 0)
         {
-            AddPointsToPlayerRpc(id, Mathf.Clamp(GetPoints(id) + points, 0, AmalgMaxPoints));
+            MaxPoints = AmalgMaxPoints;
         }
         else
         {
-            AddPointsToPlayerRpc(id, Mathf.Clamp(GetPoints(id) + points, 0, ChampMaxPoints));
+            MaxPoints = ChampMaxPoints;
         }
+
+        if (!(GetPoints(id) + points > MaxPoints))
+        {
+            AddPointsToPlayerRpc(id, points);
+        }
+        else
+        {
+            SetPointsRpc(id, MaxPoints);
+        }
+
+        //if (id == 0)
+        //{
+        //    AddPointsToPlayerRpc(id, Mathf.Clamp(GetPoints(id) + points, 0, AmalgMaxPoints));        // Clamp would exponentially add
+        //}
+        //else
+        //{
+        //    AddPointsToPlayerRpc(id, Mathf.Clamp(GetPoints(id) + points, 0, ChampMaxPoints));
+        //}
     }
 
     public void RemovePoints(ulong id, int points)
@@ -135,5 +154,11 @@ public class PointManager : NetworkBehaviour
             playerPoints.Remove(id);
             playerPoints.Add(id, temp - points);
         }
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void SetPointsRpc(ulong id, int points)
+    {
+        playerPoints[id] = points;
     }
 }

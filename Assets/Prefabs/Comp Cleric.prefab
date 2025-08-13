@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 4878573307744674690}
   - component: {fileID: 2836372216517785854}
   m_Layer: 7
-  m_Name: TEST FOR COMP
+  m_Name: Comp Cleric
   m_TagString: Champion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

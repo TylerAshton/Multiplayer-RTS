@@ -82,7 +82,7 @@ class ClericShop : Shop
                     if (Input.GetMouseButtonDown(0))
                     {
                         PurchaseOption1Rpc(ID);
-                        this.GetComponentInParent<AnimatedChampion>().ToggleUI();
+                        this.GetComponentInParent<ChampionManager>().ToggleUI();
                     }
                 }
                 else
@@ -100,7 +100,7 @@ class ClericShop : Shop
                         if (Input.GetMouseButtonDown(0))
                         {
                             PurchaseOption2Rpc(ID, selectedOption);
-                            this.GetComponentInParent<AnimatedChampion>().ToggleUI();
+                            this.GetComponentInParent<ChampionManager>().ToggleUI();
                         }
                     }
                 }
