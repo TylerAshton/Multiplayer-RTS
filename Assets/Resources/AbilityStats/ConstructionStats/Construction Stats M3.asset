@@ -20,4 +20,4 @@ MonoBehaviour:
   maxDispersion: 5
   minDisperstion: 5
   offset: {x: 0, y: 0, z: 0}
-  queueIcon: {fileID: 21300000, guid: 21c2411b1ea09654e9f1dc7034227968, type: 3}
+  queueIcon: {fileID: 21300000, guid: 34346c4fc9ae26f4b9b155e550d9bc61, type: 3}
