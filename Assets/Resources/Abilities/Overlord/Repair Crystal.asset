@@ -20,8 +20,8 @@ MonoBehaviour:
   abilityCost: 3500
   cooldown: 45
   successor: {fileID: 0}
-  castSound: {fileID: 0}
-  apexSound: {fileID: 11400000, guid: c6940982279539443951ef066c6179cb, type: 2}
+  castSound: {fileID: 11400000, guid: c6940982279539443951ef066c6179cb, type: 2}
+  apexSound: {fileID: 0}
   castMoveSpeedModifer: 0
   castRotationSpeedModifer: 0
   healAmount: 750
