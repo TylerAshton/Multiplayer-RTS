@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: eldritchBlastlv2
   price: 0
-  icon: {fileID: 21300000, guid: b058f64e052d6c142973a01f86c12e8c, type: 3}
+  icon: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
   castTime: 1
   castPositionName: 1
   abilityCost: 0
@@ -22,4 +22,6 @@ MonoBehaviour:
   successor: {fileID: 0}
   castSound: {fileID: 0}
   apexSound: {fileID: 11400000, guid: 01d5efa2cb92d1a4daea74745c6330f3, type: 2}
+  castMoveSpeedModifer: 0
+  castRotationSpeedModifer: 0
   projectileStats: {fileID: 11400000, guid: 5def1725d369e034c811dc403f5893f1, type: 2}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: UB1
   price: 0
-  icon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
+  icon: {fileID: 21300000, guid: dfad269c06c3f8845b30f512e746d368, type: 3}
   castTime: 1
   castPositionName: 0
   abilityCost: 0
