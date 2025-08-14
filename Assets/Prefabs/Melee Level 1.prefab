@@ -1088,7 +1088,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isSelectable: 1
   iD: Melee1
-  selectionIcon: {fileID: 21300000, guid: 153baf0ba947b814397b5fdb4ea19da3, type: 3}
+  selectionIcon: {fileID: 21300000, guid: 139cd8c1a2fcdad4e959497c09e4c141, type: 3}
   description: Melee Minion - Lv 1                                                               
     A minion that strikes at champions with their weapon in melee combat
 --- !u!114 &-7025966385176421984
