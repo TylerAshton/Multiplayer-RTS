@@ -252,6 +252,12 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     public void OnPoint(InputAction.CallbackContext context)
     {
         mouseScreenPos = context.ReadValue<Vector2>();
+
+        UpdateWorldPos();
+    }
+
+    private void UpdateWorldPos()
+    {
         worldPosition = new Vector3(0, 0, 0);
 
         Ray r = Camera.main.ScreenPointToRay(MouseScreenPos);
@@ -326,6 +332,7 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
     private void OwnerUpdate()
     {
         if (!IsOwner) { return; }
+        UpdateWorldPos();
         RotatePlayer();
         updatePointsUI();
         TryApplyAimPosition();
