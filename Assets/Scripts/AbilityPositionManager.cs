@@ -14,7 +14,7 @@ public class AbilityPositionManager : MonoBehaviour
 
     public IReadOnlyDictionary<AbilityPosition, Transform> AbilityPositions => abilityPositions;
 
-    private void Awake()
+    private void Start()
     {
         MapAbilityPositions();
     }
