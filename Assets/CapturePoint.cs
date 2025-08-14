@@ -195,6 +195,13 @@ public class CapturePoint : NetworkBehaviour
         }
         else if (other.CompareTag("Amalgam"))
         {
+            Health localHealth = other.GetComponent<Health>();
+
+            if (localHealth.IsDying) // Alive only
+            {
+                return;
+            }
+
             AddAmalgRpc(other.GetComponent<NetworkObject>());
             GameObject localAmalg = other.gameObject;
             SubscribeAmalgsOnDeath(localAmalg);
@@ -334,6 +341,12 @@ public class CapturePoint : NetworkBehaviour
         }
 
         Health _localAmalgHealth = _localAmalg.GetComponent<Health>();
+
+        if (_localAmalgHealth.IsDying)
+        {
+            Debug.LogError("Attempted to subscribe a dying amalgam");
+            return;
+        }
 
         // If not already subscribed
         if (!amalgamDeathHandlers.ContainsKey(_localAmalg))
