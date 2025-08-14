@@ -24,8 +24,8 @@ MonoBehaviour:
   onlyPlayForCaster: 0
   soundEvent2D:
     Guid:
-      Data1: -884814133
-      Data2: 1223857354
-      Data3: -1568584038
-      Data4: 113301349
-    Path: event:/SFX/3D/Healing Low
+      Data1: 2110216844
+      Data2: 1086997249
+      Data3: -1798554435
+      Data4: 1011092285
+    Path: event:/SFX/2D/Healing Low 2D
