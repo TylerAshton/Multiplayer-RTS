@@ -14698,6 +14698,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractionPopUp
       objectReference: {fileID: 0}
+    - target: {fileID: 4871550320304758151, guid: 75d8cabab66bae645944f77f477967f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6275315941655446108, guid: 75d8cabab66bae645944f77f477967f6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7764067078544162348, guid: 75d8cabab66bae645944f77f477967f6, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
