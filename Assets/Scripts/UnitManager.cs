@@ -296,7 +296,7 @@ public class UnitManager : NetworkBehaviour
     /// </summary>
     /// <param name="_worldPosition"></param>
     /// <returns></returns>
-    private Vector3 GetNavPos(Vector3 _worldPosition, float maxDistance = 5f)
+    private Vector3 GetNavPos(Vector3 _worldPosition, float maxDistance = 100f)
     {
         NavMeshHit hit;
         if (NavMesh.SamplePosition(_worldPosition, out hit, maxDistance, NavMesh.AllAreas))
