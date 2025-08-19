@@ -98378,7 +98378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   DEBUGUseSceneTyler: 0
-  DEBUGUseSceneOld: 0
+  DEBUGUseSceneOld: 1
   LoadingScreen: {fileID: 831103289}
   NotLoadingScreen:
   - {fileID: 1490115341}

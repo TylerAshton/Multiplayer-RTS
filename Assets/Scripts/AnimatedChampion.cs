@@ -190,8 +190,8 @@ public class AnimatedChampion : NetworkBehaviour, ICharacterAbilityUser, IFactio
 
         Cursor.lockState = CursorLockMode.Confined;
 
-        MinimapHandler.Instance.updateList();
-        MinimapHandler.Instance.createIcon(this.gameObject);
+/*        MinimapHandler.Instance.updateList();
+        MinimapHandler.Instance.createIcon(this.gameObject);*/
     }
 
     private void OnDrawGizmos()

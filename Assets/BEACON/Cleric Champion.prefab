@@ -678,12 +678,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   abilityTabs:
-  - tabName: 
+  - tabName: Main
     abilities:
     - {fileID: 11400000, guid: 8b8a8782b4868374e9da70f578f88d05, type: 2}
-    - {fileID: 11400000, guid: 7785565ae7077d844b28c6040dae8052, type: 2}
-    - {fileID: 11400000, guid: 0d05c6247cb877a42871369a45a70631, type: 2}
-    - {fileID: 11400000, guid: f20ce9f31e0551c4b84070a0152b891a, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   hasUtility: 0
   AbilityUIPrefab: {fileID: 2757501461227020302, guid: 55d9baef825216f4daaccb32394929b0, type: 3}
 --- !u!114 &9122862085660864469
